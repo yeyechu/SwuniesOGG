@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+
+    <!-- ───────────────────────── 전체 UI ───────────────────────── -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- 기본으로 사용 색상명과 코드 등록 -->
+    <color name="primary_blue">#6897F3</color>
+    <color name="primary_gray">#6A6A6A</color>
+
+    <color name="secondary_light_Blue">#A4C1F8</color>
+    <color name="secondary_baby_blue">#E1EAFD</color>
+
+    <color name="secondary_light_gray">#dee0e0</color>
+    <color name="accent_orange">#FF7F48</color>
+
+    <!-- ───────────────────────── 팝업 투명도 ───────────────────────── -->
+    <color name="transparency_dimmed">#80000000</color>
+    <color name="transparency_transparent">#00FFFFFF</color>
+
+    <!-- ───────────────────────── 기타 색상 ───────────────────────── -->
 </resources>

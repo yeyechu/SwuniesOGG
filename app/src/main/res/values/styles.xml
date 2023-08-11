@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ───────────────────────── 일반 텍스트 ───────────────────────── -->
+    <!-- 제목 텍스트 -->
+    <style name="StyleTitle">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <!-- textSize textStyle textColor background(optional) fontFamily weight -->
+        <!-- 텍스트 컬러 검정색 고정 -->
+    </style>
+
+    <!-- 헤더 텍스트 -->
+    <style name="StyleHeader">
+
+    </style>
+
+    <!-- 숫자 텍스트 -->
+    <style name="StyleNumber">
+        <!-- 오늘 날짜만 bold -->
+        <!-- 나머지 regular -->
+
+    </style>
+
+    <!-- ───────────────────────── 기본 컴포넌트 ───────────────────────── -->
+    <!-- 버튼 3종류 있음 -->
+    <style name="StyleButton">
+
+    </style>
+
+    <!-- ───────────────────────── 그 밖의 뷰 ───────────────────────── -->
+    <!-- 팝업 -->
+    <style name="StylePopup">
+
+    </style>
+
+    <!-- 활동리스트 -->
+    <style name="StyleList">
+        <!-- radius 32dp -->
+    </style>
+
+</resources>

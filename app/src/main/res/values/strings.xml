@@ -1,3 +1,63 @@
 <resources>
     <string name="app_name">SwuniesOGG</string>
+
+    <!-- ───────────────────────── 전체 UI ───────────────────────── -->
+    <!-- 페이지 제목 -->
+    <string name="navigation_title_env">환경</string>
+    <string name="navigation_title_myact">활동</string>
+    <string name="navigation_title_graph">통계</string>
+    <string name="navigation_title_feed">피드</string>
+
+    <string name="destination_title_settings">설정</string>
+    <string name="destination_title_badges">배지</string>
+    <string name="destination_title_login">로그인</string>
+    <string name="destination_title_popup">팝업</string>
+    <string name="destination_title_camera">카메라</string>
+    <string name="destination_title_listset">프로젝트 설정</string>
+    <string name="destination_title_post">인증 등록</string>
+
+    <!-- ───────────────────────── 환경탭 ───────────────────────── -->
+    <string name="nav_env_text_"> </string>
+    <string name="nav_env_button_"> </string>
+
+    <!-- 배지 -->
+    <string name="des_badges_text_"> </string>
+    <string name="des_badges_button_"> </string>
+
+    <!-- ───────────────────────── 활동탭 ───────────────────────── -->
+    <string name="nav_myact_text_title_today">오늘의 활동</string>
+    <string name="nav_myact_text_title_sustainable">지속가능한 활동</string>
+    <string name="nav_myact_text_title_extra">특별 활동</string>
+
+    <string name="nav_myact_button">인증하기</string>
+
+    <string name="nav_myact_tooltip_sustainable">한 번 등록하면 매일 일정 탄소량이 자동 등록됩니다</string>
+
+    <!-- 등록 및 수정 -->
+    <string name="des_listset_"> </string>
+
+    <!-- 인증 팝업 -->
+    <string name="des_post_text_title">활동 제목</string>
+    <string name="des_post_text_co2">탄소 감축량</string>
+    <string name="des_post_text_available">등록 가능</string>
+    <string name="des_post_text_guidlines">설명</string>
+    <string name="des_post_text_"> </string>
+
+    <!-- 카메라 -->
+    <string name="des_camera_button_take_photo">사진 찍기</string>
+    <string name="des_camera_button_retake_photo">다시 촬영</string>
+    <string name="des_camera_button_use_photo">인증 올리기</string>
+
+    <!-- ───────────────────────── 통계탭 ───────────────────────── -->
+    <string name="nav_graph_"> </string>
+
+    <!-- ───────────────────────── 피드탭 ───────────────────────── -->
+    <string name="nav_feed_"> </string>
+    <!--  -->
+    <!-- ───────────────────────── 멤버 ───────────────────────── -->
+    <string name="des_settings_"> </string>
+    <!-- 회원 가입 -->
+    <string name="des_join_"> </string>
+    <!-- 로그인 -->
+    <string name="des_login_"> </string>
 </resources>

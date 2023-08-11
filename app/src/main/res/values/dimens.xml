@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ───────────────────────── 기본값 ───────────────────────── -->
+    <!-- 패딩 -->
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_big">16dp</dimen>
+
+    <dimen name="padding_button_level">0dp</dimen>
+    <dimen name="padding_button_popup">0dp</dimen>
+    <dimen name="padding_button_list">0dp</dimen>
+    <dimen name="padding_button_card">0dp</dimen>
+    <dimen name="padding_button_sub">0dp</dimen>
+
+    <dimen name="padding_card">10dp</dimen>
+    <dimen name="padding_card2">16dp</dimen>
+
+    <dimen name="padding_appbar_big">0dp</dimen>
+    <dimen name="padding_appbar_small">0dp</dimen>
+
+    <!-- 마진 -->
+    <dimen name="margin_default">16dp</dimen>
+    <dimen name="margin_popup">21dp</dimen>
+    <dimen name="margin_scroll">0dp</dimen>
+
+    <!-- 텍스트 -->
+    <dimen name="text_size_title">0sp</dimen>
+    <dimen name="text_size_subtitle">0sp</dimen>
+
+    <dimen name="text_size_body_big">0sp</dimen>
+    <dimen name="text_size_body_small">0sp</dimen>
+
+    <!-- 기타 -->
+    <dimen name="radius_layer">32dp</dimen>
+    <dimen name="radius_button">50dp</dimen>
+    <dimen name="radius_popup">50dp</dimen>
+
+    <!-- ───────────────────────── 특수값 ───────────────────────── -->
+    <!-- 패딩 -->
+
+    <!-- 마진 -->
+
+    <!-- 텍스트 -->
+    <dimen name="text_size_user_name">0sp</dimen>
+    <dimen name="text_size_hint">0sp</dimen>
+
+    <!-- 기타 -->
+
+</resources>

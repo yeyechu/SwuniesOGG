@@ -1,16 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+
+
+
+    <!-- light모드(dark 모드 따로 설정 필요) -->
     <style name="Theme.SwuniesOGG" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+
+        <!-- 메인 컬러 -->
+        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+
+        <!-- 보조 컬러 -->
+        <item name="colorSecondary">@color/secondary_light_Blue</item>
+        <item name="colorSecondaryVariant">@color/secondary_light_gray</item>
+        <item name="colorOnSecondary">@color/primary_gray</item>
+
+        <!-- 상태바 설정 -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+        <!-- 팝업창 설정 -->
     </style>
+
 </resources>
