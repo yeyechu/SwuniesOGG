@@ -1,53 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" >
+
+    <!-- default -->
+    <item android:state_enabled="true" >
         <shape>
             <gradient
-                android:startColor="#BCBCBC"
-                android:endColor="#BCBCBC"
+                android:startColor="@color/white"
+                android:endColor="@color/white"
                 android:angle="270" />
-            <stroke
-                android:width="0dp"
-                android:color="#BCBCBC" />
-            <corners
-                android:radius="50dp" />
 
+            <stroke android:width="@dimen/stroke_button" android:color="@color/primary_blue" />
+            <corners android:radius="@dimen/radius_button" />
         </shape>
     </item>
 
-    <!-- pressed -->
-
-
+    <!-- focused -->
     <item android:state_focused="true">
         <shape>
             <gradient
                 android:startColor="@color/white"
                 android:endColor="@color/white"
                 android:angle="270" />
-            <stroke
-                android:width="0dp"
-                android:color="@color/white" />
-            <corners
-                android:radius="50dp" />
 
+            <stroke android:width="@dimen/stroke_button" android:color="@color/primary_blue" />
+            <corners android:radius="@dimen/radius_button" />
         </shape>
     </item>
-    <!-- focused -->
 
-
-    <item>
+    <!-- pressed -->
+    <item android:state_pressed="false">
         <shape>
             <gradient
-                android:startColor="@color/white"
-                android:endColor="@color/white"
+                android:startColor="#75A0F3"
+                android:endColor="#75A0F3"
                 android:angle="90" />
-            <stroke
-                android:width="0dp"
-                android:color="@color/white" />
+
+            <stroke android:width="@dimen/stroke_button" android:color="#75A0F3" />
             <corners
                 android:radius="50dp" />
-
         </shape>
     </item>
-    <!-- default -->
 </selector>

@@ -39,12 +39,12 @@
     <!-- 인증 팝업 -->
     <string name="des_post_text_title">활동 제목</string>
     <string name="des_post_text_co2">탄소 감축량</string>
-    <string name="des_post_text_available">등록 가능</string>
-    <string name="des_post_text_guidlines">설명</string>
+    <string name="des_post_text_available">가능 횟수</string>
+    <string name="des_post_text_guidlines">활동 설명</string>
     <string name="des_post_text_"> </string>
 
     <!-- 카메라 -->
-    <string name="des_camera_button_take_photo">사진 찍기</string>
+    <string name="des_camera_button_take_photo">카메라 촬영</string>
     <string name="des_camera_button_retake_photo">다시 촬영</string>
     <string name="des_camera_button_use_photo">인증 올리기</string>
 
