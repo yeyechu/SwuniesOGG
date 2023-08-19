@@ -3,7 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     // ─────────────────────────────────────── custom options here
     id 'kotlin-kapt'
-    // id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
+    id "androidx.navigation.safeargs.kotlin"
 }
 
 android {
@@ -16,9 +17,12 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-        vectorDrawables.useSupportLibrary = true
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // by Yejin : vector 사용 지원
+        vectorDrawables.useSupportLibrary true
+        // by Yejin : firebase auth 에러 방지, Cannot fit requested classes in a single dex file
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -36,6 +40,7 @@ android {
     }
 
     // ───────────────────────────────────────  custom options here
+    // by Yejin : viewBinding, dataBinding 허용
     buildFeatures {
         viewBinding true
         dataBinding true
@@ -89,4 +94,10 @@ dependencies {
 //    implementation "androidx.camera:camera-extensions:1.2.2"
 
 //    implementation "androidx.camera:camera-video:1.2.2"
+
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:32.2.2')
+    implementation 'com.google.firebase:firebase-auth-ktx:22.1.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.google.android.gms:play-services-auth:20.6.0'
 }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1049262032559",
+    "project_id": "swuniesogg",
+    "storage_bucket": "swuniesogg.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049262032559:android:91fc9386ff9a093670365a",
+        "android_client_info": {
+          "package_name": "com.swu.dimiz.ogg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1049262032559-pfikcfqpi18ad6pj1prf0ud7nfqr1e03.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swu.dimiz.ogg",
+            "certificate_hash": "a083bea1745d4f8109e3cfa46f0fb9f63e89876c"
+          }
+        },
+        {
+          "client_id": "1049262032559-272ljs7sh5bprrb9krhr58cikeej2r1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcrN4fZj3XF7UTtU5sRs96oys_eqQAI-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1049262032559-272ljs7sh5bprrb9krhr58cikeej2r1v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
