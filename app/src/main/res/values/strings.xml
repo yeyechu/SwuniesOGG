@@ -15,10 +15,13 @@
     <string name="destination_title_settings">설정</string>
     <string name="destination_title_badges">배지</string>
     <string name="destination_title_login">로그인</string>
+    <string name="destination_title_join">회원가입</string>
     <string name="destination_title_popup">팝업</string>
     <string name="destination_title_camera">카메라</string>
     <string name="destination_title_listset">프로젝트 설정</string>
     <string name="destination_title_post">인증 등록</string>
+
+    <string name="OGG">OGG</string>
 
     <!-- ────────────────────────────────────── 이미지 설명 ────────────────────────────────────── -->
     <!--              모든 이미지에 들어가는 contentDescription 속성은 이곳에 선언되어야 함             -->
@@ -27,15 +30,24 @@
 
     <string name="des_post_description_main">활동을 설명하는 데이터베이스 BLOB 이미지</string>
 
+
     <!-- ──────────────────────────────────────   환경탭   ────────────────────────────────────── -->
     <string name="nav_env_text_"> </string>
     <string name="nav_env_button_"> </string>
+
+    <string name="env_username">HARU님 \n21일 프로젝트를 시작해 볼까요?</string>
+    <string name="env_start_btn">시작하기</string>
+
+
+
 
     <!-- 배지 -->
     <string name="des_badges_text_"> </string>
     <string name="des_badges_button_"> </string>
 
     <!-- ──────────────────────────────────────   활동탭   ────────────────────────────────────── -->
+    <string name="nav_myact_text_main_title">김하루님 \n오늘도 함께 지구를 지켜볼까요?</string>
+
     <string name="nav_myact_text_title_today">오늘의 활동</string>
     <string name="nav_myact_text_title_sustainable">지속가능한 활동</string>
     <string name="nav_myact_text_title_extra">특별 활동</string>
@@ -43,6 +55,8 @@
     <string name="nav_myact_button">인증하기</string>
 
     <string name="nav_myact_tooltip_sustainable">한 번 등록하면 매일 일정 탄소량이 자동 등록됩니다</string>
+
+
 
     <!-- 등록 및 수정 -->
     <string name="des_listset_"> </string>
@@ -68,7 +82,36 @@
     <!-- ──────────────────────────────────────  회원메뉴  ────────────────────────────────────── -->
     <string name="des_settings_"> </string>
     <!-- 회원 가입 -->
-    <string name="des_join_"> </string>
+    <string name="des_join_">회원가입</string>
+    <string name="des_join_info">OGG는 이메일 인증을 통해 회원가입 할 수 있어요.\n아래 안내에 따라 가입을 진행해 주세요!</string>
+    <string name="des_join_id">가입 할 아이디를 입력해주세요</string>
+    <string name="des_join_check">중복확인</string>
+    <string name="des_join_check_info">이미 가입되어있는 아이디에요</string>
+
+
+    <string name="des_join_email">가입 할 이메일을 입력해주세요</string>
+    <string name="des_join_password">비밀번호를 8자 이상 입력해주세요</string>
+    <string name="des_join_password_again">비밀번호를 한번 더 입력해주세요</string>
+
+    <string name="agree_info">안전한 이용을 위해 동의해 주세요</string>
+    <string name="des_join_agree1">개인정보 수집 및 이용 동의(필수)</string>
+    <string name="des_join_agree2">앱 푸시 알림 동의(선택)</string>
+
+    <string name="des_join_btn">이메일 인증 보내기</string>
+
+
     <!-- 로그인 -->
-    <string name="des_login_"> </string>
+    <string name="login_small_title_id">아이디</string>
+    <string name="des_login_id"> 아이디</string>
+    <string name="des_login_password"> 비밀번호</string>
+    <string name="des_join_text">아직 회원이 아니신가요?</string>
+    <string name="des_search_id">아이디 찾기</string>
+    <string name="des_change_password">비밀번호 변경</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
 </resources>
