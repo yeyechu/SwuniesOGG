@@ -54,7 +54,8 @@
 
     <string name="nav_myact_button">인증하기</string>
 
-    <string name="nav_myact_tooltip_sustainable">한 번 등록하면 매일 일정 탄소량이 자동 등록됩니다</string>
+    <string name="nav_myact_tooltip_sustainable">한번의 활동으로 탄소 감축량을\n계속 지속할 수 있어요.</string>
+    <string name="nav_myact_tooltip_extra">줄인 탄소 감축량을 바로 확인할 수는 없지만,\n미래의 환경에 큰 도움이 될 수 있어요.</string>
 
 
 
@@ -64,14 +65,26 @@
     <!-- 인증 팝업 -->
     <string name="des_post_text_title">활동 제목</string>
     <string name="des_post_text_co2">탄소 감축량</string>
-    <string name="des_post_text_available">가능 횟수</string>
-    <string name="des_post_text_guidlines">활동 설명</string>
-    <string name="des_post_text_"> </string>
+    <string name="des_post_text_available">인증 가능 횟수</string>
+    <string name="des_post_text_guidlines">인증 방법</string>
+    <string name="des_post_text"> </string>
+    <string name="des_album_button_take_photo">앨범 업로드</string>
+
 
     <!-- 카메라 -->
     <string name="des_camera_button_take_photo">카메라 촬영</string>
     <string name="des_camera_button_retake_photo">다시 촬영</string>
     <string name="des_camera_button_use_photo">인증 올리기</string>
+
+    <string name="des_button_use_photo">피드에 올리기</string>
+
+
+    <!-- 인증 완료 팝업 -->
+    <string name="post_complete_title">인증이 완료되었어요!</string>
+    <string name="post_complete_info">인증을 확인하려면 피드를,\n환경 변화를 확인하려면 환경을 선택해주세요</string>
+    <string name="des_post_to_feed_text">피드 확인하기</string>
+    <string name="des_post_to_env_text">환경 확인하기</string>
+
 
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->
     <string name="nav_graph_"> </string>
