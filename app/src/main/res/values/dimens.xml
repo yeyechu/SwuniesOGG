@@ -26,7 +26,6 @@
     <dimen name="margin_input">7dp</dimen>
 
     <!-- 텍스트 -->
-    <dimen name="text_size_popup_title">30sp</dimen>
 
     <dimen name="text_size_env">25sp</dimen>
     <dimen name="text_size_title">20sp</dimen>
@@ -51,9 +50,8 @@
 
 
 
-    <!-- ────────────────────────────────────── 특수값 ────────────────────────────────────── -->
+    <!-- ────────────────────────────────────── 한 두군데만 쓰이는 값 ────────────────────────────────────── -->
     <!-- 패딩 -->
-    <dimen name="card_layout_margin">100dp</dimen>
 
     <!-- 마진 -->
 
