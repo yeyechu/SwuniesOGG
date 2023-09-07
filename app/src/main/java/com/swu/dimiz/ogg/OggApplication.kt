@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class Application: MultiDexApplication() {
+class OggApplication: MultiDexApplication() {
 
     companion object {
         // 파이어베이스 인증 상태 확인

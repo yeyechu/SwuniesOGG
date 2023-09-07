@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SwuniesOGG</string>
+    <string name="app_name">OGG</string>
     <!--                          디버깅용 SHA-1 지문(배포용 사용 불가)                            -->
     <string name="sha_1_for_debug">A0:83:BE:A1:74:5D:4F:81:09:E3:CF:A4:6F:0F:B9:F6:3E:89:87:6C</string>
 
@@ -11,72 +11,71 @@
     <string name="navigation_title_feed">피드</string>
 
     <!--                         페이지 제목 : 내비게이션을 제외한 모든 페이지                        -->
-
-    <string name="destination_title_settings">설정</string>
-    <string name="destination_title_badges">배지</string>
     <string name="destination_title_login">로그인</string>
     <string name="destination_title_join">회원가입</string>
+
+    <string name="destination_title_members">마이페이지</string>
+    <string name="destination_title_badges">배지</string>
+    <string name="destination_title_settings">설정</string>
+    <string name="destination_title_listset">프로젝트 설정</string>
+
     <string name="destination_title_popup">팝업</string>
     <string name="destination_title_camera">카메라</string>
-    <string name="destination_title_listset">프로젝트 설정</string>
     <string name="destination_title_post">인증 등록</string>
 
-    <string name="OGG">OGG</string>
+    <!-- ──────────────────────────────────────    설명    ────────────────────────────────────── -->
+    <!--                모든 PNG에 들어가는 contentDescription 속성은 이곳에 선언되어야 함              -->
+    <!--                                   description_리소스명                                   -->
 
-    <!-- ────────────────────────────────────── 이미지 설명 ────────────────────────────────────── -->
-    <!--              모든 이미지에 들어가는 contentDescription 속성은 이곳에 선언되어야 함             -->
+    <string name="description_myact_image_appbar">아무런 기능이 없는 커다란 남자 아이</string>
 
-    <string name="nav_myact_description_main">아무런 기능이 없는 커다란 남자 아이</string>
+    <string name="description_">활동을 설명하는 데이터베이스 BLOB 이미지</string>
 
-    <string name="des_post_description_main">활동을 설명하는 데이터베이스 BLOB 이미지</string>
+    <!--                    모든 EditText에 들어가는 Hint 속성은 이곳에 선언되어야 함                   -->
+    <!--                                    hint_edittext이름                                    -->
 
 
     <!-- ──────────────────────────────────────   환경탭   ────────────────────────────────────── -->
-    <string name="nav_env_text_"> </string>
-    <string name="nav_env_button_"> </string>
-
-    <string name="env_username">HARU님 \n21일 프로젝트를 시작해 볼까요?</string>
-    <string name="env_start_btn">시작하기</string>
-
+    <string name="env_text_before_message">21일 프로젝트를 시작해 해볼까요?</string>
+    <string name="env_button_"> </string>
 
     <!-- 배지 -->
-    <string name="des_badges_text_"> </string>
-    <string name="des_badges_button_"> </string>
+    <string name="badges_text_"> </string>
+    <string name="badges_button_"> </string>
 
     <!-- ──────────────────────────────────────   활동탭   ────────────────────────────────────── -->
-    <string name="nav_myact_text_main_title">김하루님 \n오늘도 함께 지구를 지켜볼까요?</string>
 
-    <string name="nav_myact_text_title_today">오늘의 활동</string>
-    <string name="nav_myact_text_title_sustainable">지속가능한 활동</string>
-    <string name="nav_myact_text_title_extra">특별 활동</string>
+    <string name="myact_text_title_today">오늘의 활동</string>
+    <string name="myact_text_title_sustainable">지속가능한 활동</string>
+    <string name="myact_text_title_extra">특별 활동</string>
 
-    <string name="nav_myact_button">인증하기</string>
+    <string name="myact_button">인증하기</string>
 
-    <string name="nav_myact_tooltip_sustainable">한번의 활동으로 탄소 감축량을\n계속 지속할 수 있어요.</string>
+    <string name="myact_tooltip_sustainable">한번의 활동으로 탄소 감축량을\n계속 지속할 수 있어요.</string>
 
     <!-- 등록 및 수정 -->
-    <string name="des_listset_"> </string>
+    <string name="listset_"> </string>
 
     <!-- 인증 팝업 -->
-    <string name="des_post_text_title">활동 제목</string>
-    <string name="des_post_text_co2">탄소 감축량</string>
-    <string name="des_post_text_available">인증 가능 횟수</string>
-    <string name="des_post_text_guidlines">인증 방법</string>
-    <string name="des_post_text"> </string>
+    <string name="post_text_title">활동 제목</string>
+    <string name="post_text_co2">탄소 감축량</string>
+    <string name="post_text_available">인증 가능 횟수</string>
+    <string name="post_text_guidlines">인증 방법</string>
+    <string name="post_text"> </string>
 
     <!-- 카메라 -->
-    <string name="des_camera_button_take_photo">카메라 촬영</string>
-    <string name="des_camera_button_retake_photo">다시 촬영</string>
-    <string name="des_camera_button_use_photo">인증 올리기</string>
+    <string name="camera_button_take_photo">카메라 촬영</string>
+    <string name="camera_button_retake_photo">다시 촬영</string>
+    <string name="camera_button_use_photo">인증 올리기</string>
 
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->
-    <string name="nav_graph_"> </string>
+    <string name="graph_"> </string>
 
     <!-- ──────────────────────────────────────   피드탭   ────────────────────────────────────── -->
-    <string name="nav_feed_"> </string>
+    <string name="feed_"> </string>
     <!--  -->
     <!-- ──────────────────────────────────────  회원메뉴  ────────────────────────────────────── -->
-    <string name="des_settings_"> </string>
+    <string name="settings_"> </string>
     <!-- 회원 가입 -->
 
 </resources>

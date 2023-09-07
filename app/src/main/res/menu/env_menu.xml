@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_badges"
+        android:title="@string/destination_title_badges"
+        android:icon="@drawable/env_button_to_des_my_page"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_my_page"
+        android:title="@string/destination_title_members"
+        android:icon="@drawable/env_button_to_des_my_page"
+        app:showAsAction="always"/>
+</menu>

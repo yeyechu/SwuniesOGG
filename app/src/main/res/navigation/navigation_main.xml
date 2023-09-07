@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_main"
+    app:startDestination="@id/navigation_env">
+
+    <fragment
+        android:id="@+id/navigation_env"
+        android:name="com.swu.dimiz.ogg.ui.env.EnvFragment"
+        android:label="@string/navigation_title_env"
+        tools:layout="@layout/fragment_env" >
+        <action
+            android:id="@+id/action_navigation_env_to_badgeListFragment"
+            app:destination="@id/destination_badge_list" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_myact"
+        android:name="com.swu.dimiz.ogg.ui.myact.MyActFragment"
+        android:label="@string/navigation_title_myact"
+        tools:layout="@layout/fragment_my_act" />
+    <fragment
+        android:id="@+id/navigation_graph"
+        android:name="com.swu.dimiz.ogg.ui.graph.GraphFragment"
+        android:label="@string/navigation_title_graph"
+        tools:layout="@layout/fragment_graph" />
+    <fragment
+        android:id="@+id/navigation_feed"
+        android:name="com.swu.dimiz.ogg.ui.feed.FeedFragment"
+        android:label="@string/navigation_title_feed"
+        tools:layout="@layout/fragment_feed" />
+    <fragment
+        android:id="@+id/destination_badge_list"
+        android:name="com.swu.dimiz.ogg.ui.env.badges.editbadges.BadgeListFragment"
+        android:label="@string/destination_title_badges" />
+</navigation>

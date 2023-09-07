@@ -8,7 +8,7 @@
 
         <!-- 메인 컬러 -->
         <item name="colorPrimary">@color/primary_blue</item>
-        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorPrimaryVariant">@color/primary_gray</item>
         <item name="colorOnPrimary">@color/white</item>
 
         <!-- 보조 컬러 -->
@@ -17,9 +17,20 @@
         <item name="colorOnSecondary">@color/primary_gray</item>
 
         <!-- 상태바 설정 -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/transparency_dimmed</item>
+        <item name="android:windowLightStatusBar">true</item>
 
         <!-- 팝업창 설정 -->
     </style>
+
+    <style name="Theme.SwuniesOGG.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">false</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.SwuniesOGG.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.SwuniesOGG.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

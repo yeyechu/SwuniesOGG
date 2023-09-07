@@ -18,7 +18,7 @@
 
     <!-- 헤더 텍스트 -->
     <style name="StyleHeader">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/white</item>
 
     </style>
 
