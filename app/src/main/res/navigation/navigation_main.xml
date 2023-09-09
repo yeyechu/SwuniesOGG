@@ -21,23 +21,31 @@
             app:destination="@id/destination_member"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_navigation_env_to_destination_myenv"
+            app:destination="@id/destination_myenv" />
     </fragment>
+
     <fragment
         android:id="@+id/navigation_myact"
         android:name="com.swu.dimiz.ogg.ui.myact.MyActFragment"
         tools:layout="@layout/fragment_my_act" />
+
     <fragment
         android:id="@+id/navigation_graph"
         android:name="com.swu.dimiz.ogg.ui.graph.GraphFragment"
         tools:layout="@layout/fragment_graph" />
+
     <fragment
         android:id="@+id/navigation_feed"
         android:name="com.swu.dimiz.ogg.ui.feed.FeedFragment"
         tools:layout="@layout/fragment_feed" />
+
     <fragment
         android:id="@+id/destination_badge_list"
         android:name="com.swu.dimiz.ogg.ui.env.badges.BadgeListFragment"
         tools:layout="@layout/fragment_badge_list" >
+
         <action
             android:id="@+id/action_destination_badge_list_to_navigation_env"
             app:destination="@id/navigation_env"
@@ -57,5 +65,20 @@
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right" />
     </fragment>
+
+    <fragment
+        android:id="@+id/destination_myenv"
+        android:name="com.swu.dimiz.ogg.ui.env.myenv.MyEnvLayer"
+        tools:layout="@layout/layer_env" >
+        <action
+            android:id="@+id/action_destination_myenv_to_navigation_env"
+            app:destination="@id/navigation_env" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destination_listset"
+        android:name="com.swu.dimiz.ogg.contents.listset.ListsetFragment"
+        tools:layout="@layout/fragment_listset"
+        android:label="@string/destination_title_listset" />
 
 </navigation>

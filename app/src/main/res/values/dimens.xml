@@ -18,7 +18,7 @@
     <dimen name="margin_default">16dp</dimen>
     <dimen name="margin_popup">21dp</dimen>
     <dimen name="margin_scroll">50dp</dimen>
-    <dimen name="margin_component">10dp</dimen>
+    <dimen name="margin_component">8dp</dimen>
 
     <!-- 텍스트 -->
     <dimen name="text_size_title">20sp</dimen>
@@ -28,7 +28,7 @@
     <dimen name="text_size_body_small">10sp</dimen>
 
     <!-- 기타 -->
-    <dimen name="radius_layer">32dp</dimen>
+    <dimen name="radius_layer">20dp</dimen>
     <dimen name="radius_button">50dp</dimen>
     <dimen name="radius_popup">50dp</dimen>
     <dimen name="stroke_button">2dp</dimen>

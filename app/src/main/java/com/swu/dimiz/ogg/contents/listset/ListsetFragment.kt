@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.ui.env.myenv
+package com.swu.dimiz.ogg.contents.listset
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.databinding.LayerEnvBinding
+import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
 import com.swu.dimiz.ogg.ui.env.badges.BadgeListFragmentDirections
 
-class MyEnvLayer : Fragment() {
+class ListsetFragment : Fragment() {
 
-    private lateinit var binding: LayerEnvBinding
+    private lateinit var binding : FragmentListsetBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,12 +21,11 @@ class MyEnvLayer : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(
-            inflater, R.layout.layer_env, container, false)
+            inflater, R.layout.fragment_listset, container, false)
 
         binding.upButton.setOnClickListener { view: View ->
             view.findNavController().navigate(
-                MyEnvLayerDirections
-                    .actionDestinationMyenvToNavigationEnv()
+                R.id.navigation_env
             )
         }
 

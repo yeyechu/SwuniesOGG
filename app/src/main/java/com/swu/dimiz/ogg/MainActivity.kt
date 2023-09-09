@@ -3,12 +3,10 @@ package com.swu.dimiz.ogg
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.swu.dimiz.ogg.databinding.ActivityMainBinding
@@ -37,26 +35,21 @@ class MainActivity : AppCompatActivity() {
             )
         )
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.destination_badge_list
-                || destination.id == R.id.destination_member
+
+            if(destination.id == R.id.navigation_env
+                || destination.id == R.id.navigation_myact
+                || destination.id == R.id.navigation_graph
+                || destination.id == R.id.navigation_feed
             ) {
-                bottomNavView.visibility = View.GONE
-            } else {
                 bottomNavView.visibility = View.VISIBLE
+            } else {
+                bottomNavView.visibility = View.GONE
             }
         }
-
-        // setupActionBarWithNavController(navController, appBarConfiguration)
         binding.mainToolbar.setupWithNavController(navController, appBarConfiguration)
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         return super.onCreateOptionsMenu(menu)
     }
-
-//    override fun onSupportNavigateUp(): Boolean {
-//        return navController.navigateUp(appBarConfiguration)
-//                || super.onSupportNavigateUp()
-//    }
 }

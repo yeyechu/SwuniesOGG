@@ -23,11 +23,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".contents.listset.ListSetActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity"/>
-
     </application>
 
 </manifest>

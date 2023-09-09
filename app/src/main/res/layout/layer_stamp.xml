@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@drawable/common_layer_background_rounded_bottom">
+
+        <LinearLayout
+            android:id="@+id/beforeLayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/env_text_member_name"
+                style="@style/StyleText.title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                tools:text="오지지님" />
+
+            <TextView
+                style="@style/StyleText.subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/env_text_before_message" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/StyleButtonOgg"
+                android:id="@+id/env_button_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/env_button_start" />
+
+        </LinearLayout>
+    </FrameLayout>
+</layout>

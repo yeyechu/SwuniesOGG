@@ -36,8 +36,8 @@
 
 
     <!-- ──────────────────────────────────────   환경탭   ────────────────────────────────────── -->
-    <string name="env_text_before_message">21일 프로젝트를 시작해 해볼까요?</string>
-    <string name="env_button_"> </string>
+    <string name="env_text_before_message">21일 프로젝트를 시작해볼까요?</string>
+    <string name="env_button_start">시작 하기</string>
 
     <!-- 배지 -->
     <string name="badges_text_"> </string>
