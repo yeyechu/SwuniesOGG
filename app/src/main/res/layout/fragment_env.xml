@@ -5,29 +5,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.swu.dimiz.ogg.ui.env.EnvFragment">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/layer_env" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/envToolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:minHeight="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
             android:theme="?attr/actionBarTheme"
             app:title="@string/app_name" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginRight="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/floating_button_size"
+            android:src="@drawable/env_button_edit_badge_floating" />
 
-            <include layout="@layout/layer_env" />
-
-        </FrameLayout>
+    </FrameLayout>
 
 
-
-    </LinearLayout>
 </layout>

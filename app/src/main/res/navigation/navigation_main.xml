@@ -8,29 +8,54 @@
     <fragment
         android:id="@+id/navigation_env"
         android:name="com.swu.dimiz.ogg.ui.env.EnvFragment"
-        android:label="@string/navigation_title_env"
         tools:layout="@layout/fragment_env" >
         <action
-            android:id="@+id/action_navigation_env_to_badgeListFragment"
-            app:destination="@id/destination_badge_list" />
+            android:id="@+id/action_navigation_env_to_destination_badge_list"
+            app:destination="@id/destination_badge_list"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_navigation_env_to_destination_member"
+            app:destination="@id/destination_member"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/navigation_myact"
         android:name="com.swu.dimiz.ogg.ui.myact.MyActFragment"
-        android:label="@string/navigation_title_myact"
         tools:layout="@layout/fragment_my_act" />
     <fragment
         android:id="@+id/navigation_graph"
         android:name="com.swu.dimiz.ogg.ui.graph.GraphFragment"
-        android:label="@string/navigation_title_graph"
         tools:layout="@layout/fragment_graph" />
     <fragment
         android:id="@+id/navigation_feed"
         android:name="com.swu.dimiz.ogg.ui.feed.FeedFragment"
-        android:label="@string/navigation_title_feed"
         tools:layout="@layout/fragment_feed" />
     <fragment
         android:id="@+id/destination_badge_list"
-        android:name="com.swu.dimiz.ogg.ui.env.badges.editbadges.BadgeListFragment"
-        android:label="@string/destination_title_badges" />
+        android:name="com.swu.dimiz.ogg.ui.env.badges.BadgeListFragment"
+        tools:layout="@layout/fragment_badge_list" >
+        <action
+            android:id="@+id/action_destination_badge_list_to_navigation_env"
+            app:destination="@id/navigation_env"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_in_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destination_member"
+        android:name="com.swu.dimiz.ogg.member.MemberFragment"
+        tools:layout="@layout/fragment_member" >
+        <action
+            android:id="@+id/action_destination_member_to_navigation_env"
+            app:destination="@id/navigation_env"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+
 </navigation>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_env"
+    app:startDestination="@id/envFragment">
+
+    <fragment
+        android:id="@+id/envFragment"
+        android:name="com.swu.dimiz.ogg.ui.env.EnvFragment"
+        android:label="fragment_env"
+        tools:layout="@layout/fragment_env" >
+        <action
+            android:id="@+id/action_envFragment_to_badgeListFragment"
+            app:destination="@id/badgeListFragment" />
+        <action
+            android:id="@+id/action_envFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/badgeListFragment"
+        android:name="com.swu.dimiz.ogg.ui.env.badges.BadgeListFragment"
+        android:label="fragment_badge_list"
+        tools:layout="@layout/fragment_badge_list" />
+    <fragment
+        android:id="@+id/memberFragment"
+        android:name="com.swu.dimiz.ogg.member.MemberFragment"
+        android:label="MemberFragment" />
+</navigation>

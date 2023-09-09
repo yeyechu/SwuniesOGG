@@ -4,7 +4,7 @@
 
 
     <!-- light모드(dark 모드 따로 설정 필요) -->
-    <style name="Theme.SwuniesOGG" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.SwuniesOGG" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!-- 메인 컬러 -->
         <item name="colorPrimary">@color/primary_blue</item>
@@ -21,9 +21,9 @@
         <item name="android:navigationBarColor">@color/transparency_dimmed</item>
         <item name="android:windowLightStatusBar">true</item>
 
-        <!-- 팝업창 설정 -->
     </style>
 
+    <!-- 상태바 설정 -->
     <style name="Theme.SwuniesOGG.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">false</item>
@@ -32,5 +32,15 @@
 
     <style name="Theme.SwuniesOGG.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.SwuniesOGG.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- 팝업창 설정 -->
+    <style name="Transparent_Popup" parent="Theme.SwuniesOGG">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 
 </resources>

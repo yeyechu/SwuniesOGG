@@ -14,8 +14,6 @@
     <dimen name="padding_appbar_small">0dp</dimen>
     <dimen name="padding_appbar_big">0dp</dimen>
 
-
-
     <!-- 마진 -->
     <dimen name="margin_default">16dp</dimen>
     <dimen name="margin_popup">21dp</dimen>
@@ -23,7 +21,6 @@
     <dimen name="margin_component">10dp</dimen>
 
     <!-- 텍스트 -->
-
     <dimen name="text_size_title">20sp</dimen>
     <dimen name="text_size_subtitle">17sp</dimen>
 
@@ -37,9 +34,7 @@
     <dimen name="stroke_button">2dp</dimen>
 
     <!--아이콘 사이즈-->
-    <dimen name="icon_big">50dp</dimen>
-    <dimen name="icon_middle">30dp</dimen>
-    <dimen name="icon_small">20dp</dimen>
+    <dimen name="image_size_minimum">48dp</dimen>
 
 
 
@@ -48,6 +43,7 @@
     <!-- 패딩 -->
 
     <!-- 마진 -->
+    <dimen name="floating_button_size">80dp</dimen>
 
     <!-- 텍스트 -->
     <dimen name="text_size_user_name">0sp</dimen>
