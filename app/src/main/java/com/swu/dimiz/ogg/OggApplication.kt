@@ -4,6 +4,7 @@ import androidx.multidex.MultiDexApplication
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import timber.log.Timber
 
 class OggApplication: MultiDexApplication() {
 
@@ -31,6 +32,7 @@ class OggApplication: MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        Timber.plant(Timber.DebugTree())
         auth = Firebase.auth
     }
 }

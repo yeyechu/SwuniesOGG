@@ -1,35 +1,54 @@
 package com.swu.dimiz.ogg.ui.env
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentEnvBinding
+import timber.log.Timber
 
 class EnvFragment : Fragment() {
 
     private lateinit var binding: FragmentEnvBinding
     private lateinit var startButton: Button
+    private lateinit var viewModel: EnvViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+        Timber.i("onCreateView()")
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_env, container, false)
+        Timber.i("layout inflate")
 
-        startButton = binding.root.findViewById(R.id.env_button_start)
+        viewModel = ViewModelProvider(this).get(EnvViewModel::class.java)
+        Timber.i("ViewModelProvider()")
 
+        //                      환경 수정 플로팅 버튼 정의
+        binding.badgeEditButton.setColorFilter(
+            ContextCompat.getColor(requireContext(), R.color.white))
+        binding.badgeEditButton.foreground =
+            ContextCompat.getDrawable(
+            requireContext(), R.drawable.env_button_edit_badge_floating)
         binding.badgeEditButton.setOnClickListener { view: View ->
             view.findNavController().navigate(
                 EnvFragmentDirections
                     .actionNavigationEnvToDestinationMyenv()
             )
+            viewModel.onClear()
         }
+
+        //                      프로젝트 시작 버튼 정의
+        startButton = binding.root.findViewById(R.id.env_button_start)
         startButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.destination_listset)
+            viewModel.onClear()
         }
 
         return binding.root
@@ -37,6 +56,8 @@ class EnvFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        //                      툴바 정의
+        Timber.i("onViewCreated()")
         val envToolbar = binding.envToolbar
         envToolbar.inflateMenu(R.menu.env_menu)
 
@@ -47,6 +68,7 @@ class EnvFragment : Fragment() {
                         EnvFragmentDirections
                             .actionNavigationEnvToDestinationBadgeList()
                     )
+                    viewModel.onClear()
                     true
                 }
                 R.id.action_my_page -> {
@@ -54,10 +76,57 @@ class EnvFragment : Fragment() {
                         EnvFragmentDirections
                             .actionNavigationEnvToDestinationMember()
                     )
+                    viewModel.onClear()
                     true
                 }
                 else -> false
             }
         }
+    }
+
+    //                           수명 주기 확인
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Timber.i("onCreate()")
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Timber.i("onAttach()")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.i("onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.i("onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.i("onStop()")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.i("onDestroyView()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("onDesrtoy()")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Timber.i("onDetach()")
     }
 }

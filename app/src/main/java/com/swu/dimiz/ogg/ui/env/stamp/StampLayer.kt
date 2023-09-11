@@ -14,6 +14,8 @@ class StampLayer : Fragment() {
 
     private lateinit var binding : LayerStampBinding
 
+    // 라이브데이터 + 뷰모델 필요
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

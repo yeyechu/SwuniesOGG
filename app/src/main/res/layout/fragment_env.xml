@@ -5,6 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.swu.dimiz.ogg.ui.env.EnvFragment">
 
+    <!--
+                     FrameLayout 위에 레이아웃을 하나하나 얹어 두었음
+                     -> 레이아웃 계층 구조 확인하여 순서대로 올려야함
+                     -> 상단에 가장 먼저 추가된 레이아웃이 가장 아래에 깔림
+                     -> 환경레이어(-> layer_env)와 스탬프레이어(-> layer_stamp)는 별도의 파일로 추가됨
+    -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,11 +32,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:layout_marginRight="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
             android:layout_marginBottom="@dimen/floating_button_size"
-            android:src="@drawable/env_button_edit_badge_floating" />
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/destination_title_listset"
+            tools:src="@drawable/env_button_edit_badge_floating" />
 
     </FrameLayout>
-
-
 </layout>

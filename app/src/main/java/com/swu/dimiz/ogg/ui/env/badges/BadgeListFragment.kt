@@ -15,6 +15,8 @@ class BadgeListFragment : Fragment() {
 
     private lateinit var binding: FragmentBadgeListBinding
 
+    // 라이브데이터나 뷰모델이 필요없음
+    // 단순 어댑터 + 리사이클러뷰
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(

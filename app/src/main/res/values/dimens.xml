@@ -34,7 +34,6 @@
     <dimen name="stroke_button">2dp</dimen>
 
     <!--아이콘 사이즈-->
-    <dimen name="image_size_minimum">48dp</dimen>
 
 
 
@@ -51,6 +50,11 @@
 
     <!-- 기타 -->
     <dimen name="bottom_nav_size">65dp</dimen>
-    <dimen name="botton_nav_icon_size">50dp</dimen>
+    <dimen name="bottom_nav_icon_size">50dp</dimen>
+
+    <dimen name="bottom_sheet_peek_height">32dp</dimen>
+    <dimen name="bottom_sheet_button_width">100dp</dimen>
+    <dimen name="bottom_sheet_button_height">16dp</dimen>
+    <dimen name="bottom_sheet_scroll_height">300dp</dimen>
 
 </resources>

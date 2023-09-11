@@ -52,6 +52,8 @@
         <item name="android:fontFamily">@font/nanumsquare_b</item>
         <item name="android:textSize">@dimen/text_size_subtitle</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:minHeight">?attr/minTouchTargetSize</item>
+        <item name="android:minWidth">?attr/minTouchTargetSize</item>
     </style>
 
     <!-- 큰 버튼 : 흰색 -->
@@ -70,6 +72,13 @@
     <style name="StyleButtonOgg.white.smaller" parent="StyleButtonOgg.white">
         <item name="android:padding">@dimen/padding_button_small</item>
         <item name="android:textSize">@dimen/text_size_body_big</item>
+    </style>
+
+    <style name="StyleUpButton">
+        <item name="android:minWidth">?attr/minTouchTargetSize</item>
+        <item name="android:minHeight">?attr/minTouchTargetSize</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:src">@drawable/common_button_arrow_left</item>
     </style>
 
     <!-- ────────────────────────────────────── 그 밖의 뷰 ────────────────────────────────────── -->

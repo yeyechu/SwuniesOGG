@@ -5,6 +5,9 @@
     android:id="@+id/navigation_main"
     app:startDestination="@id/navigation_env">
 
+    <include
+        app:graph="@navigation/navigation_listset" />
+
     <fragment
         android:id="@+id/navigation_env"
         android:name="com.swu.dimiz.ogg.ui.env.EnvFragment"
@@ -74,11 +77,9 @@
             android:id="@+id/action_destination_myenv_to_navigation_env"
             app:destination="@id/navigation_env" />
     </fragment>
-
     <fragment
         android:id="@+id/destination_listset"
         android:name="com.swu.dimiz.ogg.contents.listset.ListsetFragment"
-        tools:layout="@layout/fragment_listset"
-        android:label="@string/destination_title_listset" />
+        tools:layout="@layout/fragment_listset"/>
 
 </navigation>

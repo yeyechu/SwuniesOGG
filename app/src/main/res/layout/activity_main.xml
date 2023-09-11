@@ -35,6 +35,6 @@
         android:visibility="visible"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="unlabeled"
-        app:itemIconSize="@dimen/botton_nav_icon_size" />
+        app:itemIconSize="@dimen/bottom_nav_icon_size" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

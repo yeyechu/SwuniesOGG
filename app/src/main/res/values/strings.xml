@@ -17,7 +17,7 @@
     <string name="destination_title_members">마이페이지</string>
     <string name="destination_title_badges">배지</string>
     <string name="destination_title_settings">설정</string>
-    <string name="destination_title_listset">프로젝트 설정</string>
+    <string name="destination_title_listset">활동 레벨 선택</string>
 
     <string name="destination_title_popup">팝업</string>
     <string name="destination_title_camera">카메라</string>
@@ -28,8 +28,10 @@
     <!--                                   description_리소스명                                   -->
 
     <string name="description_myact_image_appbar">아무런 기능이 없는 커다란 남자 아이</string>
-
     <string name="description_">활동을 설명하는 데이터베이스 BLOB 이미지</string>
+    <string name="description_common_button_exit">뒤로가기 버튼</string>
+    <string name="description_scroll">스크롤</string>
+    <string name="description_bottom_sheet">위로 올라오는 창</string>
 
     <!--                    모든 EditText에 들어가는 Hint 속성은 이곳에 선언되어야 함                   -->
     <!--                                    hint_edittext이름                                    -->
@@ -52,6 +54,7 @@
     <string name="myact_button">인증하기</string>
 
     <string name="myact_tooltip_sustainable">한번의 활동으로 탄소 감축량을\n계속 지속할 수 있어요.</string>
+    <string name="myact_tooltip_extra">특별 활동 툴팁을 적어주세요</string>
 
     <!-- 등록 및 수정 -->
     <string name="listset_"> </string>

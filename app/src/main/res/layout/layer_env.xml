@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <FrameLayout
+<layout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--                                 환경 전체 스크롤 부분                                  -->
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:contentDescription="@string/description_scroll">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 app:srcCompat="@drawable/env_image_background_stage1_very_dirty" />
-
         </ScrollView>
+
+        <!-- ─────────────────────────────────────────────────────────────────────────────────── -->
+        <!--                                     상단 툴바 부분                                     -->
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -31,11 +34,45 @@
                 android:id="@+id/upButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/common_button_arrow_left" />
+                android:contentDescription="@string/description_common_button_exit"
+                style="@style/StyleUpButton" />
 
         </androidx.appcompat.widget.Toolbar>
 
+        <!-- ─────────────────────────────────────────────────────────────────────────────────── -->
+        <!--                                 Bottom Sheet 레이아웃                                 -->
 
-    </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/bottom_layout"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="@dimen/bottom_sheet_peek_height"
+            android:background="@drawable/common_layer_background_rounded_top"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <!--                                 핸들러 버튼                                 -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/handler"
+                android:layout_width="@dimen/bottom_sheet_button_width"
+                android:layout_height="@dimen/bottom_sheet_button_height"
+                android:layout_margin="@dimen/margin_component"
+                android:layout_gravity="center"
+                android:text=""
+                android:contentDescription="@string/description_bottom_sheet"
+                android:backgroundTint="@color/secondary_light_gray" />
+
+            <!--                                 화면 스크롤                                 -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottom_sheet_scroll_height"
+                android:background="@color/white">
+
+                <include
+                    layout="@layout/layer_env_item_bottom_sheet" />
+
+            </ScrollView>
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -3,11 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_listset"
-    app:startDestination="@id/destination_listset_start">
+    app:startDestination="@id/navigation_env_listset">
 
     <fragment
-        android:id="@+id/destination_listset_start"
+        android:id="@+id/destination_listset_2"
         android:name="com.swu.dimiz.ogg.contents.listset.ListsetFragment"
         android:label="@string/destination_title_listset"
-        tools:layout="@layout/fragment_listset"/>
+        tools:layout="@layout/fragment_listset">
+        <action
+            android:id="@+id/action_destination_listset_to_navigation_env_listset"
+            app:destination="@id/navigation_env_listset" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_env_listset"
+        android:name="com.swu.dimiz.ogg.ui.env.EnvFragment"
+        android:label="@string/navigation_title_env"
+        tools:layout="@layout/fragment_env" >
+        <action
+            android:id="@+id/action_navigation_env_listset_to_destination_listset"
+            app:destination="@id/destination_listset" />
+    </fragment>
 </navigation>
