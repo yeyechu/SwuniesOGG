@@ -13,7 +13,7 @@
         <item name="colorOnPrimary">@color/white</item>
 
         <!-- 보조 컬러 -->
-        <item name="colorSecondary">@color/secondary_light_Blue</item>
+        <item name="colorSecondary">@color/secondary_light_blue</item>
         <item name="colorSecondaryVariant">@color/secondary_light_gray</item>
         <item name="colorOnSecondary">@color/primary_gray</item>
 

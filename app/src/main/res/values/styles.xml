@@ -45,8 +45,9 @@
     <!-- 큰 버튼 : 파란색 -->
     <style name="StyleButtonOgg">
         <item name="android:background">@drawable/common_button_skyblue</item>
-        <item name="android:padding">@dimen/padding_button_big</item>
         <item name="android:layout_margin">@dimen/margin_component</item>
+        <item name="paddingStart">@dimen/padding_popup_big</item>
+        <item name="paddingEnd">@dimen/padding_popup_big</item>
 
         <item name="fontFamily">@font/nanumsquare_b</item>
         <item name="android:fontFamily">@font/nanumsquare_b</item>
@@ -57,20 +58,25 @@
     </style>
 
     <!-- 큰 버튼 : 흰색 -->
-    <style name="StyleButtonOgg.white" parent="StyleButtonOgg">
+    <style name="StyleButtonOggWhite">
         <item name="android:background">@drawable/common_button_white</item>
+        <item name="android:layout_margin">@dimen/margin_component</item>
+
+        <item name="fontFamily">@font/nanumsquare_b</item>
+        <item name="android:fontFamily">@font/nanumsquare_b</item>
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
         <item name="android:textColor">@color/primary_blue</item>
+        <item name="android:minHeight">?attr/minTouchTargetSize</item>
+        <item name="android:minWidth">?attr/minTouchTargetSize</item>
     </style>
 
     <!-- 작은 버튼 : 파란색 -->
     <style name="StyleButtonOgg.smaller" parent="StyleButtonOgg">
-        <item name="android:padding">@dimen/padding_button_small</item>
         <item name="android:textSize">@dimen/text_size_body_big</item>
     </style>
 
     <!-- 작은 버튼 : 흰색 -->
-    <style name="StyleButtonOgg.white.smaller" parent="StyleButtonOgg.white">
-        <item name="android:padding">@dimen/padding_button_small</item>
+    <style name="StyleButtonOggWhite.smaller" parent="StyleButtonOggWhite">
         <item name="android:textSize">@dimen/text_size_body_big</item>
     </style>
 
@@ -79,6 +85,12 @@
         <item name="android:minHeight">?attr/minTouchTargetSize</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:src">@drawable/common_button_arrow_left</item>
+    </style>
+
+    <style name="StyleImageButton">
+        <item name="android:minWidth">?attr/minTouchTargetSize</item>
+        <item name="android:minHeight">?attr/minTouchTargetSize</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <!-- ────────────────────────────────────── 그 밖의 뷰 ────────────────────────────────────── -->

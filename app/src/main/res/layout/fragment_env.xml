@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="@dimen/margin_default"
-            android:layout_marginBottom="@dimen/floating_button_size"
+            android:layout_marginBottom="@dimen/margin_floating_button"
             android:backgroundTint="@color/white"
             android:contentDescription="@string/destination_title_listset"
             tools:src="@drawable/env_button_edit_badge_floating" />

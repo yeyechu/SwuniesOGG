@@ -8,12 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
-import com.swu.dimiz.ogg.ui.env.badges.BadgeListFragmentDirections
+import com.swu.dimiz.ogg.databinding.FragmentListaimBinding
 
-class ListsetFragment : Fragment() {
+class ListaimFragment  : Fragment() {
 
-    private lateinit var binding : FragmentListsetBinding
+    private lateinit var binding : FragmentListaimBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,19 +20,19 @@ class ListsetFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_listset, container, false)
+            inflater, R.layout.fragment_listaim, container, false)
 
         binding.upButton.setOnClickListener { view: View ->
             view.findNavController().navigate(
-                ListsetFragmentDirections
-                    .actionDestinationListsetToDestinationListaim()
+                ListaimFragmentDirections
+                    .actionDestinationListaimToNavigationEnv()
             )
         }
 
-        binding.buttonAllset.setOnClickListener { view: View ->
+        binding.buttonSelection.setOnClickListener { view: View ->
             view.findNavController().navigate(
-                ListsetFragmentDirections
-                    .actionDestinationListsetToNavigationEnv())
+                ListaimFragmentDirections
+                    .actionDestinationListaimToDestinationListset())
         }
 
         return binding.root

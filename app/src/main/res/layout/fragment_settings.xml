@@ -27,18 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/StyleText.header"
-                android:text="@string/destination_title_members"
+                android:text="@string/destination_title_settings"
                 android:layout_gravity="center" />
-
-            <ImageButton
-                android:id="@+id/button_settings"
-                style="@style/StyleImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:contentDescription="@string/destination_title_settings"
-                tools:src="@android:drawable/ic_menu_help" />
-
         </androidx.appcompat.widget.Toolbar>
 
     </LinearLayout>

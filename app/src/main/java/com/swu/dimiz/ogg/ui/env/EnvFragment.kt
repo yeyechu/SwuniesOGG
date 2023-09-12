@@ -47,7 +47,7 @@ class EnvFragment : Fragment() {
         //                      프로젝트 시작 버튼 정의
         startButton = binding.root.findViewById(R.id.env_button_start)
         startButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.destination_listset)
+            view.findNavController().navigate(R.id.destination_listaim)
             viewModel.onClear()
         }
 

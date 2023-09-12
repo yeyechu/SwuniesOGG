@@ -26,6 +26,11 @@ class MemberFragment : Fragment() {
             )
         }
 
+        binding.buttonSettings.setOnClickListener { view: View ->
+            view.findNavController().navigate(
+                R.id.destination_settings
+            )
+        }
         return binding.root
     }
 

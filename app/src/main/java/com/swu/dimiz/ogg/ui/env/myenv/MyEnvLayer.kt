@@ -35,6 +35,10 @@ class MyEnvLayer : Fragment() {
             )
         }
 
+        binding.buttonSave.setOnClickListener { view: View ->
+            view.findNavController().navigate(R.id.navigation_env)
+        }
+
         // ────────────────────────────────────────────────────────────────────────────────────────
         //                                    BottomSheet
         val bottomBehavior = BottomSheetBehavior.from(binding.bottomLayout)

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 아래만 둥글게 처리된 레이어 백그라운드 -->
+    <solid android:color="@color/white"/>
+    <corners
+        android:bottomLeftRadius="@dimen/radius_layer"
+        android:bottomRightRadius="@dimen/radius_layer"
+        android:topLeftRadius="@dimen/radius_layer"
+        android:topRightRadius="@dimen/radius_layer" />
+
+</shape>

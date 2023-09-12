@@ -23,6 +23,13 @@
                 android:contentDescription="@string/description_common_button_exit"
                 style="@style/StyleUpButton" />
 
+            <TextView
+                style="@style/StyleText.header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/destination_title_badges" />
+
         </androidx.appcompat.widget.Toolbar>
 
     </LinearLayout>

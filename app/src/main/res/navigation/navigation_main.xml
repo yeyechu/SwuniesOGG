@@ -5,9 +5,6 @@
     android:id="@+id/navigation_main"
     app:startDestination="@id/navigation_env">
 
-    <include
-        app:graph="@navigation/navigation_listset" />
-
     <fragment
         android:id="@+id/navigation_env"
         android:name="com.swu.dimiz.ogg.ui.env.EnvFragment"
@@ -17,8 +14,8 @@
             app:destination="@id/destination_badge_list"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_out_right"
-            app:popExitAnim="@anim/slide_in_left" />
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_navigation_env_to_destination_member"
             app:destination="@id/destination_member"
@@ -27,6 +24,9 @@
         <action
             android:id="@+id/action_navigation_env_to_destination_myenv"
             app:destination="@id/destination_myenv" />
+        <action
+            android:id="@+id/action_navigation_env_to_destination_listaim"
+            app:destination="@id/destination_listaim" />
     </fragment>
 
     <fragment
@@ -54,8 +54,8 @@
             app:destination="@id/navigation_env"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_in_right" />
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -66,7 +66,14 @@
             android:id="@+id/action_destination_member_to_navigation_env"
             app:destination="@id/navigation_env"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right" />
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_destination_member_to_destination_settings"
+            app:destination="@id/destination_settings"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -77,9 +84,48 @@
             android:id="@+id/action_destination_myenv_to_navigation_env"
             app:destination="@id/navigation_env" />
     </fragment>
+
     <fragment
         android:id="@+id/destination_listset"
         android:name="com.swu.dimiz.ogg.contents.listset.ListsetFragment"
-        tools:layout="@layout/fragment_listset"/>
+        tools:layout="@layout/fragment_listset">
+        <action
+            android:id="@+id/action_destination_listset_to_destination_listaim"
+            app:destination="@id/destination_listaim"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_destination_listset_to_navigation_env"
+            app:destination="@id/navigation_env"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destination_listaim"
+        android:name="com.swu.dimiz.ogg.contents.listset.ListaimFragment"
+        android:label="@string/destination_title_listaim"
+        tools:layout="@layout/fragment_listaim" >
+        <action
+            android:id="@+id/action_destination_listaim_to_destination_listset"
+            app:destination="@id/destination_listset"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_destination_listaim_to_navigation_env"
+            app:destination="@id/navigation_env" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destination_settings"
+        android:name="com.swu.dimiz.ogg.member.settings.SettingsFragment"
+        android:label="@string/destination_title_settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_destination_settings_to_destination_member"
+            app:destination="@id/destination_member"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
 
 </navigation>

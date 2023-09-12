@@ -37,6 +37,14 @@
                 android:contentDescription="@string/description_common_button_exit"
                 style="@style/StyleUpButton" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/StyleButtonOgg.smaller"
+                android:text="@string/envlayer_button_save"
+                android:layout_gravity="end"/>
+
         </androidx.appcompat.widget.Toolbar>
 
         <!-- ─────────────────────────────────────────────────────────────────────────────────── -->

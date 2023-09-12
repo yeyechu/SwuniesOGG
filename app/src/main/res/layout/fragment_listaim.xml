@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="">
+
+            <ImageButton
+                android:id="@+id/upButton"
+                style="@style/StyleUpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/description_common_button_exit" />
+
+            <TextView
+                style="@style/StyleText.header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/destination_title_listaim"
+                tools:text="활동 레벨 선택" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/StyleText.subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:text="@string/listaim_text_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/StyleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="633dp"
+            android:text="@string/listaim_text_title_instruction"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/imageView_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_two"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageButton
+            android:id="@+id/imageView_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_listaim_image"
+            android:layout_marginEnd="@dimen/margin_listaim_image"
+            android:contentDescription="@string/description_listaim_image_one"
+            android:src="@drawable/env_image_stamp_000"
+            app:layout_constraintEnd_toStartOf="@+id/imageView_two"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView_two"
+            style="@style/StyleImageButton" />
+
+        <ImageButton
+            android:id="@+id/imageView_two"
+            style="@style/StyleImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/description_listaim_image_two"
+            android:src="@drawable/env_image_stamp_050"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_balloon"
+            app:layout_constraintEnd_toStartOf="@+id/imageView_three"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView_one" />
+
+        <ImageButton
+            android:id="@+id/imageView_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_listaim_image"
+            android:layout_marginStart="@dimen/margin_listaim_image"
+            android:contentDescription="@string/description_listaim_image_three"
+            android:src="@drawable/env_image_stamp_100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView_two"
+            app:layout_constraintTop_toTopOf="@+id/imageView_two"
+            style="@style/StyleImageButton" />
+
+        <LinearLayout
+            android:id="@+id/imageView_balloon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/radius_layer"
+            android:padding="@dimen/padding_big"
+            app:layout_constraintBottom_toTopOf="@+id/button_selection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_one"
+            android:background="@drawable/listaim_shape_balloon_body">
+
+            <TextView
+                android:id="@+id/text_aim_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/padding_button_big"
+                style="@style/StyleText.subtitle"
+                android:background="@drawable/common_button_skyblue"
+                android:textColor="@color/white"
+                android:text=""
+                tools:text="@string/listaim_text_one_title"/>
+
+            <TextView
+                android:id="@+id/text_aim_instruction_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                style="@style/StyleText"
+                android:text=""
+                tools:text="@string/listaim_text_instruction_one" />
+
+            <TextView
+                android:id="@+id/text_aim_instruction_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                style="@style/StyleText"
+                android:text=""
+                tools:text="@string/listaim_text_instruction_two" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_selection"
+            style="@style/StyleButtonOgg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:text="@string/listaim_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_balloon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

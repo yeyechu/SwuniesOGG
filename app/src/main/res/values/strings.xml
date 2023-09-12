@@ -3,7 +3,7 @@
     <!--                          디버깅용 SHA-1 지문(배포용 사용 불가)                            -->
     <string name="sha_1_for_debug">A0:83:BE:A1:74:5D:4F:81:09:E3:CF:A4:6F:0F:B9:F6:3E:89:87:6C</string>
 
-    <!-- ────────────────────────────────────── 전체 UI ────────────────────────────────────── -->
+    <!-- ───────────────────────────────────── 전체 목적지 ───────────────────────────────────── -->
     <!--                            페이지 제목 : 하단 내비게이션 페이지                            -->
     <string name="navigation_title_env">환경</string>
     <string name="navigation_title_myact">활동</string>
@@ -11,39 +11,80 @@
     <string name="navigation_title_feed">피드</string>
 
     <!--                         페이지 제목 : 내비게이션을 제외한 모든 페이지                        -->
+    <!--                                       로그인 단계                                      -->
     <string name="destination_title_login">로그인</string>
     <string name="destination_title_join">회원가입</string>
 
+    <!--                              환경페이지에서 접근하는 모든 페이지                             -->
     <string name="destination_title_members">마이페이지</string>
-    <string name="destination_title_badges">배지</string>
+    <string name="destination_title_badges">활동 배지</string>
     <string name="destination_title_settings">설정</string>
-    <string name="destination_title_listset">활동 레벨 선택</string>
 
+    <string name="destination_title_listaim">활동 목표 선택</string>
+    <string name="destination_title_listset">활동 선택</string>
+
+    <!--                              활동페이지에서 접근하는 모든 페이지                             -->
     <string name="destination_title_popup">팝업</string>
     <string name="destination_title_camera">카메라</string>
     <string name="destination_title_post">인증 등록</string>
 
+    <!--                              통계페이지에서 접근하는 모든 페이지                             -->
+
+    <!--                              피드페이지에서 접근하는 모든 페이지                             -->
+
+
     <!-- ──────────────────────────────────────    설명    ────────────────────────────────────── -->
     <!--                모든 PNG에 들어가는 contentDescription 속성은 이곳에 선언되어야 함              -->
     <!--                                   description_리소스명                                   -->
-
     <string name="description_myact_image_appbar">아무런 기능이 없는 커다란 남자 아이</string>
     <string name="description_">활동을 설명하는 데이터베이스 BLOB 이미지</string>
     <string name="description_common_button_exit">뒤로가기 버튼</string>
+
+    <string name="description_listaim_image_one">바다거북 탈을 쓴 얼굴 이미지</string>
+    <string name="description_listaim_image_two">물개 탈을 쓴 얼굴 이미지</string>
+    <string name="description_listaim_image_three">돌고래 탈을 쓴 얼굴 이미지</string>
+
+
+    <!--                                  description_컴포넌트명                                   -->
     <string name="description_scroll">스크롤</string>
     <string name="description_bottom_sheet">위로 올라오는 창</string>
+
 
     <!--                    모든 EditText에 들어가는 Hint 속성은 이곳에 선언되어야 함                   -->
     <!--                                    hint_edittext이름                                    -->
 
 
     <!-- ──────────────────────────────────────   환경탭   ────────────────────────────────────── -->
-    <string name="env_text_before_message">21일 프로젝트를 시작해볼까요?</string>
-    <string name="env_button_start">시작 하기</string>
 
-    <!-- 배지 -->
-    <string name="badges_text_"> </string>
-    <string name="badges_button_"> </string>
+    <string name="env_text_before_message">21일 프로젝트를 시작해볼까요?</string>
+    <string name="env_button_start">시작하기</string>
+
+    <!--                                       활동 레벨 선택                                      -->
+    <string name="listaim_text_title">온실가스 1인 1톤 줄이기</string>
+    <string name="listaim_text_title_instruction">1인 1톤 줄이기 설명</string>
+
+    <string name="listaim_text_one_title">초보거북</string>
+    <string name="listaim_text_two_title">중수물개</string>
+    <string name="listaim_text_three_title">고수돌고래</string>
+
+    <string name="listaim_text_instruction_one">활동 목표에 대한 설명1</string>
+    <string name="listaim_text_instruction_two">활동 목표에 대한 설명2</string>
+
+    <string name="listaim_button">선택하기</string>
+
+    <!--                                         활동 선택                                        -->
+    <string name="listset_button_allset">완료</string>
+
+    <string name="listset_text_title">관심있는 활동을 선택해보세요</string>
+    <string name="listset_text_title_instruction">최대 5개를 선택할 수 있습니다</string>
+
+    <!--                                         배지 리스트                                       -->
+    <string name="badgelist_text_"> </string>
+    <string name="badgelist_button_"> </string>
+
+    <!--                                         배지 수정                                         -->
+    <string name="envlayer_text_"> </string>
+    <string name="envlayer_button_save">저장하기</string>
 
     <!-- ──────────────────────────────────────   활동탭   ────────────────────────────────────── -->
 
@@ -55,9 +96,6 @@
 
     <string name="myact_tooltip_sustainable">한번의 활동으로 탄소 감축량을\n계속 지속할 수 있어요.</string>
     <string name="myact_tooltip_extra">특별 활동 툴팁을 적어주세요</string>
-
-    <!-- 등록 및 수정 -->
-    <string name="listset_"> </string>
 
     <!-- 인증 팝업 -->
     <string name="post_text_title">활동 제목</string>
