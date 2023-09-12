@@ -58,6 +58,7 @@
 
     <string name="env_text_before_message">21일 프로젝트를 시작해볼까요?</string>
     <string name="env_button_start">시작하기</string>
+    <string name="env_text_carbon_goal">21일 목표탄소량까지 %.1fkg 남았어요</string>
 
     <!--                                       활동 레벨 선택                                      -->
     <string name="listaim_text_title">온실가스 1인 1톤 줄이기</string>
@@ -87,6 +88,7 @@
     <string name="envlayer_button_save">저장하기</string>
 
     <!-- ──────────────────────────────────────   활동탭   ────────────────────────────────────── -->
+    <string name="myact_text_main_title">오늘도 함께 지구를 지켜볼까요?</string>
 
     <string name="myact_text_title_today">오늘의 활동</string>
     <string name="myact_text_title_sustainable">지속가능한 활동</string>
@@ -95,7 +97,7 @@
     <string name="myact_button">인증하기</string>
 
     <string name="myact_tooltip_sustainable">한번의 활동으로 탄소 감축량을\n계속 지속할 수 있어요.</string>
-    <string name="myact_tooltip_extra">특별 활동 툴팁을 적어주세요</string>
+    <string name="myact_tooltip_extra">줄인 탄소 감축량을 바로 확인할 수는 없지만,\n미래의 환경에 큰 도움이 될 수 있어요.</string>
 
     <!-- 인증 팝업 -->
     <string name="post_text_title">활동 제목</string>
@@ -103,11 +105,20 @@
     <string name="post_text_available">인증 가능 횟수</string>
     <string name="post_text_guidlines">인증 방법</string>
     <string name="post_text"> </string>
+    <string name="album_button_take_photo">앨범 업로드</string>
+
 
     <!-- 카메라 -->
     <string name="camera_button_take_photo">카메라 촬영</string>
     <string name="camera_button_retake_photo">다시 촬영</string>
     <string name="camera_button_use_photo">인증 올리기</string>
+
+    <!-- 인증 완료 팝업 -->
+    <string name="post_complete_title">인증이 완료되었어요!</string>
+    <string name="post_complete_info">인증을 확인하려면 피드를,\n환경 변화를 확인하려면 환경을 선택해주세요</string>
+    <string name="post_to_feed_text">피드 확인하기</string>
+    <string name="post_to_env_text">환경 확인하기</string>
+
 
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->
     <string name="graph_"> </string>
