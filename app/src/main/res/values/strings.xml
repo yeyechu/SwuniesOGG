@@ -61,8 +61,10 @@
     <string name="env_text_carbon_goal">21일 목표탄소량까지 %.1fkg 남았어요</string>
 
     <!--                                       활동 레벨 선택                                      -->
-    <string name="listaim_text_title">온실가스 1인 1톤 줄이기</string>
-    <string name="listaim_text_title_instruction">1인 1톤 줄이기 설명</string>
+    <string name="listaim_text_title">온실가스 1인 1톤 줄이기란,</string>
+    <string name="listaim_text_title_instruction">생활 속 작은 실천을 통해 온실가스를 줄이는 라이프 스타일이에요. \n난이도에 따라 세 단계로 나누어보았어요!</string>
+
+
 
     <string name="listaim_text_one_title">초보거북</string>
     <string name="listaim_text_two_title">중수물개</string>
