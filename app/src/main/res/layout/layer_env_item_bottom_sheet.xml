@@ -3,4 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- 배지 수정 바텀시트에 획득 배지 그리드 레이아웃으로 출력할 건데
+     거기 들어갈 리사이클러뷰 1개에 대한 레이아웃을 이곳에 구현함-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

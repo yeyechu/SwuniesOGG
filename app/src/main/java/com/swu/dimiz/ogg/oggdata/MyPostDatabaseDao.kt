@@ -22,8 +22,12 @@ interface MyPostDatabaseDao {
     fun get(key: Long): MyPost
 
     // 전체 피드 가져오기
-    @Query("SELECT * FROM user_post_list" + "ORDER BY postId ACSC")
+    @Query("SELECT * FROM user_post_list" + "ORDER BY postId DESC")
     fun getAllPosts() : LiveData<List<MyPost>>
+
+    // ───────────────────────────────────────────────────────────────────────────────────────
+    // 통계용
+    // @Query("SELECT * FROM user_post_list ")
 
     // 테이블의 전체 행을 삭제, 개발용으로만 사용 user 제공 기능 아님
     @Query("DELETE FROM user_post_list")
