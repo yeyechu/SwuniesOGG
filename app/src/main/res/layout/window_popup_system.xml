@@ -34,7 +34,7 @@
             style="@style/StyleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/margin_default"
             android:text="TextView"
             app:layout_constraintBottom_toTopOf="@id/button_left"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +43,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_left"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Button"
             style="@style/StyleButtonOggWhite"
@@ -54,9 +54,9 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_right"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="@dimen/margin_big"
             style="@style/StyleButtonOgg"
             android:text="Button"
             app:layout_constraintBottom_toBottomOf="parent"
