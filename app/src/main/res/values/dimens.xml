@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ────────────────────────────────────── 기본값 ────────────────────────────────────── -->
-    <!--  패딩 -->
+    <!--                                         패딩                                         -->
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_big">16dp</dimen>
 
@@ -14,27 +14,25 @@
     <dimen name="padding_popup_small">10dp</dimen>
     <dimen name="padding_popup_big">20dp</dimen>
 
-    <!-- 마진 -->
-    <dimen name="margin_default">16dp</dimen>
-    <dimen name="margin_popup">21dp</dimen>
-    <dimen name="margin_scroll">50dp</dimen>
+    <!--                                         마진                                         -->
     <dimen name="margin_component">8dp</dimen>
+    <dimen name="margin_default">16dp</dimen>
+    <dimen name="margin_big">21dp</dimen>
+    <dimen name="margin_scroll">50dp</dimen>
 
-    <!-- 텍스트 -->
-    <dimen name="text_size_title">20sp</dimen>
-    <dimen name="text_size_subtitle">17sp</dimen>
-
-    <dimen name="text_size_body_big">13sp</dimen>
+    <!--                                        텍스트                                        -->
     <dimen name="text_size_body_small">10sp</dimen>
+    <dimen name="text_size_body_big">13sp</dimen>
 
-    <!-- 기타 -->
+    <dimen name="text_size_subtitle">17sp</dimen>
+    <dimen name="text_size_title">20sp</dimen>
+
+    <!--                                         코너                                         -->
+    <dimen name="radius_card">17dp</dimen>
     <dimen name="radius_layer">20dp</dimen>
     <dimen name="radius_button">50dp</dimen>
-    <dimen name="radius_popup">50dp</dimen>
-    <dimen name="radius_card">17dp</dimen>
 
-    <dimen name="stroke_button">2dp</dimen>
-
+    <!--                                        테두리                                        -->
     <dimen name="stroke_shape_light">1dp</dimen>
     <dimen name="stroke_shape_regular">2dp</dimen>
     <dimen name="stroke_shape_bold">3dp</dimen>
