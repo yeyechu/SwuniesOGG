@@ -50,14 +50,11 @@
             style="@style/StyleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="633dp"
             android:text="@string/listaim_text_title_instruction"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_bar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <ImageView
             android:id="@+id/imageView_bar"
@@ -79,7 +76,6 @@
             android:contentDescription="@string/description_listaim_image_one"
             android:src="@drawable/env_image_stamp_000"
             app:layout_constraintEnd_toStartOf="@+id/imageView_two"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView_two"
             style="@style/StyleImageButton" />
