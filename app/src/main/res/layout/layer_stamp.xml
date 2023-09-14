@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
@@ -14,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_component"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/env_text_member_name"
@@ -31,21 +32,117 @@
                 android:text="@string/env_text_before_message" />
 
             <androidx.appcompat.widget.AppCompatButton
-                style="@style/StyleButtonOgg"
                 android:id="@+id/env_button_start"
+                style="@style/StyleButtonOgg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/env_button_start" />
 
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/afterLayer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_component"
-            android:orientation="vertical">
+            android:paddingStart="@dimen/padding_big"
+            android:paddingTop="@dimen/padding_big"
+            android:paddingEnd="@dimen/padding_big"
+            android:visibility="visible">
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/image_stamp_today"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:contentDescription="@string/description_env_stamp_today"
+                app:layout_constraintBottom_toTopOf="@id/progressBar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/env_image_stamp_000" />
+
+            <TextView
+                android:id="@+id/text_date_of_21"
+                style="@style/StyleText.title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stamplayout_text_title"
+                app:layout_constraintBottom_toTopOf="@+id/text_co2_left"
+                app:layout_constraintStart_toEndOf="@+id/image_stamp_today"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="21일 중 11일째" />
+
+            <TextView
+                android:id="@+id/text_co2_left"
+                style="@style/StyleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stamplayout_text_body"
+                app:layout_constraintBottom_toTopOf="@+id/progressBar"
+                app:layout_constraintStart_toEndOf="@+id/image_stamp_today"
+                app:layout_constraintTop_toBottomOf="@+id/text_date_of_21"
+                tools:text="목표 탄소량까지 1.05kg 남았어요" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_stamp_today" />
+
+            <TextView
+                android:id="@+id/text_progress_co2_zero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progressBar" />
+
+            <TextView
+                android:id="@+id/text_progress_co2_aim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progressBar"
+                tools:text="29.4" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_stamp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/imageButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_progress_co2_aim">
+
+                <GridView
+                    android:id="@+id/stamp_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_big"
+                    android:horizontalSpacing="@dimen/padding_small"
+                    android:verticalSpacing="@dimen/padding_small"
+                    android:numColumns="7"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                style="@style/StyleImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/description_common_button_arrow_down"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_stamp"
+                app:srcCompat="@drawable/common_button_arrow_down" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

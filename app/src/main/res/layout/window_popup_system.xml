@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/padding_big"
     android:background="@color/transparency_dimmed">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,34 +25,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/StyleText.title"
-            android:text="TextViewTextViewTextView"
+            android:text=""
             app:layout_constraintBottom_toTopOf="@+id/text_popup_body"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="뭐시기를 어떻게 하겠습니까?"/>
 
         <TextView
             android:id="@+id/text_popup_body"
             style="@style/StyleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_big"
+            android:layout_marginEnd="@dimen/margin_big"
             android:layout_marginBottom="@dimen/margin_default"
-            android:text="TextView"
+            android:text=""
+            android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@id/button_left"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_popup_title" />
+            app:layout_constraintTop_toBottomOf="@+id/text_popup_title"
+            tools:text="뭐시기를 어떻게 하면 이렇게 저렇게 요렇게 그렇게 될 수 있습니다. 알겠습니까?"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_left"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text=""
             style="@style/StyleButtonOggWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/button_right"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="아니오"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_right"
@@ -58,10 +66,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_big"
             style="@style/StyleButtonOgg"
-            android:text="Button"
+            android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button_left" />
+            app:layout_constraintStart_toEndOf="@+id/button_left"
+            tools:text="네"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

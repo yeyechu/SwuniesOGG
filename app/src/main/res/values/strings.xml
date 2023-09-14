@@ -39,7 +39,10 @@
     <string name="description_myact_image_appbar">아무런 기능이 없는 커다란 남자 아이</string>
     <string name="description_">활동을 설명하는 데이터베이스 BLOB 이미지</string>
     <string name="description_common_button_exit">뒤로가기 버튼</string>
+    <string name="description_common_button_arrow_right">상세보기</string>
+    <string name="description_common_button_arrow_down">스탬프 펼치기</string>
 
+    <string name="description_env_stamp_today">오늘 스티커</string>
     <string name="description_listaim_image_one">바다거북 탈을 쓴 얼굴 이미지</string>
     <string name="description_listaim_image_two">물개 탈을 쓴 얼굴 이미지</string>
     <string name="description_listaim_image_three">돌고래 탈을 쓴 얼굴 이미지</string>
@@ -60,7 +63,10 @@
 
     <string name="env_text_before_message">21일 프로젝트를 시작해볼까요?</string>
     <string name="env_button_start">시작하기</string>
-    <string name="env_text_carbon_goal">21일 목표탄소량까지 %.1fkg 남았어요</string>
+
+    <!--                                           스탬프                                         -->
+    <string name="stamplayout_text_title">21일 중 %d일째</string>
+    <string name="stamplayout_text_body">목표 탄소량까지 %.1fkg 남았어요</string>
 
     <!--                                       활동 레벨 선택                                      -->
     <string name="listaim_text_title">온실가스 1인 1톤 줄이기란,</string>
@@ -81,6 +87,7 @@
 
     <string name="listset_text_title">관심있는 활동을 선택해보세요</string>
     <string name="listset_text_title_instruction">최대 5개를 선택할 수 있습니다</string>
+
 
     <!--                                         배지 리스트                                       -->
     <string name="badgelist_text_"> </string>
@@ -128,6 +135,9 @@
     <string name="graph_"> </string>
 
     <!-- ──────────────────────────────────────   피드탭   ────────────────────────────────────── -->
+    <string name="feed_text_title_null">아직 등록된 피드가 없어요</string>
+    <string name="feed_text_body_null">첫 번째로 활동을 등록해보세요</string>
+
     <string name="feed_"> </string>
     <!--  -->
     <!-- ──────────────────────────────────────  회원메뉴  ────────────────────────────────────── -->
