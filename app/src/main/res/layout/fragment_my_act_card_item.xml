@@ -55,7 +55,6 @@
                 tools:text="여기는 코드로 넣어요" />
 
 
-            <!--스타일에 마진이 설정되어있으면 버튼만 constrainlayout밖에 빼야되는 문제..-->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_myact"
                 style="@style/StyleButtonOgg.smaller"
