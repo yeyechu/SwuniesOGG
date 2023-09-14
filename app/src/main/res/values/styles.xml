@@ -96,11 +96,22 @@
     <!-- 작은 버튼 : 파란색 -->
     <style name="StyleButtonOgg.smaller" parent="StyleButtonOgg">
         <item name="android:textSize">@dimen/text_size_body_big</item>
+        <item name="android:paddingStart">@dimen/padding_big</item>
+        <item name="android:paddingEnd">@dimen/padding_big</item>
     </style>
 
     <!-- 작은 버튼 : 흰색 -->
-    <style name="StyleButtonOggWhite.smaller" parent="StyleButtonOggWhite">
+    <style name="StyleButtonOggWhite.smaller" >
         <item name="android:textSize">@dimen/text_size_body_big</item>
+        <item name="android:background">@drawable/common_button_white_nonline</item>
+        <item name="android:layout_margin">@dimen/margin_component</item>
+        <item name="fontFamily">@font/nanumsquare_b</item>
+        <item name="android:fontFamily">@font/nanumsquare_b</item>
+        <item name="android:paddingStart">@dimen/padding_big</item>
+        <item name="android:paddingEnd">@dimen/padding_big</item>
+        <item name="android:minHeight">?attr/minTouchTargetSize</item>
+        <item name="android:minWidth">?attr/minTouchTargetSize</item>
+
     </style>
 
     <style name="StyleUpButton">

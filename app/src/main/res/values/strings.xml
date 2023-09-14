@@ -96,6 +96,7 @@
     <string name="myact_text_title_sustainable">지속가능한 활동</string>
     <string name="myact_text_title_extra">특별 활동</string>
 
+    <string name="myact_today_edit_button">수정하기</string>
     <string name="myact_button">인증하기</string>
 
     <string name="myact_tooltip_sustainable">한번의 활동으로 탄소 감축량을\n계속 지속할 수 있어요.</string>
