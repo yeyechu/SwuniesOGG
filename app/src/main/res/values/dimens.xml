@@ -55,7 +55,7 @@
     <dimen name="text_size_user_name">0sp</dimen>
     <dimen name="text_size_hint">15sp</dimen>
 
-    <!-- 기타 -->
+    <!-- 바텀시트 -->
     <dimen name="bottom_nav_size">65dp</dimen>
     <dimen name="bottom_nav_icon_size">50dp</dimen>
 
@@ -63,6 +63,10 @@
     <dimen name="bottom_sheet_button_width">100dp</dimen>
     <dimen name="bottom_sheet_button_height">16dp</dimen>
     <dimen name="bottom_sheet_scroll_height">300dp</dimen>
+
+    <!-- 기타 -->
+
+    <dimen name="image_size_aim_face">80dp</dimen>
 
 
 </resources>

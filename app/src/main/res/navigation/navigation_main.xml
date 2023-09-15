@@ -99,6 +99,9 @@
             app:destination="@id/navigation_env"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out" />
+<!--        <argument-->
+<!--            android:name="aim"-->
+<!--            app:argType="float" />-->
     </fragment>
 
     <fragment
@@ -111,9 +114,6 @@
             app:destination="@id/destination_listset"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
-        <action
-            android:id="@+id/action_destination_listaim_to_navigation_env"
-            app:destination="@id/navigation_env" />
     </fragment>
 
     <fragment

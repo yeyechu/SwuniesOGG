@@ -26,10 +26,8 @@ class EnvFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        Timber.i("onCreateView()")
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_env, container, false)
-        Timber.i("layout inflate")
 
         viewModel = ViewModelProvider(this).get(EnvViewModel::class.java)
         Timber.i("ViewModelProvider()")

@@ -24,6 +24,9 @@ class ListaimFragment  : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listaim, container, false)
 
+        val application = requireNotNull(this.activity).application
+        // val arguments = ListaimFragmentArgs
+
         binding.upButton.setOnClickListener { view: View ->
             view.findNavController().navigateUp()
         }
