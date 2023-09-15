@@ -5,6 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.swu.dimiz.ogg.ui.env.EnvFragment">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
+    </data>
+
     <!--
                      FrameLayout 위에 레이아웃을 하나하나 얹어 두었음
                      -> 레이아웃 계층 구조 확인하여 순서대로 올려야함
@@ -15,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/layer_env" />
+        <include
+            layout="@layout/layer_env" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/envToolbar"
@@ -36,6 +43,7 @@
             android:layout_marginBottom="@dimen/margin_floating_button"
             android:backgroundTint="@color/white"
             android:contentDescription="@string/destination_title_listset"
+            android:onClick="@{() -> viewModel.onFabClicked()}"
             tools:src="@drawable/env_button_edit_badge_floating" />
 
     </FrameLayout>

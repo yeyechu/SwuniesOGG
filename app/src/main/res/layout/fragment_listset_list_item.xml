@@ -27,6 +27,7 @@
             android:id="@+id/image_activity"
             android:layout_width="@dimen/icon_big"
             android:layout_height="@dimen/icon_big"
+            android:contentDescription="@string/description_myact_card_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/check_box"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,17 +37,18 @@
             android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextViewTextView"
+            android:text=""
             style="@style/StyleText.title"
             app:layout_constraintBottom_toTopOf="@+id/text_co2"
             app:layout_constraintStart_toEndOf="@+id/image_activity"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="지역 농산물 이용하기"/>
 
         <TextView
             android:id="@+id/text_co2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text=""
             style="@style/StyleText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_activity"

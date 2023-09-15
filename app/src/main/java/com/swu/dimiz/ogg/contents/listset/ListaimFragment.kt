@@ -12,29 +12,34 @@ import com.swu.dimiz.ogg.databinding.FragmentListaimBinding
 
 class ListaimFragment  : Fragment() {
 
-    private lateinit var binding : FragmentListaimBinding
+    //private lateinit var binding : FragmentListaimBinding
+    private var _binding: FragmentListaimBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
+        _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listaim, container, false)
 
         binding.upButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(
-                ListaimFragmentDirections
-                    .actionDestinationListaimToNavigationEnv()
-            )
+            view.findNavController().navigateUp()
         }
 
         binding.buttonSelection.setOnClickListener { view: View ->
+
             view.findNavController().navigate(
                 ListaimFragmentDirections
                     .actionDestinationListaimToDestinationListset())
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

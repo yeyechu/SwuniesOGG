@@ -19,10 +19,7 @@ class SettingsFragment : Fragment() {
             inflater, R.layout.fragment_settings, container, false)
 
         binding.upButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(
-                SettingsFragmentDirections
-                    .actionDestinationSettingsToDestinationMember()
-            )
+            view.findNavController().navigateUp()
         }
 
         return binding.root

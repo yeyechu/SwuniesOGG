@@ -20,10 +20,7 @@ class MemberFragment : Fragment() {
             inflater, R.layout.fragment_member, container, false)
 
         binding.upButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(
-                MemberFragmentDirections
-                    .actionDestinationMemberToNavigationEnv()
-            )
+            view.findNavController().navigateUp()
         }
 
         binding.buttonSettings.setOnClickListener { view: View ->

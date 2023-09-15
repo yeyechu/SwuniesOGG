@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.swu.dimiz.ogg.databinding.ActivityMainBinding
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
         navController.addOnDestinationChangedListener { _, destination, _ ->
-
+            //val toolbar = supportActionBar ?: return@addOnDestinationChangedListener
             if(destination.id == R.id.navigation_env
                 || destination.id == R.id.navigation_myact
                 || destination.id == R.id.navigation_graph
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                 bottomNavView.visibility = View.GONE
             }
         }
+        //setupActionBarWithNavController(navController, appBarConfiguration)
         binding.mainToolbar.setupWithNavController(navController, appBarConfiguration)
     }
 

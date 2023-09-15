@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.MaterialComponents.Chip.Choice"
+    android:layout_width="wrap_content"
+    android:layout_height="?attr/minTouchTargetSize"
+    android:padding="@dimen/padding_small"
+    android:textAppearance="@style/StyleText.subtitle"
+    android:textColor="@color/secondary_light_gray"
+    app:chipBackgroundColor="@color/selected_highlight"
+    app:chipEndPadding="@dimen/padding_small"
+    app:chipStartPadding="@dimen/padding_small"
+    app:chipStrokeColor="@color/secondary_light_gray"
+    app:chipStrokeWidth="@dimen/stroke_shape_regular"
+    app:chipSurfaceColor="@color/white"
+    tools:text="에너지">
+
+</com.google.android.material.chip.Chip>

@@ -4,11 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.swu.dimiz.ogg.oggdata.internalDatabase.*
 
-@Database(entities = [MyPost::class], version = 1, exportSchema = false)
+@Database(entities = [
+    MyPost::class,
+    ActivitiesDaily::class,
+    ActivitiesSustainable::class,
+    ActivitiesExtra::class], version = 1, exportSchema = false)
 abstract class OggDatabase: RoomDatabase() {
 
     abstract val myPostDatabaseDao: MyPostDatabaseDao
+    abstract val dailyDatabaseDao: ActivitiesDailyDatabaseDao
+    abstract val sustDatabaseDao: ActivitiesSustDatabaseDao
+    abstract val extraDatabaseDao: ActivitiesExtraDatabaseDao
 
     companion object {
 

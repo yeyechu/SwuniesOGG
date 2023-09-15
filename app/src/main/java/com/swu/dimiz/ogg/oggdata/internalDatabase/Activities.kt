@@ -30,12 +30,37 @@ data class ActivitiesDaily (
     @ColumnInfo(name = "daily_ways_to_post")
     var waytoPost: Boolean = false,
 
-    @ColumnInfo(name = "daily_image", typeAffinity = ColumnInfo.BLOB)
-    var image: ByteArray?,
+    //@ColumnInfo(name = "daily_image", typeAffinity = ColumnInfo.BLOB)
+    @ColumnInfo(name = "daily_image")
+    var image: ByteArray? = null,
 
     @ColumnInfo(name = "daily_guide_image", typeAffinity = ColumnInfo.BLOB)
-    var guideImage: ByteArray?
-        )
+    var guideImage: ByteArray? = null
+        ) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ActivitiesDaily
+
+        if (image != null) {
+            if (other.image == null) return false
+            if (!image.contentEquals(other.image)) return false
+        } else if (other.image != null) return false
+        if (guideImage != null) {
+            if (other.guideImage == null) return false
+            if (!guideImage.contentEquals(other.guideImage)) return false
+        } else if (other.guideImage != null) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = image?.contentHashCode() ?: 0
+        result = 31 * result + (guideImage?.contentHashCode() ?: 0)
+        return result
+    }
+}
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
 //                                      지속가능한 활동
@@ -61,10 +86,10 @@ data class ActivitiesSustainable (
     var waytoPost: Boolean = false,
 
     @ColumnInfo(name = "sust_image", typeAffinity = ColumnInfo.BLOB)
-    var image: ByteArray?,
+    var image: ByteArray? = null,
 
     @ColumnInfo(name = "sust_guide_image", typeAffinity = ColumnInfo.BLOB)
-    var guideImage: ByteArray?
+    var guideImage: ByteArray? = null
 )
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────

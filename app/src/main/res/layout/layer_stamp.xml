@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
+    </data>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_component"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/env_text_member_name"
@@ -47,7 +53,7 @@
             android:paddingStart="@dimen/padding_big"
             android:paddingTop="@dimen/padding_big"
             android:paddingEnd="@dimen/padding_big"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/image_stamp_today"

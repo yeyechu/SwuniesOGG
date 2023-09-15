@@ -7,15 +7,19 @@ import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentEnvBinding
 import timber.log.Timber
 
 class EnvFragment : Fragment() {
 
-    private lateinit var binding: FragmentEnvBinding
+    private var _binding: FragmentEnvBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var startButton: Button
     private lateinit var viewModel: EnvViewModel
 
@@ -23,12 +27,13 @@ class EnvFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         Timber.i("onCreateView()")
-        binding = DataBindingUtil.inflate(
+        _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_env, container, false)
         Timber.i("layout inflate")
 
         viewModel = ViewModelProvider(this).get(EnvViewModel::class.java)
         Timber.i("ViewModelProvider()")
+        binding.viewModel = viewModel
 
         //                      환경 수정 플로팅 버튼 정의
         binding.badgeEditButton.setColorFilter(
@@ -36,20 +41,35 @@ class EnvFragment : Fragment() {
         binding.badgeEditButton.foreground =
             ContextCompat.getDrawable(
             requireContext(), R.drawable.env_button_edit_badge_floating)
-        binding.badgeEditButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(
-                EnvFragmentDirections
-                    .actionNavigationEnvToDestinationMyenv()
-            )
-            viewModel.onClear()
-        }
+
+        viewModel.navigate.observe(viewLifecycleOwner, Observer<Boolean> { shouldNavigate ->
+            if(shouldNavigate) {
+                val navController = findNavController()
+                navController.navigate(
+                    EnvFragmentDirections.actionNavigationEnvToDestinationMyenv())
+                viewModel.onNavigated()
+            }
+        })
 
         //                      프로젝트 시작 버튼 정의
         startButton = binding.root.findViewById(R.id.env_button_start)
-        startButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.destination_listaim)
-            viewModel.onClear()
+        startButton.setOnClickListener {
+            viewModel.onStartClicked()
         }
+
+        viewModel.navigateToStart.observe(viewLifecycleOwner, Observer<Boolean> { shouldNavigate ->
+            if(shouldNavigate) {
+                val navController = findNavController()
+                navController.navigate(
+                    EnvFragmentDirections.actionNavigationEnvToDestinationListaim())
+                viewModel.onNavigatedToStart()
+            }
+
+        })
+//        startButton.setOnClickListener { view: View ->
+//            view.findNavController().navigate(
+//                EnvFragmentDirections.actionNavigationEnvToDestinationListaim())
+//        }
 
         return binding.root
     }
@@ -68,7 +88,6 @@ class EnvFragment : Fragment() {
                         EnvFragmentDirections
                             .actionNavigationEnvToDestinationBadgeList()
                     )
-                    viewModel.onClear()
                     true
                 }
                 R.id.action_my_page -> {
@@ -76,7 +95,6 @@ class EnvFragment : Fragment() {
                         EnvFragmentDirections
                             .actionNavigationEnvToDestinationMember()
                     )
-                    viewModel.onClear()
                     true
                 }
                 else -> false
@@ -118,6 +136,7 @@ class EnvFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.i("onDestroyView()")
+        _binding = null
     }
 
     override fun onDestroy() {

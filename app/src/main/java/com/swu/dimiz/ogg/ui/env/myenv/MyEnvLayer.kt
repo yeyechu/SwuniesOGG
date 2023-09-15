@@ -23,20 +23,17 @@ class MyEnvLayer : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate( inflater, R.layout.layer_env, container, false)
 //        _binding = LayerEnvBinding.inflate(inflater, container, false)
 
         //                                    뒤로가기 버튼
         binding.upButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(
-                MyEnvLayerDirections
-                    .actionDestinationMyenvToNavigationEnv()
-            )
+            view.findNavController().navigateUp()
         }
 
         binding.buttonSave.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.navigation_env)
+            view.findNavController().navigateUp()
         }
 
         // ────────────────────────────────────────────────────────────────────────────────────────
