@@ -23,13 +23,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="">
 
-            <ImageButton
-                android:id="@+id/upButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/description_common_button_exit"
-                style="@style/StyleUpButton" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,8 +99,5 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
         </androidx.recyclerview.widget.RecyclerView>
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

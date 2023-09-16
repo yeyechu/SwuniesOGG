@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.LayerEnvBinding
@@ -25,12 +28,6 @@ class MyEnvLayer : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate( inflater, R.layout.layer_env, container, false)
-//        _binding = LayerEnvBinding.inflate(inflater, container, false)
-
-        //                                    뒤로가기 버튼
-        binding.upButton.setOnClickListener { view: View ->
-            view.findNavController().navigateUp()
-        }
 
         binding.buttonSave.setOnClickListener { view: View ->
             view.findNavController().navigateUp()
@@ -70,6 +67,12 @@ class MyEnvLayer : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     override fun onDestroyView() {

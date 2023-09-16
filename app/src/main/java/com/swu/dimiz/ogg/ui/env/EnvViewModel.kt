@@ -3,6 +3,8 @@ package com.swu.dimiz.ogg.ui.env
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
 
 class EnvViewModel : ViewModel() {
@@ -10,6 +12,8 @@ class EnvViewModel : ViewModel() {
     // 회원 이름
     // 프로젝트 진행 여부
     // SavedStateHandle 알아보기
+    private val disposable: Disposable? = null
+
     private val _navigate = MutableLiveData<Boolean>()
     val navigate: LiveData<Boolean>
         get() = _navigate
@@ -38,12 +42,11 @@ class EnvViewModel : ViewModel() {
         _navigateToStart.value = false
     }
 
-    fun onClear() {
-        onCleared()
-    }
-
     override fun onCleared() {
         super.onCleared()
         Timber.i("ViewModel destroyed")
+        if(disposable?.isDisposed == false) {
+            disposable?.dispose()
+        }
     }
 }

@@ -33,6 +33,12 @@
     <!--                              피드페이지에서 접근하는 모든 페이지                             -->
 
 
+    <!-- ──────────────────────────────────────    수치    ────────────────────────────────────── -->
+    <!--                            콘텐츠와 관련된 주요한 수치들은 이곳에 명시                          -->
+    <string name="co2_aim1_turtle">1.4</string>
+    <string name="co2_aim2_seal">2.78</string>
+    <string name="co2_aim3_dolphin">5.22</string>
+    
     <!-- ──────────────────────────────────────    설명    ────────────────────────────────────── -->
     <!--                모든 PNG에 들어가는 contentDescription 속성은 이곳에 선언되어야 함              -->
     <!--                                   description_리소스명                                   -->
@@ -77,8 +83,8 @@
     <string name="listaim_text_two_title">중수물개</string>
     <string name="listaim_text_three_title">고수돌고래</string>
 
-    <string name="listaim_text_instruction_one">활동 목표에 대한 설명1</string>
-    <string name="listaim_text_instruction_two">활동 목표에 대한 설명2</string>
+    <string name="listaim_text_instruction_one">1톤의 %s</string>
+    <string name="listaim_text_instruction_two">%.2f kg 목표</string>
 
     <string name="listaim_button">선택하기</string>
 

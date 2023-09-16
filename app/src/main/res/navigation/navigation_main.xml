@@ -93,21 +93,21 @@
             android:id="@+id/action_destination_listset_to_destination_listaim"
             app:destination="@id/destination_listaim"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/navigation_main" />
         <action
             android:id="@+id/action_destination_listset_to_navigation_env"
             app:destination="@id/navigation_env"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out" />
-<!--        <argument-->
-<!--            android:name="aim"-->
-<!--            app:argType="float" />-->
+        <argument
+            android:name="aimCo2Amount"
+            app:argType="float" />
     </fragment>
 
     <fragment
         android:id="@+id/destination_listaim"
         android:name="com.swu.dimiz.ogg.contents.listset.ListaimFragment"
-        android:label="@string/destination_title_listaim"
         tools:layout="@layout/fragment_listaim" >
         <action
             android:id="@+id/action_destination_listaim_to_destination_listset"
@@ -119,7 +119,6 @@
     <fragment
         android:id="@+id/destination_settings"
         android:name="com.swu.dimiz.ogg.member.settings.SettingsFragment"
-        android:label="@string/destination_title_settings"
         tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_destination_settings_to_destination_member"

@@ -3,6 +3,7 @@ package com.swu.dimiz.ogg.contents.listset
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import timber.log.Timber
 
 class ListsetViewModel: ViewModel() {
 
@@ -15,6 +16,7 @@ class ListsetViewModel: ViewModel() {
 
     init {
         getFilters()
+        Timber.i("created")
     }
 
     private fun getFilters() {
@@ -45,5 +47,10 @@ class ListsetViewModel: ViewModel() {
             }
             return false
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.i("destroyed")
     }
 }

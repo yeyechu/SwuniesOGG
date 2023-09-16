@@ -30,7 +30,6 @@ class EnvFragment : Fragment() {
             inflater, R.layout.fragment_env, container, false)
 
         viewModel = ViewModelProvider(this).get(EnvViewModel::class.java)
-        Timber.i("ViewModelProvider()")
         binding.viewModel = viewModel
 
         //                      환경 수정 플로팅 버튼 정의
@@ -133,8 +132,8 @@ class EnvFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.i("onDestroyView()")
         _binding = null
+        Timber.i("onDestroyView()")
     }
 
     override fun onDestroy() {
