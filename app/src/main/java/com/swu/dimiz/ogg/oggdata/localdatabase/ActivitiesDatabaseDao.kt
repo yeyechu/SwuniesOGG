@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.oggdata.internalDatabase
+package com.swu.dimiz.ogg.oggdata.localdatabase
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

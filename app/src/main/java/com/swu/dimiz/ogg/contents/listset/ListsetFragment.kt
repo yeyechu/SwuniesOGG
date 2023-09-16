@@ -8,36 +8,52 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.chip.Chip
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
-import com.swu.dimiz.ogg.ui.env.EnvViewModel
+import com.swu.dimiz.ogg.oggdata.OggDatabase
 import timber.log.Timber
 
 class ListsetFragment : Fragment() {
 
     private var _binding : FragmentListsetBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: ListsetViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private lateinit var viewModel: ListsetViewModel
+    private lateinit var navController: NavController
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                    기본 초기화
+
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listset, container, false)
 
-        viewModel = ViewModelProvider(this).get(ListsetViewModel::class.java)
-        binding.viewModel = viewModel
-
+        navController = findNavController()
 
         val application = requireNotNull(this.activity).application
-        val arguments = ListsetFragmentArgs.fromBundle(requireArguments())
+        val dataSource = OggDatabase.getInstance(application).listSetDatabaseDao
+        val viewModelFactory = ListsetViewModelFactory(dataSource, application)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ListsetViewModel::class.java)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this.viewLifecycleOwner
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                               활동 목표를 받아와 출력
+
+        val listsetFragmentArgs by navArgs<ListsetFragmentArgs>()
+        binding.textAim.text = listsetFragmentArgs.aimCo2Amount.toString()
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                     카테고리 출력
 
         viewModel.activityList.observe(viewLifecycleOwner, object : Observer<List<String>> {
             override fun onChanged(value: List<String>) {
@@ -62,20 +78,22 @@ class ListsetFragment : Fragment() {
             }
         })
 
-        binding.buttonAllset.setOnClickListener { view: View ->
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                     완료 버튼을 누르면 저장 후 화면을 이동시키는 관찰자
 
-            Timber.i("완료 버튼 클릭")
-            // viewModel 문제 해결 필요
-            view.findNavController().navigate(
-                R.id.navigation_env)
-            // 메모리 누수 확인 필요
-        }
+        viewModel.navigateToSave.observe(viewLifecycleOwner, Observer { shouldNavigate ->
+            if(shouldNavigate) {
+                navController.navigate(R.id.navigation_env)
+                viewModel.onNavigatedToSave()
+                Timber.i("완료 버튼 클릭")
+                // 메모리 누수 확인 필요
+            }
+        })
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }

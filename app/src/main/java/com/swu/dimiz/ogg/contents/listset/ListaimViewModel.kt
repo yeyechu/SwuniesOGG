@@ -3,7 +3,6 @@ package com.swu.dimiz.ogg.contents.listset
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
 
 class ListaimViewModel : ViewModel() {
@@ -27,12 +26,6 @@ class ListaimViewModel : ViewModel() {
     private val _navigateToSelection = MutableLiveData<Boolean>()
     val navigateToSelection: LiveData<Boolean>
         get() = _navigateToSelection
-
-    private val _navigateToBack = MutableLiveData<Boolean>()
-    val navigateToBack: LiveData<Boolean>
-        get() = _navigateToBack
-
-
 
     init {
         _aimCo2.value = AIMCO2_ONE

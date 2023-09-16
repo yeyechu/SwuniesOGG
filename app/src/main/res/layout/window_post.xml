@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -24,6 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
             <ImageView
                 android:id="@+id/button_exit"
                 style="@style/StyleImageButton"
@@ -44,22 +45,17 @@
                 app:layout_constraintTop_toBottomOf="@id/button_exit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="인증이 완료되었어요!" />
+                tools:text="가까운 거리는 걷기" />
 
             <TextView
-                android:id="@+id/text_body"
-                style="@style/StyleText"
+                android:id="@+id/text_co2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="@dimen/text_size_body_small"
-                android:text=""
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                style="@style/StyleText"
+                android:text="@string/post_text_co2"
                 app:layout_constraintTop_toBottomOf="@id/text_title"
-                tools:text="오늘도 지구를 지켰어요 오늘도 지구를 지켰어요 오늘도 지구를 지켰어요 오늘도 지구를 지켰어요" />
-
-
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

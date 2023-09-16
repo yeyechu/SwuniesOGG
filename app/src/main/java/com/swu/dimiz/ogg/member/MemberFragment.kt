@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,13 +20,17 @@ class MemberFragment : Fragment() {
 
     private var _binding: FragmentMemberBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var navController: NavController
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_member, container, false)
 
+        navController = findNavController()
+
         binding.buttonSettings.setOnClickListener { view: View ->
-            view.findNavController().navigate(
+            navController.navigate(
                 R.id.destination_settings
             )
         }
@@ -33,7 +38,6 @@ class MemberFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }

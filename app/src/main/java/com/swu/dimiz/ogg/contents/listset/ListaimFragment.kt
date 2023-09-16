@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -21,17 +21,24 @@ class ListaimFragment : Fragment() {
     private var _binding: FragmentListaimBinding? = null
     private val binding get() = _binding!!
 
-    private var aimCo2Amount = 0f
     private lateinit var viewModel: ListaimViewModel
+    private lateinit var navController: NavController
+
+    private var aimCo2Amount = 0f
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                    기본 초기화
+
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listaim, container, false)
 
+        navController = findNavController()
+
         viewModel = ViewModelProvider(this).get(ListaimViewModel::class.java)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel
 
 
@@ -39,16 +46,15 @@ class ListaimFragment : Fragment() {
         //                       활동 목표 선택 버튼 누르면 내용을 변경하는 관찰자
         //                            변경될 내용들은 ViewModel에 정의
 
-        viewModel.aimCo2.observe(viewLifecycleOwner, Observer { co2 ->
-            aimCo2Amount = co2
+        viewModel.aimCo2.observe(viewLifecycleOwner) {
+            aimCo2Amount = it
             viewModel.setAimTitle(aimCo2Amount)
-        })
+        }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                          선택 버튼을 누르면 화면을 이동시키는 관찰자
         viewModel.navigateToSelection.observe(viewLifecycleOwner, Observer<Boolean> { shouldNavigate ->
             if(shouldNavigate) {
-                val navController = findNavController()
                 navController.navigate(
                     ListaimFragmentDirections.actionDestinationListaimToDestinationListset(aimCo2Amount)
                 )
@@ -61,7 +67,6 @@ class ListaimFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }

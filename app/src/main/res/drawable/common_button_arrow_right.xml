@@ -1,5 +1,17 @@
-<vector android:autoMirrored="true" android:height="36dp"
-    android:tint="#000000" android:viewportHeight="24"
-    android:viewportWidth="24" android:width="36dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@android:color/white" android:pathData="M8.59,16.59L13.17,12 8.59,7.41 10,6l6,6 -6,6 -1.41,-1.41z"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/icon_resource_size"
+    android:height="@dimen/icon_resource_size"
+    android:viewportWidth="240"
+    android:viewportHeight="240">
+  <group>
+    <clip-path
+        android:pathData="M0,0h240v240h-240z"/>
+    <path
+        android:pathData="M75,24L165,120.5L75,217"
+        android:strokeLineJoin="round"
+        android:strokeWidth="15"
+        android:fillColor="#00000000"
+        android:strokeColor="#404040"
+        android:strokeLineCap="round"/>
+  </group>
 </vector>
