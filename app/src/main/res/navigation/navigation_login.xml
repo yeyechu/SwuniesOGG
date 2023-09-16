@@ -3,18 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_login"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/signinFragment">
 
     <include app:graph="@navigation/navigation_main" />
 
     <fragment
-        android:id="@+id/loginFragment"
+        android:id="@+id/signinFragment"
         android:name="com.swu.dimiz.ogg.member.login.SigninFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_signin">
         <action
             android:id="@+id/action_fragment_login_to_navigation_main"
             app:destination="@+id/navigation_main" />
+        <action
+            android:id="@+id/action_signinFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.swu.dimiz.ogg.member.login.SignupFragment"
+        android:label="SignupFragment" />
 
 </navigation>

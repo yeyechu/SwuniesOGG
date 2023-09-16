@@ -143,5 +143,10 @@
     <!-- ──────────────────────────────────────  회원메뉴  ────────────────────────────────────── -->
     <string name="settings_"> </string>
     <!-- 회원 가입 -->
-
+    <string name="signin">로그인</string>
+    <string name="signup">회원가입</string>
+    <string name="nickname">닉네임</string>
+    <string name="id">아이디</string>
+    <string name="password">비밀번호</string>
+    <string name="send_email">이메일 인증 보내기</string>
 </resources>

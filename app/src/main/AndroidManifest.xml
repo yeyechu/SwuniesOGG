@@ -13,10 +13,10 @@
         android:theme="@style/Theme.SwuniesOGG"
         tools:targetApi="31">
         <activity
-            android:name=".member.login.SignInActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".member.login.SignInActivity"
             android:exported="true"
             android:label="">
             <intent-filter>
