@@ -15,6 +15,7 @@ class MyActFragment : Fragment() {
 
     private var _binding: FragmentMyActBinding? = null
     private val binding get() = _binding!!
+
     private var balloon_sus: Balloon? = null // Balloon 변수 추가
     private var balloon_extra: Balloon? = null
 
@@ -25,7 +26,6 @@ class MyActFragment : Fragment() {
     ): View? {
         _binding = FragmentMyActBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
 
 
         //tooltip 버튼

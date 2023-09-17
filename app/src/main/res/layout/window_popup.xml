@@ -14,7 +14,7 @@
         android:background="@color/transparency_dimmed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_popup_big"
             android:layout_margin="@dimen/margin_big"
@@ -27,8 +27,8 @@
             <ImageView
                 android:id="@+id/button_exit"
                 style="@style/StyleImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="@dimen/icon_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +58,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_title"
                 tools:text="오늘도 지구를 지켰어요 오늘도 지구를 지켰어요 오늘도 지구를 지켰어요 오늘도 지구를 지켰어요" />
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/image_resouce_size"
+                android:layout_height="@dimen/image_resouce_size"
+                android:src="@drawable/common_image_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_body" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_completed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/StyleButtonOgg"
+                android:text="@string/post_button_completed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

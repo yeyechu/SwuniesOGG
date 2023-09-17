@@ -130,10 +130,11 @@
     <string name="camera_button_use_photo">인증 올리기</string>
 
     <!-- 인증 완료 팝업 -->
-    <string name="post_complete_title">인증이 완료되었어요!</string>
-    <string name="post_complete_info">인증을 확인하려면 피드를,\n환경 변화를 확인하려면 환경을 선택해주세요</string>
-    <string name="post_to_feed_text">피드 확인하기</string>
-    <string name="post_to_env_text">환경 확인하기</string>
+    <string name="post_text_title_completed">인증이 완료되었어요!</string>
+    <string name="post_text_body_completed">인증을 확인하려면 피드를,\n환경 변화를 확인하려면 환경을 선택해주세요</string>
+    <string name="post_button_completed">확인</string>
+    <string name="post_button_to_feed_text">피드 확인하기</string>
+    <string name="post_button_to_env_text">환경 확인하기</string>
 
 
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->

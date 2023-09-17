@@ -4,13 +4,17 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.swu.dimiz.ogg.oggdata.localdatabase.ListDatabaseDao
+import com.swu.dimiz.ogg.oggdata.localdatabase.ListSet
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 class ListsetViewModel(
     val database: ListDatabaseDao,
     application: Application) : AndroidViewModel(application) {
+
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private var filter = FilterHolder()
     private val category = mutableListOf("에너지", "소비", "이동수단", "자원순환")
@@ -23,9 +27,61 @@ class ListsetViewModel(
     val navigateToSave: LiveData<Boolean>
         get() = _navigateToSave
 
+    // ───────────────────────────────────────────────────────────────────────────────────
+    // 활동 등록에서는
+    // - 불러올 DB 없음
+    // - 진행 상황 표시 필요
+
+    // 활동 수정에서는
+    // 오늘 + 오늘 이후 전체를 불러올 필요가 있음
+    // fun getLeftItem(num: Int) : LiveData<List<ListSet>>
+    // fun getTodayItem(key: Long): ListSet
+    // 목표 탄소량 불러와야함
+    private val _date = MutableLiveData<Int>()
+    val date: LiveData<Int>
+        get() = _date
+
+    private var today = MutableLiveData<ListSet?>()
+    private val days = database.getAllItem()
+
     init {
+        _date.value = 0
         getFilters()
+        initializeToday()
         Timber.i("created")
+    }
+
+    private fun initializeToday() {
+        uiScope.launch {
+            today.value = getTodayFromDatabase()
+        }
+    }
+
+    private suspend fun getTodayFromDatabase(): ListSet? {
+        return withContext(Dispatchers.IO) {
+            var day = database.getTodayItem(_date.value!!)
+
+            if(day?.listId != _date.value) {
+                day = null
+            }
+            day
+        }
+    }
+
+    fun createList() {
+        uiScope.launch {
+            val newItem = ListSet()
+            insert(newItem)
+            today.value = getTodayFromDatabase()
+        }
+    }
+
+    private suspend fun insert(day: ListSet) {
+        withContext(Dispatchers.IO) {
+            for(i in 1..21) {
+                database.insert(day)
+            }
+        }
     }
 
     private fun getFilters() {
@@ -67,6 +123,7 @@ class ListsetViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        viewModelJob.cancel()
         Timber.i("destroyed")
     }
 }

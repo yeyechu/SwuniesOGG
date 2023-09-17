@@ -6,8 +6,10 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.swu.dimiz.ogg.oggdata.MyPost
 import com.swu.dimiz.ogg.oggdata.MyPostDatabaseDao
 import com.swu.dimiz.ogg.oggdata.OggDatabase
-import com.swu.dimiz.ogg.oggdata.internalDatabase.ActivitiesDaily
-import com.swu.dimiz.ogg.oggdata.internalDatabase.ActivitiesDailyDatabaseDao
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDailyDatabaseDao
+import com.swu.dimiz.ogg.oggdata.localdatabase.ListDatabaseDao
+import com.swu.dimiz.ogg.oggdata.localdatabase.ListSet
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -19,9 +21,11 @@ import java.io.IOException
 class OggDatabaseTest {
 
     private lateinit var postDao: MyPostDatabaseDao
+    private lateinit var actDao: ActivitiesDailyDatabaseDao
+    private lateinit var listDao: ListDatabaseDao
+
     private lateinit var db: OggDatabase
 
-    private lateinit var actDao: ActivitiesDailyDatabaseDao
 
     @Before
     fun createDB() {
@@ -32,6 +36,7 @@ class OggDatabaseTest {
 
         postDao = db.myPostDatabaseDao
         actDao = db.dailyDatabaseDao
+        listDao = db.listSetDatabaseDao
     }
 
     @After
@@ -56,5 +61,14 @@ class OggDatabaseTest {
         actDao.insert(daily)
         val day = actDao.getDaily()
         assertEquals(day?.freq, 0)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun insertAndGetList() {
+        val list = ListSet()
+        listDao.insert(list)
+        val listSet = listDao.getItem()
+        assertEquals(list?.listId, 1)
     }
 }

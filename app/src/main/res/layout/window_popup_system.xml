@@ -14,7 +14,7 @@
         android:background="@color/transparency_dimmed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_big"
             android:background="@drawable/common_layer_window_rounded"
@@ -45,6 +45,7 @@
                 android:layout_marginStart="@dimen/margin_big"
                 android:layout_marginEnd="@dimen/margin_big"
                 android:layout_marginBottom="@dimen/margin_default"
+                android:lineSpacingExtra="@dimen/text_size_body_small"
                 android:text=""
                 android:textAlignment="center"
                 app:layout_constraintBottom_toTopOf="@id/button_left"

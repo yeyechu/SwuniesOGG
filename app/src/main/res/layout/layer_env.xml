@@ -68,7 +68,8 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/bottom_sheet_scroll_height"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:contentDescription="@string/description_scroll">
 
                 <include
                     layout="@layout/layer_env_item_bottom_sheet" />
