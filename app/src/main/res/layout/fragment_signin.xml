@@ -15,11 +15,11 @@
 
         <!--물결 이미지-->
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/signin_bg"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@drawable/myact_image_appbar"
-            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintBottom_toTopOf="@+id/logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +27,7 @@
 
         <!--로고 이미지-->
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="로고"
@@ -50,7 +50,7 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5">
+            app:layout_constraintTop_toBottomOf="@+id/logo">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -86,33 +86,33 @@
             tools:layout_editor_absoluteX="16dp">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/signin_to_signup_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sinin_text_sinup"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/sign_up_btn"
+                app:layout_constraintEnd_toStartOf="@+id/signin_to_signup_btn"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/sign_up_btn"
+                android:id="@+id/signin_to_signup_btn"
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/signup"
                 android:textColor="@color/primary_blue"
-                app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                app:layout_constraintBottom_toBottomOf="@+id/signin_to_signup_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textView6"
-                app:layout_constraintTop_toTopOf="@+id/textView6" />
+                app:layout_constraintStart_toEndOf="@+id/signin_to_signup_info"
+                app:layout_constraintTop_toTopOf="@+id/signin_to_signup_info" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!--로그인 버튼-->
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sign_in_btn"
+            android:id="@+id/signin_btn"
             style="@style/StyleButtonOgg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -131,45 +131,45 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in_btn"
+            app:layout_constraintTop_toBottomOf="@+id/signin_btn"
             android:layout_margin="@dimen/margin_default"
             >
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/signin_to_find_id_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sinin_button_find_id"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textView8"
+                app:layout_constraintEnd_toStartOf="@+id/blank"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/blank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="|"
                 android:layout_margin="@dimen/margin_default"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/sign_up_btn2"
+                app:layout_constraintEnd_toStartOf="@+id/signin_to_find_password_btn"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@+id/textView7"
+                app:layout_constraintStart_toEndOf="@+id/signin_to_find_id_btn"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/sign_up_btn2"
+                android:id="@+id/signin_to_find_password_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sinin_button_find_password"
-                app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                app:layout_constraintBottom_toBottomOf="@+id/signin_to_find_id_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textView8"
-                app:layout_constraintTop_toTopOf="@+id/textView7" />
+                app:layout_constraintStart_toEndOf="@+id/blank"
+                app:layout_constraintTop_toTopOf="@+id/signin_to_find_id_btn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
