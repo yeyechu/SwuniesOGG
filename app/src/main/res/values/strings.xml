@@ -27,6 +27,7 @@
     <string name="destination_title_popup">팝업</string>
     <string name="destination_title_camera">카메라</string>
     <string name="destination_title_post">인증 등록</string>
+    <string name="destination_title_listchanger">활동 수정</string>
 
     <!--                              통계페이지에서 접근하는 모든 페이지                             -->
 

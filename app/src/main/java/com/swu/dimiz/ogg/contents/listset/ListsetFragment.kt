@@ -13,10 +13,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import com.google.android.material.chip.Chip
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import timber.log.Timber
 
 class ListsetFragment : Fragment() {
@@ -39,7 +42,7 @@ class ListsetFragment : Fragment() {
         navController = findNavController()
 
         val application = requireNotNull(this.activity).application
-        val dataSource = OggDatabase.getInstance(application).listSetDatabaseDao
+        val dataSource = OggDatabase.getInstance(application)
         val viewModelFactory = ListsetViewModelFactory(dataSource, application)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(ListsetViewModel::class.java)
@@ -75,6 +78,7 @@ class ListsetFragment : Fragment() {
                 for(chip in children) {
                     chipGroup.addView(chip)
                 }
+                //viewModel.insert(ActivitiesDaily())
             }
         })
 
@@ -88,6 +92,10 @@ class ListsetFragment : Fragment() {
                 Timber.i("완료 버튼 클릭")
                 // 메모리 누수 확인 필요
             }
+        })
+
+        viewModel.getAllData.observe(viewLifecycleOwner, Observer {
+            Timber.i("$it")
         })
 
         return binding.root

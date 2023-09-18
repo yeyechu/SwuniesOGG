@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.skydoves.balloon.*
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
@@ -27,6 +28,12 @@ class MyActFragment : Fragment() {
         _binding = FragmentMyActBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        binding.buttonTodayActEdit.setOnClickListener { view: View ->
+            view.findNavController().navigate(
+                MyActFragmentDirections
+                    .actionNavigationMyactToDestinationListchanger()
+            )
+        }
 
         //tooltip 버튼
         binding.sustainableActInfo.setOnClickListener {

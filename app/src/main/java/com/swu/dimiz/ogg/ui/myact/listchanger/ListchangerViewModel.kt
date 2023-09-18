@@ -1,19 +1,18 @@
-package com.swu.dimiz.ogg.contents.listset
+package com.swu.dimiz.ogg.ui.myact.listchanger
 
 import android.app.Application
-import androidx.lifecycle.*
-import com.swu.dimiz.ogg.oggdata.OggDatabase
-import com.swu.dimiz.ogg.oggdata.OggRepository
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDailyDatabaseDao
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.swu.dimiz.ogg.oggdata.localdatabase.ListDatabaseDao
 import com.swu.dimiz.ogg.oggdata.localdatabase.ListSet
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class ListsetViewModel(
-    val database: OggDatabase,
-    application: Application) : AndroidViewModel(application) {
+class ListchangerViewModel(
+    val database: ListDatabaseDao,
+    application: Application
+) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -29,44 +28,60 @@ class ListsetViewModel(
     val navigateToSave: LiveData<Boolean>
         get() = _navigateToSave
 
-    val getAllData: LiveData<List<ActivitiesDaily>>
-    private val repository: OggRepository
-
     // ───────────────────────────────────────────────────────────────────────────────────
-    // 활동 등록에서는
-    // - 불러올 DB 없음
-    // - 진행 상황 표시 필요
 
+    // 활동 수정에서는
+    // 오늘 + 오늘 이후 전체를 불러올 필요가 있음
+    // fun getLeftItem(num: Int) : LiveData<List<ListSet>>
+    // fun getTodayItem(key: Long): ListSet
+    // 목표 탄소량 불러와야함
+    private val _date = MutableLiveData<Int>()
+    val date: LiveData<Int>
+        get() = _date
+
+    private var today = MutableLiveData<ListSet?>()
+    private val days = database.getAllItem()
 
     init {
-        val dailyDao = OggDatabase.getInstance(application)!!.dailyDatabaseDao
-        repository = OggRepository(database)
-        getAllData = repository.getAlldata.asLiveData()
+        _date.value = 0
         getFilters()
+        initializeToday()
         Timber.i("created")
     }
 
-    fun insert(daily: ActivitiesDaily) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(daily)
+    private fun initializeToday() {
+        uiScope.launch {
+            today.value = getTodayFromDatabase()
         }
     }
 
-
-//    fun createList() {
-//        uiScope.launch {
-//            val newItem = ListSet()
-//            insert(newItem)
-//        }
-//    }
-
-//    private suspend fun insert(day: ListSet) {
-//        withContext(Dispatchers.IO) {
-//            for(i in 1..21) {
-//                //database.insert(day)
+    private suspend fun getTodayFromDatabase(): ListSet? {
+//        return withContext(Dispatchers.IO) {
+//            var day = database.getTodayItem(_date.value!!)
+//
+//            if(day?.listId != _date.value) {
+//                day = null
 //            }
+//            day
 //        }
-//    }
+        return null
+    }
+
+    fun createList() {
+        uiScope.launch {
+            val newItem = ListSet()
+            insert(newItem)
+            today.value = getTodayFromDatabase()
+        }
+    }
+
+    private suspend fun insert(day: ListSet) {
+        withContext(Dispatchers.IO) {
+            for(i in 1..21) {
+                database.insert(day)
+            }
+        }
+    }
 
     private fun getFilters() {
         category.let {
@@ -79,7 +94,7 @@ class ListsetViewModel(
     fun onFilterChanged(filter: String, isChecked: Boolean) {
         if(this.filter.update(filter, isChecked)) {
             getFilters()
-            }
+        }
     }
 
     private class FilterHolder {

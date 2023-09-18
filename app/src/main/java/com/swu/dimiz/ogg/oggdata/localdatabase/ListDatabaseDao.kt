@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ListDatabaseDao {
@@ -15,18 +16,25 @@ interface ListDatabaseDao {
     @Update
     fun update(data: ListSet)
 
+    @Update
+    fun updateLists(vararg lists: ListSet)
 
-    // 오늘 이후 남은 전체 리스트를 가져옴
-    // num은 21 - 오늘 + 1
-    @Query("SELECT * FROM list_set ORDER BY listId DESC LIMIT :num")
-    fun getLeftItem(num: Int) : LiveData<List<ListSet>>
+    // 활동 출력
+    @Query("SELECT activity FROM list_set WHERE day = :today")
+    fun getTodayList(today: Int) : LiveData<List<Int>>
 
+    // 활동 수정 : 오늘 이후 남은 선택된 순번째의 activity 코드 리스트를 가져옴
+    // suspend로 바꾸기
+    @Query("SELECT activity FROM list_set WHERE day >= :today" + " AND ordering = :select")
+    fun getLeftItem(today: Int, select: Int) : LiveData<List<Int>>
+
+    // 활동 수정 : 오늘 리스트에서 해당 순번째 활동을 가져옴
+    @Query("SELECT activity FROM list_set WHERE day = :today AND ordering = :select")
+    fun getTodayItem(today: Int, select: Int): LiveData<List<Int>>
+
+    // suspend로 바꾸기
     @Query("SELECT * FROM list_set")
-    fun getAllItem() : LiveData<List<ListSet>>
-
-    // 오늘 리스트만 가져옴
-    @Query("SELECT * FROM list_set WHERE listId = :key")
-    fun getTodayItem(key: Int): ListSet?
+    fun getAllItem() : Flow<List<ListSet>>
 
     // 테스트용으로 넣음
     @Query("SELECT * FROM list_set ORDER BY listId DESC LIMIT 1")

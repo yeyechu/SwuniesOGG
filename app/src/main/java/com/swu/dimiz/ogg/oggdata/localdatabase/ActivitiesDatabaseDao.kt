@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ActivitiesDailyDatabaseDao {
@@ -12,13 +13,16 @@ interface ActivitiesDailyDatabaseDao {
     @Insert
     fun insert(act: ActivitiesDaily)
 
+    @Insert
+    suspend fun addData(acts: List<ActivitiesDaily>)
+
     @Update
     fun update(act: ActivitiesDaily)
 
-    @Query("SELECT * FROM daily_activities")
-    fun getAllDailys() : LiveData<List<ActivitiesDaily>>
+    @Query("SELECT * FROM daily")
+    fun getAllDailys() : Flow<List<ActivitiesDaily>>
 
-    @Query("SELECT * FROM daily_activities" + " ORDER BY dailyId DESC LIMIT 1")
+    @Query("SELECT * FROM daily" + " ORDER BY dailyId DESC LIMIT 1")
     fun getDaily(): ActivitiesDaily?
 }
 
@@ -28,10 +32,13 @@ interface ActivitiesSustDatabaseDao {
     @Insert
     fun insert(act: ActivitiesSustainable)
 
+    @Insert
+    suspend fun addData(acts: List<ActivitiesSustainable>)
+
     @Update
     fun update(act: ActivitiesSustainable)
 
-    @Query("SELECT * FROM sustainable_activities")
+    @Query("SELECT * FROM sust")
     fun getAllSusts() : LiveData<List<ActivitiesSustainable>>
 }
 
@@ -41,9 +48,12 @@ interface ActivitiesExtraDatabaseDao {
     @Insert
     fun insert(act: ActivitiesExtra)
 
+    @Insert
+    suspend fun addData(acts: List<ActivitiesExtra>)
+
     @Update
     fun update(act: ActivitiesExtra)
 
-    @Query("SELECT * FROM extra_activities")
+    @Query("SELECT * FROM extra")
     fun getAllExtras() : LiveData<List<ActivitiesExtra>>
 }

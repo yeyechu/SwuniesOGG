@@ -13,9 +13,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            >
+            android:layout_height="wrap_content">
 
             <!--상단 콘텐츠-->
             <!-- 멤버 이름 텍스트 -->
@@ -101,14 +99,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/myact_text_title_today"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/today_act_edit_button"
+                        app:layout_constraintEnd_toStartOf="@+id/button_today_act_edit"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/today_act_edit_button"
+                        android:id="@+id/button_today_act_edit"
                         style="@style/StyleButtonOgg.smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/icon_middle"

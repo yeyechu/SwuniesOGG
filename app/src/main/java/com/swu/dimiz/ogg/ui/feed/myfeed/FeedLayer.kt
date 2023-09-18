@@ -23,13 +23,12 @@ class FeedLayer : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.layer_my_feed, container, false)
 
         val application = requireNotNull(this.activity).application
-        val dataSource = OggDatabase.getInstance(application).myPostDatabaseDao
+        //val dataSource = OggDatabase.getInstance(application).myPostDatabaseDao
 
-        val viewModelFactory = FeedLayerViewModelFactory(dataSource, application)
-        val feedLayerViewModel = ViewModelProvider(
-            this, viewModelFactory).get(FeedLayerViewModel::class.java)
+        //val viewModelFactory = FeedLayerViewModelFactory(dataSource, application)
+        //val feedLayerViewModel = ViewModelProvider(this, viewModelFactory).get(FeedLayerViewModel::class.java)
 
-        binding.feedLayerViewModel = feedLayerViewModel
+        //binding.feedLayerViewModel = feedLayerViewModel
         binding.lifecycleOwner = this
 
         return binding.root

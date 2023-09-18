@@ -32,7 +32,11 @@
     <fragment
         android:id="@+id/navigation_myact"
         android:name="com.swu.dimiz.ogg.ui.myact.MyActFragment"
-        tools:layout="@layout/fragment_my_act" />
+        tools:layout="@layout/fragment_my_act" >
+        <action
+            android:id="@+id/action_navigation_myact_to_destination_listchanger"
+            app:destination="@id/destination_listchanger" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_graph"
@@ -126,5 +130,10 @@
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right" />
     </fragment>
+
+    <fragment
+        android:id="@+id/destination_listchanger"
+        android:name="com.swu.dimiz.ogg.ui.myact.listchanger.ListchangerFragment"
+        tools:layout="@layout/fragment_listchanger"/>
 
 </navigation>

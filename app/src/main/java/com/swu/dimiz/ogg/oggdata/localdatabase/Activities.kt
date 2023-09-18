@@ -1,16 +1,19 @@
 package com.swu.dimiz.ogg.oggdata.localdatabase
 
+import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
 //                                       매일 활동
-@Entity(tableName = "daily_activities")
+@Entity(tableName = "daily")
 data class ActivitiesDaily (
 
     @PrimaryKey
-    var dailyId: Long = 0L,
+    var dailyId: Int = 0,
+
+    var filter: String = "",
 
     @ColumnInfo(name = "daily_title")
     var title: String = "",
@@ -30,45 +33,20 @@ data class ActivitiesDaily (
     @ColumnInfo(name = "daily_ways_to_post")
     var waytoPost: Boolean = false,
 
-    //@ColumnInfo(name = "daily_image", typeAffinity = ColumnInfo.BLOB)
-    @ColumnInfo(name = "daily_image")
-    var image: ByteArray? = null,
+    @ColumnInfo(name = "daily_image",)
+    var image: Bitmap? = null,
 
-    @ColumnInfo(name = "daily_guide_image", typeAffinity = ColumnInfo.BLOB)
-    var guideImage: ByteArray? = null
-        ) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as ActivitiesDaily
-
-        if (image != null) {
-            if (other.image == null) return false
-            if (!image.contentEquals(other.image)) return false
-        } else if (other.image != null) return false
-        if (guideImage != null) {
-            if (other.guideImage == null) return false
-            if (!guideImage.contentEquals(other.guideImage)) return false
-        } else if (other.guideImage != null) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = image?.contentHashCode() ?: 0
-        result = 31 * result + (guideImage?.contentHashCode() ?: 0)
-        return result
-    }
-}
+    @ColumnInfo(name = "daily_guide_image",)
+    var guideImage: Bitmap? = null
+        )
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
 //                                      지속가능한 활동
-@Entity(tableName = "sustainable_activities")
+@Entity(tableName = "sust")
 data class ActivitiesSustainable (
 
     @PrimaryKey
-    var sustId: Long = 0L,
+    var sustId: Int = 0,
 
     @ColumnInfo(name = "sust_title")
     var title: String = "",
@@ -85,20 +63,20 @@ data class ActivitiesSustainable (
     @ColumnInfo(name = "sust_ways_to_post")
     var waytoPost: Boolean = false,
 
-    @ColumnInfo(name = "sust_image", typeAffinity = ColumnInfo.BLOB)
-    var image: ByteArray? = null,
+    @ColumnInfo(name = "sust_image")
+    var image: Bitmap? = null,
 
-    @ColumnInfo(name = "sust_guide_image", typeAffinity = ColumnInfo.BLOB)
-    var guideImage: ByteArray? = null
+    @ColumnInfo(name = "sust_guide_image")
+    var guideImage: Bitmap? = null
 )
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
 //                                       특별 활동
-@Entity(tableName = "extra_activities")
+@Entity(tableName = "extra")
 data class ActivitiesExtra (
 
     @PrimaryKey
-    var extraId: Long = 0L,
+    var extraId: Int = 0,
 
     @ColumnInfo(name = "extra_title")
     var title: String = "",
@@ -115,10 +93,10 @@ data class ActivitiesExtra (
     @ColumnInfo(name = "extra_ways_to_post")
     var waytoPost: Boolean = false,
 
-    @ColumnInfo(name = "extra_image", typeAffinity = ColumnInfo.BLOB)
-    var image: ByteArray?,
+    @ColumnInfo(name = "extra_image")
+    var image: Bitmap? = null,
 
-    @ColumnInfo(name = "extra_guide_image", typeAffinity = ColumnInfo.BLOB)
-    var guideImage: ByteArray?
+    @ColumnInfo(name = "extra_guide_image")
+    var guideImage: Bitmap? = null
 )
 
