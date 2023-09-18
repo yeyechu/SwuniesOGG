@@ -12,6 +12,7 @@
         app:cardCornerRadius="@dimen/radius_card">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/today_act_before"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_card_small">
@@ -68,6 +69,64 @@
                 app:layout_constraintTop_toBottomOf="@+id/today_card_text_co2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--인증완료시-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/today_act_after"
+            android:padding="@dimen/padding_card_small"
+            android:background="@color/transparency_dimmed"
+            android:visibility="invisible"
+
+            >
+
+            <ImageView
+                android:id="@+id/today_card_image_done"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/description_myact_card_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/common_image_placeholder" />
+
+            <TextView
+                android:id="@+id/today_card_text_title_done"
+                style="@style/StyleText.cardtitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/myact_card_text_title_done"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/today_card_image_done" />
+
+            <TextView
+                style="@style/StyleText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/myact_card_text_subtitle_done"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/today_card_text_title_done" />
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
     </androidx.cardview.widget.CardView>
 
 </layout>

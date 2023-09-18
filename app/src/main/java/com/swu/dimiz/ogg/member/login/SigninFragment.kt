@@ -31,8 +31,8 @@ class SigninFragment: Fragment() {
         firestore = FirebaseFirestore.getInstance()
 
         binding.signInBtn.setOnClickListener {
-            val email = binding.emailEt.text.toString()
-            val password = binding.passwordEt.text.toString()
+            val email = binding.emailEt.editText.toString()
+            val password = binding.passwordEt.editText.toString()
 
             signin(email, password)
         }
