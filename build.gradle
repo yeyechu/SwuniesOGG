@@ -1,9 +1,4 @@
-//buildscript {
-//    dependencies {
-//        classpath 'com.google.gms:google-services:4.3.10'
-//    }
-//}
-// 아래에 더 높은 버전으로 추가되어 있습니다~
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     id 'com.android.application' version '7.4.2' apply false
