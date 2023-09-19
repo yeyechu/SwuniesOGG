@@ -1,18 +1,23 @@
 package com.swu.dimiz.ogg
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.swu.dimiz.ogg.OggApplication.Companion.auth
 import com.swu.dimiz.ogg.databinding.ActivityMainBinding
+import com.swu.dimiz.ogg.member.login.SignInActivity
 import timber.log.Timber
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,8 +25,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration : AppBarConfiguration
     private lateinit var navController: NavController
 
+    //이메일 비밀번호 로그인 모듈 변수
+    lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        auth = FirebaseAuth.getInstance()
         Timber.i("onCreate()")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -66,6 +76,16 @@ class MainActivity : AppCompatActivity() {
     //                              수명 주기 체크
     override fun onStart() {
         super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        //auth.signOut() -> 이동하는지 확인하고 싶으면 로그아웃 하면됨
+
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            startActivity(Intent(this, SignInActivity::class.java))
+            finish()
+        }else{
+            Timber.i("이미 로그인 되어있습니다.")
+        }
         Timber.i("onStart()")
     }
 
