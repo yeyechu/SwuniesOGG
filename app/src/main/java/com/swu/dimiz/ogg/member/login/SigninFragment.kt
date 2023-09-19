@@ -30,14 +30,14 @@ class SigninFragment: Fragment() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        binding.signInBtn.setOnClickListener {
+        binding.signinBtn.setOnClickListener {
             val email = binding.emailEt.editText.toString()
             val password = binding.passwordEt.editText.toString()
 
             signin(email, password)
         }
 
-        binding.signUpBtn.setOnClickListener {
+        binding.signinToSignupBtn.setOnClickListener {
             view?.findNavController()?.navigate(R.id.action_signinFragment_to_signupFragment)
         }
 

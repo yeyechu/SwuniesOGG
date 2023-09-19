@@ -87,7 +87,7 @@
     <string name="listaim_text_instruction_one">1톤의 %s</string>
     <string name="listaim_text_instruction_two">%.2f kg 목표</string>
 
-    <string name="listaim_button">선택하기</string>
+    <string name="listaim_button">다음으로 ></string>
 
     <!--                                         활동 선택                                        -->
     <string name="listset_button_allset">완료</string>

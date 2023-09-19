@@ -13,13 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
 import com.google.android.material.chip.Chip
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import timber.log.Timber
 
 class ListsetFragment : Fragment() {
@@ -50,15 +47,19 @@ class ListsetFragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         // ──────────────────────────────────────────────────────────────────────────────────────
-        //                               활동 목표를 받아와 출력
+        //                               활동 목표 출력 및 초기화
 
         val listsetFragmentArgs by navArgs<ListsetFragmentArgs>()
         binding.textAim.text = listsetFragmentArgs.aimCo2Amount.toString()
 
+        viewModel.co2Aim.observe(viewLifecycleOwner, Observer<Float> {
+            viewModel.setCo2(listsetFragmentArgs.aimCo2Amount)
+        })
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력
 
-        viewModel.activityList.observe(viewLifecycleOwner, object : Observer<List<String>> {
+        viewModel.activityFilter.observe(viewLifecycleOwner, object : Observer<List<String>> {
             override fun onChanged(value: List<String>) {
                 value ?: return
                 val chipGroup = binding.activityFilter
@@ -78,7 +79,27 @@ class ListsetFragment : Fragment() {
                 for(chip in children) {
                     chipGroup.addView(chip)
                 }
-                //viewModel.insert(ActivitiesDaily())
+            }
+        })
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                       어댑터
+
+        val adapter = ActivityListAdapter(ActivityListener { dailyId ->
+            viewModel.onDetailViewClicked(dailyId)
+        })
+        binding.activityList.adapter = adapter
+        viewModel.detailView.observe(viewLifecycleOwner, Observer { activity ->
+            activity?.let {
+                //navController.navigate(ListsetFragmentDirections.actionDestinationListsetToPopupDetail(activity))
+                viewModel.onDetailViewNavigated()
+            }
+        })
+
+        viewModel.getAllData.observe(viewLifecycleOwner, Observer {
+            Timber.i("$it")
+            it?.let {
+                adapter.submitList(it)
             }
         })
 
@@ -92,10 +113,6 @@ class ListsetFragment : Fragment() {
                 Timber.i("완료 버튼 클릭")
                 // 메모리 누수 확인 필요
             }
-        })
-
-        viewModel.getAllData.observe(viewLifecycleOwner, Observer {
-            Timber.i("$it")
         })
 
         return binding.root
