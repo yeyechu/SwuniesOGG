@@ -4,6 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
+    </data>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,6 +27,7 @@
                 style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
                 android:text=""
                 app:layout_constraintBottom_toTopOf="@+id/myact_text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -35,6 +41,7 @@
             <TextView
                 android:id="@+id/myact_text"
                 style="@style/StyleText.title"
+                android:layout_marginStart="@dimen/margin_default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/myact_text_main_title"
@@ -52,7 +59,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@+id/myact_image_appbar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/myact_text"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/myact_text" />
 
             <!-- myact 이미지 -->
@@ -123,12 +130,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toTopOf="@+id/sustainable_act_layout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/today_act_layout"
-                    tools:listitem="@layout/fragment_my_act_card_item" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/fragment_my_act_card_item"
+
+                    />
 
                 <!-- 지속 가능한 활동 -->
                 <androidx.constraintlayout.widget.ConstraintLayout

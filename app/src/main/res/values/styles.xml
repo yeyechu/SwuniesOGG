@@ -10,6 +10,8 @@
         <item name="android:fontFamily">@font/nanumsquare_r</item>
         <item name="fontFamily">@font/nanumsquare_r</item>
         <item name="android:padding">@dimen/padding_small</item>
+
+
     </style>
     <!-- 제목 텍스트 -->
     <style name="StyleText.title" parent="StyleText">
@@ -49,6 +51,7 @@
         <item name="android:fontFamily">@font/nanumsquare_b</item>
         <item name="fontFamily">@font/nanumsquare_b</item>
         <item name="android:layout_marginLeft">@dimen/margin_component</item>
+
     </style>
 
     <!-- 카드에 쓰이는 활동 타이틀 텍스트 -->

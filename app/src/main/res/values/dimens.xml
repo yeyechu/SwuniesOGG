@@ -72,5 +72,8 @@
     <dimen name="progressbar_width">300dp</dimen>
     <dimen name="progressbar_height">5dp</dimen>
 
+    <dimen name="myact_today_card_width">150dp</dimen>
+
+
 
 </resources>
