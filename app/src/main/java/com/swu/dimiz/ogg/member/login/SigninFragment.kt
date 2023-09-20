@@ -11,20 +11,22 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSigninBinding
+import com.swu.dimiz.ogg.oggdata.remotedatabase.UserCondition
 import timber.log.Timber
 
 class SigninFragment: Fragment() {
     lateinit var auth: FirebaseAuth
     lateinit var firestore: FirebaseFirestore
 
-    private lateinit var binding: FragmentSigninBinding
+    private var _binding : FragmentSigninBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
+        _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_signin, container, false)
 
         auth = FirebaseAuth.getInstance()
@@ -50,7 +52,7 @@ class SigninFragment: Fragment() {
                 if(task.isSuccessful){
                     if(FirebaseAuth.getInstance().currentUser!!.isEmailVerified){
                         val nickname = auth.currentUser?.displayName.toString()
-                        val user = User(email, password, nickname)
+                        val user = UserCondition(email, password, nickname)
 
                         //사용자 정보 저장
                         firestore.collection("User")
@@ -78,5 +80,10 @@ class SigninFragment: Fragment() {
                     Timber.i(task.exception.toString())
                 }
             }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        Timber.i("onDestroyView()")
     }
 }

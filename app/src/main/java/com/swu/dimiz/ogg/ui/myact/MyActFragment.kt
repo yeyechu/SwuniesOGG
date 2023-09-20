@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -14,18 +12,13 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.skydoves.balloon.*
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.listset.ActivityListAdapter
 import com.swu.dimiz.ogg.contents.listset.ListsetViewModel
 import com.swu.dimiz.ogg.contents.listset.ListsetViewModelFactory
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
-import com.swu.dimiz.ogg.ui.myact.myactcard.ActivityBigListener
-import com.swu.dimiz.ogg.ui.myact.myactcard.ActivityListener
-import com.swu.dimiz.ogg.ui.myact.myactcard.SusCardItemAdapter
+
 import com.swu.dimiz.ogg.ui.myact.myactcard.TodayCardItemAdapter
 import timber.log.Timber
 
