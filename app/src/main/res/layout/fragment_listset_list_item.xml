@@ -67,8 +67,9 @@
 
             <ImageButton
                 android:id="@+id/button_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="?attr/minTouchTargetSize"
+                android:layout_height="?attr/minTouchTargetSize"
+                android:padding="@dimen/padding_big"
                 android:contentDescription="@string/description_common_button_arrow_right"
                 android:src="@drawable/common_button_arrow_right"
 

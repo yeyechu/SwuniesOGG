@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="line">
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:shape="line">-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="984dp"
+    android:height="429dp"
+    android:viewportWidth="984"
+    android:viewportHeight="429">
 
     <!-- 말풍선 꼬다리 올 자리 -->
+    <path
+        android:pathData="M134.14,22.45C140.1,13.78 152.9,13.78 158.86,22.45L196.6,77.37C203.44,87.32 196.32,100.87 184.24,100.87H108.76C96.68,100.87 89.56,87.32 96.4,77.37L134.14,22.45Z"
+        android:fillColor="#ffffff"/>
+    <path
+        android:pathData="M197,64.27L158.29,15.01C152.29,7.37 140.71,7.37 134.71,15.01L96,64.27"
+        android:strokeWidth="15"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/secondary_baby_blue"
+        android:strokeLineCap="round"/>
 
-</shape>
+</vector>
+<!--</shape>-->

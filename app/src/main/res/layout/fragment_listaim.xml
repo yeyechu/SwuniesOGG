@@ -29,8 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/destination_title_listaim"
-                tools:text="활동 레벨 선택" />
+                android:text="@string/destination_title_listaim" />
         </androidx.appcompat.widget.Toolbar>
 
         <TextView
@@ -58,14 +57,15 @@
 
         <ImageView
             android:id="@+id/imageView_bar"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:paddingStart="@dimen/padding_big"
+            android:paddingEnd="@dimen/padding_big"
+            android:src="@drawable/listaim_image_percentbar"
             app:layout_constraintBottom_toTopOf="@+id/imageView_two"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <ImageView
             android:id="@+id/imageView_one"

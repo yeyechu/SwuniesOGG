@@ -5,7 +5,7 @@
     <!-- 말풍선 몸통 올 자리 -->
 
     <solid android:color="@color/white"/>
-    <stroke android:width="@dimen/stroke_shape_bold" android:color="@color/secondary_light_blue" />
+    <stroke android:width="@dimen/stroke_shape_bold" android:color="@color/secondary_baby_blue" />
     <corners android:radius="@dimen/radius_layer" />
 
 

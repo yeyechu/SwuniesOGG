@@ -48,12 +48,12 @@ class MyActFragment : Fragment() {
             inflater, R.layout.fragment_my_act, container, false)
 
         navController = findNavController()
+//
+//        val application = requireNotNull(this.activity).application
+//        val dataSource = OggDatabase.getInstance(application)
+//        val viewModelFactory = ListsetViewModelFactory(dataSource, application)
 
-        val application = requireNotNull(this.activity).application
-        val dataSource = OggDatabase.getInstance(application)
-        val viewModelFactory = ListsetViewModelFactory(dataSource, application)
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ListsetViewModel::class.java)
+//        viewModel = ViewModelProvider(this, viewModelFactory).get(ListsetViewModel::class.java)
 //        binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 
@@ -116,21 +116,21 @@ class MyActFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
-        val adapter = TodayCardItemAdapter(com.swu.dimiz.ogg.ui.myact.myactcard.ActivityListener { dailyId ->
-            viewModel.onDetailViewClicked(dailyId)
-        })
-//        val adapterSus = SusCardItemAdapter(ActivityBigListener { dailyId ->
+//        val adapter = TodayCardItemAdapter(com.swu.dimiz.ogg.ui.myact.myactcard.ActivityListener { dailyId ->
 //            viewModel.onDetailViewClicked(dailyId)
 //        })
-
-        binding.todayCardList.adapter = adapter
-//        binding.sustainableActList.adapter = adapterSus
-        viewModel.detailView.observe(viewLifecycleOwner, Observer { activity ->
-            activity?.let {
-                //navController.navigate(ListsetFragmentDirections.actionDestinationListsetToPopupDetail(activity))
-                viewModel.onDetailViewNavigated()
-            }
-        })
+////        val adapterSus = SusCardItemAdapter(ActivityBigListener { dailyId ->
+////            viewModel.onDetailViewClicked(dailyId)
+////        })
+//
+//        binding.todayCardList.adapter = adapter
+////        binding.sustainableActList.adapter = adapterSus
+//        viewModel.detailView.observe(viewLifecycleOwner, Observer { activity ->
+//            activity?.let {
+//                //navController.navigate(ListsetFragmentDirections.actionDestinationListsetToPopupDetail(activity))
+//                viewModel.onDetailViewNavigated()
+//            }
+//        })
 
 //        binding.sustainableActList.adapter = adapter
 //        viewModel.detailView.observe(viewLifecycleOwner, Observer { activity ->
@@ -140,13 +140,13 @@ class MyActFragment : Fragment() {
 //            }
 //        })
 
-        viewModel.getAllData.observe(viewLifecycleOwner, Observer {
-            Timber.i("$it")
-            it?.let {
-                adapter.submitList(it)
-            }
-
-        })
+//        viewModel.getAllData.observe(viewLifecycleOwner, Observer {
+//            Timber.i("$it")
+//            it?.let {
+//                adapter.submitList(it)
+//            }
+//
+//        })
 
 
 
