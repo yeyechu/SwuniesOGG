@@ -8,11 +8,12 @@ import kotlinx.coroutines.flow.Flow
 class OggRepository(private val database: OggDatabase) {
 
     val getAlldata : Flow<List<ActivitiesDaily>> = database.dailyDatabaseDao.getAllDailys()
-
+    val getPost : LiveData<List<MyPost>> = database.myPostDatabaseDao.getAllPosts()
+    val getAllBadges : Flow<List<Badges>> = database.badgesDatabaseDao.getAllItem()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(daily: ActivitiesDaily) {
-        database.dailyDatabaseDao.insert(daily)
+    suspend fun insert(post: MyPost) {
+        database.myPostDatabaseDao.insert(post)
     }
 }

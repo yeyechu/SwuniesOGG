@@ -36,7 +36,7 @@ abstract class OggDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: OggDatabase? = null
 
-        fun getInstance(context: Context): OggDatabase {
+        fun getInstance(context: Context, scope: CoroutineScope): OggDatabase {
             Timber.i("여기1")
             synchronized(this) {
                 var instance = INSTANCE

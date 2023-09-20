@@ -1,58 +1,32 @@
 package com.swu.dimiz.ogg.ui.myact.post
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
-import com.swu.dimiz.ogg.R
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.databinding.WindowPostBinding
-import com.swu.dimiz.ogg.oggdata.OggDatabase
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDailyDatabaseDao
+import timber.log.Timber
 
-class PostWindow : Fragment() {
+class PostWindow : AppCompatActivity() {
 
-    private var _binding: WindowPostBinding? = null
-    private val binding get() = _binding!!
-
-    private lateinit var viewModel: PostWindowViewModel
-    private lateinit var navController: NavController
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                    기본 초기화
-
-        _binding = DataBindingUtil.inflate(
-            inflater, R.layout.window_post, container, false)
-
-        navController = findNavController()
-
-        val application = requireNotNull(this.activity).application
-        val dataSource = OggDatabase.getInstance(application).myPostDatabaseDao
-        val viewModelFactory = PostWindowViewModelFactory(dataSource, application)
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(PostWindowViewModel::class.java)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this.viewLifecycleOwner
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //
-
-        return binding.root
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
+    private val viewModel: PostWindowViewModel by viewModels {
+        PostWindowViewModelFactory((application as OggApplication).repository)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private lateinit var binding: WindowPostBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = WindowPostBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val intentId = intent.getStringExtra("activity")
+        Timber.i("전달된 Id 확인 : $intentId")
+
+        binding.buttonExit.setOnClickListener {
+            finish()
+        }
     }
 }

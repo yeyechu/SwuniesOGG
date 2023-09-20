@@ -14,9 +14,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.chip.Chip
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
-import com.swu.dimiz.ogg.oggdata.OggDatabase
+import com.swu.dimiz.ogg.oggdata.OggRepository
 import timber.log.Timber
 
 class ListsetFragment : Fragment() {
@@ -39,8 +40,7 @@ class ListsetFragment : Fragment() {
         navController = findNavController()
 
         val application = requireNotNull(this.activity).application
-        val dataSource = OggDatabase.getInstance(application)
-        val viewModelFactory = ListsetViewModelFactory(dataSource, application)
+        val viewModelFactory = ListsetViewModelFactory((application as OggApplication).repository)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(ListsetViewModel::class.java)
         binding.viewModel = viewModel
@@ -84,17 +84,8 @@ class ListsetFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
-
-        val adapter = ActivityListAdapter(ActivityListener { dailyId ->
-            viewModel.onDetailViewClicked(dailyId)
-        })
+        val adapter = ActivityListAdapter(requireContext())
         binding.activityList.adapter = adapter
-        viewModel.detailView.observe(viewLifecycleOwner, Observer { activity ->
-            activity?.let {
-                //navController.navigate(ListsetFragmentDirections.actionDestinationListsetToPopupDetail(activity))
-                viewModel.onDetailViewNavigated()
-            }
-        })
 
         viewModel.getAllData.observe(viewLifecycleOwner, Observer {
             Timber.i("$it")

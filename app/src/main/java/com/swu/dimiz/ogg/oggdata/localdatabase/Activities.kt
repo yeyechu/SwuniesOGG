@@ -38,6 +38,8 @@ data class ActivitiesDaily (
 
     @ColumnInfo(name = "daily_guide_image",)
     var guideImage: Bitmap? = null
+
+// 올라가야할 배지 코드 추가 badgeCount
         )
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -68,6 +70,8 @@ data class ActivitiesSustainable (
 
     @ColumnInfo(name = "sust_guide_image")
     var guideImage: Bitmap? = null
+
+// 올라가야할 배지 코드 추가 badgeCount
 )
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -98,5 +102,7 @@ data class ActivitiesExtra (
 
     @ColumnInfo(name = "extra_guide_image")
     var guideImage: Bitmap? = null
+
+// 올라가야할 배지 코드 추가 badgeCount
 )
 

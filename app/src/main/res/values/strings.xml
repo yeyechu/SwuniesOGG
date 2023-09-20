@@ -53,6 +53,7 @@
     <string name="description_listaim_image_one">바다거북 탈을 쓴 얼굴 이미지</string>
     <string name="description_listaim_image_two">물개 탈을 쓴 얼굴 이미지</string>
     <string name="description_listaim_image_three">돌고래 탈을 쓴 얼굴 이미지</string>
+    <string name="description_badgelist_image_badges">배지 그림</string>
 
     <string name="description_myact_card_image">각 활동을 나타내는 이미지</string>
 
@@ -97,8 +98,8 @@
 
 
     <!--                                         배지 리스트                                       -->
-    <string name="badgelist_text_"> </string>
-    <string name="badgelist_button_"> </string>
+    <string name="badgelist_text_badge_count">보유한 배지 %d 개</string>
+    <string name="badgelist_button">닫기</string>
 
     <!--                                         배지 수정                                         -->
     <string name="envlayer_text_"> </string>

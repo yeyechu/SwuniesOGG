@@ -107,9 +107,7 @@
         <argument
             android:name="aimCo2Amount"
             app:argType="float" />
-        <action
-            android:id="@+id/action_destination_listset_to_popup_detail"
-            app:destination="@id/popup_detail" />
+
     </fragment>
 
     <fragment
@@ -138,17 +136,5 @@
         android:id="@+id/destination_listchanger"
         android:name="com.swu.dimiz.ogg.ui.myact.listchanger.ListchangerFragment"
         tools:layout="@layout/fragment_listchanger"/>
-
-    <fragment
-        android:id="@+id/popup_detail"
-        android:name="com.swu.dimiz.ogg.ui.myact.post.PostWindow"
-        tools:layout="@layout/window_post">
-        <argument
-            android:name="activityId"
-            app:argType="integer" />
-        <action
-            android:id="@+id/action_popup_detail_to_destination_listset"
-            app:destination="@id/destination_listset" />
-    </fragment>
 
 </navigation>

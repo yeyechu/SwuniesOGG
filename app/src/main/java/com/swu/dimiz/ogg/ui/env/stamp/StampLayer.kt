@@ -31,10 +31,10 @@ class StampLayer : Fragment() {
             inflater, R.layout.layer_stamp, container, false)
 
         val application = requireNotNull(this.activity).application
-        val dataSource = OggDatabase.getInstance(application)
-        val viewModelFactory = StampViewModelFactory(dataSource, application)
+        //val dataSource = OggDatabase.getInstance(application)
+        //val viewModelFactory = StampViewModelFactory(dataSource, application)
 
-        viewModel = ViewModelProvider(this, viewModelFactory).get(StampViewModel::class.java)
+        //viewModel = ViewModelProvider(this, viewModelFactory).get(StampViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 

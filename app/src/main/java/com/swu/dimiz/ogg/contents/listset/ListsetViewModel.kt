@@ -5,20 +5,15 @@ import androidx.lifecycle.*
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDailyDatabaseDao
-import com.swu.dimiz.ogg.oggdata.localdatabase.ListDatabaseDao
-import com.swu.dimiz.ogg.oggdata.localdatabase.ListSet
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class ListsetViewModel(
-    val database: OggDatabase,
-    application: Application) : AndroidViewModel(application) {
+class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
     private var filter = FilterHolder()
-    private val category = mutableListOf("에너지", "소비", "이동수단", "자원순환")
+    private val category = mutableListOf("energy", "consume", "transport", "recycler")
 
     private val _activityFilter = MutableLiveData<List<String>>()
     val activityFilter: LiveData<List<String>>
@@ -37,13 +32,6 @@ class ListsetViewModel(
     // 활동 체크 버튼
     // co2 받아오기, progress바 움직이기
 
-    // 활동 상세보기 버튼
-    // 상세보기 띄우기
-    // -> 리사이클러뷰에 대한 어댑터 구현
-    private val _detailView = MutableLiveData<Int>()
-    val detailView
-        get() = _detailView
-
     // 필터 버튼
     // 필터에 쿼리 적용
 
@@ -52,10 +40,7 @@ class ListsetViewModel(
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    val getAllData: LiveData<List<ActivitiesDaily>>
-    private val repository: OggRepository
-
-
+    val getAllData: LiveData<List<ActivitiesDaily>> = repository.getAlldata.asLiveData()
     // 1. ConditionRecord에서 차량정보 가져오기
     // -> init{}에서 호출 후 suspend로 구현
 
@@ -68,12 +53,13 @@ class ListsetViewModel(
     val co2Aim: LiveData<Float>
         get() = _co2Aim
 
+    private val _filtered = MutableLiveData<List<ActivitiesDaily>>()
+    val filtered: LiveData<List<ActivitiesDaily>>
+        get() = _filtered
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                      뷰모델 초기화
     init {
-        val dailyDao = OggDatabase.getInstance(application)!!.dailyDatabaseDao
-        repository = OggRepository(database)
-        getAllData = repository.getAlldata.asLiveData()
         getFilters()
         Timber.i("created")
     }
@@ -116,14 +102,6 @@ class ListsetViewModel(
     }
     fun onNavigatedToSave() {
         _navigateToSave.value = false
-    }
-
-    fun onDetailViewClicked(id: Int) {
-        _detailView.value = id
-    }
-
-    fun onDetailViewNavigated() {
-        _detailView.value = 0
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
