@@ -16,5 +16,9 @@ data class Badges (
 
     var instruction: String = "",
 
-    var image: Bitmap? = null
+    var image: Bitmap? = null,
+
+    //var getDate: Long? = null,
+
+    //var count: Int = 0
         )

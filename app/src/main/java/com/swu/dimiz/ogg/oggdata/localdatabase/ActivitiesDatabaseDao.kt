@@ -24,6 +24,12 @@ interface ActivitiesDailyDatabaseDao {
 
     @Query("SELECT * FROM daily" + " ORDER BY dailyId DESC LIMIT 1")
     fun getDaily(): ActivitiesDaily?
+
+    ///@Query("SELECT * FROM daily WHERE dailyId = :id")
+    //fun getItem(id: Int) : ActivitiesDaily
+
+    //@Query("SELECT * FROM daily WHERE filter = :data")
+    //fun getFilteredList(data: String): LiveData<List<ActivitiesDaily>>
 }
 
 @Dao
@@ -40,6 +46,9 @@ interface ActivitiesSustDatabaseDao {
 
     @Query("SELECT * FROM sust")
     fun getAllSusts() : LiveData<List<ActivitiesSustainable>>
+
+    //@Query("SELECT * FROM sust WHERE sustId = :id")
+    //fun getItem(id: Int) : ActivitiesSust
 }
 
 @Dao
@@ -56,4 +65,7 @@ interface ActivitiesExtraDatabaseDao {
 
     @Query("SELECT * FROM extra")
     fun getAllExtras() : LiveData<List<ActivitiesExtra>>
+
+    //@Query("SELECT * FROM extra WHERE extraId = :id")
+    //fun getItem(id: Int) : ActivitiesExtra
 }

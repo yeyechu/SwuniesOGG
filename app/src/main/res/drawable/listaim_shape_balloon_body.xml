@@ -3,9 +3,8 @@
     android:shape="rectangle">
 
     <!-- 말풍선 몸통 올 자리 -->
-
-    <solid android:color="@color/white"/>
     <stroke android:width="@dimen/stroke_shape_bold" android:color="@color/secondary_baby_blue" />
+    <solid android:color="@color/white"/>
     <corners android:radius="@dimen/radius_layer" />
 
 
