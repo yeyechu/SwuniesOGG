@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.swu.dimiz.ogg.oggdata.localdatabase.*
+import com.swu.dimiz.ogg.oggdata.remotedatabase.ListSet
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyPost
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

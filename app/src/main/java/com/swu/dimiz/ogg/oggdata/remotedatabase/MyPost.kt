@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.oggdata
+package com.swu.dimiz.ogg.oggdata.remotedatabase
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

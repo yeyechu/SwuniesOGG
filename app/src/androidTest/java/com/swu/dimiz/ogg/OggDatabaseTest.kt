@@ -3,13 +3,13 @@ package com.swu.dimiz.ogg
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.swu.dimiz.ogg.oggdata.MyPost
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyPost
 import com.swu.dimiz.ogg.oggdata.MyPostDatabaseDao
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDailyDatabaseDao
 import com.swu.dimiz.ogg.oggdata.localdatabase.ListDatabaseDao
-import com.swu.dimiz.ogg.oggdata.localdatabase.ListSet
+import com.swu.dimiz.ogg.oggdata.remotedatabase.ListSet
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before

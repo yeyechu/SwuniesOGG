@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.oggdata
+package com.swu.dimiz.ogg.oggdata.remotedatabase
 
 import android.graphics.Bitmap
 

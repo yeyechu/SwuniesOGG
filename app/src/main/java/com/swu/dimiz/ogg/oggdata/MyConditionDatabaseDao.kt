@@ -1,5 +1,7 @@
 package com.swu.dimiz.ogg.oggdata
 
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+
 //@Dao
 interface MyConditionDatabaseDao {
 

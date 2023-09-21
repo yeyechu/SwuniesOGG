@@ -32,6 +32,12 @@
             android:exported="false"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Transparent_Popup" />
+
+        <activity android:name=".contents.common.popup.PopupWindow"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Transparent_Popup" />
+
     </application>
 
 </manifest>

@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.swu.dimiz.ogg.oggdata.localdatabase.ListDatabaseDao
-import com.swu.dimiz.ogg.oggdata.localdatabase.ListSet
+import com.swu.dimiz.ogg.oggdata.remotedatabase.ListSet
 import kotlinx.coroutines.*
 import timber.log.Timber
 

@@ -3,7 +3,7 @@ package com.swu.dimiz.ogg.ui.feed.myfeed
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.swu.dimiz.ogg.oggdata.MyPost
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyPost
 import com.swu.dimiz.ogg.oggdata.MyPostDatabaseDao
 import kotlinx.coroutines.*
 

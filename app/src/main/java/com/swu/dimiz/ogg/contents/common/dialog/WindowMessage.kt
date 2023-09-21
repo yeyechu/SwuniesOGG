@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.contents.common.popup
+package com.swu.dimiz.ogg.contents.common.dialog
 data class WindowMessage (
     val title: String = "",
     val body: String = "",

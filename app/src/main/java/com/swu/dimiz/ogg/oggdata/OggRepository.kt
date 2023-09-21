@@ -3,6 +3,7 @@ package com.swu.dimiz.ogg.oggdata
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.swu.dimiz.ogg.oggdata.localdatabase.*
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyPost
 import kotlinx.coroutines.flow.Flow
 
 class OggRepository(private val database: OggDatabase) {

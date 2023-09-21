@@ -28,7 +28,7 @@
                 style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="플라스틱애호가님"
                 tools:text="오지지님" />
 
             <TextView

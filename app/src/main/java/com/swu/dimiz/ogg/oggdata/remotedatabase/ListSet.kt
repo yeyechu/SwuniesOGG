@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.oggdata.localdatabase
+package com.swu.dimiz.ogg.oggdata.remotedatabase
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,3 +13,4 @@ data class ListSet (
     var ordering: Int = 0,
     var activity: Int = 0
         )
+// 이름을 MyList로 고칠 예정

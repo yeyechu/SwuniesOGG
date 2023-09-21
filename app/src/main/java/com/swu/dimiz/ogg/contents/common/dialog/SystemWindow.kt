@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.contents.common.popup
+package com.swu.dimiz.ogg.contents.common.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,8 @@ import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.WindowPopupSystemBinding
 
 class SystemWindow : Fragment() {
+
+    // DialogFragment로 구현할 예정
 
     companion object {
         fun newInstance() = SystemWindow()
