@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -12,14 +14,13 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.skydoves.balloon.*
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.listset.ListsetViewModel
-import com.swu.dimiz.ogg.contents.listset.ListsetViewModelFactory
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
-import com.swu.dimiz.ogg.oggdata.OggDatabase
+import com.swu.dimiz.ogg.ui.myact.myactcard.*
 
-import com.swu.dimiz.ogg.ui.myact.myactcard.TodayCardItemAdapter
 import timber.log.Timber
 
 class MyActFragment : Fragment() {
@@ -27,7 +28,7 @@ class MyActFragment : Fragment() {
     private var _binding: FragmentMyActBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: ListsetViewModel
+    private lateinit var viewModel: MyActViewModel
     private lateinit var navController: NavController
 
     private var balloon_sus: Balloon? = null // Balloon 변수 추가
@@ -48,14 +49,15 @@ class MyActFragment : Fragment() {
             inflater, R.layout.fragment_my_act, container, false)
 
         navController = findNavController()
-//
-//        val application = requireNotNull(this.activity).application
-//        val dataSource = OggDatabase.getInstance(application)
-//        val viewModelFactory = ListsetViewModelFactory(dataSource, application)
 
-//        viewModel = ViewModelProvider(this, viewModelFactory).get(ListsetViewModel::class.java)
-//        binding.viewModel = viewModel
+        val application = requireNotNull(this.activity).application
+        val viewModelFactory = MyActViewModelFactory((application as OggApplication).repository)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MyActViewModel::class.java)
+
+        binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
+
 
 
 
@@ -116,37 +118,36 @@ class MyActFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
-//        val adapter = TodayCardItemAdapter(com.swu.dimiz.ogg.ui.myact.myactcard.ActivityListener { dailyId ->
-//            viewModel.onDetailViewClicked(dailyId)
-//        })
-////        val adapterSus = SusCardItemAdapter(ActivityBigListener { dailyId ->
-////            viewModel.onDetailViewClicked(dailyId)
-////        })
-//
-//        binding.todayCardList.adapter = adapter
-////        binding.sustainableActList.adapter = adapterSus
-//        viewModel.detailView.observe(viewLifecycleOwner, Observer { activity ->
-//            activity?.let {
-//                //navController.navigate(ListsetFragmentDirections.actionDestinationListsetToPopupDetail(activity))
-//                viewModel.onDetailViewNavigated()
-//            }
-//        })
+        val adapter = TodayCardItemAdapter(requireContext())
 
-//        binding.sustainableActList.adapter = adapter
-//        viewModel.detailView.observe(viewLifecycleOwner, Observer { activity ->
-//            activity?.let {
-//                //navController.navigate(ListsetFragmentDirections.actionDestinationListsetToPopupDetail(activity))
-//                viewModel.onDetailViewNavigated()
-//            }
-//        })
+        binding.todayCardList.adapter = adapter
 
-//        viewModel.getAllData.observe(viewLifecycleOwner, Observer {
-//            Timber.i("$it")
-//            it?.let {
-//                adapter.submitList(it)
-//            }
-//
-//        })
+        viewModel.getAllData.observe(viewLifecycleOwner, Observer {
+            Timber.i("$it")
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
+
+        val adaptersus = SusCardItemAdapter(requireContext())
+        binding.sustainableActList.adapter = adaptersus
+
+        viewModel.getSusData.observe(viewLifecycleOwner, Observer {
+            Timber.i("$it")
+            it?.let {
+                adaptersus.submitList(it)
+            }
+        })
+
+        val adapterextra = ExtraCardItemAdapter(requireContext())
+        binding.extraActList.adapter = adapterextra
+
+        viewModel.getExtraData.observe(viewLifecycleOwner, Observer {
+            Timber.i("$it")
+            it?.let {
+                adapterextra.submitList(it)
+            }
+        })
 
 
 

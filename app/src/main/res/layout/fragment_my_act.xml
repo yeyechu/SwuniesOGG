@@ -7,14 +7,17 @@
     <data>
         <variable
             name="viewModel"
-            type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
+            type="com.swu.dimiz.ogg.ui.myact.myactcard.MyActViewModel" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/secondary_baby_blue"
-        tools:context=".MyActFragment">
+        tools:context=".MyActFragment"
+        android:layout_marginBottom="@dimen/margin_scroll"
+
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

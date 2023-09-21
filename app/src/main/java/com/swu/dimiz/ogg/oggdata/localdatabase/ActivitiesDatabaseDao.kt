@@ -45,7 +45,7 @@ interface ActivitiesSustDatabaseDao {
     fun update(act: ActivitiesSustainable)
 
     @Query("SELECT * FROM sust")
-    fun getAllSusts() : LiveData<List<ActivitiesSustainable>>
+    fun getAllSusts() : Flow<List<ActivitiesSustainable>>
 
     //@Query("SELECT * FROM sust WHERE sustId = :id")
     //fun getItem(id: Int) : ActivitiesSust
@@ -64,7 +64,7 @@ interface ActivitiesExtraDatabaseDao {
     fun update(act: ActivitiesExtra)
 
     @Query("SELECT * FROM extra")
-    fun getAllExtras() : LiveData<List<ActivitiesExtra>>
+    fun getAllExtras() : Flow<List<ActivitiesExtra>>
 
     //@Query("SELECT * FROM extra WHERE extraId = :id")
     //fun getItem(id: Int) : ActivitiesExtra

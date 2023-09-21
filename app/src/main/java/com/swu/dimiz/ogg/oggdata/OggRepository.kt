@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 
 class OggRepository(private val database: OggDatabase) {
 
+    val getExtraData : Flow<List<ActivitiesExtra>> = database.extraDatabaseDao.getAllExtras()
+    val getSusData: Flow<List<ActivitiesSustainable>> = database.sustDatabaseDao.getAllSusts()
     val getAlldata : Flow<List<ActivitiesDaily>> = database.dailyDatabaseDao.getAllDailys()
     val getPost : LiveData<List<MyPost>> = database.myPostDatabaseDao.getAllPosts()
     val getAllBadges : Flow<List<Badges>> = database.badgesDatabaseDao.getAllItem()
