@@ -32,6 +32,7 @@ class SigninFragment: Fragment() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
+        //------------로그인 ------------//
         binding.signinBtn.setOnClickListener {
             val email = binding.emailEt.editText?.text.toString()
             val password = binding.passwordEt.editText?.text.toString()
@@ -39,13 +40,21 @@ class SigninFragment: Fragment() {
             signin(email, password)
         }
 
+        //------------회원가입 ------------//
         binding.signinToSignupBtn.setOnClickListener {
             view?.findNavController()?.navigate(R.id.action_signinFragment_to_signupFragment)
         }
+        //------------비번찾기------------//
+        binding.signinToFindPasswordBtn.setOnClickListener {
+//            view?.findNavController()?.navigate(R.id.action_signinFragment_to_signupFragment)
+        }
+
+
 
         return binding.root
     }
-
+    // ──────────────────────────────────────────────────────────────────────────────────────
+    //                                       로그인 (파이어베이스)
     private fun signin(email: String, password: String) {
         auth?.signInWithEmailAndPassword(email,password)
             ?.addOnCompleteListener { task ->
@@ -81,6 +90,7 @@ class SigninFragment: Fragment() {
                 }
             }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

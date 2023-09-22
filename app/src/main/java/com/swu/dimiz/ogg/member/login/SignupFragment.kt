@@ -1,11 +1,14 @@
 package com.swu.dimiz.ogg.member.login
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -20,8 +23,9 @@ class SignupFragment : Fragment() {
     lateinit var auth: FirebaseAuth
     lateinit var firestore: FirebaseFirestore
 
-    private var _binding : FragmentSignupBinding? = null
+    private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,97 +33,122 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_signup, container, false)
+            inflater, R.layout.fragment_signup, container, false
+        )
 
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        binding.sendEmailBtn.setOnClickListener {
-            val nickname = binding.nicknameEt.text.toString()
-            val email = binding.emailEt.text.toString()
-            val password1 = binding.passwordEtFirst.text.toString()
-            val password2 = binding.passwordEtSecond.text.toString()
 
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                    InputField
+        binding.sendEmailBtn.setOnClickListener {
+            val nickname = binding.nicknameEt.editText?.text.toString()
+            val email = binding.emailEt.editText?.text.toString()
+            val password1 = binding.passwordEtFirst.editText?.text.toString()
+            val password2 = binding.passwordEtSecond.editText?.text.toString()
             signup(email, password1, nickname)
 
-           /* binding.passwordEtFirst.addTextChangedListener(object: TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                    //작성 전
-                }
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    //작성 중
-                    //todo 작은 텍스트에 보이도록 변경해야함 (비밀번호를 8자 이상 입력해주세요)
-                }
-                override fun afterTextChanged(s: Editable?) {
-                    var pwd = binding.passwordEtFirst.text.toString()
-                    if(pwd.length >= 8){
-                        //인증메일 버튼 활성화
-                    }
-                    else{
-                        //인증메일 버튼 비활성화
-                    }
-                }
-            })
 
-            binding.passwordEtFirst.addTextChangedListener(object: TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                    //작성 전
-                }
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    //작성 중
-                }
-                override fun afterTextChanged(s: Editable?) {
-                    val password1 = binding.passwordEtFirst.text.toString()
-                    val password2 = binding.passwordEtSecond.text.toString()
+            if (password1 != null && password2 != null && password1 != password2) {
+                binding.passwordEtSecond.error = "비밀번호가 일치하지 않습니다."
+                return@setOnClickListener
+            }
+        }
+        binding.emailCheck.setOnClickListener{
 
-                    if(password1 == password2){  //입력한 비밀번호 두개가 일치하면
-                        signup(email, password1, nickname)
-                    }else{
-                        //todo 작은 텍스트에 보이도록 변경해야함
-                        Toast.makeText(getActivity(),"비밀번호가 일치하지 않아요",Toast.LENGTH_SHORT).show()
-                    }
-                }
-            })*/
 
         }
+
+        binding.passwordEtFirst.editText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // 작성 전
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 작성 중
+                val password = s.toString()
+                if (password.length < 8) {
+                    binding.passwordEtFirst.error = "비밀번호를 8자 이상 입력해주세요"
+                } else {
+                    binding.passwordEtFirst.error = null
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // 작성 후
+            }
+        })
+
+        //이메일 중복 확인 버튼-> 사용 가능한 이메일에요 // error:이미 가입되어있는 이메일이에요
+        binding.emailCheck.setOnClickListener {
+            val email = binding.emailEt.editText?.text.toString()
+
+            // Firebase에서 해당 이메일이 이미 등록되어 있는지 확인
+            auth.fetchSignInMethodsForEmail(email)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val signInMethods = task.result?.signInMethods
+
+                        if (signInMethods.isNullOrEmpty()) {
+                            // 사용 가능한 이메일
+                            binding.emailEt.error = null
+                            binding.emailEt.helperText = "사용 가능한 이메일에요"
+                        } else {
+                            // 이미 가입된 이메일
+                            binding.emailEt.error = "이미 가입되어있는 이메일이에요"
+                            binding.emailEt.helperText = null
+                        }
+                    } else {
+                        Timber.e(task.exception, "이메일 확인 중 오류 발생")
+                    }
+                }
+        }
+
 
         return binding.root
     }
 
-    private fun signup(email: String, password: String, nickname:String) {
-        auth.createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener {task ->
-                if(task.isSuccessful){
+    // ──────────────────────────────────────────────────────────────────────────────────────
+    //                                      회원가입 (파이어베이스)
+    private fun signup(email: String, password: String, nickname: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
                     Timber.i("회원 가입 완료")
 
-                    val user = Firebase.auth.currentUser
+                    val user = FirebaseAuth.getInstance().currentUser
 
                     val profileUpdates = userProfileChangeRequest {
                         displayName = nickname
                     }
-                    //유저 닉네임 추가하기
-                    user!!.updateProfile(profileUpdates)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
+
+                    // 유저 닉네임 추가하기
+                    user?.updateProfile(profileUpdates)
+                        ?.addOnCompleteListener { updateTask ->
+                            if (updateTask.isSuccessful) {
                                 Timber.i("닉네임 설정 완료")
                             }
                         }
-                    //인증메일 보내기
-                    FirebaseAuth.getInstance().currentUser!!.sendEmailVerification().addOnCompleteListener { task ->
-                        if(task.isSuccessful){
+
+                    // 인증메일 보내기
+                    user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
+                        if (verificationTask.isSuccessful) {
                             Timber.i("확인메일을 보냈습니다")
-                        }else{
-                            Timber.i(task.exception.toString())
+                        } else {
+                            Timber.i(verificationTask.exception.toString())
                         }
                     }
-                }else if (task.exception?.message.isNullOrEmpty()) {
+                } else if (task.exception?.message.isNullOrEmpty()) {
                     Timber.i(task.exception.toString())
                 } else {
-                    //입력한 계정 정보가 이미 Firebase DB에 있는 경우
+                    // 입력한 계정 정보가 이미 Firebase DB에 있는 경우
                     Timber.i("이미 존재하는 이메일입니다.")
+
+
+
                 }
             }
-
     }
 
     override fun onDestroyView() {

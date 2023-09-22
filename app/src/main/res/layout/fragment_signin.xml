@@ -10,10 +10,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/padding_big"
-        >
+        android:padding="@dimen/padding_big">
 
-        <!--물결 이미지-->
+        <!-- 물결 이미지 -->
         <ImageView
             android:id="@+id/signin_bg"
             android:layout_width="match_parent"
@@ -24,8 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <!--로고 이미지-->
+        <!-- 로고 이미지 -->
         <TextView
             android:id="@+id/logo"
             android:layout_width="wrap_content"
@@ -39,140 +37,158 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.3" />
 
-        <!--이메일 인풋-->
+        <!-- 이메일 인풋 -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_et"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_big"
-            android:ems="10"
-            android:hint="@string/id"
-            android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logo">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/id"
+                android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--비번 인풋-->
+        <!-- 비밀번호 인풋 -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_et"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_big"
-            android:ems="10"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/margin_big"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+            app:layout_constraintEnd_toEndOf="@+id/email_et"
+            app:layout_constraintStart_toStartOf="@+id/email_et"
             app:layout_constraintTop_toBottomOf="@+id/email_et">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-      <!--회원가입-->
+        <!-- 회원가입 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/password_et"
-            tools:layout_editor_absoluteX="16dp">
+
+            android:padding="@dimen/padding_small"
+            app:layout_constraintBottom_toTopOf="@+id/signin_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password_et">
 
             <TextView
-                android:id="@+id/signin_to_signup_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sinin_text_sinup"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/signin_to_signup_btn"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/signin_to_signup_btn"
+                android:id="@+id/signin_to_find_password_info"
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/signup"
+                android:text="@string/sinin_text_forget_password"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/signin_to_find_password_btn"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <TextView
+                android:id="@+id/signin_to_find_password_btn"
+                style="@style/StyleText.subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sinin_button_find_password"
                 android:textColor="@color/primary_blue"
-                app:layout_constraintBottom_toBottomOf="@+id/signin_to_signup_info"
+                app:layout_constraintBottom_toBottomOf="@+id/signin_to_find_password_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/signin_to_signup_info"
-                app:layout_constraintTop_toTopOf="@+id/signin_to_signup_info" />
+                app:layout_constraintStart_toEndOf="@+id/signin_to_find_password_info"
+                app:layout_constraintTop_toTopOf="@+id/signin_to_find_password_info"
+                app:layout_constraintVertical_bias="0.5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--로그인 버튼-->
+        <!-- 로그인 버튼 -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signin_btn"
             style="@style/StyleButtonOgg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/signin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
-            app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-            app:layout_constraintVertical_bias="0.0" />
 
-
-        <!--아이디/비번 찾기-->
-       <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+        <!-- 회원가입 버튼 -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signin_to_signup_btn"
+            style="@style/StyleButtonOggWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/signup"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/signin_btn"
+            app:layout_constraintStart_toStartOf="@+id/signin_btn"
             app:layout_constraintTop_toBottomOf="@+id/signin_btn"
-            android:layout_margin="@dimen/margin_default"
-            >
+            app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/signin_to_find_id_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sinin_button_find_id"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/blank"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <!-- 아이디/비밀번호 찾기 -->
+        <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--            android:id="@+id/constraintLayout3"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/signin_btn"-->
+        <!--            android:layout_margin="@dimen/margin_default">-->
 
-            <TextView
-                android:id="@+id/blank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="|"
-                android:layout_margin="@dimen/margin_default"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/signin_to_find_password_btn"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@+id/signin_to_find_id_btn"
-                app:layout_constraintTop_toTopOf="parent" />
+        <!--            <TextView-->
+        <!--                android:id="@+id/signin_to_find_id_btn"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="@string/sinin_button_find_id"-->
+        <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--                app:layout_constraintEnd_toStartOf="@+id/blank"-->
+        <!--                app:layout_constraintHorizontal_bias="0.5"-->
+        <!--                app:layout_constraintHorizontal_chainStyle="packed"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <TextView
-                android:id="@+id/signin_to_find_password_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sinin_button_find_password"
-                app:layout_constraintBottom_toBottomOf="@+id/signin_to_find_id_btn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/blank"
-                app:layout_constraintTop_toTopOf="@+id/signin_to_find_id_btn" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--            <TextView-->
+        <!--                android:id="@+id/blank"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="|"-->
+        <!--                android:layout_margin="@dimen/margin_default"-->
+        <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--                app:layout_constraintEnd_toStartOf="@+id/signin_to_find_password_btn"-->
+        <!--                app:layout_constraintHorizontal_bias="0.5"-->
+        <!--                app:layout_constraintHorizontal_chainStyle="packed"-->
+        <!--                app:layout_constraintStart_toEndOf="@+id/signin_to_find_id_btn"-->
+        <!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/signin_to_find_password_btn"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="@string/sinin_button_find_password"-->
+        <!--                app:layout_constraintBottom_toBottomOf="@+id/signin_to_find_id_btn"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintHorizontal_bias="0.5"-->
+        <!--                app:layout_constraintStart_toEndOf="@+id/blank"-->
+        <!--                app:layout_constraintTop_toTopOf="@+id/signin_to_find_id_btn" />-->
+        <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>
