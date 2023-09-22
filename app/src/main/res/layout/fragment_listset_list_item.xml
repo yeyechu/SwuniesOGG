@@ -7,6 +7,7 @@
         <variable
             name="activity"
             type="com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -51,7 +52,9 @@
                 app:layout_constraintStart_toEndOf="@+id/image_activity"
                 app:layout_constraintTop_toTopOf="parent"
                 app:actitityTitle="@{activity}"
-                tools:text="지역 농산물 이용하기" />
+                tools:text="지역 농산물 이용하기"
+                android:padding="@dimen/padding_button_small"
+                />
 
             <TextView
                 android:id="@+id/text_co2"
@@ -63,7 +66,9 @@
                 app:layout_constraintStart_toEndOf="@+id/image_activity"
                 app:layout_constraintTop_toBottomOf="@+id/text_title"
                 app:activityCo2="@{activity}"
-                tools:text="탄소감축량:코드로들어감" />
+                tools:text="탄소감축량:코드로들어감"
+                android:padding="@dimen/padding_button_small"
+                />
 
             <ImageButton
                 android:id="@+id/button_next"

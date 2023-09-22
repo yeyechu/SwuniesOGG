@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.swu.dimiz.ogg.databinding.FragmentMyActCardItemBinding
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import com.swu.dimiz.ogg.databinding.FragmentMyActCardItemBigExtraBinding
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
 import com.swu.dimiz.ogg.ui.myact.post.PostWindow
 import timber.log.Timber
 
-class TodayCardItemAdapter(val context: Context) :
-    ListAdapter<ActivitiesDaily, TodayCardItemAdapter.ActivityListViewHolder>(ActivityListDiffCallback()
+class ExtraCardItemAdapter (val context: Context) :
+    ListAdapter<ActivitiesExtra, ExtraCardItemAdapter.ActivityListViewHolder>(ActivityListDiffCallbackextra()
     ) {
 
     override fun onBindViewHolder(holder: ActivityListViewHolder, position: Int) {
@@ -24,7 +24,7 @@ class TodayCardItemAdapter(val context: Context) :
         holder.apply {
             bind(activity) {
                 var intent = Intent(context, PostWindow::class.java)
-                val activityId = activity.dailyId.toString()
+                val activityId = activity.extraId.toString()
                 intent.putExtra("activity", activityId)
                 Timber.i("어댑터 $activityId")
                 context.startActivity(intent)
@@ -36,13 +36,11 @@ class TodayCardItemAdapter(val context: Context) :
         return ActivityListViewHolder.from(parent)
     }
 
-
-
-    class ActivityListViewHolder private constructor(val binding: FragmentMyActCardItemBinding) :
+    class ActivityListViewHolder private constructor(val binding: FragmentMyActCardItemBigExtraBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ActivitiesDaily, clickListener: View.OnClickListener) {
-            binding.activity = item
+        fun bind(item: ActivitiesExtra, clickListener: View.OnClickListener) {
+            binding.activity= item
             binding.buttonMyact.setOnClickListener(clickListener)
             binding.executePendingBindings()
         }
@@ -50,7 +48,7 @@ class TodayCardItemAdapter(val context: Context) :
         companion object {
             fun from(parent: ViewGroup): ActivityListViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = FragmentMyActCardItemBinding.inflate(layoutInflater, parent, false)
+                val binding = FragmentMyActCardItemBigExtraBinding.inflate(layoutInflater, parent, false)
 
                 return ActivityListViewHolder(binding)
             }
@@ -58,12 +56,12 @@ class TodayCardItemAdapter(val context: Context) :
     }
 }
 
-class ActivityListDiffCallback : DiffUtil.ItemCallback<ActivitiesDaily>() {
-    override fun areItemsTheSame(oldItem: ActivitiesDaily, newItem: ActivitiesDaily): Boolean {
+class ActivityListDiffCallbackextra : DiffUtil.ItemCallback<ActivitiesExtra>() {
+    override fun areItemsTheSame(oldItem: ActivitiesExtra, newItem: ActivitiesExtra): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: ActivitiesDaily, newItem: ActivitiesDaily): Boolean {
-        return oldItem.dailyId == newItem.dailyId
+    override fun areContentsTheSame(oldItem: ActivitiesExtra, newItem: ActivitiesExtra): Boolean {
+        return oldItem.extraId == newItem.extraId
     }
 }

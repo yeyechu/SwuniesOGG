@@ -6,7 +6,7 @@
     <data>
         <variable
             name="activity"
-            type="com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable"
+            type="com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra"
             />
 
     </data>

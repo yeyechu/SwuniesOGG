@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+
         <variable
             name="activity"
             type="com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily" />
-        <variable
-            name="myhandler"
-            type="com.swu.dimiz.ogg.ui.myact.myactcard.ActivityListener" />
     </data>
 
     <!-- CardView 레이아웃 -->
@@ -34,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/description_myact_card_image"
+                app:activityImage="@{activity}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/StyleText"
+                app:actitityTitle="@{activity}"
                 android:maxLines="1"
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/margin_component"
@@ -63,7 +64,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text=""
+                style="@style/StyleText"
                 android:textSize="@dimen/text_size_body_small"
+                app:activityCo2="@{activity}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/today_card_text_title"
@@ -77,6 +80,7 @@
                 android:layout_height="@dimen/bottom_sheet_peek_height"
                 android:layout_marginTop="@dimen/margin_component"
                 android:text="@string/myact_button"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
