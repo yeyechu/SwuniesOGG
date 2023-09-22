@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == R.id.navigation_myact
                 || destination.id == R.id.navigation_graph
                 || destination.id == R.id.navigation_feed
+                || destination.id == R.id.navigation_main
             ) {
                 bottomNavView.visibility = View.VISIBLE
             } else {
