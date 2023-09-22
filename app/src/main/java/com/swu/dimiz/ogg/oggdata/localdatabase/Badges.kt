@@ -18,7 +18,9 @@ data class Badges (
 
     var image: Bitmap? = null,
 
-    //var getDate: Long? = null,
+    var getDate: Long? = null,
 
-    //var count: Int = 0
+    var count: Int = 0,
+
+    var baseValue: Int = 0
         )

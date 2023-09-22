@@ -25,3 +25,22 @@ fun ImageView.setImage(item: ActivitiesDaily?) {
         setImageBitmap(item.image)
     }
 }
+
+@BindingAdapter("activityFreq")
+fun TextView.setFreq(item: ActivitiesDaily?) {
+    item?.let {
+        if (item.freq == 1) {
+            text = "하루 " + item.freq.toString() + "번"
+        }
+        else {
+            text = "하루 " + item.limit.toString() + "번"
+        }
+    }
+}
+
+@BindingAdapter("activityExampleImage")
+fun ImageView.setExampleImage(item: ActivitiesDaily?) {
+    item?.let {
+        setImageBitmap(item.guideImage)
+    }
+}

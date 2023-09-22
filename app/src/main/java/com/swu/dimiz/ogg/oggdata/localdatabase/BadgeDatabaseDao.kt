@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.oggdata.localdatabase
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -18,10 +19,10 @@ interface BadgeDatabaseDao {
     @Query("SELECT * FROM badges")
     fun getAllItem() : Flow<List<Badges>>
 
-    //@Query("SELECT * FROM badges WHERE badgeId = :id")
-    //fun getItem(id: Int) : Badges
+    @Query("SELECT * FROM badges WHERE badgeId = :id")
+    fun getItem(id: Int) : Badges
 
-    //@Query("SELECT * FROM badges WHERE filter = :data")
-    //fun getFilteredList(data: String): LiveData<List<Badges>>
+    @Query("SELECT * FROM badges WHERE filter = :data")
+    fun getFilteredList(data: String): LiveData<List<Badges>>
 
 }

@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.swu.dimiz.ogg.ui.feed.FeedFragment">
     <data>
-        <variable
-            name="feedLayerViewModel"
-            type="com.swu.dimiz.ogg.ui.feed.myfeed.FeedLayerViewModel" />
+<!--        <variable-->
+<!--            name="feedLayerViewModel"-->
+<!--            type="com.swu.dimiz.ogg.ui.feed.myfeed.FeedLayerViewModel" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,16 +1,20 @@
 package com.swu.dimiz.ogg.oggdata
 
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 
-//@Dao
+@Dao
 interface MyConditionDatabaseDao {
 
-    //@Insert
+    @Insert
     fun insert(data: MyCondition)
 
-    //@Update
+    @Update
     fun update(data: MyCondition)
 
-    //@Query("SELECT * FROM condition_record LIMIT 1")
+    @Query("SELECT * FROM condition_record LIMIT 1")
     fun getData(data: MyCondition): MyCondition
 }

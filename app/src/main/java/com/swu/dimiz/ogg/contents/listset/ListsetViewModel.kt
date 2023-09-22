@@ -7,13 +7,18 @@ import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.io.IOException
 
 class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
     private var filter = FilterHolder()
-    private val category = mutableListOf("energy", "consume", "transport", "recycler")
+    private val category = mutableListOf("energy", "consume", "transport", "recycle")
+
+    private val _filteredList = MutableLiveData<List<ActivitiesDaily>>()
+    val filteredList: LiveData<List<ActivitiesDaily>>
+        get() = _filteredList
 
     private val _activityFilter = MutableLiveData<List<String>>()
     val activityFilter: LiveData<List<String>>
@@ -32,15 +37,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // 활동 체크 버튼
     // co2 받아오기, progress바 움직이기
 
-    // 필터 버튼
-    // 필터에 쿼리 적용
-
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     데이터베이스 초기화
-    private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private var currentJob: Job? = null
 
-    val getAllData: LiveData<List<ActivitiesDaily>> = repository.getAlldata.asLiveData()
+    //val getAllData: LiveData<List<ActivitiesDaily>> = repository.getAlldata.asLiveData()
     // 1. ConditionRecord에서 차량정보 가져오기
     // -> init{}에서 호출 후 suspend로 구현
 
@@ -53,43 +54,17 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val co2Aim: LiveData<Float>
         get() = _co2Aim
 
-    private val _filtered = MutableLiveData<List<ActivitiesDaily>>()
-    val filtered: LiveData<List<ActivitiesDaily>>
-        get() = _filtered
-
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                      뷰모델 초기화
     init {
         getFilters()
+        onFilterChanged("energy", true)
+
         Timber.i("created")
     }
 
-
     // ───────────────────────────────────────────────────────────────────────────────────
 
-
-
-//    fun insert(daily: ActivitiesDaily) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            repository.insert(daily)
-//        }
-//    }
-
-
-//    fun createList() {
-//        uiScope.launch {
-//            val newItem = ListSet()
-//            insert(newItem)
-//        }
-//    }
-
-//    private suspend fun insert(day: ListSet) {
-//        withContext(Dispatchers.IO) {
-//            for(i in 1..21) {
-//                //database.insert(day)
-//            }
-//        }
-//    }
 
     fun setCo2(co2: Float) {
         _co2Aim.value = co2
@@ -100,6 +75,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun onSaveButtonClicked() {
         _navigateToSave.value = true
     }
+
     fun onNavigatedToSave() {
         _navigateToSave.value = false
     }
@@ -108,24 +84,36 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     //                                          필터
     private fun getFilters() {
         category.let {
-            if( it != _activityFilter.value) {
+            if (it != _activityFilter.value) {
                 _activityFilter.value = it
             }
         }
     }
 
-    fun onFilterChanged(filter: String, isChecked: Boolean) {
-        if(this.filter.update(filter, isChecked)) {
-            getFilters()
+    private fun onFilterUpdated(filter: String) {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+
+            try {
+                _filteredList.value = repository.getFiltered(filter)
+            } catch (e: IOException) {
+                _filteredList.value = listOf()
             }
+        }
+    }
+
+    fun onFilterChanged(filter: String, isChecked: Boolean) {
+        if (isChecked) {
+            onFilterUpdated(filter)
+        }
     }
 
     private class FilterHolder {
         var currentValue: String? = null
-            private  set
+            private set
 
         fun update(changedFilter: String, isChecked: Boolean): Boolean {
-            if(isChecked) {
+            if (isChecked) {
                 currentValue = changedFilter
                 return true
             } else if (currentValue == changedFilter) {
@@ -138,7 +126,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        viewModelJob.cancel()
         Timber.i("destroyed")
     }
 }

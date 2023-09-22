@@ -1,9 +1,12 @@
 package com.swu.dimiz.ogg
 
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
 import androidx.multidex.MultiDexApplication
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.member.login.SignInActivity
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +16,7 @@ import timber.log.Timber
 class OggApplication: MultiDexApplication() {
 
     private val applicationScope = CoroutineScope(SupervisorJob())
-    val database by lazy { OggDatabase.getInstance(this, applicationScope) }
+    val database by lazy { OggDatabase.getInstance(this) }
     val repository by lazy { OggRepository(database)}
 
     companion object {
@@ -21,14 +24,20 @@ class OggApplication: MultiDexApplication() {
         lateinit var auth: FirebaseAuth
         var email: String? = null
 
-        fun checkAuth(): Boolean {
+
+            fun checkAuth(): Boolean {
             val currentUser = auth.currentUser
+
             return currentUser?.let {
 
                 email = currentUser.email
 
-                if(currentUser.isEmailVerified) {
-                    true
+                if(!currentUser.isEmailVerified) {
+                        //startActivity(Intent(this, SignInActivity::class.java))
+                        //finish()
+                    }else{
+
+                        true
                 }
                 false
 

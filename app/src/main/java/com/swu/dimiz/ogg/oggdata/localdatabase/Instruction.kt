@@ -1,9 +1,12 @@
 package com.swu.dimiz.ogg.oggdata.localdatabase
 
-//@Entity(tableName = "activity_detail")
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "activity_detail")
 data class Instruction (
 
-    //@PrimaryKey
+    @PrimaryKey
     var insId: Int = 0,
 
     var activityId: Int = 0,

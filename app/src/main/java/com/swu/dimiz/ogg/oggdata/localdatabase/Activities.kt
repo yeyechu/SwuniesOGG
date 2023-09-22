@@ -39,8 +39,8 @@ data class ActivitiesDaily (
     @ColumnInfo(name = "daily_guide_image",)
     var guideImage: Bitmap? = null,
 
-    //@ColumnInfo(name = "update_badge_code")
-    //var updateBadgeCode: Int = 0
+    @ColumnInfo(name = "update_badge_code")
+    var updateBadgeCode: Int = 0
         )
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -72,8 +72,8 @@ data class ActivitiesSustainable (
     @ColumnInfo(name = "sust_guide_image")
     var guideImage: Bitmap? = null,
 
-    //@ColumnInfo(name = "update_badge_code")
-    //var updateBadgeCode: Int = 0
+    @ColumnInfo(name = "update_badge_code")
+    var updateBadgeCode: Int = 0
 )
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -105,7 +105,7 @@ data class ActivitiesExtra (
     @ColumnInfo(name = "extra_guide_image")
     var guideImage: Bitmap? = null,
 
-    //@ColumnInfo(name = "update_badge_code")
-    //var updateBadgeCode: Int = 0
+    @ColumnInfo(name = "update_badge_code")
+    var updateBadgeCode: Int = 0
 )
 

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDailyDatabaseDao
-import com.swu.dimiz.ogg.oggdata.localdatabase.ListDatabaseDao
 
 class ListsetViewModelFactory(
     private val repository: OggRepository

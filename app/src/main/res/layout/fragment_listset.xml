@@ -135,7 +135,7 @@
                 app:chipSpacingHorizontal="@dimen/padding_small"
                 app:singleLine="true"
                 app:singleSelection="true"
-                app:selectionRequired="true"/>
+                app:selectionRequired="false"/>
         </HorizontalScrollView>
 
         <androidx.recyclerview.widget.RecyclerView

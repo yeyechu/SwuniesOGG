@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.databinding.FragmentListsetListItemBinding
+
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.ui.myact.post.PostWindow
 import timber.log.Timber
 
+private const val PATH_VALUE = "LIST_ADAPTER"
 class ActivityListAdapter(val context: Context) :
     ListAdapter<ActivitiesDaily, ActivityListAdapter.ActivityListViewHolder>(ActivityListDiffCallback()
     ) {
@@ -25,7 +27,13 @@ class ActivityListAdapter(val context: Context) :
             bind(activity) {
                 var intent = Intent(context, PostWindow::class.java)
                 val activityId = activity.dailyId.toString()
+                val activityValid = activity.instructionCount.toString()
+                val pathValue = PATH_VALUE.toString()
+
                 intent.putExtra("activity", activityId)
+                intent.putExtra("activityValid", activityValid)
+                intent.putExtra("pathValue", pathValue)
+
                 Timber.i("어댑터 $activityId")
                 context.startActivity(intent)
             }

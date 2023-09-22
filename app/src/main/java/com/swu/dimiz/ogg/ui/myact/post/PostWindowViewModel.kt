@@ -1,25 +1,52 @@
 package com.swu.dimiz.ogg.ui.myact.post
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import com.swu.dimiz.ogg.oggdata.MyPostDatabaseDao
-import com.swu.dimiz.ogg.oggdata.OggRepository
-import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import androidx.lifecycle.*
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDailyDatabaseDao
+import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
+import com.swu.dimiz.ogg.oggdata.localdatabase.InstructionDatabaseDao
+import kotlinx.coroutines.*
 
 class PostWindowViewModel(
-    val repository: OggRepository) : ViewModel() {
+    private val activityKey: Int = 0,
+    private val activityValue: Int = 0,
+    dataActivity: ActivitiesDailyDatabaseDao,
+    dataInstruction: InstructionDatabaseDao
+) : ViewModel() {
+
+    val database = dataActivity
+    private val subDatabase = dataInstruction
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    // get() key값에 해당하는
+    private val activity = MediatorLiveData<ActivitiesDaily>()
+    val gettInstructions: LiveData<List<Instruction>> = subDatabase.getDirections(activityKey, activityValue)
+    fun getActivity() = activity
+
+    private var _showPostButton = MutableLiveData<Boolean>()
+    val showPostButton: LiveData<Boolean>
+        get() = _showPostButton
+
+    val textVisible = gettInstructions.map {
+        it?.isNotEmpty()
+    }
+
+    init {
+        activity.addSource(database.getItem(activityKey), activity::setValue)
+        _showPostButton.value = false
+    }
+
+
+    fun onPostButton() {
+        _showPostButton.value = true
+    }
+
+    fun onNoPost() {
+        _showPostButton.value = false
+    }
 
     override fun onCleared() {
         super.onCleared()
-        viewModelJob.cancel()
     }
 }

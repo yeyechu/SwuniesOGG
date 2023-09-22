@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.myact.post.PostWindowViewModel" />
@@ -48,6 +49,7 @@
                 app:layout_constraintTop_toBottomOf="@id/button_exit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:actitityTitle="@{viewModel.activity}"
                 tools:text="가까운 거리는 걷기" />
 
             <TextView
@@ -55,10 +57,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/StyleText"
-                android:text="@string/post_text_co2"
                 app:layout_constraintTop_toBottomOf="@id/text_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:activityCo2="@{viewModel.activity}"/>
 
             <ImageView
                 android:id="@+id/image_example"
@@ -68,7 +70,8 @@
                 android:contentDescription="@string/description_myact_card_image"
                 app:layout_constraintTop_toBottomOf="@id/text_co2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:activityExampleImage="@{viewModel.activity}"/>
 
             <TextView
                 android:id="@+id/text_garbage_one"
@@ -78,7 +81,7 @@
                 android:text="@string/post_text_available"
                 app:layout_constraintTop_toBottomOf="@id/image_example"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/text_available_body"
@@ -89,6 +92,7 @@
                 app:layout_constraintTop_toBottomOf="@id/text_garbage_one"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:activityFreq="@{viewModel.activity}"
                 tools:text="하루에 한 번"/>
 
             <TextView
@@ -97,51 +101,60 @@
                 android:layout_height="wrap_content"
                 style="@style/StyleText.subtitle"
                 android:text="@string/post_text_guidlines"
+                android:visibility="@{viewModel.textVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintTop_toBottomOf="@id/text_available_body"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <ScrollView
-                android:id="@+id/text_guide_scroll"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/radius_layer"
-                app:layout_constraintTop_toBottomOf="@id/text_garbage_two"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/text_list"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-
-                </androidx.recyclerview.widget.RecyclerView>
-            </ScrollView>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_left"
-                android:layout_width="0dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/text_list"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:layout_gravity="center"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/button_right"
-                app:layout_constraintTop_toBottomOf="@id/text_guide_scroll"
-                style="@style/StyleButtonOggWhite"
-                tools:text="카메라 촬영" />
+                app:layout_constraintTop_toBottomOf="@id/text_garbage_two">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_right"
-                android:layout_width="0dp"
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <LinearLayout
+                android:id="@+id/button_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:orientation="horizontal"
                 android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@id/text_guide_scroll"
-                app:layout_constraintStart_toEndOf="@id/button_left"
+                app:layout_constraintTop_toBottomOf="@+id/text_list"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                style="@style/StyleButtonOgg"
-                tools:text="앨범 업로드" />
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:visibility="visible"
+                    style="@style/StyleButtonOggWhite"
+                    tools:text="카메라 촬영" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text=""
+                    style="@style/StyleButtonOgg"
+                    tools:text="앨범 업로드" />
+
+            </LinearLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

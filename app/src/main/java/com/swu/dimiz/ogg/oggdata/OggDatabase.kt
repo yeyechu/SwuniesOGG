@@ -7,8 +7,6 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.swu.dimiz.ogg.oggdata.localdatabase.*
-import com.swu.dimiz.ogg.oggdata.remotedatabase.ListSet
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyPost
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,29 +14,28 @@ import timber.log.Timber
 
 @Database(
     entities = [
-        MyPost::class,
-        ListSet::class,
         ActivitiesDaily::class,
         ActivitiesSustainable::class,
         ActivitiesExtra::class,
-        Badges::class], version = 1, exportSchema = false
+        Badges::class,
+        Instruction::class], version = 1, exportSchema = false
 )
 @TypeConverters(RoomTypeConverter::class)
 abstract class OggDatabase : RoomDatabase() {
 
-    abstract val myPostDatabaseDao: MyPostDatabaseDao
-    abstract val listSetDatabaseDao: ListDatabaseDao
+
     abstract val dailyDatabaseDao: ActivitiesDailyDatabaseDao
     abstract val sustDatabaseDao: ActivitiesSustDatabaseDao
     abstract val extraDatabaseDao: ActivitiesExtraDatabaseDao
     abstract val badgesDatabaseDao: BadgeDatabaseDao
+    abstract val instructionDatabaseDao : InstructionDatabaseDao
 
     companion object {
 
         @Volatile
         private var INSTANCE: OggDatabase? = null
 
-        fun getInstance(context: Context, scope: CoroutineScope): OggDatabase {
+        fun getInstance(context: Context): OggDatabase {
             Timber.i("여기1")
             synchronized(this) {
                 var instance = INSTANCE
@@ -48,7 +45,7 @@ abstract class OggDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         OggDatabase::class.java,
-                        "ogg_databases"
+                        "ogg_database"
                     )
                         .addCallback(object : RoomDatabase.Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {

@@ -60,6 +60,7 @@ class ListsetFragment : Fragment() {
         //                                     카테고리 출력
 
         viewModel.activityFilter.observe(viewLifecycleOwner, object : Observer<List<String>> {
+
             override fun onChanged(value: List<String>) {
                 value ?: return
                 val chipGroup = binding.activityFilter
@@ -69,6 +70,9 @@ class ListsetFragment : Fragment() {
                     val chip = inflater.inflate(R.layout.item_chips, chipGroup, false) as Chip
                     chip.text = category
                     chip.tag = category
+                    if(category == "energy") {
+                        chip.isChecked = true
+                    }
                     chip.setOnCheckedChangeListener { button, isChecked ->
                         viewModel.onFilterChanged(button.tag as String, isChecked)
                     }
@@ -87,12 +91,11 @@ class ListsetFragment : Fragment() {
         val adapter = ActivityListAdapter(requireContext())
         binding.activityList.adapter = adapter
 
-        viewModel.getAllData.observe(viewLifecycleOwner, Observer {
-            Timber.i("$it")
+        viewModel.filteredList.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.submitList(it)
             }
-        })
+        }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                     완료 버튼을 누르면 저장 후 화면을 이동시키는 관찰자

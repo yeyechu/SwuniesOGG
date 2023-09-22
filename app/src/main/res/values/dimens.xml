@@ -2,6 +2,8 @@
 <resources>
     <!-- ────────────────────────────────────── 기본값 ────────────────────────────────────── -->
     <!--                                         패딩                                         -->
+
+    <dimen name="padding_text">3dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_big">16dp</dimen>
 
@@ -73,6 +75,7 @@
     <dimen name="progressbar_height">5dp</dimen>
 
     <dimen name="myact_today_card_width">150dp</dimen>
+    <dimen name="post_scroll_height">100dp</dimen>
 
 
 
