@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSigninBinding
-import com.swu.dimiz.ogg.oggdata.remotedatabase.UserCondition
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import timber.log.Timber
 
 class SigninFragment: Fragment() {
@@ -59,12 +59,13 @@ class SigninFragment: Fragment() {
         auth?.signInWithEmailAndPassword(email,password)
             ?.addOnCompleteListener { task ->
                 if(task.isSuccessful){
+                    //이메일 인증되어있으면 firestore 저장 및 로그인
                     if(FirebaseAuth.getInstance().currentUser!!.isEmailVerified){
                         val nickname = auth.currentUser?.displayName.toString()
-                        val user = UserCondition(email, password, nickname)
+                        val user = MyCondition(email, password, nickname)
 
                         //사용자 정보 저장
-                        firestore.collection("User")
+                        firestore.collection("UserCondition")
                             .whereEqualTo("email", "")
                             .get()
                             .addOnSuccessListener { documents ->
@@ -80,6 +81,8 @@ class SigninFragment: Fragment() {
                             }
                         //로그인 완료 화면 이동
                         view?.findNavController()?.navigate(R.id.action_fragment_login_to_navigation_main)
+                        //여기서 로그인 액티비티 피니시
+                        activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
                     }else {
                         //todo 팝업
                         Timber.i("이메일 인증이 안되어있습니다")
