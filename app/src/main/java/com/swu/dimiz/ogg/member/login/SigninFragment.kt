@@ -17,9 +17,7 @@ import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSigninBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import timber.log.Timber
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
+
 
 class SigninFragment: Fragment() {
     lateinit var auth: FirebaseAuth

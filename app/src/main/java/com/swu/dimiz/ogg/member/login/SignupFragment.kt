@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.member.login
 
-import android.R
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -14,12 +13,9 @@ import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import com.swu.dimiz.ogg.databinding.FragmentSignupBinding
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
+
 
 
 class SignupFragment : Fragment() {
@@ -146,12 +142,11 @@ class SignupFragment : Fragment() {
                     var strimg = "android.resource://com.swu.dimiz.ogg/" + com.swu.dimiz.ogg.R.drawable.feed_button_reaction_great
                     var profileImage = Uri.parse(strimg)
 
+                    // 유저 닉네임, 프로필 사진 추가하기
                     val profileUpdates = userProfileChangeRequest {
                         displayName = nickname
                         photoUri =  profileImage
                     }
-
-                    // 유저 닉네임, 프로필 사진 추가하기
                     user?.updateProfile(profileUpdates)
                         ?.addOnCompleteListener { updateTask ->
                             if (updateTask.isSuccessful) {

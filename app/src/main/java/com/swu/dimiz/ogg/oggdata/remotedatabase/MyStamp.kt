@@ -3,6 +3,8 @@ package com.swu.dimiz.ogg.oggdata.remotedatabase
 /*
 fireStore 위치
 User/사용자 이메일/Post/업로드 한 날짜
+
+환경탭
  */
 
 class MyStamp ( //21일 스템프 기록
