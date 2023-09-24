@@ -3,7 +3,6 @@ package com.swu.dimiz.ogg
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyPost
 import com.swu.dimiz.ogg.oggdata.MyPostDatabaseDao
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily

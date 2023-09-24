@@ -28,4 +28,6 @@ data class MyCondition(             //사용자 기본 정보
     var startDate: Date?=null,      //그래프 쪽에서 같은지 판별
 
     var report: Int = 0             //신고 받은 횟수
+
+//몇번째 프로젝트중인지
 )
