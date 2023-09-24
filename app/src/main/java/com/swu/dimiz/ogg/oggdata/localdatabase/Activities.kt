@@ -31,7 +31,7 @@ data class ActivitiesDaily (
     var instructionCount: Int = 0,
 
     @ColumnInfo(name = "daily_ways_to_post")
-    var waytoPost: Boolean = false,
+    var waytoPost: Int= 0,
 
     @ColumnInfo(name = "daily_image",)
     var image: Bitmap? = null,
@@ -64,7 +64,7 @@ data class ActivitiesSustainable (
     var instructionCount: String = "",
 
     @ColumnInfo(name = "sust_ways_to_post")
-    var waytoPost: Boolean = false,
+    var waytoPost: Int= 0,
 
     @ColumnInfo(name = "sust_image")
     var image: Bitmap? = null,
@@ -97,7 +97,7 @@ data class ActivitiesExtra (
     var instructionCount: String = "",
 
     @ColumnInfo(name = "extra_ways_to_post")
-    var waytoPost: Boolean = false,
+    var waytoPost: Int= 0,
 
     @ColumnInfo(name = "extra_image")
     var image: Bitmap? = null,

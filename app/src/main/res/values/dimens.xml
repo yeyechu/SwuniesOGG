@@ -68,14 +68,20 @@
     <dimen name="bottom_sheet_button_height">16dp</dimen>
     <dimen name="bottom_sheet_scroll_height">300dp</dimen>
 
+    <!-- 고정 길이 -->
+    <dimen name="progressbar_width">300dp</dimen>
+    <dimen name="progressbar_height">5dp</dimen>
+    <dimen name="myact_today_card_width">150dp</dimen>
+
+    <dimen name="post_window_height">550dp</dimen>
+
+
     <!-- 기타 -->
 
     <dimen name="image_size_aim_face">80dp</dimen>
-    <dimen name="progressbar_width">300dp</dimen>
-    <dimen name="progressbar_height">5dp</dimen>
 
-    <dimen name="myact_today_card_width">150dp</dimen>
-    <dimen name="post_scroll_height">100dp</dimen>
+
+
 
 
 

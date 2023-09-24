@@ -6,12 +6,13 @@
     <data>
         <variable
             name="activity"
-            type="com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable"
-            />
+            type="com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable" />
+
+        <variable
+            name="clickListner"
+            type="com.swu.dimiz.ogg.ui.myact.myactcard.SustCardItemAdapter.OnClickListener" />
 
     </data>
-
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
@@ -71,6 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/bottom_sheet_peek_height"
                 android:text="@string/myact_button"
+                android:onClick="@{() -> clickListner.onClick(activity)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/big_card_text_co2"
                 app:layout_constraintStart_toStartOf="parent"

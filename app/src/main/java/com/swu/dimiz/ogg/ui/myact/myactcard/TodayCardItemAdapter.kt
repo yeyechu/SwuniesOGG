@@ -13,6 +13,7 @@ import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.ui.myact.post.PostWindow
 import timber.log.Timber
 
+private const val PATH_VALUE = "TODAY_ADAPTER"
 class TodayCardItemAdapter(val context: Context) :
     ListAdapter<ActivitiesDaily, TodayCardItemAdapter.ActivityListViewHolder>(ActivityListDiffCallback()
     ) {
@@ -24,9 +25,17 @@ class TodayCardItemAdapter(val context: Context) :
         holder.apply {
             bind(activity) {
                 var intent = Intent(context, PostWindow::class.java)
+
                 val activityId = activity.dailyId.toString()
+                val activityValid = activity.instructionCount.toString()
+                val pathValue = PATH_VALUE.toString()
+                val gallaryButton = activity.waytoPost.toString()
+
                 intent.putExtra("activity", activityId)
-                Timber.i("어댑터 $activityId")
+                intent.putExtra("activityValid", activityValid)
+                intent.putExtra("pathValue", pathValue)
+                intent.putExtra("gallaryButton", gallaryButton)
+
                 context.startActivity(intent)
             }
         }
@@ -35,8 +44,6 @@ class TodayCardItemAdapter(val context: Context) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityListViewHolder {
         return ActivityListViewHolder.from(parent)
     }
-
-
 
     class ActivityListViewHolder private constructor(val binding: FragmentMyActCardItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

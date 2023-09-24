@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">OGG</string>
+    <string name="app_name_korean">오늘도 지구를 지켰다</string>
     <!--                          디버깅용 SHA-1 지문(배포용 사용 불가)                            -->
     <string name="sha_1_for_debug">A0:83:BE:A1:74:5D:4F:81:09:E3:CF:A4:6F:0F:B9:F6:3E:89:87:6C</string>
 
@@ -26,6 +27,7 @@
     <!--                              활동페이지에서 접근하는 모든 페이지                             -->
     <string name="destination_title_popup">팝업</string>
     <string name="destination_title_camera">카메라</string>
+    <string name="destination_title_permissions">권한 요청</string>
     <string name="destination_title_post">인증 등록</string>
     <string name="destination_title_listchanger">활동 수정</string>
 
@@ -56,6 +58,7 @@
     <string name="description_badgelist_image_badges">배지 그림</string>
 
     <string name="description_myact_card_image">각 활동을 나타내는 이미지</string>
+    <string name="description_preview_photo">카메라로 찍은 사진</string>
 
 
     <!--                                  description_컴포넌트명                                   -->
@@ -122,12 +125,14 @@
     <string name="post_text_co2">탄소 감축량 %.3f kg</string>
     <string name="post_text_available">인증 가능 횟수</string>
     <string name="post_text_guidlines">인증 방법</string>
+
+    <string name="post_button_take_photo">카메라 촬영</string>
+    <string name="post_button_take_gallary">앨범 업로드</string>
+
     <string name="post_text"> </string>
-    <string name="album_button_take_photo">앨범 업로드</string>
 
 
     <!-- 카메라 -->
-    <string name="camera_button_take_photo">카메라 촬영</string>
     <string name="camera_button_retake_photo">다시 촬영</string>
     <string name="camera_button_use_photo">인증 올리기</string>
 

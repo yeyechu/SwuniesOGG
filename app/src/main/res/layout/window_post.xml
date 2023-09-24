@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/post_window_height"
             android:padding="@dimen/padding_popup_big"
             android:layout_margin="@dimen/margin_big"
             android:background="@drawable/common_layer_window_rounded"
@@ -137,10 +137,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center"
-                    android:text=""
-                    android:visibility="visible"
+                    android:visibility="gone"
+                    app:buttonVisibility="@{viewModel.activity}"
+                    android:text="@string/post_button_take_gallary"
                     style="@style/StyleButtonOggWhite"
-                    tools:text="카메라 촬영" />
+                    tools:text="앨범 업로드" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_right"
@@ -148,14 +149,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center"
-                    android:text=""
+                    android:text="@string/post_button_take_photo"
+                    app:buttonText="@{viewModel.activity}"
                     style="@style/StyleButtonOgg"
-                    tools:text="앨범 업로드" />
+                    tools:text="카메라 촬영" />
 
             </LinearLayout>
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

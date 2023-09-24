@@ -22,5 +22,9 @@ data class Badges (
 
     var count: Int = 0,
 
-    var baseValue: Int = 0
+    var baseValue: Int = 0,
+
+    var name: String = "",
+
+    var detail: String = ""
         )

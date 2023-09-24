@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/camera_ui_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/post_window_height"
+    android:padding="@dimen/padding_popup_big"
+    android:layout_margin="@dimen/margin_big">
+
+    <ImageView
+        android:id="@+id/image_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/description_preview_photo"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/button_shutter"
+        android:layout_width="?attr/minTouchTargetSize"
+        android:layout_height="?attr/minTouchTargetSize"
+        android:layout_marginBottom="@dimen/margin_default"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/destination_title_camera"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/camera_button_shutter" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

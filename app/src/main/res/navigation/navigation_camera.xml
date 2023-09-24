@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_camera"
+    app:startDestination="@id/destination_permissions">
+
+    <fragment
+        android:id="@+id/destination_permissions"
+        android:name="com.swu.dimiz.ogg.ui.myact.uploader.PemissionsFragment">
+
+        <action
+            android:id="@+id/action_destination_pemissions_to_destination_camera"
+            app:destination="@id/destination_camera"
+            app:popUpTo="@id/destination_permissions"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destination_camera"
+        android:name="com.swu.dimiz.ogg.ui.myact.uploader.CameraFragment"
+        tools:layout="@layout/fragment_camera">
+
+        <action
+            android:id="@+id/action_destination_camera_to_destination_pemissions"
+            app:destination="@id/destination_permissions"
+            app:popUpTo="@id/destination_camera"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+</navigation>

@@ -1,6 +1,9 @@
 package com.swu.dimiz.ogg
 
 import android.content.Intent
+import android.util.Log
+import androidx.camera.camera2.Camera2Config
+import androidx.camera.core.CameraXConfig
 import androidx.core.content.ContextCompat.startActivity
 import androidx.multidex.MultiDexApplication
 import com.google.firebase.auth.FirebaseAuth

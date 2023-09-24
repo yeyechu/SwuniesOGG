@@ -23,7 +23,7 @@ class SystemWindow : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DataBindingUtil.inflate( inflater, R.layout.window_popup_system, container, false)
 
         return binding.root

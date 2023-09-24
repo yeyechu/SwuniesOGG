@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"/>
+
     <application
         android:name=".OggApplication"
         android:allowBackup="true"
@@ -34,6 +41,11 @@
             android:theme="@style/Transparent_Popup" />
 
         <activity android:name=".contents.common.popup.PopupWindow"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Transparent_Popup" />
+
+        <activity android:name=".ui.myact.uploader.CameraActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Transparent_Popup" />

@@ -14,8 +14,8 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     val getAllData: LiveData<List<Badges>> = repository.getAllBadges.asLiveData()
 
-    private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+//    private var viewModelJob = Job()
+//    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     init {
         Timber.i("created")

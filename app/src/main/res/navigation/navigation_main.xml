@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_navigation_myact_to_destination_listchanger"
             app:destination="@id/destination_listchanger" />
+        <action
+            android:id="@+id/action_navigation_myact_to_navigation_camera"
+            app:destination="@id/navigation_camera" />
     </fragment>
 
     <fragment
@@ -136,5 +139,8 @@
         android:id="@+id/destination_listchanger"
         android:name="com.swu.dimiz.ogg.ui.myact.listchanger.ListchangerFragment"
         tools:layout="@layout/fragment_listchanger"/>
+
+
+    <include app:graph="@navigation/navigation_camera" />
 
 </navigation>

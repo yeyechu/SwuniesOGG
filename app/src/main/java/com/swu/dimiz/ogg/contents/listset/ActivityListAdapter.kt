@@ -28,13 +28,14 @@ class ActivityListAdapter(val context: Context) :
                 var intent = Intent(context, PostWindow::class.java)
                 val activityId = activity.dailyId.toString()
                 val activityValid = activity.instructionCount.toString()
+                val gallaryButton = activity.waytoPost
                 val pathValue = PATH_VALUE.toString()
 
                 intent.putExtra("activity", activityId)
                 intent.putExtra("activityValid", activityValid)
                 intent.putExtra("pathValue", pathValue)
+                intent.putExtra("gallaryButton", gallaryButton)
 
-                Timber.i("어댑터 $activityId")
                 context.startActivity(intent)
             }
         }

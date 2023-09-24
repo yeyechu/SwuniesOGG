@@ -1,117 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.swu.dimiz.ogg.ui.myact.myactcard.MyActViewModel" />
+            type="com.swu.dimiz.ogg.ui.myact.MyActViewModel" />
     </data>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/secondary_baby_blue"
-        tools:context=".MyActFragment"
-        android:layout_marginBottom="@dimen/margin_scroll"
+        android:layout_height="match_parent">
 
-        >
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_scroll"
+            android:background="@color/secondary_baby_blue"
+            tools:context=".MyActFragment">
 
-            <!--상단 콘텐츠-->
-            <!-- 멤버 이름 텍스트 -->
-            <TextView
-                android:id="@+id/myact_text_member_name"
-                style="@style/StyleText.title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_default"
-                android:text=""
-                app:layout_constraintBottom_toTopOf="@+id/myact_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="오지지님" />
-
-            <!-- 메인 타이틀 텍스트 -->
-            <TextView
-                android:id="@+id/myact_text"
-                style="@style/StyleText.title"
-                android:layout_marginStart="@dimen/margin_default"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/myact_text_main_title"
-                app:layout_constraintBottom_toTopOf="@+id/myact_progressbar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myact_text_member_name" />
-
-            <!-- 프로그래스바 -->
-            <include
-                android:id="@+id/myact_progressbar"
-                layout="@layout/fragment_my_act_progressbar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/myact_image_appbar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myact_text" />
-
-            <!-- myact 이미지 -->
-
-            <ImageView
-                android:id="@+id/myact_image_appbar"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:background="@drawable/myact_image_appbar"
-                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myact_progressbar" />
-
-            <!--하단 콘텐츠-->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myact_image_appbar">
+                android:layout_height="wrap_content">
 
-                <!-- 오늘의 활동 -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/today_act_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toTopOf="@+id/today_card_list"
+                <!--상단 콘텐츠-->
+                <!-- 멤버 이름 텍스트 -->
+                <TextView
+                    android:id="@+id/myact_text_member_name"
+                    style="@style/StyleText.title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:text=""
+                    app:layout_constraintBottom_toTopOf="@+id/myact_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="오지지님" />
+
+                <!-- 메인 타이틀 텍스트 -->
+                <TextView
+                    android:id="@+id/myact_text"
+                    style="@style/StyleText.title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:text="@string/myact_text_main_title"
+                    app:layout_constraintBottom_toTopOf="@+id/myact_progressbar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/myact_text_member_name" />
+
+                <!-- 프로그래스바 -->
+                <include
+                    android:id="@+id/myact_progressbar"
+                    layout="@layout/fragment_my_act_progressbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/myact_image_appbar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/myact_text" />
+
+                <!-- myact 이미지 -->
+
+                <ImageView
+                    android:id="@+id/myact_image_appbar"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/myact_image_appbar"
+                    android:contentDescription="@string/description_myact_image_appbar"
+                    app:layout_constraintBottom_toTopOf="@+id/card_container"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/myact_progressbar" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/card_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/myact_image_appbar">
 
                     <TextView
-                        android:id="@+id/today_act"
+                        android:id="@+id/text_title_daily"
                         style="@style/StyleText.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/myact_text_title_today"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/button_today_act_edit"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintBottom_toTopOf="@+id/today_card_list"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -120,132 +106,109 @@
                         style="@style/StyleButtonOgg.smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/icon_middle"
+                        android:contentDescription="@string/myact_today_edit_button"
                         android:text="@string/myact_today_edit_button"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/text_title_daily"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/today_act"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toTopOf="@+id/text_title_daily" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/today_card_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toTopOf="@+id/sustainable_act_layout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/today_act_layout"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/fragment_my_act_card_item"
-
-                    />
-
-                <!-- 지속 가능한 활동 -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/sustainable_act_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toTopOf="@+id/sustainable_act_list"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/today_card_list">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/today_card_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_default"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toTopOf="@+id/text_title_sust"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_title_daily"
+                        tools:listitem="@layout/fragment_my_act_card_item" />
 
                     <TextView
-                        android:id="@+id/sustainable_act"
+                        android:id="@+id/text_title_sust"
                         style="@style/StyleText.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/myact_text_title_sustainable"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/sustainable_act_info"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintBottom_toTopOf="@id/sustainable_act_list"
+                        app:layout_constraintEnd_toStartOf="@id/button_tooltip_sust"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/today_card_list" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/sustainable_act_info"
+                        android:id="@+id/button_tooltip_sust"
                         android:layout_width="@dimen/icon_middle"
                         android:layout_height="@dimen/icon_middle"
                         android:background="@drawable/common_button_tooltip"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="@string/myact_tooltip_sustainable"
+                        app:layout_constraintBottom_toBottomOf="@+id/text_title_sust"
+                        app:layout_constraintStart_toEndOf="@id/text_title_sust"
+                        app:layout_constraintTop_toTopOf="@+id/text_title_sust" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/sustainable_act_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_default"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toTopOf="@id/text_title_extra"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/sustainable_act"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_title_sust"
+                        app:listData="@{viewModel.getSustData}"
+                        tools:listitem="@layout/fragment_my_act_card_item_big" />
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/sustainable_act_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toTopOf="@+id/extra_act_layout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sustainable_act_layout"
-                    tools:listitem="@layout/fragment_my_act_card_item_big" />
-
-                <!-- 특별 활동  -->
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/extra_act_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toTopOf="@+id/extra_act_list"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sustainable_act_list">
+                    <!-- 특별 활동  -->
 
                     <TextView
-                        android:id="@+id/extra_act"
+                        android:id="@+id/text_title_extra"
                         style="@style/StyleText.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/myact_text_title_extra"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/extra_act_info"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintBottom_toTopOf="@+id/extra_act_list"
+                        app:layout_constraintEnd_toStartOf="@+id/button_tooltip_extra"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/sustainable_act_list" />
 
                     <ImageView
-                        android:id="@+id/extra_act_info"
+                        android:id="@+id/button_tooltip_extra"
                         android:layout_width="@dimen/icon_middle"
                         android:layout_height="@dimen/icon_middle"
+                        android:contentDescription="@string/myact_tooltip_extra"
+                        app:layout_constraintBottom_toBottomOf="@+id/text_title_extra"
+                        app:layout_constraintStart_toEndOf="@id/text_title_extra"
+                        app:layout_constraintTop_toTopOf="@+id/text_title_extra"
+                        app:srcCompat="@drawable/common_button_tooltip" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/extra_act_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/extra_act"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/common_button_tooltip" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_title_extra"
+                        tools:listitem="@layout/fragment_my_act_card_item_big" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/extra_act_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/extra_act_layout"
-                    tools:listitem="@layout/fragment_my_act_card_item_big" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+        </ScrollView>
+
+        <FrameLayout
+            android:id="@+id/frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+            <fragment
+                android:name="com.swu.dimiz.ogg.ui.myact.postsust.PostSustWindow"
+                android:id="@+id/fragment_popup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </FrameLayout>
 </layout>
