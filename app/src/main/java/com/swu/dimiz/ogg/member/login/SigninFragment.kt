@@ -73,22 +73,17 @@ class SigninFragment: Fragment() {
         auth?.signInWithEmailAndPassword(email,password)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-
-                    // ──────────────────────────────────────────────────────────────────────────────────────
-                    //                                       추가 정보 저장
+                    //추가할 기본 정보 받아오기
                     val testuser = Firebase.auth.currentUser
                     testuser?.let {
                         for (profile in it.providerData) {
                             uid = profile.uid
                             nickname = profile.displayName.toString()
                             profileImage = profile.photoUrl!!
-
-                            Timber.i("닉네임$nickname")
-                            Timber.i("프로필이미지$profileImage")
                         }
                     }
-
-                    //이메일 인증되어있으면 firestore 저장 및 로그인
+                    // ──────────────────────────────────────────────────────────────────────────────────────
+                    //                   이메일 인증되어있으면 firestore & storage 저장 및 로그인
                     if (FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
                         val user = auth.currentUser?.let {
                             MyCondition(
