@@ -141,8 +141,6 @@
     <string name="myact_card_text_subtitle_done">오늘 하루 인증 회수를\n다 채웠어요!</string>
 
 
-
-
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->
     <string name="graph_"> </string>
 
@@ -190,6 +188,8 @@
     <string name="signup_text_input_password">비밀번호를 8자 이상 입력해주세요</string>
     <string name="signup_text_input_password_check">비밀번호를 한번 더 입력해주세요</string>
     <string name="signup_button_email_check">중복확인</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

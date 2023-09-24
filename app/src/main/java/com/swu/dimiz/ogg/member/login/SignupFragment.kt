@@ -1,5 +1,7 @@
 package com.swu.dimiz.ogg.member.login
 
+import android.R
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,16 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.google.android.material.textfield.TextInputLayout
+import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.databinding.FragmentSigninBinding
+import com.google.firebase.storage.FirebaseStorage
 import com.swu.dimiz.ogg.databinding.FragmentSignupBinding
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class SignupFragment : Fragment() {
     lateinit var auth: FirebaseAuth
@@ -25,15 +28,13 @@ class SignupFragment : Fragment() {
 
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_signup, container, false
+            inflater, com.swu.dimiz.ogg.R.layout.fragment_signup, container, false
         )
 
         auth = FirebaseAuth.getInstance()
@@ -55,10 +56,6 @@ class SignupFragment : Fragment() {
                 return@setOnClickListener
             }
         }
-        binding.emailCheck.setOnClickListener{
-
-
-        }
 
         binding.passwordEtFirst.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -67,11 +64,36 @@ class SignupFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // 작성 중
-                val password = s.toString()
-                if (password.length < 8) {
+                val password1 = s.toString()
+                if (password1.length < 8) {
                     binding.passwordEtFirst.error = "비밀번호를 8자 이상 입력해주세요"
+                    //인증보내기 버튼 비활성화
                 } else {
                     binding.passwordEtFirst.error = null
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // 작성 후
+            }
+        })
+
+        binding.passwordEtSecond.editText?.addTextChangedListener(object : TextWatcher {
+
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // 작성 전
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 작성 중
+                val password1 = binding.passwordEtFirst.editText?.text.toString()
+                val password2 = s.toString()
+                if (password2 != password1) {
+                    binding.passwordEtSecond.error = "비밀번호가 일치하지 않아요"
+                    //인증보내기 버튼 비활성화
+                } else {
+                    binding.passwordEtSecond.error = null
                 }
             }
 
@@ -98,6 +120,7 @@ class SignupFragment : Fragment() {
                             // 이미 가입된 이메일
                             binding.emailEt.error = "이미 가입되어있는 이메일이에요"
                             binding.emailEt.helperText = null
+                            //인증보내기 버튼 비활성화
                         }
                     } else {
                         Timber.e(task.exception, "이메일 확인 중 오류 발생")
@@ -119,15 +142,20 @@ class SignupFragment : Fragment() {
 
                     val user = FirebaseAuth.getInstance().currentUser
 
+                    //기본 프로필 사진(모두 동일하고 drawable에 있기때문에 storage 저장 불필요)
+                    var strimg = "android.resource://com.swu.dimiz.ogg/" + com.swu.dimiz.ogg.R.drawable.feed_button_reaction_great
+                    var profileImage = Uri.parse(strimg)
+
                     val profileUpdates = userProfileChangeRequest {
                         displayName = nickname
+                        photoUri =  profileImage
                     }
 
-                    // 유저 닉네임 추가하기
+                    // 유저 닉네임, 프로필 사진 추가하기
                     user?.updateProfile(profileUpdates)
                         ?.addOnCompleteListener { updateTask ->
                             if (updateTask.isSuccessful) {
-                                Timber.i("닉네임 설정 완료")
+                                Timber.i("프로필 업데이트 완료")
                             }
                         }
 
@@ -139,14 +167,14 @@ class SignupFragment : Fragment() {
                             Timber.i(verificationTask.exception.toString())
                         }
                     }
+                    view?.findNavController()
+                        ?.navigate(com.swu.dimiz.ogg.R.id.action_signupFragment_to_signinFragment)
+
                 } else if (task.exception?.message.isNullOrEmpty()) {
                     Timber.i(task.exception.toString())
                 } else {
                     // 입력한 계정 정보가 이미 Firebase DB에 있는 경우
                     Timber.i("이미 존재하는 이메일입니다.")
-
-
-
                 }
             }
     }
