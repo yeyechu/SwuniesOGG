@@ -3,7 +3,6 @@ package com.swu.dimiz.ogg.ui.myact
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.swu.dimiz.ogg.oggdata.OggRepository
-
 class MyActViewModelFactory (
     private val repository: OggRepository
 ) : ViewModelProvider.Factory {

@@ -38,10 +38,8 @@ class MyActFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                    기본 초기화
-
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_my_act, container, false)
 
@@ -53,12 +51,10 @@ class MyActFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(MyActViewModel::class.java)
 
+        val mainActivity = activity as MainActivity
+
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel
-
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                   btnEdit 이동
 
         binding.buttonTodayActEdit.setOnClickListener { view: View ->
             view.findNavController().navigate(
@@ -66,7 +62,6 @@ class MyActFragment : Fragment() {
                     .actionNavigationMyactToDestinationListchanger()
             )
         }
-
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
         val adapter = TodayCardItemAdapter(requireContext())
@@ -80,7 +75,6 @@ class MyActFragment : Fragment() {
             }
         })
 
-
         binding.sustainableActList.adapter = SustCardItemAdapter(SustCardItemAdapter.OnClickListener {
             viewModel.showPopup(it)
             Timber.i("버튼 클릭 리스너 : $it")
@@ -90,8 +84,10 @@ class MyActFragment : Fragment() {
             Timber.i("버튼 클릭 관찰자 : $it")
             if (it == null) {
                 binding.frameLayout.visibility = View.GONE
+                mainActivity.hideBottomNavView(false)
             } else {
                 binding.frameLayout.visibility = View.VISIBLE
+                mainActivity.hideBottomNavView(true)
             }
         })
 
@@ -105,20 +101,16 @@ class MyActFragment : Fragment() {
             }
         })
 
-
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                   tooltip
-        //tooltip 버튼
         binding.buttonTooltipSust.setOnClickListener {
             balloonSus?.showAlignBottom(binding.buttonTooltipSust)
-
         }
+
         binding.buttonTooltipExtra.setOnClickListener {
             balloonExtra?.showAlignBottom(binding.buttonTooltipExtra)
-
         }
 
-        // balloon 객체 생성
         balloonSus = createBalloon(requireContext()) {
             setHeight(BalloonSizeSpec.WRAP)
             setWidth(BalloonSizeSpec.WRAP)
@@ -151,15 +143,6 @@ class MyActFragment : Fragment() {
         }
 
         return binding.root
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.sust.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding.frameLayout.visibility = View.VISIBLE
-            }
-        })
     }
 
     private fun addWindow() {
@@ -175,6 +158,5 @@ class MyActFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        Timber.i("onDestroyView()")
     }
 }

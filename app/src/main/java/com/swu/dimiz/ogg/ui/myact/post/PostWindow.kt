@@ -72,10 +72,8 @@ class PostWindow : AppCompatActivity() {
 //            intent.putExtra("titleActivity", extraTitle)
 //            intent.putExtra("co2Activity", activityCo2)
             this.startActivity(intent)
-            finish()
+            //finish()
             Timber.i("카메라 시작 버튼 눌림")
-            //it.findNavController().navigate(R.id.action_navigation_myact_to_navigation_camera)
-            //it.findNavController().graph.
         }
 
         binding.buttonExit.setOnClickListener {

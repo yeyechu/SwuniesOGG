@@ -2,21 +2,84 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/camera_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding_big"
-    android:background="@color/transparency_dimmed">
+    android:padding="@dimen/padding_big">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/view_finder"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/post_window_height"
-        android:padding="@dimen/margin_listaim_image"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
         android:layout_margin="@dimen/margin_big"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/button_shutter"
+        android:layout_width="?attr/minTouchTargetSize"
+        android:layout_height="?attr/minTouchTargetSize"
+        android:layout_marginBottom="@dimen/margin_default"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/destination_title_camera"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/view_finder"
+        app:srcCompat="@drawable/camera_button_shutter" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/preview_layout"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:visibility="gone"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/image_preview"
+            android:layout_width="250dp"
+            android:layout_height="350dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/description_preview_photo"
+            android:padding="@dimen/margin_listaim_image"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@id/button_retake"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_done"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/camera_button_use_photo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_retake"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_preview"
+            style="@style/StyleButtonOggWhite"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_retake"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/camera_button_retake_photo"
+            app:layout_constraintBottom_toBottomOf="@+id/button_done"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/button_done"
+            app:layout_constraintTop_toTopOf="@+id/button_done"
+            app:layout_constraintVertical_bias="0.5"
+            style="@style/StyleButtonOgg"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

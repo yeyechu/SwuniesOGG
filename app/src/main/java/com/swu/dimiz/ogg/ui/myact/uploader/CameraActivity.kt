@@ -18,15 +18,22 @@ import timber.log.Timber
 
 class CameraActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityCameraBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
+
         Timber.i("onCreate()")
+        binding = ActivityCameraBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.buttonExit.setOnClickListener {
+            finish()
+        }
 
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        return when(keyCode) {
+        return when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 val intent = Intent(KEY_EVENT_ACTION).apply {
                     putExtra(KEY_EVENT_EXTRA, keyCode)

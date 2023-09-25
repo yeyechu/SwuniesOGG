@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.myact.MyActViewModel" />
@@ -204,11 +203,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottom_nav_size"
+                android:background="@drawable/myact_image_fake_bottom_nav"
+                android:layout_gravity="bottom" />
+
             <fragment
                 android:name="com.swu.dimiz.ogg.ui.myact.postsust.PostSustWindow"
                 android:id="@+id/fragment_popup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </FrameLayout>
+
     </FrameLayout>
 </layout>

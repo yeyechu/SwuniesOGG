@@ -104,4 +104,14 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         Timber.i("onDestroy()")
     }
+
+    fun hideBottomNavView(state: Boolean) {
+        if(state) {
+            binding.bottomNavView.visibility = View.GONE
+            //binding.bottomNavView.isEnabled = true
+        }
+        else {
+            binding.bottomNavView.visibility = View.VISIBLE
+        }
+    }
 }

@@ -16,7 +16,6 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -30,7 +29,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
-import com.swu.dimiz.ogg.databinding.FragmentCameraUiContainerBinding
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_FAST_MILLIS
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_SLOW_MILLIS
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.simulateClick
@@ -43,12 +41,8 @@ import java.util.concurrent.Executors
 
 class CameraFragment : Fragment() {
 
-    // ─────────────────────────────────────────────────────────────────────────────────
-    //                                    UI 바인딩
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
-
-    private var uiContainerBinding: FragmentCameraUiContainerBinding? = null
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                                    카메라 변수
@@ -68,8 +62,15 @@ class CameraFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
-
         Timber.i("카메라 onCreateView()")
+
+        binding.buttonRetake.setOnClickListener {
+            binding.previewLayout.visibility = View.GONE
+        }
+        binding.buttonDone.setOnClickListener {
+
+        }
+
         return binding.root
     }
 
@@ -91,7 +92,6 @@ class CameraFragment : Fragment() {
                 setUpCamera()
                 Timber.i("카메라 실행")
             }
-
         }
     }
 
@@ -100,21 +100,13 @@ class CameraFragment : Fragment() {
         cameraProvider = ProcessCameraProvider.getInstance(requireContext()).await()
 
         bindCameraUseCases()
+        takePictures()
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    private fun setUpCameraUi() {
+    private fun takePictures() {
 
-        uiContainerBinding?.root?.let {
-            binding.root.removeView(it)
-        }
-
-        uiContainerBinding = FragmentCameraUiContainerBinding.inflate(
-            LayoutInflater.from(requireContext()),
-            binding.root, true
-        )
-
-        uiContainerBinding?.buttonShutter?.setOnClickListener {
+        binding.buttonShutter.setOnClickListener {
             imageCapture?.let { imageCapture ->
 
                 val name = SimpleDateFormat(FILENAME, Locale.KOREA)
@@ -148,30 +140,32 @@ class CameraFragment : Fragment() {
 
                             setGalleryThumbnail(savedUri.toString())
 
+                            binding.root.post{
+                                binding.previewLayout.visibility = View.VISIBLE
+                            }
                         }
-
                     })
 
-                binding.root.postDelayed({
-                    binding.root.foreground = ColorDrawable(Color.WHITE)
-                    binding.root.postDelayed(
-                        { binding.root.foreground = null }, ANIMATION_FAST_MILLIS)
-                }, ANIMATION_SLOW_MILLIS)
+                // 플래시 효과
+//                binding.root.postDelayed({
+//                    binding.root.foreground = ColorDrawable(Color.WHITE)
+//                    binding.root.postDelayed(
+//                        { binding.root.foreground = null }, ANIMATION_FAST_MILLIS)
+//                }, ANIMATION_SLOW_MILLIS)
             }
         }
+
     }
 
     private fun setGalleryThumbnail(filename: String) {
 
-        uiContainerBinding?.imagePreview?.let { photoView ->
-
-            photoView.visibility = View.VISIBLE
+        binding.imagePreview.let { photoView ->
             photoView.post {
                 photoView.setPadding(resources.getDimension(R.dimen.stroke_shape_bold).toInt())
 
                 Glide.with(photoView)
                     .load(filename)
-                    .apply(RequestOptions.circleCropTransform())
+                    .apply(RequestOptions.fitCenterTransform())
                     .into(photoView)
             }
         }
@@ -195,7 +189,6 @@ class CameraFragment : Fragment() {
         }
 
         try{
-
             camera = cameraProvider.bindToLifecycle(
                 this, cameraSelector, preview, imageCapture
             )
@@ -210,6 +203,7 @@ class CameraFragment : Fragment() {
         super.onResume()
         Timber.i("카메라 onResume()")
         if(!PemissionsFragment.hasPermissions(requireContext())) {
+            Timber.i("카메라 onResume() : 권한 없음")
             Navigation.findNavController(requireActivity(), R.id.camera_container).navigate(
                 CameraFragmentDirections.actionDestinationCameraToDestinationPemissions()
             )
@@ -222,19 +216,17 @@ class CameraFragment : Fragment() {
         Timber.i("카메라 onDestroyView()")
         cameraExecutor.shutdown()
         broadcastManager.unregisterReceiver(volumeDownReceiver)
-
     }
 
     private val volumeDownReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.getIntExtra(KEY_EVENT_EXTRA, KeyEvent.KEYCODE_UNKNOWN)) {
                 KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                    uiContainerBinding?.buttonShutter?.simulateClick()
+                    binding.buttonShutter.simulateClick()
                 }
             }
         }
     }
-
 
     private fun removeCameraStateObservers(cameraInfo: CameraInfo) {
         cameraInfo.cameraState.removeObservers(viewLifecycleOwner)
@@ -245,29 +237,19 @@ class CameraFragment : Fragment() {
             run {
                 when (cameraState.type) {
                     CameraState.Type.PENDING_OPEN -> {
-                        Toast.makeText(context,
-                            "카메라 기다리는 중",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("카메라 기다리는 중")
                     }
                     CameraState.Type.OPENING -> {
-                        Toast.makeText(context,
-                            "카메라 엶",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("카메라 여는 중")
                     }
                     CameraState.Type.OPEN -> {
-                        Toast.makeText(context,
-                            "카메라 실행",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("카메라 실행")
                     }
                     CameraState.Type.CLOSING -> {
-                        Toast.makeText(context,
-                            "카메라 닫는 중",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("카메라 닫는 중")
                     }
                     CameraState.Type.CLOSED -> {
-                        Toast.makeText(context,
-                            "카메라 닫힘",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("카메라 종료")
                     }
                 }
             }
@@ -276,40 +258,25 @@ class CameraFragment : Fragment() {
                 when (error.code) {
 
                     CameraState.ERROR_STREAM_CONFIG -> {
-
-                        Toast.makeText(context,
-                            "configuration 오류, use case 확인 필요",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("configuration 오류, use case 확인 필요")
                     }
                     CameraState.ERROR_CAMERA_IN_USE -> {
-                        Toast.makeText(context,
-                            "열린 카메라 있음",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("열린 카메라 있음")
                     }
                     CameraState.ERROR_MAX_CAMERAS_IN_USE -> {
-                        Toast.makeText(context,
-                            "최대 카메라 사용 중",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("최대 카메라 사용 중")
                     }
                     CameraState.ERROR_OTHER_RECOVERABLE_ERROR -> {
-                        Toast.makeText(context,
-                            "recoverable 에러",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("recoverable 에러")
                     }
                     CameraState.ERROR_CAMERA_DISABLED -> {
-                        Toast.makeText(context,
-                            "카메라 사용불가",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("카메라 사용 불가")
                     }
                     CameraState.ERROR_CAMERA_FATAL_ERROR -> {
-                        Toast.makeText(context,
-                            "카메라 복구를 위한 재부팅 필요",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("카메라 복구를 위한 재부팅 필요")
                     }
                     CameraState.ERROR_DO_NOT_DISTURB_MODE_ENABLED -> {
-                        Toast.makeText(context,
-                            "방해금지 모드 해제 필요",
-                            Toast.LENGTH_SHORT).show()
+                        Timber.i("방해금지 모드 해제 필요")
                     }
                 }
             }
