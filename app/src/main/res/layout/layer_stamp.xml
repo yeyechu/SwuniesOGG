@@ -5,7 +5,10 @@
 
     <data>
         <variable
-            name="viewModel"
+            name="envViewModel"
+            type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
+        <variable
+            name="stampViewModel"
             type="com.swu.dimiz.ogg.ui.env.stamp.StampViewModel" />
     </data>
 
@@ -16,12 +19,12 @@
         android:background="@drawable/common_layer_background_rounded_bottom">
 
         <LinearLayout
-            android:id="@+id/beforeLayer"
+            android:id="@+id/before_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_component"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/env_text_member_name"
@@ -47,13 +50,13 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/afterLayer"
+            android:id="@+id/after_layer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_big"
             android:paddingTop="@dimen/padding_big"
             android:paddingEnd="@dimen/padding_big"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/image_stamp_today"

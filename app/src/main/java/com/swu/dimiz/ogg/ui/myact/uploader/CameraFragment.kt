@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
+import com.swu.dimiz.ogg.ui.myact.post.PostWindow
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_FAST_MILLIS
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_SLOW_MILLIS
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.simulateClick
@@ -67,10 +68,12 @@ class CameraFragment : Fragment() {
         binding.buttonRetake.setOnClickListener {
             binding.previewLayout.visibility = View.GONE
         }
+
         binding.buttonDone.setOnClickListener {
 
+            PostWindow.postWindow!!.finish()
+            CameraActivity.cameraActivity!!.finish()
         }
-
         return binding.root
     }
 
@@ -84,7 +87,6 @@ class CameraFragment : Fragment() {
 
         val filter = IntentFilter().apply { addAction(KEY_EVENT_ACTION) }
         broadcastManager.registerReceiver(volumeDownReceiver, filter)
-
 
         binding.viewFinder.post {
             displayId = binding.viewFinder.display.displayId

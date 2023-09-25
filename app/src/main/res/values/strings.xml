@@ -135,6 +135,7 @@
     <!-- 카메라 -->
     <string name="camera_button_retake_photo">다시 촬영</string>
     <string name="camera_button_use_photo">인증 올리기</string>
+    <string name="camera_button_retake_photo_gallery">다시 선택</string>
 
     <!-- 인증 완료 팝업 -->
     <string name="post_text_title_completed">인증이 완료되었어요!</string>

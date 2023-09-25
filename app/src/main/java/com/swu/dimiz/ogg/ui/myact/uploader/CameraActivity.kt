@@ -1,17 +1,11 @@
 package com.swu.dimiz.ogg.ui.myact.uploader
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.KeyEvent
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.ActivityCameraBinding
 import timber.log.Timber
@@ -19,17 +13,20 @@ import timber.log.Timber
 class CameraActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCameraBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         Timber.i("onCreate()")
+
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        cameraActivity = this
 
         binding.buttonExit.setOnClickListener {
             finish()
         }
-
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -69,6 +66,10 @@ class CameraActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Timber.i("onDestroy()")
+    }
+
+    companion object {
+        var cameraActivity: CameraActivity? = null
     }
 }
 

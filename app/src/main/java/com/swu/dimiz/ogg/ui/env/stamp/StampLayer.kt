@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.LayerStampBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
+import com.swu.dimiz.ogg.ui.env.EnvViewModel
 
 class StampLayer : Fragment() {
 
@@ -35,20 +37,30 @@ class StampLayer : Fragment() {
         //val viewModelFactory = StampViewModelFactory(dataSource, application)
 
         //viewModel = ViewModelProvider(this, viewModelFactory).get(StampViewModel::class.java)
-        binding.viewModel = viewModel
+        binding.stampViewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                  활동 날짜 불러오기
-        viewModel.date.observe(viewLifecycleOwner) {
-            if (it == 0) {
-                binding.beforeLayer.visibility = View.VISIBLE
-                binding.afterLayer.visibility = View.GONE
-            } else {
-                binding.afterLayer.visibility = View.VISIBLE
-                binding.beforeLayer.visibility = View.GONE
-            }
-        }
+//        viewModel.date.observe(viewLifecycleOwner) {
+//            if (it == 0) {
+//                binding.beforeLayer.visibility = View.VISIBLE
+//                binding.afterLayer.visibility = View.GONE
+//            } else {
+//                binding.afterLayer.visibility = View.VISIBLE
+//                binding.beforeLayer.visibility = View.GONE
+//            }
+//        }
+
+//        viewModel.expandLayout.observe(viewLifecycleOwner) {
+//            if(it) {
+//                binding.layoutStamp.visibility = View.VISIBLE
+//                binding.buttonExpand.setImageResource(R.drawable.common_button_arrow_up)
+//            } else {
+//                binding.layoutStamp.visibility = View.GONE
+//                binding.buttonExpand.setImageResource(R.drawable.common_button_arrow_down)
+//            }
+//        }
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                  오늘 스탬프 설정
 
@@ -61,12 +73,15 @@ class StampLayer : Fragment() {
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                 레이아웃 확장 버튼
         viewModel.expandLayout.observe(viewLifecycleOwner) {
-            if(it) {
-                binding.layoutStamp.visibility = View.VISIBLE
-                binding.buttonExpand.setImageResource(R.drawable.common_button_arrow_up)
-            } else {
-                binding.layoutStamp.visibility = View.GONE
-                binding.buttonExpand.setImageResource(R.drawable.common_button_arrow_down)
+            it?.let{
+                if(it) {
+                    binding.layoutStamp.visibility = View.VISIBLE
+                    binding.buttonExpand.setImageResource(R.drawable.common_button_arrow_up)
+                } else {
+
+                    binding.layoutStamp.visibility = View.GONE
+                    binding.buttonExpand.setImageResource(R.drawable.common_button_arrow_down)
+                }
             }
         }
 

@@ -14,6 +14,10 @@ class EnvViewModel : ViewModel() {
     // SavedStateHandle 알아보기
     private val disposable: Disposable? = null
 
+    private val _date = MutableLiveData<Int>()
+    val date: LiveData<Int>
+        get() = _date
+
     private val _navigate = MutableLiveData<Boolean>()
     val navigate: LiveData<Boolean>
         get() = _navigate
@@ -22,8 +26,17 @@ class EnvViewModel : ViewModel() {
     val navigateToStart: LiveData<Boolean>
         get() = _navigateToStart
 
+    private val _expandLayout = MutableLiveData<Boolean>()
+    val expandLayout: LiveData<Boolean>
+        get() = _expandLayout
+
     init {
         Timber.i("ViewModel created")
+        _date.value = 1
+    }
+
+    fun onExpandButtonClicked() {
+        _expandLayout.value = _expandLayout.value != true
     }
 
     fun onFabClicked() {

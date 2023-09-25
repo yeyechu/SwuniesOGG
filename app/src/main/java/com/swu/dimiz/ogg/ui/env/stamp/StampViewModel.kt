@@ -31,8 +31,11 @@ class StampViewModel (val database: OggDatabase, application: Application
 
     init {
         setDate()
-        _expandLayout.value = false
         Timber.i("created")
+    }
+
+    fun onExpandButtonClicked2() {
+        _expandLayout.value = _expandLayout.value != true
     }
 
     private fun setDate() {

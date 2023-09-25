@@ -154,6 +154,55 @@
                     tools:text="카메라 촬영" />
 
             </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/preview_layout"
+                android:layout_width="300dp"
+                android:layout_height="450dp"
+                android:visibility="gone"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_co2">
+
+                <ImageView
+                    android:id="@+id/image_preview"
+                    android:layout_width="250dp"
+                    android:layout_height="350dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/description_preview_photo"
+                    android:padding="@dimen/margin_listaim_image"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toTopOf="@id/button_retake"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_done"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/camera_button_use_photo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/button_retake"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_preview"
+                    style="@style/StyleButtonOggWhite"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_retake"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/camera_button_retake_photo_gallery"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_done"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/button_done"
+                    app:layout_constraintTop_toTopOf="@+id/button_done"
+                    app:layout_constraintVertical_bias="0.5"
+                    style="@style/StyleButtonOgg"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

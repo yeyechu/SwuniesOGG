@@ -3,6 +3,8 @@ package com.swu.dimiz.ogg.ui.myact.post
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -12,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.WindowPostBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
@@ -29,6 +32,7 @@ class PostWindow : AppCompatActivity() {
 
         binding = WindowPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        postWindow = this
 
         val intentId = intent.getStringExtra("activity")
         val intentValid = intent.getStringExtra("activityValid")
@@ -72,12 +76,44 @@ class PostWindow : AppCompatActivity() {
 //            intent.putExtra("titleActivity", extraTitle)
 //            intent.putExtra("co2Activity", activityCo2)
             this.startActivity(intent)
-            //finish()
             Timber.i("카메라 시작 버튼 눌림")
         }
 
         binding.buttonExit.setOnClickListener {
             finish()
         }
+
+        binding.buttonLeft.setOnClickListener {
+            startGallery()
+        }
+
+        binding.buttonRetake.setOnClickListener {
+            startGallery()
+        }
+
+        binding.buttonDone.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun startGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        getPicture.launch(intent)
+        binding.previewLayout.visibility = View.VISIBLE
+    }
+    private val getPicture: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if(it.resultCode == RESULT_OK && it.data != null) {
+            val uri = it.data!!.data
+
+            Glide.with(this)
+                .load(uri)
+                .into(binding.imagePreview)
+        }
+    }
+    companion object{
+        var postWindow : PostWindow? = null
     }
 }

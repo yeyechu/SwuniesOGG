@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/text_stamp_date"
+    android:layout_width="@dimen/image_size_stamp_face"
+    android:layout_height="@dimen/image_size_stamp_face"
+    android:text=""
+    android:textSize="15sp"
+    android:textColor="@color/secondary_light_gray"
+    android:gravity="center"
+    android:adjustViewBounds="true"
+    android:background="@drawable/env_shape_stamp_circle_dash"
+    tools:text="1" />
