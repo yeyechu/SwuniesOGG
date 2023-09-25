@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        // auth.signOut() //-> 이동하는지 확인하고 싶으면 로그아웃 하면됨
+        //auth.signOut() //-> 이동하는지 확인하고 싶으면 로그아웃 하면됨
 
         val currentUser = OggApplication.auth.currentUser
         if (currentUser == null) {

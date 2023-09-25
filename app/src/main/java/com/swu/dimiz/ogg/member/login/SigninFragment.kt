@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.member.login
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSigninBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
@@ -132,9 +134,10 @@ class SigninFragment: Fragment() {
                             }
 
                         //로그인 완료 화면 이동
-                        view?.findNavController()?.navigate(R.id.action_fragment_login_to_navigation_main)
+                        val intent = Intent(context, MainActivity::class.java)
+                        startActivity(intent)
                         //여기서 로그인 액티비티 피니시
-                        //activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+                        //SignInActivity.signInActivity!!.finish()
                     } else {
                         //todo 팝업
                         Timber.i("이메일 인증이 안되어있습니다")
@@ -144,6 +147,7 @@ class SigninFragment: Fragment() {
                     Timber.i(task.exception.toString())
                 }
             }
+
     }
 
     override fun onDestroyView() {
