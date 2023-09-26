@@ -44,40 +44,46 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/email_et"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="280dp"
+        <LinearLayout
+            android:id="@+id/inputid"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity=""
             android:layout_marginTop="@dimen/padding_big"
-            android:hint="@string/email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sinup_info"
-            app:placeholderText="@string/signup_text_input_email">
+            tools:layout_editor_absoluteX="16dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_et"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
+                android:layout_weight="1"
+                android:hint="@string/email"
+                app:placeholderText="@string/signup_text_input_email">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
 
 
-                />
+                    />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/email_check"
+                style="@style/StyleButtonOgg.smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/signup_button_email_check" />
+        </LinearLayout>
 
         <!--중복확인버튼-->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/email_check"
-            style="@style/StyleButtonOgg.smaller"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/signup_button_email_check"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/email_et"
-            app:layout_constraintTop_toTopOf="@+id/email_et" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nickname_et"
@@ -88,7 +94,7 @@
             android:hint="@string/nickname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_et"
+            app:layout_constraintTop_toBottomOf="@+id/inputid"
             app:placeholderText="@string/signup_text_input_nickname">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -163,6 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/common_button_tooltip"
+                android:gravity="center"
 
                 android:text="@string/signup_text_agree_info"
                 android:textColor="@color/primary_blue"

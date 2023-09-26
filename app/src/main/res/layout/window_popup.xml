@@ -51,6 +51,7 @@
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_component"
                 android:lineSpacingExtra="@dimen/text_size_body_small"
                 android:text=""
                 android:textAlignment="center"
@@ -63,6 +64,7 @@
                 android:id="@+id/image"
                 android:layout_width="@dimen/image_resouce_size"
                 android:layout_height="@dimen/image_resouce_size"
+                android:layout_marginTop="@dimen/margin_component"
                 android:src="@drawable/common_image_placeholder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +76,7 @@
                 android:layout_height="wrap_content"
                 style="@style/StyleButtonOgg"
                 android:text="@string/post_button_completed"
+                android:layout_marginTop="@dimen/margin_component"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image" />

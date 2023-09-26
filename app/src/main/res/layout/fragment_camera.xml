@@ -58,26 +58,26 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_done"
+            style="@style/StyleButtonOggWhite"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/camera_button_use_photo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/button_retake"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_preview"
-            style="@style/StyleButtonOggWhite"/>
+            app:layout_constraintStart_toStartOf="@+id/image_preview"
+            app:layout_constraintTop_toBottomOf="@id/image_preview" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_retake"
+            style="@style/StyleButtonOgg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/camera_button_retake_photo"
             app:layout_constraintBottom_toBottomOf="@+id/button_done"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/image_preview"
             app:layout_constraintStart_toEndOf="@id/button_done"
             app:layout_constraintTop_toTopOf="@+id/button_done"
-            app:layout_constraintVertical_bias="0.5"
-            style="@style/StyleButtonOgg"/>
+            app:layout_constraintVertical_bias="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

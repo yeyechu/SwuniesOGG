@@ -101,6 +101,8 @@ class PostWindow : AppCompatActivity() {
         intent.type = "image/*"
         getPicture.launch(intent)
         binding.previewLayout.visibility = View.VISIBLE
+        binding.explainLayout.visibility = View.GONE
+
     }
     private val getPicture: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()

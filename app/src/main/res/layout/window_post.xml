@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
-            android:layout_height="@dimen/post_window_height"
+            android:layout_height="wrap_content"
             android:padding="@dimen/padding_popup_big"
             android:layout_margin="@dimen/margin_big"
             android:background="@drawable/common_layer_window_rounded"
@@ -55,121 +55,143 @@
                 android:id="@+id/text_co2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_component"
                 style="@style/StyleText"
                 app:layout_constraintTop_toBottomOf="@id/text_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:activityCo2="@{viewModel.activity}"/>
 
-            <ImageView
-                android:id="@+id/image_example"
-                android:layout_width="@dimen/image_resouce_size"
-                android:layout_height="@dimen/image_resouce_size"
-                android:src="@drawable/common_image_placeholder"
-                android:contentDescription="@string/description_myact_card_image"
-                app:layout_constraintTop_toBottomOf="@id/text_co2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:activityExampleImage="@{viewModel.activity}"/>
 
-            <TextView
-                android:id="@+id/text_garbage_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/StyleText.subtitle"
-                android:text="@string/post_text_available"
-                app:layout_constraintTop_toBottomOf="@id/image_example"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/text_available_body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/StyleText"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/text_garbage_one"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:activityFreq="@{viewModel.activity}"
-                tools:text="하루에 한 번"/>
-
-            <TextView
-                android:id="@+id/text_garbage_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/StyleText.subtitle"
-                android:text="@string/post_text_guidlines"
-                android:visibility="@{viewModel.textVisible ? View.VISIBLE : View.GONE}"
-                app:layout_constraintTop_toBottomOf="@id/text_available_body"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/text_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_garbage_two">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <LinearLayout
-                android:id="@+id/button_layout"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/explain_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/text_co2"
+                tools:layout_editor_absoluteX="20dp"
                 android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/text_list"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                >
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_left"
+                <ImageView
+                    android:id="@+id/image_example"
+                    android:layout_width="@dimen/image_resouce_size"
+                    android:layout_height="@dimen/image_resouce_size"
+                    android:contentDescription="@string/description_myact_card_image"
+                    android:src="@drawable/common_image_placeholder"
+                    android:layout_margin="@dimen/margin_default"
+                    app:activityExampleImage="@{viewModel.activity}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_garbage_one"
+                    style="@style/StyleText.subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    app:buttonVisibility="@{viewModel.activity}"
-                    android:text="@string/post_button_take_gallary"
-                    style="@style/StyleButtonOggWhite"
-                    tools:text="앨범 업로드" />
+                    android:layout_margin="@dimen/margin_default"
+                    android:text="@string/post_text_available"
+                    app:layout_constraintEnd_toEndOf="@+id/image_example"
+                    app:layout_constraintStart_toStartOf="@+id/image_example"
+                    app:layout_constraintTop_toBottomOf="@+id/image_example" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_right"
+                <TextView
+                    android:id="@+id/text_available_body"
+                    style="@style/StyleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:text="@string/post_button_take_photo"
-                    app:buttonText="@{viewModel.activity}"
-                    style="@style/StyleButtonOgg"
-                    tools:text="카메라 촬영" />
+                    android:layout_margin="@dimen/margin_component"
+                    android:text=""
 
-            </LinearLayout>
+                    app:activityFreq="@{viewModel.activity}"
+                    app:layout_constraintEnd_toEndOf="@+id/text_garbage_one"
+                    app:layout_constraintStart_toStartOf="@+id/text_garbage_one"
+                    app:layout_constraintTop_toBottomOf="@+id/text_garbage_one"
+                    tools:text="하루에 한 번" />
+
+                <TextView
+                    android:id="@+id/text_garbage_two"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+
+                    android:text="@string/post_text_guidlines"
+                    android:visibility="@{viewModel.textVisible ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="@+id/text_garbage_one"
+                    app:layout_constraintStart_toStartOf="@+id/text_garbage_one"
+                    app:layout_constraintTop_toBottomOf="@+id/text_available_body" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/text_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_component"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_garbage_two">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <LinearLayout
+                    android:id="@+id/button_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_list">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_left"
+                        style="@style/StyleButtonOggWhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/post_button_take_gallary"
+                        android:visibility="gone"
+                        app:buttonVisibility="@{viewModel.activity}"
+                        tools:text="앨범 업로드" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_right"
+                        style="@style/StyleButtonOgg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/post_button_take_photo"
+                        app:buttonText="@{viewModel.activity}"
+                        tools:text="카메라 촬영" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/preview_layout"
-                android:layout_width="300dp"
-                android:layout_height="450dp"
-                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@color/white"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_co2">
+                app:layout_constraintTop_toBottomOf="@+id/text_co2"
+                app:layout_constraintVertical_bias="1.0">
 
                 <ImageView
                     android:id="@+id/image_preview"
                     android:layout_width="250dp"
                     android:layout_height="350dp"
+                    android:layout_marginTop="@dimen/margin_default"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/description_preview_photo"
                     android:padding="@dimen/margin_listaim_image"
@@ -181,26 +203,27 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_done"
+                    style="@style/StyleButtonOggWhite"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
                     android:text="@string/camera_button_use_photo"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/button_retake"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/image_preview"
-                    style="@style/StyleButtonOggWhite"/>
+                    app:layout_constraintStart_toStartOf="@+id/image_preview"
+                    app:layout_constraintTop_toBottomOf="@id/image_preview" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_retake"
+                    style="@style/StyleButtonOgg"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/camera_button_retake_photo_gallery"
                     app:layout_constraintBottom_toBottomOf="@+id/button_done"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/image_preview"
                     app:layout_constraintStart_toEndOf="@id/button_done"
                     app:layout_constraintTop_toTopOf="@+id/button_done"
-                    app:layout_constraintVertical_bias="0.5"
-                    style="@style/StyleButtonOgg"/>
+                    app:layout_constraintVertical_bias="0.5" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -148,12 +148,12 @@ class CameraFragment : Fragment() {
                         }
                     })
 
-                // 플래시 효과
-//                binding.root.postDelayed({
-//                    binding.root.foreground = ColorDrawable(Color.WHITE)
-//                    binding.root.postDelayed(
-//                        { binding.root.foreground = null }, ANIMATION_FAST_MILLIS)
-//                }, ANIMATION_SLOW_MILLIS)
+                 //플래시 효과
+                binding.root.postDelayed({
+                    binding.root.foreground = ColorDrawable(Color.WHITE)
+                    binding.root.postDelayed(
+                        { binding.root.foreground = null }, ANIMATION_FAST_MILLIS)
+                }, ANIMATION_SLOW_MILLIS)
             }
         }
 
