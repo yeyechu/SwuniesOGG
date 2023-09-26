@@ -58,7 +58,7 @@ class CameraFragment : Fragment() {
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                                      기타
-    var bitmap : Bitmap? = null
+    //var bitmap : Bitmap? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -73,6 +73,7 @@ class CameraFragment : Fragment() {
 
             PostWindow.postWindow!!.finish()
             CameraActivity.cameraActivity!!.finish()
+            // post 데이터가 올라가야 함
         }
         return binding.root
     }

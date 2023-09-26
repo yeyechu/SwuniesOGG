@@ -2,6 +2,7 @@
 <resources>
     <!-- ────────────────────────────────────── 기본값 ────────────────────────────────────── -->
     <!--                                         패딩                                         -->
+    <dimen name="spacing_text">30dp</dimen>
 
     <dimen name="padding_text">3dp</dimen>
     <dimen name="padding_small">8dp</dimen>
@@ -20,9 +21,12 @@
     <dimen name="margin_component">8dp</dimen>
     <dimen name="margin_default">16dp</dimen>
     <dimen name="margin_big">21dp</dimen>
+    <dimen name="margin_large">30dp</dimen>
     <dimen name="margin_scroll">50dp</dimen>
 
     <!--                                        텍스트                                        -->
+    <dimen name="text_line_spacing">6sp</dimen>
+
     <dimen name="text_size_body_small">10sp</dimen>
     <dimen name="text_size_body_big">13sp</dimen>
 

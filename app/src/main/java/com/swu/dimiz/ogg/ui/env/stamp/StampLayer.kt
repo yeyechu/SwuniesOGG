@@ -6,19 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.LayerStampBinding
-import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
+import timber.log.Timber
 
 class StampLayer : Fragment() {
 
     private lateinit var binding : LayerStampBinding
-    private lateinit var viewModel: StampViewModel
 
-    // 라이브데이터 + 뷰모델 필요
+    private val viewModel: EnvViewModel by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,58 +31,8 @@ class StampLayer : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.layer_stamp, container, false)
 
-        val application = requireNotNull(this.activity).application
-        //val dataSource = OggDatabase.getInstance(application)
-        //val viewModelFactory = StampViewModelFactory(dataSource, application)
-
-        //viewModel = ViewModelProvider(this, viewModelFactory).get(StampViewModel::class.java)
-        binding.stampViewModel = viewModel
-        binding.lifecycleOwner = this.viewLifecycleOwner
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                  활동 날짜 불러오기
-//        viewModel.date.observe(viewLifecycleOwner) {
-//            if (it == 0) {
-//                binding.beforeLayer.visibility = View.VISIBLE
-//                binding.afterLayer.visibility = View.GONE
-//            } else {
-//                binding.afterLayer.visibility = View.VISIBLE
-//                binding.beforeLayer.visibility = View.GONE
-//            }
-//        }
-
-//        viewModel.expandLayout.observe(viewLifecycleOwner) {
-//            if(it) {
-//                binding.layoutStamp.visibility = View.VISIBLE
-//                binding.buttonExpand.setImageResource(R.drawable.common_button_arrow_up)
-//            } else {
-//                binding.layoutStamp.visibility = View.GONE
-//                binding.buttonExpand.setImageResource(R.drawable.common_button_arrow_down)
-//            }
-//        }
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                  오늘 스탬프 설정
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                     스탬프 판
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                     프로그레스바
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                 레이아웃 확장 버튼
-        viewModel.expandLayout.observe(viewLifecycleOwner) {
-            it?.let{
-                if(it) {
-                    binding.layoutStamp.visibility = View.VISIBLE
-                    binding.buttonExpand.setImageResource(R.drawable.common_button_arrow_up)
-                } else {
-
-                    binding.layoutStamp.visibility = View.GONE
-                    binding.buttonExpand.setImageResource(R.drawable.common_button_arrow_down)
-                }
-            }
-        }
+        binding.condition = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }

@@ -40,7 +40,7 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/Transparent_Popup" />
 
-        <activity android:name=".contents.common.popup.PopupWindow"
+        <activity android:name=".ui.env.badges.BadgeDetailWindow"
             android:exported="false"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Transparent_Popup" />

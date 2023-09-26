@@ -27,17 +27,15 @@ class OggApplication: MultiDexApplication() {
         lateinit var auth: FirebaseAuth
         var email: String? = null
 
+        fun checkAuth(): Boolean {
 
-            fun checkAuth(): Boolean {
             val currentUser = auth.currentUser
-
             return currentUser?.let {
 
-                email = currentUser.email
+                //email = currentUser.email
 
                 if(!currentUser.isEmailVerified) {
-                        //startActivity(Intent(this, SignInActivity::class.java))
-                        //finish()
+
                     }else{
 
                         true

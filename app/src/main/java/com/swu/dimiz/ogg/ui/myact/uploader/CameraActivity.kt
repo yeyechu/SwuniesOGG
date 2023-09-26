@@ -3,10 +3,8 @@ package com.swu.dimiz.ogg.ui.myact.uploader
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.ActivityCameraBinding
 import timber.log.Timber
 
@@ -40,32 +38,6 @@ class CameraActivity : AppCompatActivity() {
             }
             else -> super.onKeyDown(keyCode, event)
         }
-    }
-
-    //                              수명 주기 체크
-    override fun onStart() {
-        super.onStart()
-        Timber.i("onStart()")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Timber.i("onResume()")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Timber.i("onPause()")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Timber.i("onStop()")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.i("onDestroy()")
     }
 
     companion object {

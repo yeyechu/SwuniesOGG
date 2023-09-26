@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel" />-->
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_big"
+        android:background="@color/transparency_dimmed">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_popup_big"
+            android:layout_margin="@dimen/margin_big"
+            android:background="@drawable/common_layer_window_rounded"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/StyleText.title"
+                android:text=""
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="인증이 완료되었어요!" />
+
+            <TextView
+                android:id="@+id/text_body"
+                style="@style/StyleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_component"
+                android:lineSpacingExtra="@dimen/text_size_body_small"
+                android:text=""
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_title"
+                tools:text="오늘도 지구를 지켰어요 오늘도 지구를 지켰어요 오늘도 지구를 지켰어요 오늘도 지구를 지켰어요" />
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/image_resouce_size"
+                android:layout_height="@dimen/image_resouce_size"
+                android:layout_marginTop="@dimen/margin_component"
+                android:src="@drawable/common_image_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_body" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_completed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/StyleButtonOgg"
+                android:text="@string/post_button_completed"
+                android:layout_marginTop="@dimen/margin_component"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

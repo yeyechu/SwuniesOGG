@@ -21,8 +21,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
-            layout="@layout/layer_env" />
+        <fragment
+            android:id="@+id/include_layer_env"
+            android:name="com.swu.dimiz.ogg.ui.env.myenv.MyEnvLayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/envToolbar"
@@ -32,7 +35,12 @@
             android:theme="?attr/actionBarTheme"
             app:title="@string/app_name" />
 
-        <include layout="@layout/layer_stamp"/>
+        <fragment
+            android:id="@+id/include_layer_stamp"
+            android:name="com.swu.dimiz.ogg.ui.env.stamp.StampLayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/badgeEditButton"
@@ -45,6 +53,15 @@
             android:contentDescription="@string/destination_title_listset"
             android:onClick="@{() -> viewModel.onFabClicked()}"
             tools:src="@drawable/env_button_edit_badge_floating" />
+
+        <Button
+            android:id="@+id/button_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.onDateButtonClicked()}"
+            android:layout_marginBottom="@dimen/margin_floating_button"
+            android:layout_gravity="bottom|center"
+            android:text="날짜 변경"/>
 
     </FrameLayout>
 </layout>

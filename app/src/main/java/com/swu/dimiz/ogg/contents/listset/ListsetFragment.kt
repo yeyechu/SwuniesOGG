@@ -16,8 +16,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.chip.Chip
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.common.dialog.SystemWindow
 import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
 import com.swu.dimiz.ogg.oggdata.OggRepository
+import com.swu.dimiz.ogg.ui.env.User
 import timber.log.Timber
 
 class ListsetFragment : Fragment() {

@@ -17,4 +17,5 @@ class OggRepository(private val database: OggDatabase) {
     suspend fun getFiltered(filter: String) : List<ActivitiesDaily>? {
         return database.dailyDatabaseDao.getFilteredList(filter)
     }
+
 }

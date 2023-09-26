@@ -25,7 +25,9 @@ class PhotoFragment internal constructor() : Fragment() {
             File(it)
         } ?: R.drawable.common_image_placeholder
 
-        Glide.with(view).load(resource).into(view as ImageView)
+        Glide.with(view)
+            .load(resource)
+            .into(view as ImageView)
     }
 
     companion object {

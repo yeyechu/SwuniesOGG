@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-
         <variable
             name="activity"
             type="com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily" />

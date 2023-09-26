@@ -65,7 +65,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
 
-
     fun setCo2(co2: Float) {
         _co2Aim.value = co2
     }
@@ -127,5 +126,17 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         Timber.i("destroyed")
+    }
+}
+
+class ListsetViewModelFactory(
+    private val repository: OggRepository
+) : ViewModelProvider.Factory {
+    @Suppress("unchecked_cast")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if(modelClass.isAssignableFrom(ListsetViewModel::class.java)) {
+            return ListsetViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

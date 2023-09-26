@@ -29,7 +29,6 @@ class MyActFragment : Fragment() {
 
     private lateinit var viewModel: MyActViewModel
     private lateinit var navController: NavController
-    private lateinit var fragmentManager: FragmentManager
 
     private var balloonSus: Balloon? = null // Balloon 변수 추가
     private var balloonExtra: Balloon? = null
@@ -44,7 +43,6 @@ class MyActFragment : Fragment() {
             inflater, R.layout.fragment_my_act, container, false)
 
         navController = findNavController()
-        fragmentManager = childFragmentManager
 
         val application = requireNotNull(this.activity).application
         val viewModelFactory = MyActViewModelFactory((application as OggApplication).repository)
@@ -144,17 +142,6 @@ class MyActFragment : Fragment() {
 
         return binding.root
     }
-
-    private fun addWindow() {
-        Timber.i("트랜잭션1")
-        fragmentManager.beginTransaction()
-            .add(R.id.frame_layout, PostSustWindow())
-            .setReorderingAllowed(true)
-            .addToBackStack(null)
-            .commit()
-        Timber.i("트랜잭션2")
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

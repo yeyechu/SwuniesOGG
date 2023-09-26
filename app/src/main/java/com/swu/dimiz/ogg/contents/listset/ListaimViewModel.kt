@@ -7,9 +7,9 @@ import timber.log.Timber
 
 class ListaimViewModel : ViewModel() {
 
-    private val setOfAimOne = "초보거북" to "50%인 500kg"
-    private val setOfAimTwo = "중수물개" to "100%인 1ton"
-    private val setOfAimThree = "고수돌고래" to "150%인 1.5ton"
+    private val setOfAimOne = "초보" to "3위인 바다거북"
+    private val setOfAimTwo = "중수" to "2위인 바다표범"
+    private val setOfAimThree = "고수" to "1위인 바키타 돌고래"
 
     private val _aimCo2 = MutableLiveData<Float>()
     val aimCo2: LiveData<Float>

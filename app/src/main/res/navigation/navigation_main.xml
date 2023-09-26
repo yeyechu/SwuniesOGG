@@ -63,6 +63,13 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_destination_badge_list_to_badgeDetailWindow"
+            app:destination="@id/destination_badge_detail"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/destination_badge_list"
+            app:popUpToInclusive="true" />
+
     </fragment>
 
     <fragment
@@ -142,5 +149,16 @@
 
 
     <include app:graph="@navigation/navigation_camera" />
+
+    <fragment
+        android:id="@+id/destination_badge_detail"
+        android:name="com.swu.dimiz.ogg.ui.env.badges.BadgeDetailWindow"
+        tools:layout="@layout/window_badge_detail">
+        <action
+            android:id="@+id/action_badgeDetailWindow_to_destination_badge_list"
+            app:destination="@id/destination_badge_list" />
+
+
+    </fragment>
 
 </navigation>

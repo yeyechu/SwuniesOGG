@@ -130,7 +130,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/myact_text_title_sustainable"
-                        app:layout_constraintBottom_toTopOf="@id/sustainable_act_list"
+                        app:layout_constraintBottom_toTopOf="@id/today_card_list"
                         app:layout_constraintEnd_toStartOf="@id/button_tooltip_sust"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/today_card_list" />
@@ -141,10 +141,9 @@
                         android:layout_height="@dimen/icon_middle"
                         android:background="@drawable/common_button_tooltip"
                         android:contentDescription="@string/myact_tooltip_sustainable"
-                        app:layout_constraintBottom_toBottomOf="@+id/text_title_sust"
+                        app:layout_constraintBottom_toBottomOf="@id/text_title_sust"
                         app:layout_constraintStart_toEndOf="@id/text_title_sust"
                         app:layout_constraintTop_toTopOf="@+id/text_title_sust" />
-
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/sustainable_act_list"
@@ -168,8 +167,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/myact_text_title_extra"
-                        app:layout_constraintBottom_toTopOf="@+id/extra_act_list"
-                        app:layout_constraintEnd_toStartOf="@+id/button_tooltip_extra"
+                        app:layout_constraintBottom_toTopOf="@id/extra_act_list"
+                        app:layout_constraintEnd_toStartOf="@id/button_tooltip_extra"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/sustainable_act_list" />
 
@@ -178,9 +177,9 @@
                         android:layout_width="@dimen/icon_middle"
                         android:layout_height="@dimen/icon_middle"
                         android:contentDescription="@string/myact_tooltip_extra"
-                        app:layout_constraintBottom_toBottomOf="@+id/text_title_extra"
+                        app:layout_constraintBottom_toBottomOf="@id/text_title_extra"
                         app:layout_constraintStart_toEndOf="@id/text_title_extra"
-                        app:layout_constraintTop_toTopOf="@+id/text_title_extra"
+                        app:layout_constraintTop_toTopOf="@id/text_title_extra"
                         app:srcCompat="@drawable/common_button_tooltip" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -208,7 +207,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/bottom_nav_size"
                 android:background="@drawable/myact_image_fake_bottom_nav"
-                android:layout_gravity="bottom" />
+                android:layout_gravity="bottom"
+                android:visibility="visible"/>
 
             <fragment
                 android:name="com.swu.dimiz.ogg.ui.myact.postsust.PostSustWindow"

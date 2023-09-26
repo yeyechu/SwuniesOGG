@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
         <variable
-            name="envViewModel"
+            name="condition"
             type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
-        <variable
-            name="stampViewModel"
-            type="com.swu.dimiz.ogg.ui.env.stamp.StampViewModel" />
     </data>
 
     <FrameLayout
@@ -23,21 +22,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_component"
+            android:padding="@dimen/padding_big"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="@{condition.layerVisible ? View.VISIBLE : View.GONE}" >
 
             <TextView
                 android:id="@+id/env_text_member_name"
                 style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="플라스틱애호가님"
+                android:layout_marginBottom="@dimen/text_line_spacing"
+                android:text="@{@string/stamplayout_text_nickname(condition.fakeUser.nickname)}"
                 tools:text="오지지님" />
 
             <TextView
                 style="@style/StyleText.subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_line_spacing"
                 android:text="@string/env_text_before_message" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -45,23 +47,26 @@
                 style="@style/StyleButtonOgg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_component"
+                android:onClick="@{() -> condition.onStartClicked()}"
                 android:text="@string/env_button_start" />
 
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/after_layer"
+            android:id="@+id/after_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_big"
             android:paddingTop="@dimen/padding_big"
             android:paddingEnd="@dimen/padding_big"
-            android:visibility="visible">
+            android:visibility="@{condition.layerVisible ? View.GONE : View.VISIBLE}">
 
             <ImageView
                 android:id="@+id/image_stamp_today"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
+                android:layout_marginEnd="@dimen/margin_component"
                 android:contentDescription="@string/description_env_stamp_today"
                 app:layout_constraintBottom_toTopOf="@id/progressBar"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +77,8 @@
                 style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/stamplayout_text_title"
+                android:layout_marginStart="@dimen/text_line_spacing"
+                android:text="@{@string/stamplayout_text_title(condition.fakeDate)}"
                 app:layout_constraintBottom_toTopOf="@+id/text_co2_left"
                 app:layout_constraintStart_toEndOf="@+id/image_stamp_today"
                 app:layout_constraintTop_toTopOf="parent"
@@ -83,7 +89,8 @@
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/stamplayout_text_body"
+                android:layout_marginStart="@dimen/text_line_spacing"
+                android:text="@{@string/stamplayout_text_body(condition.fakeUser.aim)}"
                 app:layout_constraintBottom_toTopOf="@+id/progressBar"
                 app:layout_constraintStart_toEndOf="@+id/image_stamp_today"
                 app:layout_constraintTop_toBottomOf="@+id/text_date_of_21"
@@ -102,7 +109,7 @@
                 android:id="@+id/text_progress_co2_zero"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="@string/co2_default_zero"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/progressBar" />
 
@@ -113,13 +120,14 @@
                 android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/progressBar"
+                app:userCo2="@{condition.fakeUser}"
                 tools:text="29.4" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_stamp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="@{condition.expandLayout ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toTopOf="@+id/button_expand"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -147,11 +155,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/description_common_button_arrow_down"
+                android:onClick="@{() -> condition.onExpandButtonClicked()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_stamp"
-                app:srcCompat="@drawable/common_button_arrow_down" />
+                app:expandButtonImage="@{condition.expandLayout}"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

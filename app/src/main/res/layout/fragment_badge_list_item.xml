@@ -7,12 +7,17 @@
         <variable
             name="badge"
             type="com.swu.dimiz.ogg.oggdata.localdatabase.Badges" />
+
+        <variable
+            name="clickListener"
+            type="com.swu.dimiz.ogg.ui.env.badges.BadgeListAdapter.BadgeClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/image_resouce_size"
         android:layout_height="wrap_content"
         android:id="@+id/badge_container"
+        android:onClick="@{() -> clickListener.onClick(badge)}"
         android:padding="@dimen/padding_small">
 
         <ImageView

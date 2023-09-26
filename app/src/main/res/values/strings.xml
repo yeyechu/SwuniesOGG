@@ -41,6 +41,7 @@
     <string name="co2_aim1_turtle">1.4</string>
     <string name="co2_aim2_seal">2.78</string>
     <string name="co2_aim3_dolphin">5.22</string>
+    <string name="co2_default_zero">0</string>
 
     <!-- ──────────────────────────────────────    설명    ────────────────────────────────────── -->
     <!--                모든 PNG에 들어가는 contentDescription 속성은 이곳에 선언되어야 함              -->
@@ -64,6 +65,7 @@
     <!--                                  description_컴포넌트명                                   -->
     <string name="description_scroll">스크롤</string>
     <string name="description_bottom_sheet">위로 올라오는 창</string>
+    <string name="description_pager_indicator">페이지를 표시하는 점</string>
 
 
     <!--                    모든 EditText에 들어가는 Hint 속성은 이곳에 선언되어야 함                   -->
@@ -76,20 +78,21 @@
     <string name="env_button_start">시작하기</string>
 
     <!--                                           스탬프                                         -->
+    <string name="stamplayout_text_nickname">%s님</string>
     <string name="stamplayout_text_title">21일 중 %d일째</string>
     <string name="stamplayout_text_body">목표 탄소량까지 %.1fkg 남았어요</string>
 
     <!--                                       활동 레벨 선택                                      -->
     <string name="listaim_text_title">온실가스 1인 1톤 줄이기란,</string>
-    <string name="listaim_text_title_instruction">생활 속 작은 실천을 통해 온실가스를 줄이는 라이프 스타일이에요. \n난이도에 따라 세 단계로 나누어보았어요!</string>
+    <string name="listaim_text_title_instruction">탄소중립 실천을 위한 기후 캠페인이에요. \n알맞은 목표 설정으로 환경보호 습관을 만들어보아요!</string>
 
 
     <string name="listaim_text_one_title">초보거북</string>
     <string name="listaim_text_two_title">중수물개</string>
     <string name="listaim_text_three_title">고수돌고래</string>
 
-    <string name="listaim_text_instruction_one">1톤의 %s</string>
-    <string name="listaim_text_instruction_two">%.2f kg 목표</string>
+    <string name="listaim_text_instruction_one">하루 %.2fkg 탄소 감축으로</string>
+    <string name="listaim_text_instruction_two">멸종위기종 %s를 구해봐요!</string>
 
     <string name="listaim_button">다음으로 ></string>
 

@@ -93,6 +93,7 @@ class PostWindow : AppCompatActivity() {
 
         binding.buttonDone.setOnClickListener {
             finish()
+            // post 데이터가 올라가야 함
         }
     }
 

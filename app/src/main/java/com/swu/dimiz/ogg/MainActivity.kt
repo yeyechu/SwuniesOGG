@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         if (currentUser == null) {
             startActivity(Intent(this, SignInActivity::class.java))
             finish()
+            return
         }else{
             Timber.i("이미 로그인 되어있습니다.")
         }
@@ -108,7 +109,6 @@ class MainActivity : AppCompatActivity() {
     fun hideBottomNavView(state: Boolean) {
         if(state) {
             binding.bottomNavView.visibility = View.GONE
-            //binding.bottomNavView.isEnabled = true
         }
         else {
             binding.bottomNavView.visibility = View.VISIBLE

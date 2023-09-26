@@ -25,6 +25,9 @@ interface BadgeDatabaseDao {
     @Query("SELECT * FROM badges WHERE filter = :data")
     fun getFilteredList(data: String): LiveData<List<Badges>>
 
+//    @Query("SELECT DISTINCT filter FROM badges")
+//    suspend fun getFilter(): List<String>
+
     @Query("SELECT * FROM badges WHERE getDate IS NOT NULL")
     fun getBadgeInventory() : LiveData<List<Badges>>
 

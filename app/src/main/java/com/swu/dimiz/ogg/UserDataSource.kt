@@ -1,10 +1,13 @@
 package com.swu.dimiz.ogg
 
+import java.util.*
+
 object UserDataSource {
 
-    // UI를 띄우는데 필요한
-    // 유저의 중요한 정보들은
-    // 리소스를 낭비하지 않기 위해
-    // 이곳에 싱글톤으로 저장합니다
-    // 메인액티비티가 관리
+    var nickName: String = "플라스틱애호가"
+    var profileUrl: String =""
+    var aim: Float = 0f
+    var car: Int = 0
+    var startDate: Date? = null
+    var report: Int = 0
 }

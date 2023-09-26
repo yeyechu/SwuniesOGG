@@ -48,7 +48,6 @@
             android:id="@+id/instruction_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,10 +61,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginBottom="@dimen/margin_default"
                 android:text="@string/listset_text_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/text_listset_instruction"/>
 
             <TextView
                 android:id="@+id/text_listset_instruction"
@@ -73,11 +75,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/spacing_text"
                 android:text="@string/listset_text_title_instruction"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_garbage_one"
-                tools:layout_editor_absoluteY="16dp" />
+                app:layout_constraintTop_toBottomOf="@+id/text_garbage_one" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
@@ -123,6 +125,7 @@
             android:id="@+id/chips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
             android:layout_margin="@dimen/margin_component"
             app:layout_constraintTop_toBottomOf="@id/instruction_layout"
             app:layout_constraintEnd_toEndOf="parent"

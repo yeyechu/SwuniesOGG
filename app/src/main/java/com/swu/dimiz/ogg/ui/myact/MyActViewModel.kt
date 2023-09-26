@@ -31,10 +31,6 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     val getSustData: LiveData<List<ActivitiesSustainable>> = repository.getAllSusts.asLiveData()
     val getExtraData: LiveData<List<ActivitiesExtra>> = repository.getAllextras.asLiveData()
 
-    private val _sust = MutableLiveData<ActivitiesSustainable>()
-    val sust: LiveData<ActivitiesSustainable>
-        get() = _sust
-
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                   필요한 데이터 초기화
 
@@ -50,7 +46,6 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
     fun showPopup(sust: ActivitiesSustainable) {
         _navigateToSelected.value = sust
-        _sust.value = sust
     }
 
     fun completedPopup() {
