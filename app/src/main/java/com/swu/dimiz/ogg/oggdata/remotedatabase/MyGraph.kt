@@ -4,7 +4,7 @@ import java.sql.Date
 
 /*
 fireStore 위치
-User/사용자 이메일/Profject1~../Graph
+User/사용자 이메일/1(Profject1~..)/Graph
  */
 
 data class MyGraph (

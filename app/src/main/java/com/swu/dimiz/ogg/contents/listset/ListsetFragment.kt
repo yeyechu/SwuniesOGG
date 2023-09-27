@@ -1,6 +1,7 @@
 package com.swu.dimiz.ogg.contents.listset
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +15,17 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.chip.Chip
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.common.dialog.SystemWindow
 import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
 import com.swu.dimiz.ogg.oggdata.OggRepository
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import com.swu.dimiz.ogg.ui.env.User
 import timber.log.Timber
 
@@ -29,6 +36,10 @@ class ListsetFragment : Fragment() {
 
     private lateinit var viewModel: ListsetViewModel
     private lateinit var navController: NavController
+
+    val db = Firebase.firestore
+    val user = Firebase.auth.currentUser
+    private var projectCount:Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -47,6 +58,21 @@ class ListsetFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(ListsetViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                              몇회차 프로젝트인지 검색
+        val docRef = db.collection("User").document(user?.email.toString())
+        docRef.get().addOnSuccessListener { document ->
+            if (document != null) {
+                Timber.i( "DocumentSnapshot data: ${document.data}")
+                val gotUser = document.toObject<MyCondition>()
+                projectCount = gotUser!!.projectCount
+            } else {
+                Timber.i("No such document")
+            }
+        }.addOnFailureListener { exception ->
+            Timber.i(exception.toString())
+        }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                               활동 목표 출력 및 초기화
@@ -102,13 +128,43 @@ class ListsetFragment : Fragment() {
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                     완료 버튼을 누르면 저장 후 화면을 이동시키는 관찰자
 
-        //todo데이터 올라갈 준비
+        //todo 데이터 올라갈 준비
         viewModel.navigateToSave.observe(viewLifecycleOwner, Observer { shouldNavigate ->
             if(shouldNavigate) {
                 navController.navigate(R.id.navigation_env)
                 viewModel.onNavigatedToSave()
                 Timber.i("완료 버튼 클릭")
                 // 메모리 누수 확인 필요
+
+                // ──────────────────────────────────────────────────────────────────────────────────────
+                //                                  firebase 리스트 저장
+                var act1 = 10001
+                var act2 = 10005
+                var act3 = 10010
+
+                var actList1 = MyList()
+                actList1.setFirstList(act1)
+                var actList2 = MyList()
+                actList2.setFirstList(act2)
+                var actList3 = MyList()
+                actList3.setFirstList(act3)
+
+                val db1 = db.collection("User").document(user?.email.toString())
+                    .collection("project$projectCount").document("1")
+                val db2 = db.collection("User").document(user?.email.toString())
+                    .collection("project$projectCount").document("2")
+                val db3 =db.collection("User").document(user?.email.toString())
+                    .collection("project$projectCount").document("3")
+
+                db.runBatch { batch ->
+                    // Set the value of 'NYC'
+                    batch.set(db1, actList1)
+                    batch.set(db2, actList2)
+                    batch.set(db3, actList3)
+
+                }.addOnCompleteListener {
+                    Timber.i("DocumentSnapshot1 successfully written!")
+                }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
             }
         })
 

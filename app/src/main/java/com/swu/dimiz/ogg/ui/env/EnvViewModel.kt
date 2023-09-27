@@ -1,7 +1,18 @@
 package com.swu.dimiz.ogg.ui.env
 
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggApplication.Companion.auth
+import com.swu.dimiz.ogg.OggApplication.Companion.email
+import com.swu.dimiz.ogg.UserDataSource.aim
 import com.swu.dimiz.ogg.convertDurationToFormatted
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
 
@@ -32,6 +43,37 @@ class EnvViewModel : ViewModel() {
     // MyCondition.aim
     // MyCondition.car
     // MyCondition.startDate
+    val db = Firebase.firestore
+    val fbuser = Firebase.auth.currentUser
+
+    lateinit var user: User
+
+    fun getUser(){
+        val docRef = db.collection("User").document(fbuser?.email.toString())
+
+        docRef.get().addOnSuccessListener { document ->
+            if (document != null) {
+                Timber.i( "DocumentSnapshot data: ${document.data}")
+                val gotUser = document.toObject<MyCondition>()
+                if (gotUser != null) {
+                    user.nickname = gotUser.nickName
+                    user.aim = gotUser.aim
+                    user.car = gotUser.car
+                    //user.startDate = gotUser.startDate.toString() //타입오류
+                    user.report = gotUser.report
+                }
+            } else {
+                Timber.i("No such document")
+            }
+        }
+            .addOnFailureListener { exception ->
+                Timber.i(exception.toString())
+            }
+    }
+
+
+
+
     val layerVisible = fakeDate.map {
         //it.startDate == 0L
         it == 0

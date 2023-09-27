@@ -4,7 +4,7 @@ import androidx.room.PrimaryKey
 
 /*
 fireStore 위치
-User/사용자 이메일/Profject1~../index
+User/사용자 이메일/1(Profject1~..)/index
 
 활동 계획 + 활동 탭
  */
@@ -31,6 +31,35 @@ data class MyList (  //21일간 활동 계획
     var day18act: Int?= 0,
     var day19act: Int?= 0,
     var day20act: Int?= 0,
-    var day21act: Int?= 0,
-)
+    var day21act: Int?= 0
+){
+    fun setFirstList(actId:Int){
+        day1act = actId
+        day2act= actId
+        day3act= actId
+        day4act= actId
+        day5act= actId
+        day6act= actId
+        day7act= actId
+        day8act= actId
+        day9act= actId
+        day10act= actId
+        day11act= actId
+        day12act= actId
+        day13act= actId
+        day14act= actId
+        day15act= actId
+        day16act= actId
+        day17act= actId
+        day18act= actId
+        day19act= actId
+        day20act= actId
+        day21act= actId
+    }
+
+
+}
+
+
+
 

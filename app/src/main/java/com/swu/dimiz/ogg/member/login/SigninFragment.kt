@@ -74,8 +74,8 @@ class SigninFragment: Fragment() {
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     //추가할 기본 정보 받아오기
-                    val testuser = Firebase.auth.currentUser
-                    testuser?.let {
+                    val getuser = Firebase.auth.currentUser
+                    getuser?.let {
                         for (profile in it.providerData) {
                             uid = profile.uid
                             nickname = profile.displayName.toString()
