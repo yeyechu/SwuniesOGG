@@ -24,6 +24,179 @@
                 android:layout_gravity="center" />
         </androidx.appcompat.widget.Toolbar>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_default"
+
+            >
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/StyleText.header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_text_title_about_account"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/change_nickname_text"
+                style="@style/StyleText.subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/settings_button_to_des_nickname"
+                android:gravity="center"
+                android:text="@string/setting_text_subtitle_account_chage_nickname"
+                android:layout_marginTop="@dimen/margin_big"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/change_nickname_btn"
+                android:layout_width="@dimen/icon_middle"
+                android:layout_height="@dimen/icon_middle"
+                android:background="@drawable/common_button_arrow_right"
+                app:layout_constraintBottom_toBottomOf="@+id/change_nickname_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/change_nickname_text"
+                app:layout_constraintTop_toTopOf="@+id/change_nickname_text" />
+
+
+            <TextView
+                android:id="@+id/change_password_text"
+                style="@style/StyleText.subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/setting_text_subtitle_account_chage_pssword"
+                android:drawableLeft="@drawable/settings_button_to_des_password"
+                android:layout_marginTop="@dimen/margin_default"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/change_nickname_text" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/change_password_btn"
+                android:layout_width="@dimen/icon_middle"
+                android:layout_height="@dimen/icon_middle"
+                android:background="@drawable/common_button_arrow_right"
+                app:layout_constraintBottom_toBottomOf="@+id/change_password_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/change_password_text"
+                app:layout_constraintTop_toTopOf="@+id/change_password_text" />
+
+            <TextView
+                android:id="@+id/mycar_text"
+                style="@style/StyleText.subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/setting_text_subtitle_account_chage_pssword"
+                android:drawableLeft="@drawable/settings_button_to_des_car"
+                android:layout_marginTop="@dimen/margin_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/change_password_text" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/mycar_btn"
+                android:layout_width="@dimen/icon_middle"
+                android:layout_height="@dimen/icon_middle"
+                android:background="@drawable/common_button_arrow_right"
+                app:layout_constraintBottom_toBottomOf="@+id/mycar_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/mycar_text"
+                app:layout_constraintTop_toTopOf="@+id/mycar_text" />
+
+
+            <!--기타-->
+            <TextView
+                android:id="@+id/other_setting"
+                style="@style/StyleText.header"
+                android:layout_marginTop="@dimen/margin_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_text_title_about_other"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mycar_text" />
+
+
+            <TextView
+                android:id="@+id/logout_text"
+                style="@style/StyleText.subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/settings_button_to_des_logout"
+                android:gravity="center"
+                android:text="@string/setting_text_subtitle_other_logout"
+                android:layout_marginTop="@dimen/margin_big"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/other_setting" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/logout_btn"
+                android:layout_width="@dimen/icon_middle"
+                android:layout_height="@dimen/icon_middle"
+                android:background="@drawable/common_button_arrow_right"
+                app:layout_constraintBottom_toBottomOf="@+id/logout_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/logout_text"
+                app:layout_constraintTop_toTopOf="@+id/logout_text" />
+
+            <TextView
+                android:id="@+id/signout_text"
+                style="@style/StyleText.subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/settings_button_to_des_membernout"
+                android:gravity="center"
+                android:text="@string/setting_text_subtitle_other_signout"
+                android:layout_marginTop="@dimen/margin_big"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logout_text" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signout_btn"
+                android:layout_width="@dimen/icon_middle"
+                android:layout_height="@dimen/icon_middle"
+                android:background="@drawable/common_button_arrow_right"
+                app:layout_constraintBottom_toBottomOf="@+id/signout_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/signout_text"
+                app:layout_constraintTop_toTopOf="@+id/signout_text" />
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
+
+
 
 </layout>
