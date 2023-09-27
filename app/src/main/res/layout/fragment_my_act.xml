@@ -96,6 +96,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/myact_text_title_today"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:layout_marginTop="@dimen/margin_default"
+
                         app:layout_constraintBottom_toTopOf="@+id/today_card_list"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -106,6 +109,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/icon_middle"
                         android:contentDescription="@string/myact_today_edit_button"
+
                         android:text="@string/myact_today_edit_button"
                         app:layout_constraintBottom_toBottomOf="@+id/text_title_daily"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -129,6 +133,7 @@
                         style="@style/StyleText.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_default"
                         android:text="@string/myact_text_title_sustainable"
                         app:layout_constraintBottom_toTopOf="@id/today_card_list"
                         app:layout_constraintEnd_toStartOf="@id/button_tooltip_sust"
@@ -166,6 +171,7 @@
                         style="@style/StyleText.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_default"
                         android:text="@string/myact_text_title_extra"
                         app:layout_constraintBottom_toTopOf="@id/extra_act_list"
                         app:layout_constraintEnd_toStartOf="@id/button_tooltip_extra"
