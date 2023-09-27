@@ -4,7 +4,7 @@ import java.sql.Date
 
 /*
 fireStore 위치
-User/사용자 이메일/Activities1~../Extra(1~...
+User/사용자 이메일/Profject1~../extraID
 
 지속가능 활동 할때마다 추가됨
 활동 계획 + 활동탭

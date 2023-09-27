@@ -114,6 +114,7 @@ class PostWindow : AppCompatActivity() {
             Glide.with(this)
                 .load(uri)
                 .into(binding.imagePreview)
+            //
         }
     }
     companion object{

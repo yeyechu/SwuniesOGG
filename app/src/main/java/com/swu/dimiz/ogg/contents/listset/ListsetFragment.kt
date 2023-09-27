@@ -102,6 +102,7 @@ class ListsetFragment : Fragment() {
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                     완료 버튼을 누르면 저장 후 화면을 이동시키는 관찰자
 
+        //todo데이터 올라갈 준비
         viewModel.navigateToSave.observe(viewLifecycleOwner, Observer { shouldNavigate ->
             if(shouldNavigate) {
                 navController.navigate(R.id.navigation_env)

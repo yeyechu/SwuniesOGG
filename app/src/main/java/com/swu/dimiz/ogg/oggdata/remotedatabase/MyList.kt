@@ -4,30 +4,33 @@ import androidx.room.PrimaryKey
 
 /*
 fireStore 위치
-User/사용자 이메일/Activities1~../며칠쨰(환경탭에서 받아옴)
+User/사용자 이메일/Profject1~../index
 
 활동 계획 + 활동 탭
  */
 
 //@Entity(tableName = "list_set")
 data class MyList (  //21일간 활동 계획
-    var activity1: String?= null,
-    var activity2: String?= null,
-    var activity3: String?= null,
-    var activity4: String?= null,
-    var activity5: String?= null,
-
-    var activityLimit1: Int?= null,
-    var activityLimit2: Int?= null,
-    var activityLimit3: Int?= null,
-    var activityLimit4: Int?= null,
-    var activityLimit5: Int?= null,
-
-    var activityLeft1: Int?= null,
-    var activityLeft2: Int?= null,
-    var activityLeft3: Int?= null,
-    var activityLeft4: Int?= null,
-    var activityLeft5: Int?= null
-
+    var day1act: Int?= 0,
+    var day2act: Int?= 0,
+    var day3act: Int?= 0,
+    var day4act: Int?= 0,
+    var day5act: Int?= 0,
+    var day6act: Int?= 0,
+    var day7act: Int?= 0,
+    var day8act: Int?= 0,
+    var day9act: Int?= 0,
+    var day10act: Int?= 0,
+    var day11act: Int?= 0,
+    var day12act: Int?= 0,
+    var day13act: Int?= 0,
+    var day14act: Int?= 0,
+    var day15act: Int?= 0,
+    var day16act: Int?= 0,
+    var day17act: Int?= 0,
+    var day18act: Int?= 0,
+    var day19act: Int?= 0,
+    var day20act: Int?= 0,
+    var day21act: Int?= 0,
 )
 
