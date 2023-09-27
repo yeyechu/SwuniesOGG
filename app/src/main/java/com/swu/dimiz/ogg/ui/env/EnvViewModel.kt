@@ -103,8 +103,5 @@ class EnvViewModel : ViewModel() {
         }
         super.onCleared()
         Timber.i("ViewModel destroyed")
-        if(disposable?.isDisposed == false) {
-            disposable?.dispose()
-        }
     }
 }
