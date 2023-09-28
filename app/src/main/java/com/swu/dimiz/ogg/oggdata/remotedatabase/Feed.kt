@@ -1,7 +1,5 @@
 package com.swu.dimiz.ogg.oggdata.remotedatabase
 
-import java.sql.Date
-
 /*
 fireStore 위치
 Feed/사용자 이메일
@@ -9,10 +7,10 @@ Feed/사용자 이메일
 전체 사용자 한꺼번에 저장되어있음
  */
 
-data class Feed (
+data class Feed(
     var email: String ="",     //업로드한 사용자 (통계, 나의피드에서 이메일 검색으로 가져옴)
 
-    var postTime: Date?=null,  //올린 시간
+    var postTime: String ?=null,  //올린 시간
 
     var actId: Int = 0,         //활동 ID
 

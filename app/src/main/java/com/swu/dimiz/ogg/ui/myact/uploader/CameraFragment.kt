@@ -6,9 +6,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -27,8 +27,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
+import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
 import com.swu.dimiz.ogg.ui.myact.post.PostWindow
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_FAST_MILLIS
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_SLOW_MILLIS
@@ -55,6 +59,14 @@ class CameraFragment : Fragment() {
     private var imageCapture : ImageCapture? = null
     private var preview: Preview? = null
     private var camera: Camera? = null
+    private var savedUri: Uri? = null
+
+    // ─────────────────────────────────────────────────────────────────────────────────
+    //                                  firebase 변수
+    lateinit var storage: FirebaseStorage
+    lateinit var firestore: FirebaseFirestore
+    lateinit var auth: FirebaseAuth
+
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                                      기타
@@ -69,11 +81,45 @@ class CameraFragment : Fragment() {
             binding.previewLayout.visibility = View.GONE
         }
 
+        storage = FirebaseStorage.getInstance()
+        firestore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+
         binding.buttonDone.setOnClickListener {
 
             PostWindow.postWindow!!.finish()
             CameraActivity.cameraActivity!!.finish()
-            // post 데이터가 올라가야 함
+            //todo post 데이터가 올라가야 함
+            Timber.i("post 데이터가 올라가야 함")
+
+            /* 10000이면 daily, 20000이면 sustain, 30000이면 extra
+            Feed(MySus, Myextra)
+            */
+
+            if(savedUri!=null) {
+                var postTime = SimpleDateFormat("yyyyMMddHHmmss").format(Date()) // 파일명이 겹치면 안되기 때문
+                var fileName = auth.currentUser?.email.toString() + "_" + postTime
+
+                storage.reference.child("Feed").child(fileName)
+                    .putFile(savedUri!!)
+                    .addOnSuccessListener {
+                            taskSnapshot -> // 업로드 정보를 담는다
+                        Timber.i("feed storage 올리기 완료")
+                        taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
+                                it->
+                            var imageUrl=it.toString()
+                            var post = Feed( email = auth.currentUser?.email.toString(),  //활동코드 추가
+                                postTime = postTime, imageUrl = imageUrl)
+
+                            firestore.collection("Feed").document(auth.currentUser?.email.toString())
+                                .set(post)
+                                .addOnCompleteListener {
+                                    Timber.i("feed firestore 올리기 완료")
+                                }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
+                        }
+                    }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
+            }
+            imageCapture
         }
         return binding.root
     }
@@ -138,7 +184,7 @@ class CameraFragment : Fragment() {
                         }
 
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            val savedUri = outputFileResults.savedUri
+                            savedUri = outputFileResults.savedUri
                             Timber.tag(TAG).d("사진 찍기 성공: %s", savedUri)
 
                             setGalleryThumbnail(savedUri.toString())

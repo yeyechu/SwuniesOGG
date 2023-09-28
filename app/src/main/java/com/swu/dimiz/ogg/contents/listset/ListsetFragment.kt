@@ -60,7 +60,7 @@ class ListsetFragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         // ──────────────────────────────────────────────────────────────────────────────────────
-        //                              몇회차 프로젝트인지 검색
+        //                          이전 프로젝트가 몇회차 프로젝트인지 검색
         val docRef = db.collection("User").document(user?.email.toString())
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {
@@ -127,14 +127,15 @@ class ListsetFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                     완료 버튼을 누르면 저장 후 화면을 이동시키는 관찰자
-
-        //todo 데이터 올라갈 준비
         viewModel.navigateToSave.observe(viewLifecycleOwner, Observer { shouldNavigate ->
             if(shouldNavigate) {
                 navController.navigate(R.id.navigation_env)
                 viewModel.onNavigatedToSave()
                 Timber.i("완료 버튼 클릭")
                 // 메모리 누수 확인 필요
+
+                //프로젝트 진행상태 업데이트(새로 시작인지 수정인지 구분 추가)
+                //projectCount =+ 1
 
                 // ──────────────────────────────────────────────────────────────────────────────────────
                 //                                  firebase 리스트 저장
@@ -148,6 +149,8 @@ class ListsetFragment : Fragment() {
                 actList2.setFirstList(act2)
                 var actList3 = MyList()
                 actList3.setFirstList(act3)
+
+
 
                 val db1 = db.collection("User").document(user?.email.toString())
                     .collection("project$projectCount").document("1")
@@ -165,6 +168,22 @@ class ListsetFragment : Fragment() {
                 }.addOnCompleteListener {
                     Timber.i("DocumentSnapshot1 successfully written!")
                 }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
+
+                /*체크리스트 받으면 아래처럼 줄일 예정
+                var checkCount :Int = 3 //활동할게 몇게인지 가져오기
+
+                for(i in 1 until checkCount){
+                    var activity = 100000//체크 항목 i번
+
+                    var actList = MyList()
+                    actList.setFirstList(activity)
+
+                    db.collection("User").document(user?.email.toString())
+                        .collection("project$projectCount").document(i.toString())
+                        .set(activity)
+                        .addOnCompleteListener {Timber.i("DocumentSnapshot1 successfully written!")
+                        }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
+                }*/
             }
         })
 

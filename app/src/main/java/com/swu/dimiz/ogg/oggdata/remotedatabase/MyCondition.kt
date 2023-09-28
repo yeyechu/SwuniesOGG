@@ -10,7 +10,8 @@ User/사용자 이메일/
  */
 
 //@Entity(tableName = "condition_record")
-data class MyCondition(             //사용자 기본 정보
+data class
+MyCondition(             //사용자 기본 정보
     var uid : String = "",          //firebase기본 제공 uid
 
     var email:String="",            //사용자 기본 정보 자장
@@ -29,5 +30,7 @@ data class MyCondition(             //사용자 기본 정보
 
     var report: Int = 0,            //신고 받은 횟수
 
-    var projectCount: Int = 0       //프로젝트 진행 횟수
+    var projectCount: Int = 0,       //프로젝트 진행 횟수
+
+    var extraPost: Int = 0           //특별활동 올린 횟수
 )
