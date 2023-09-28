@@ -1,10 +1,15 @@
 package com.swu.dimiz.ogg.ui.env.badges
 
+import android.graphics.Color
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
+import com.swu.dimiz.ogg.ui.env.myenv.InventoryAdapter
 
 @BindingAdapter("badgeTitle")
 fun TextView.setTitle(item: Badges?) {
@@ -13,15 +18,40 @@ fun TextView.setTitle(item: Badges?) {
     }
 }
 
+@BindingAdapter("badgeDetailImage")
+fun detailImageSet(imageView: ImageView, data: Badges?) {
+    data?.let {
+        when(data.getDate) {
+            null -> imageView.setImageBitmap(data.image.apply {
+                imageView.setColorFilter(Color.parseColor("#F56A6A6A"))
+                imageView.setBackgroundResource(R.drawable.badgelist_shape_badge_background_sealed)
+            })
+            else -> imageView.setImageBitmap(data.image)
+        }
+    }
+}
+
 @BindingAdapter("badgeImage")
 fun ImageView.setImage(item: Badges?) {
     item?.let {
-        setImageBitmap(item.image)
+        when(item.getDate) {
+            null -> setImageBitmap(item.image.apply {
+                setColorFilter(Color.parseColor("#F56A6A6A"))
+                setBackgroundResource(R.drawable.badgelist_shape_badge_background_sealed)
+            })
+            else -> setImageBitmap(item.image)
+        }
     }
 }
 
 @BindingAdapter("badgeListData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Badges>?) {
+fun bindRecyclerBadge(recyclerView: RecyclerView, data: List<Badges>?) {
     val adapter = recyclerView.adapter as BadgeListAdapter
+    adapter.submitList(data)
+}
+
+@BindingAdapter("badgeInventory")
+fun bindRecyclerInventory(recyclerView: RecyclerView, data: List<Badges>?) {
+    val adapter = recyclerView.adapter as InventoryAdapter
     adapter.submitList(data)
 }

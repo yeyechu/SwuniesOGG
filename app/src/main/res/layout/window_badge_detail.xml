@@ -7,9 +7,9 @@
     <data>
         <import type="android.view.View" />
 
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel" />-->
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/StyleText.title"
-                android:text=""
+                android:text="@{viewModel.sustId.title}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_component"
                 android:lineSpacingExtra="@dimen/text_size_body_small"
-                android:text=""
+                android:text="@{viewModel.sustId.instruction}"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +60,8 @@
                 android:layout_height="@dimen/image_resouce_size"
                 android:layout_marginTop="@dimen/margin_component"
                 android:src="@drawable/common_image_placeholder"
+                android:background="@drawable/badgelist_shape_badge_background"
+                app:badgeDetailImage="@{viewModel.sustId}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_body" />

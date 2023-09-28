@@ -42,6 +42,7 @@
     <string name="co2_aim2_seal">2.78</string>
     <string name="co2_aim3_dolphin">5.22</string>
     <string name="co2_default_zero">0</string>
+    <string name="text_invalid">404 Not Found</string>
 
     <!-- ──────────────────────────────────────    설명    ────────────────────────────────────── -->
     <!--                모든 PNG에 들어가는 contentDescription 속성은 이곳에 선언되어야 함              -->
@@ -57,6 +58,7 @@
     <string name="description_listaim_image_two">물개 탈을 쓴 얼굴 이미지</string>
     <string name="description_listaim_image_three">돌고래 탈을 쓴 얼굴 이미지</string>
     <string name="description_badgelist_image_badges">배지 그림</string>
+    <string name="description_badgelist_image_placeholder">배지가 없을 때 보이는 물음표 이미지</string>
 
     <string name="description_myact_card_image">각 활동을 나타내는 이미지</string>
     <string name="description_preview_photo">카메라로 찍은 사진</string>
@@ -104,11 +106,20 @@
 
 
     <!--                                         배지 리스트                                       -->
-    <string name="badgelist_text_badge_count">보유한 배지 %d 개</string>
+    <string name="badgelist_text_badge_count">보유한 배지 %d개</string>
     <string name="badgelist_button">닫기</string>
 
+    <string name="badgelist_filter_feed">피드에 반응</string>
+    <string name="badgelist_filter_clear">연속 활동</string>
+    <string name="badgelist_filter_part">카테고리별 활동</string>
+    <string name="badgelist_filter_reaction">피드 반응 스티커</string>
+    <string name="badgelist_filter_sust">지속가능한 활동</string>
+    <string name="badgelist_filter_co2">탄소량</string>
+    <string name="badgelist_filter_extra">특별 활동</string>
+
     <!--                                         배지 수정                                         -->
-    <string name="envlayer_text_"> </string>
+    <string name="envlayer_text_default_title">아직 모은 배지가 없어요!</string>
+    <string name="envlayer_text_default_detail">더 많은 활동 인증을 통해 배지를 얻어보세요</string>
     <string name="envlayer_button_save">저장하기</string>
 
     <!-- ──────────────────────────────────────   활동탭   ────────────────────────────────────── -->

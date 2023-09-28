@@ -47,3 +47,19 @@ class PostWindowViewModel(
         Timber.i("destroyed")
     }
 }
+
+class PostWindowViewModelFactory(private val activityKey: Int = 0,
+                                 private val activityValue: Int = 0,
+                                 private val dataActivity: ActivitiesDailyDatabaseDao,
+                                 private val dataInstruction: InstructionDatabaseDao
+) : ViewModelProvider.Factory {
+
+    @Suppress("unchecked_cast")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(PostWindowViewModel::class.java)) {
+            return PostWindowViewModel(activityKey, activityValue, dataActivity, dataInstruction) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+
+}

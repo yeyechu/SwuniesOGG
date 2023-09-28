@@ -1,9 +1,6 @@
 package com.swu.dimiz.ogg.ui.myact.postsust
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustDatabaseDao
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 import timber.log.Timber
@@ -36,4 +33,17 @@ class PostSustViewModel(susKey: Int = 0, data: ActivitiesSustDatabaseDao) : View
         super.onCleared()
         Timber.i("destroyed")
     }
+}
+
+class PostSustViewModelFactory(private val susKey: Int = 0,
+                               private val data: ActivitiesSustDatabaseDao) : ViewModelProvider.Factory {
+
+    @Suppress("unchecked_cast")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(PostSustViewModel::class.java)) {
+            return PostSustViewModel(susKey, data) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+
 }
