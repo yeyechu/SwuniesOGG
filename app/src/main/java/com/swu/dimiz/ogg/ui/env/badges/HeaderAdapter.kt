@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.env.badges
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -25,9 +26,25 @@ class HeaderAdapter: RecyclerView.Adapter<TextViewHolder>() {
     override fun onBindViewHolder(holder: TextViewHolder, position: Int) {
 
         val item = data[position]
+        val res = holder.itemView.context.resources
 
-        holder.textView.text = item
+        holder.textView.text = translateFilter(item, res)
     }
 
     override fun getItemCount(): Int = data.size
 }
+
+private fun translateFilter(data: String, res: Resources) : String {
+
+    return when(data) {
+        "feed" -> res.getString(R.string.badgelist_filter_feed)
+        "clear" -> res.getString(R.string.badgelist_filter_clear)
+        "part" -> res.getString(R.string.badgelist_filter_part)
+        "reaction" -> res.getString(R.string.badgelist_filter_reaction)
+        "sust" -> res.getString(R.string.badgelist_filter_sust)
+        "co2" -> res.getString(R.string.badgelist_filter_co2)
+        "extra" -> res.getString(R.string.badgelist_filter_extra)
+        else -> res.getString(R.string.text_invalid)
+    }
+}
+

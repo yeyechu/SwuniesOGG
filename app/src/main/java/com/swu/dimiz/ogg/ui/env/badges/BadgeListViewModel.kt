@@ -1,42 +1,101 @@
 package com.swu.dimiz.ogg.ui.env.badges
 
 import androidx.lifecycle.*
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.IOException
 
-class BadgeListViewModel(repository: OggRepository) : ViewModel() {
+class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
+
+    private var currentJob: Job? = null
 
     val getAllData: LiveData<List<Badges>> = repository.getAllBadges.asLiveData()
+    val inventory: LiveData<List<Badges>> = repository.getInventory()
+
+    val inventorySize = inventory.map {
+        it.size
+    }
+
+    val inventoryNull = inventorySize.map {
+        it == 0
+    }
 
     private val _navigateToSelected = MutableLiveData<Badges?>()
     val navigateToSelected: LiveData<Badges?>
         get() = _navigateToSelected
 
+    private val _sustId = MutableLiveData<Badges?>()
+    val sustId: LiveData<Badges?>
+        get() = _sustId
+
+    private val _badgeFilter = MutableLiveData<List<String>>()
+    val badgeFilter: LiveData<List<String>>
+        get() = _badgeFilter
+
+    private val _badgeFilteredList = MutableLiveData<List<Badges>>()
+    val badgeFilteredList: LiveData<List<Badges>>
+        get() = _badgeFilteredList
+
     init {
         Timber.i("created")
+        getFilters()
+        addList()
     }
+
     fun showPopup(badge: Badges) {
         _navigateToSelected.value = badge
+        _sustId.value = badge
     }
 
     fun completedPopup() {
         _navigateToSelected.value = null
     }
 
-//    fun getBadgeCount() : Int {
-//        getAllData.value
-//    }
-}
+    private fun getFilters() {
+        currentJob?.cancel()
 
-class BadgeListViewModelFactory(
-    private val repository: OggRepository
-) : ViewModelProvider.Factory {
-    @Suppress("unchecked_cast")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(BadgeListViewModel::class.java)) {
-            return BadgeListViewModel(repository) as T
+        currentJob = viewModelScope.launch {
+            try {
+                _badgeFilter.value = repository.getFilter()
+            } catch (e: IOException) {
+                _badgeFilter.value = listOf()
+            }
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+
+    fun addList() {
+        val list = _badgeFilter.value?.asSequence()?.map{
+            onFilterUpdated(it)
+        }
+    }
+
+    private fun onFilterUpdated(filter: String) {
+        currentJob?.cancel()
+
+        currentJob = viewModelScope.launch {
+
+            try {
+                _badgeFilteredList.value = repository.getFilteredList(filter)
+            } catch (e: IOException) {
+                _badgeFilteredList.value = listOf()
+            }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val repository = (this[APPLICATION_KEY] as OggApplication).repository
+                BadgeListViewModel(repository = repository)
+            }
+        }
     }
 }

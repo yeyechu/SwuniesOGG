@@ -58,3 +58,15 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         Timber.i("destroyed")
     }
 }
+
+class MyActViewModelFactory (
+    private val repository: OggRepository
+) : ViewModelProvider.Factory {
+    @Suppress("unchecked_cast")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if(modelClass.isAssignableFrom(MyActViewModel::class.java)) {
+            return MyActViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}

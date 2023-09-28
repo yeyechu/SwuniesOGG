@@ -43,11 +43,5 @@ class BadgeListAdapter(private val onClickListener: BadgeClickListener) :
     class BadgeClickListener(val clickListener: (item: Badges) -> Unit) {
         fun onClick(item: Badges) = clickListener(item)
     }
-
-    private var badgeCount: Int = 0
-
-    fun updateBadgeCount(updatedCount: Int) {
-        badgeCount = updatedCount
-        notifyDataSetChanged()
-    }
 }
+

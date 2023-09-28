@@ -50,7 +50,12 @@
     <dimen name="icon_middle">30dp</dimen>
     <dimen name="icon_small">20dp</dimen>
 
-
+    <dimen name="dimension_50">50dp</dimen>
+    <dimen name="dimension_100">100dp</dimen>
+    <dimen name="dimension_150">150dp</dimen>
+    <dimen name="dimension_200">200dp</dimen>
+    <dimen name="dimension_250">250dp</dimen>
+    <dimen name="dimension_300">300dp</dimen>
 
     <!-- ────────────────────────────────────── 한 두군데만 쓰이는 값 ────────────────────────────────────── -->
     <!-- 패딩 -->
@@ -76,7 +81,6 @@
     <dimen name="progressbar_width">300dp</dimen>
     <dimen name="progressbar_height">5dp</dimen>
     <dimen name="myact_today_card_width">150dp</dimen>
-
     <dimen name="post_window_height">550dp</dimen>
 
 

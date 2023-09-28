@@ -23,10 +23,10 @@ interface BadgeDatabaseDao {
     fun getItem(id: Int) : Badges
 
     @Query("SELECT * FROM badges WHERE filter = :data")
-    fun getFilteredList(data: String): LiveData<List<Badges>>
+    suspend fun getFilteredList(data: String): List<Badges>?
 
-//    @Query("SELECT DISTINCT filter FROM badges")
-//    suspend fun getFilter(): List<String>
+    @Query("SELECT DISTINCT filter FROM badges")
+    suspend fun getFilter(): List<String>?
 
     @Query("SELECT * FROM badges WHERE getDate IS NOT NULL")
     fun getBadgeInventory() : LiveData<List<Badges>>

@@ -25,7 +25,7 @@ class OggApplication: MultiDexApplication() {
     companion object {
         // 파이어베이스 인증 상태 확인
         lateinit var auth: FirebaseAuth
-        var email: String? = null
+        //var email: String? = null
 
         fun checkAuth(): Boolean {
 

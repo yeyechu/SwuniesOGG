@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="badge"
+            type="com.swu.dimiz.ogg.oggdata.localdatabase.Badges" />
+
+        <variable
+            name="clickListener"
+            type="com.swu.dimiz.ogg.ui.env.badges.BadgeListAdapter.BadgeClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/image_size_aim_face"
+        android:layout_height="wrap_content"
+        android:id="@+id/badge_container"
+        android:onClick="@{() -> clickListener.onClick(badge)}"
+        android:padding="@dimen/padding_small">
+
+        <ImageView
+            android:id="@+id/image_badge_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/badgelist_shape_badge_background"
+            android:contentDescription="@string/description_badgelist_image_badges"
+            android:adjustViewBounds="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/common_image_placeholder"
+            app:badgeImage="@{badge}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

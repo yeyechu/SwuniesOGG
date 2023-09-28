@@ -6,32 +6,42 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.LayerEnvBinding
+import com.swu.dimiz.ogg.ui.env.badges.BadgeListAdapter
+import com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel
 
 class MyEnvLayer : Fragment() {
 
-    private lateinit var binding: LayerEnvBinding
-//    private var _binding: LayerEnvBinding? = null
-//    private val binding get() = _binding!!
+    private var _binding: LayerEnvBinding? = null
+    private val binding get() = _binding!!
 
-    // 뷰모델+레포지토리 구현
+    private val viewModel: BadgeListViewModel by activityViewModels() { BadgeListViewModel.Factory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate( inflater, R.layout.layer_env, container, false)
+        _binding = DataBindingUtil.inflate( inflater, R.layout.layer_env, container, false)
 
-        binding.buttonSave.setOnClickListener { view: View ->
-            view.findNavController().navigateUp()
+        val manager = GridLayoutManager(activity, 3)
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int = 1
         }
+        binding.badgeList.layoutManager = manager
+        val badgeAdapter = InventoryAdapter(BadgeListAdapter.BadgeClickListener { id ->
+            // 이미지 뜨게
+        })
+        binding.badgeList.adapter = badgeAdapter
 
         // ────────────────────────────────────────────────────────────────────────────────────────
         //                                    BottomSheet
@@ -73,10 +83,17 @@ class MyEnvLayer : Fragment() {
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.buttonSave.setOnClickListener { view: View ->
+            view.findNavController().navigateUp()
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        //_binding = null
+        _binding = null
     }
 }

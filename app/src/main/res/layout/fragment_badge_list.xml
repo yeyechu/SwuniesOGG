@@ -17,48 +17,69 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            android:layout_height="wrap_content">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:title="">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="?attr/actionBarTheme"
+                    app:title="">
+
+                    <TextView
+                        style="@style/StyleText.header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/destination_title_badges" />
+
+                </androidx.appcompat.widget.Toolbar>
 
                 <TextView
-                    style="@style/StyleText.header"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/text_badge_count"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/destination_title_badges" />
+                    android:textAlignment="textEnd"
+                    android:text="@{@string/badgelist_text_badge_count(viewModel.inventorySize)}"
+                    android:background="@color/secondary_light_gray"
+                    android:padding="@dimen/padding_big"
+                    style="@style/StyleText.subtitle"
+                    tools:text="보유한 배지 15개 " />
 
-            </androidx.appcompat.widget.Toolbar>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/badge_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/fragment_badge_list_title"/>
 
-            <TextView
-                android:id="@+id/text_badge_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="textEnd"
-                android:text="@string/badgelist_text_badge_count"
-                android:background="@color/secondary_light_gray"
-                android:padding="@dimen/padding_big"
-                style="@style/StyleText.subtitle"
-                tools:text="보유한 배지 15개 " />
+                <!--            <androidx.recyclerview.widget.RecyclerView-->
+                <!--                android:id="@+id/badge_list"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:orientation="horizontal"-->
+                <!--                app:badgeListData="@{viewModel.badgeFilteredList}"-->
+                <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+                <!--                tools:listitem="@layout/fragment_badge_list_item"/>-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/badge_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:badgeListData="@{viewModel.getAllData}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/fragment_badge_list_item">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/badge_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/fragment_badge_list_item"/>
 
-            </androidx.recyclerview.widget.RecyclerView>
-        </LinearLayout>
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/overlap_list"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content" />-->
+            </LinearLayout>
+        </ScrollView>
     </FrameLayout>
 </layout>
