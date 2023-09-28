@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.swu.dimiz.ogg.contents.listset.ListaimViewModel" />
+            type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

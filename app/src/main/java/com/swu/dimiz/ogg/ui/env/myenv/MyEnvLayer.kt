@@ -33,13 +33,19 @@ class MyEnvLayer : Fragment() {
     ): View {
         _binding = DataBindingUtil.inflate( inflater, R.layout.layer_env, container, false)
 
+        // ────────────────────────────────────────────────────────────────────────────────────────
+        //                                    어댑터 정의
+
         val manager = GridLayoutManager(activity, 3)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int = 1
         }
         binding.badgeList.layoutManager = manager
+
         val badgeAdapter = InventoryAdapter(BadgeListAdapter.BadgeClickListener { id ->
-            // 이미지 뜨게
+            // 클릭하면
+            // 배지 이미지 동적 생성
+            // 구현할 곳
         })
         binding.badgeList.adapter = badgeAdapter
 

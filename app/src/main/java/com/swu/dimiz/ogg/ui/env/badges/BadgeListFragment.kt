@@ -28,7 +28,6 @@ class BadgeListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var fragmentManager: FragmentManager
 
-    //private lateinit var viewModel: BadgeListViewModel
     private val viewModel: BadgeListViewModel by activityViewModels { BadgeListViewModel.Factory }
     private lateinit var navController: NavController
 
@@ -45,7 +44,6 @@ class BadgeListFragment : Fragment() {
         fragmentManager = childFragmentManager
 
         //val application = requireNotNull(this.activity).application
-
         //val viewModelFactory = BadgeListViewModelFactory((application as OggApplication).repository)
         //viewModel = ViewModelProvider(this, viewModelFactory).get(BadgeListViewModel::class.java)
 

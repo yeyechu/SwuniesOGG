@@ -114,10 +114,6 @@
             app:destination="@id/navigation_env"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out" />
-        <argument
-            android:name="aimCo2Amount"
-            app:argType="float" />
-
     </fragment>
 
     <fragment

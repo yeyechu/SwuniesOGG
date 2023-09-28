@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,34 +21,19 @@ class ListaimFragment : Fragment() {
     private var _binding: FragmentListaimBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: ListaimViewModel
+    private val viewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
     private lateinit var navController: NavController
-
-    private var aimCo2Amount = 0f
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                    기본 초기화
-
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listaim, container, false)
 
-        navController = findNavController()
-
-        viewModel = ViewModelProvider(this).get(ListaimViewModel::class.java)
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        binding.viewModel = viewModel
-
-
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                       활동 목표 선택 버튼 누르면 내용을 변경하는 관찰자
-        //                            변경될 내용들은 ViewModel에 정의
 
         viewModel.aimCo2.observe(viewLifecycleOwner) {
-            aimCo2Amount = it
-            viewModel.setAimTitle(aimCo2Amount)
+            viewModel.setAimTitle(it)
         }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
@@ -56,7 +41,7 @@ class ListaimFragment : Fragment() {
         viewModel.navigateToSelection.observe(viewLifecycleOwner, Observer<Boolean> { shouldNavigate ->
             if(shouldNavigate) {
                 navController.navigate(
-                    ListaimFragmentDirections.actionDestinationListaimToDestinationListset(aimCo2Amount)
+                    ListaimFragmentDirections.actionDestinationListaimToDestinationListset()
                 )
                 viewModel.onNavigatedToSelection()
                 // 메모리 누수 확인 필요
@@ -67,8 +52,14 @@ class ListaimFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        binding.viewModel = viewModel
     }
 
     override fun onDestroyView() {

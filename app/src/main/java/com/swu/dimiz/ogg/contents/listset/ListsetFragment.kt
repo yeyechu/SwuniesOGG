@@ -1,17 +1,15 @@
 package com.swu.dimiz.ogg.contents.listset
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.chip.Chip
@@ -19,14 +17,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.common.dialog.SystemWindow
 import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
-import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
-import com.swu.dimiz.ogg.ui.env.User
 import timber.log.Timber
 
 class ListsetFragment : Fragment() {
@@ -34,7 +28,7 @@ class ListsetFragment : Fragment() {
     private var _binding : FragmentListsetBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: ListsetViewModel
+    private val viewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
     private lateinit var navController: NavController
 
     val db = Firebase.firestore
@@ -43,21 +37,8 @@ class ListsetFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                    기본 초기화
-
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listset, container, false)
-
-        navController = findNavController()
-
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = ListsetViewModelFactory((application as OggApplication).repository)
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ListsetViewModel::class.java)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this.viewLifecycleOwner
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                          이전 프로젝트가 몇회차 프로젝트인지 검색
@@ -73,17 +54,6 @@ class ListsetFragment : Fragment() {
         }.addOnFailureListener { exception ->
             Timber.i(exception.toString())
         }
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                               활동 목표 출력 및 초기화
-
-        val listsetFragmentArgs by navArgs<ListsetFragmentArgs>()
-        binding.textAim.text = listsetFragmentArgs.aimCo2Amount.toString()
-
-        viewModel.co2Aim.observe(viewLifecycleOwner, Observer<Float> {
-            viewModel.setCo2(listsetFragmentArgs.aimCo2Amount)
-        })
-
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력
 
@@ -191,8 +161,13 @@ class ListsetFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        navController = findNavController()
+
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this.viewLifecycleOwner
     }
 
     override fun onDestroyView() {
