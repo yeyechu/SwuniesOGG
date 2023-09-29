@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <size android:width="?attr/minTouchTargetSize" android:height="?attr/minTouchTargetSize" />
+    <corners android:radius="@dimen/radius_component" />
+    <solid android:color="@color/white" />
+    <padding android:bottom="@dimen/stroke_shape_light" android:top="@dimen/stroke_shape_light" android:left="@dimen/stroke_shape_light" android:right="@dimen/stroke_shape_light" />
+
+
+</shape>

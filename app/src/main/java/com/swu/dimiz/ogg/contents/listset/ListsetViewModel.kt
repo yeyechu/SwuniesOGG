@@ -1,34 +1,44 @@
 package com.swu.dimiz.ogg.contents.listset
 
-import android.app.Application
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.swu.dimiz.ogg.OggApplication
-import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
 
 class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
+    private var currentJob: Job? = null
+    private val disposable: Disposable? = null
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                        클릭 핸들러
 
     //                                       활동 목표 선택
-
     private val _navigateToSelection = MutableLiveData<Boolean>()
     val navigateToSelection: LiveData<Boolean>
         get() = _navigateToSelection
 
-    //                                       활동 목표 선택
+    private val _navigateToDetail = MutableLiveData<ActivitiesDaily?>()
+    val navigateToDetail: LiveData<ActivitiesDaily?>
+        get() = _navigateToDetail
 
+    private val _dailyId = MutableLiveData<ActivitiesDaily?>()
+    val dailyId: LiveData<ActivitiesDaily?>
+        get() = _dailyId
+
+    //                                          활동 선택
     // 완료 버튼 : suspend 구현
     // ConditionRecord에 활동시작일/활동목표 저장
     // ListSet 데이터베이스 저장
+    // 완료버튼은 여기서 코루틴 함수 써서 레포지토리에 저장하는 함수 호출하고
+    // 레포지토리에 서버로 올리는 suspend 함수 구현해주시면 됩니다
     private val _navigateToSave = MutableLiveData<Boolean>()
     val navigateToSave: LiveData<Boolean>
         get() = _navigateToSave
@@ -46,21 +56,20 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val activityFilter: LiveData<List<String>>
         get() = _activityFilter
 
-    // 활동 체크 버튼
-    // co2 받아오기, progress바 움직이기
-
     // ───────────────────────────────────────────────────────────────────────────────────
-    //                                     데이터베이스 초기화
-    private var currentJob: Job? = null
+    //                                     유저 정보 초기화
 
-    //val getAllData: LiveData<List<ActivitiesDaily>> = repository.getAlldata.asLiveData()
-    // 1. ConditionRecord에서 차량정보 가져오기
-    // -> init{}에서 호출 후 suspend로 구현
+    // 유저 객체를 여기에다가 데려다놔 주세요
+    // 차량 등록 정보 필요
+    // 활동 날짜 정보 필요
+    // 목표 탄소량 정보 필요
+    // 등록한 지속가능한 활동 정보 필요
 
     val automobile = 0
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                   필요한 데이터 초기화
+
     private val _aimCo2 = MutableLiveData<Float>()
     val aimCo2: LiveData<Float>
         get() = _aimCo2
@@ -69,32 +78,53 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val aimTitle: LiveData<String>
         get() = _aimTitle
 
-    private val _aimAmount = MutableLiveData<String>()
-    val aimAmount: LiveData<String>
-        get() = _aimAmount
+    private val _aimCotent = MutableLiveData<String>()
+    val aimCotent: LiveData<String>
+        get() = _aimCotent
+
+    private val _listHolder = MutableLiveData<List<ActivitiesDaily>?>()
+    val listHolder: LiveData<List<ActivitiesDaily>?>
+        get() = _listHolder
+
+    private val _co2Holder = MutableLiveData<Float>()
+    val co2Holder: LiveData<Float>
+        get() = _co2Holder
+
+    private val _textVisible = MutableLiveData<Boolean>()
+    val textVisible: LiveData<Boolean>
+        get() = _textVisible
+
+    private var numId = 0
+    var numContent = 0
+
+    var numList = ArrayList<ListData>()
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                      뷰모델 초기화
     init {
         setCo2(AIMCO2_ONE)
-        setAimTitle(AIMCO2_ONE)
-
+        _aimTitle.value = ""
+        _aimCotent.value = ""
+        _co2Holder.value = 0f
+        _listHolder.value = null
         getFilters()
         onFilterChanged("energy", true)
         Timber.i("created")
-    }
 
-    // ───────────────────────────────────────────────────────────────────────────────────
-
-    fun setCo2(co2: Float) {
-        _aimCo2.value = co2
+        numList.clear()
+        Timber.i("numList 초기화")
+        setList()
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 목표 내용 결정자
 
+    fun setCo2(co2: Float) {
+        _aimCo2.value = co2
+    }
+
     fun setAimCo2(button: Int) {
-        when(button) {
+        when (button) {
             1 -> setCo2(AIMCO2_ONE)
             2 -> setCo2(AIMCO2_TWO)
             3 -> setCo2(AIMCO2_THREE)
@@ -102,22 +132,100 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     fun setAimTitle(co2: Float) {
-        when(co2) {
+        when (co2) {
             AIMCO2_ONE -> {
                 _aimTitle.value = setOfAimOne.first!!
-                _aimAmount.value = setOfAimOne.second!!
+                _aimCotent.value = setOfAimOne.second!!
             }
             AIMCO2_TWO -> {
                 _aimTitle.value = setOfAimTwo.first!!
-                _aimAmount.value = setOfAimTwo.second!!
+                _aimCotent.value = setOfAimTwo.second!!
             }
             AIMCO2_THREE -> {
                 _aimTitle.value = setOfAimThree.first!!
-                _aimAmount.value = setOfAimThree.second!!
+                _aimCotent.value = setOfAimThree.second!!
             }
             else -> _aimTitle.value = "오류쓰레기"
         }
     }
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                                     활동 선택 내용 결정자
+
+    fun setList() {
+        while(numId <= 20) {
+            numList.add(ListData(0))
+            Timber.i("numList 초기화 $numId $numList")
+            numId++
+        }
+    }
+    fun co2Plus(item: ActivitiesDaily) {
+        _co2Holder.value = _co2Holder.value?.plus(item.co2)
+        numId = item.dailyId - 10000
+        numContent = numList[numId].aNumber + 1
+        numList[numId] = ListData(numContent)
+    }
+
+    fun co2Minus(item: ActivitiesDaily) {
+        if (co2Holder.value!! > 0f) {
+            _co2Holder.value = _co2Holder.value?.minus(item.co2)
+            numId = item.dailyId - 10000 - 1
+            numContent = numList[numId].aNumber - 1
+            numList[numId] = ListData(numContent)
+        }
+    }
+
+//    val haveCar = automobile.map {
+//        automobile == 0
+//    }
+
+    val minusButtonEnabled = co2Holder.map {
+        it <= 0f
+    }
+
+    val saveButtonEnabled = co2Holder.map {
+        it >= _aimCo2.value!!
+    }
+
+    val progressBar = co2Holder.map {
+        it.div(_aimCo2.value!!).times(100).toInt()
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                                        클릭 리스너
+
+    //                              활동 목표 : 다음으로> 버튼 클릭
+    fun onSelectionButtonClicked() {
+        _navigateToSelection.value = true
+    }
+
+    fun onNavigatedToSelection() {
+        _navigateToSelection.value = false
+    }
+
+    //                                        활동 리스트
+
+    fun onSaveButtonClicked() {
+        _navigateToSave.value = true
+    }
+
+    fun onNavigatedToSave() {
+        _navigateToSave.value = false
+    }
+
+    fun showPopup(act: ActivitiesDaily) {
+        _navigateToDetail.value = act
+        _dailyId.value = act
+        val getInstructions: LiveData<List<Instruction>> = repository.getInstructions(act.dailyId, act.limit)
+        val textVision = getInstructions.map {
+            it.isNotEmpty()
+        }
+        _textVisible.value = textVision.value
+    }
+
+    fun completedPopup() {
+        _navigateToDetail.value = null
+    }
+
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                          필터
@@ -163,26 +271,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    // ───────────────────────────────────────────────────────────────────────────────────
-    //                                        클릭 리스너
-
-    //                                         활동 목표
-    fun onSelectionButtonClicked() {
-        _navigateToSelection.value = true
-    }
-    fun onNavigatedToSelection() {
-        _navigateToSelection.value = false
-    }
-    //                                        활동 리스트
-    fun onSaveButtonClicked() {
-        _navigateToSave.value = true
-    }
-
-    fun onNavigatedToSave() {
-        _navigateToSave.value = false
-    }
-
     override fun onCleared() {
+        if (disposable?.isDisposed == false) {
+            disposable.dispose()
+        }
         super.onCleared()
         Timber.i("destroyed")
     }

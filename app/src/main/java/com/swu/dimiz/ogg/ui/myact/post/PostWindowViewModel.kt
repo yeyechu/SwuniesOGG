@@ -61,5 +61,4 @@ class PostWindowViewModelFactory(private val activityKey: Int = 0,
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
-
 }

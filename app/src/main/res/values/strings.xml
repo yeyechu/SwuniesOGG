@@ -68,6 +68,8 @@
     <string name="description_scroll">스크롤</string>
     <string name="description_bottom_sheet">위로 올라오는 창</string>
     <string name="description_pager_indicator">페이지를 표시하는 점</string>
+    <string name="description_button_plus">더하기 버튼</string>
+    <string name="description_button_minus">빼기 버튼</string>
 
 
     <!--                    모든 EditText에 들어가는 Hint 속성은 이곳에 선언되어야 함                   -->

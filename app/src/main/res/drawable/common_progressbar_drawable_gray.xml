@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/background_progress"
+        android:drawable="@drawable/common_progressbar_background_gray">
+
+    </item>
+
+    <item android:id="@+id/progress_bar">
+        <clip>
+            <scale android:drawable="@drawable/common_progressbar_foreground"
+                android:scaleHeight="10%"
+                android:scaleWidth="100%"/>
+        </clip>
+    </item>
+</layer-list>

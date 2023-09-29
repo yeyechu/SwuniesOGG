@@ -10,7 +10,10 @@
         <item name="android:fontFamily">@font/nanumsquare_r</item>
         <item name="fontFamily">@font/nanumsquare_r</item>
         <item name="android:lineSpacingExtra">@dimen/text_line_spacing</item>
+    </style>
 
+    <style name="StyleText.gray">
+        <item name="android:textColor">@color/primary_gray</item>
 
     </style>
     <!-- 제목 텍스트 -->

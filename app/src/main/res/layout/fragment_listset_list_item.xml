@@ -4,9 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="activity"
             type="com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily" />
+
+        <variable
+            name="minusListener"
+            type="com.swu.dimiz.ogg.contents.listset.ListsetAdapter.ListClickListener" />
+
+        <variable
+            name="plusListener"
+            type="com.swu.dimiz.ogg.contents.listset.ListsetAdapter.ListClickListener" />
+
+        <variable
+            name="detailListener"
+            type="com.swu.dimiz.ogg.contents.listset.ListsetAdapter.ListClickListener" />
 
     </data>
 
@@ -14,75 +27,112 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_component"
-        app:cardCornerRadius="@dimen/radius_card">
+        app:cardCornerRadius="@dimen/radius_card"
+        app:contentPadding="@dimen/padding_button_small"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/padding_card_small">
-
-            <CheckBox
-                android:id="@+id/check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/image_activity"
-                android:layout_width="@dimen/icon_big"
-                android:layout_height="@dimen/icon_big"
+                android:layout_width="@dimen/image_size_aim_face"
+                android:layout_height="@dimen/image_size_aim_face"
+                android:layout_margin="@dimen/margin_component"
+                android:layout_weight="1"
                 android:contentDescription="@string/description_myact_card_image"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/check_box"
-                app:layout_constraintTop_toTopOf="parent"
                 app:activityImage="@{activity}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/text_title"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/text_title"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="@dimen/dimension_300"
                 android:layout_height="wrap_content"
-                android:text=""
-                style="@style/StyleText.title"
-                app:layout_constraintBottom_toTopOf="@+id/text_co2"
-                app:layout_constraintStart_toEndOf="@+id/image_activity"
-                app:layout_constraintTop_toTopOf="parent"
-                app:actitityTitle="@{activity}"
-                tools:text="지역 농산물 이용하기"
-                android:padding="@dimen/padding_button_small"
-                />
+                android:layout_weight="3"
+                android:paddingStart="@dimen/padding_small"
+                android:paddingEnd="@dimen/padding_big">
+                <TextView
+                    android:id="@+id/text_title"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    app:actitityTitle="@{activity}"
+                    app:layout_constraintBottom_toTopOf="@+id/text_co2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="지역 농산물 이용하기" />
 
-            <TextView
-                android:id="@+id/text_co2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                style="@style/StyleText"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_activity"
-                app:layout_constraintTop_toBottomOf="@+id/text_title"
-                app:activityCo2="@{activity}"
-                tools:text="탄소감축량:코드로들어감"
-                android:padding="@dimen/padding_button_small"
-                />
+                <TextView
+                    android:id="@+id/text_co2"
+                    style="@style/StyleText.gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    app:activityCo2="@{activity}"
+                    app:layout_constraintBottom_toBottomOf="@id/text_number"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_title"
+                    tools:text="탄소감축량 : 0.000kg" />
+
+                <ImageButton
+                    android:id="@+id/button_minus"
+                    style="@style/StyleImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/description_button_minus"
+                    android:onClick="@{() -> minusListener.onClick(activity)}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/text_number"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_co2"
+                    app:srcCompat="@drawable/listset_button_minus" />
+
+                <TextView
+                    android:id="@+id/text_number"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/secondary_light_gray"
+                    android:padding="@dimen/text_line_spacing"
+                    android:text=""
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/button_plus"
+                    app:layout_constraintStart_toEndOf="@id/button_minus"
+                    app:layout_constraintTop_toBottomOf="@id/text_co2"
+                    tools:text="0" />
+
+                <ImageButton
+                    android:id="@+id/button_plus"
+                    style="@style/StyleImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/description_button_plus"
+                    android:onClick="@{() -> plusListener.onClick(activity)}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/text_number"
+                    app:layout_constraintTop_toBottomOf="@id/text_co2"
+                    app:srcCompat="@drawable/listset_button_plus" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageButton
                 android:id="@+id/button_next"
+                style="@style/StyleImageButton"
                 android:layout_width="?attr/minTouchTargetSize"
                 android:layout_height="?attr/minTouchTargetSize"
-                android:padding="@dimen/padding_big"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:contentDescription="@string/description_common_button_arrow_right"
+                android:padding="@dimen/padding_big"
+                android:onClick="@{() -> detailListener.onClick(activity)}"
                 android:src="@drawable/common_button_arrow_right"
-
-                style="@style/StyleImageButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

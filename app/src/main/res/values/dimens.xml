@@ -5,6 +5,7 @@
     <dimen name="spacing_text">30dp</dimen>
 
     <dimen name="padding_text">3dp</dimen>
+    <dimen name="padding_extra_small">5dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_big">16dp</dimen>
 
@@ -18,6 +19,7 @@
     <dimen name="padding_popup_big">20dp</dimen>
 
     <!--                                         마진                                         -->
+    <dimen name="margin_extra_small">5dp</dimen>
     <dimen name="margin_component">8dp</dimen>
     <dimen name="margin_default">16dp</dimen>
     <dimen name="margin_big">21dp</dimen>
@@ -34,6 +36,7 @@
     <dimen name="text_size_title">20sp</dimen>
 
     <!--                                         코너                                         -->
+    <dimen name="radius_component">10dp</dimen>
     <dimen name="radius_card">17dp</dimen>
     <dimen name="radius_layer">20dp</dimen>
     <dimen name="radius_button">50dp</dimen>

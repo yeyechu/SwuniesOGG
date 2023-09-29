@@ -18,7 +18,8 @@ private const val PATH_VALUE = "LIST_ADAPTER"
 class ActivityListAdapter(val context: Context) :
     ListAdapter<ActivitiesDaily, ActivityListAdapter.ActivityListViewHolder>(ActivityListDiffCallback()
     ) {
-
+    // 클릭리스너 3개 필요함
+    // 컨텍스트 삭제 필요
     override fun onBindViewHolder(holder: ActivityListViewHolder, position: Int) {
 
         val activity = getItem(position)

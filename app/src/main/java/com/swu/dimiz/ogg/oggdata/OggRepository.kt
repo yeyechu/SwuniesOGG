@@ -14,6 +14,12 @@ class OggRepository(private val database: OggDatabase) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    fun getInstructions(id: Int, limit: Int) : LiveData<List<Instruction>> {
+        return database.instructionDatabaseDao.getDirections(id, limit)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun getFiltered(filter: String) : List<ActivitiesDaily>? {
         return database.dailyDatabaseDao.getFilteredList(filter)
     }

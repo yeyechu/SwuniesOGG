@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparency_dimmed"
+        android:padding="@dimen/padding_big">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_big"
+            android:background="@drawable/common_layer_window_rounded"
+            android:padding="@dimen/padding_popup_big"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/button_exit"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="@dimen/icon_small"
+                android:contentDescription="@string/description_common_button_exit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/common_button_exit" />
+
+            <TextView
+                android:id="@+id/text_title"
+                style="@style/StyleText.title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                app:actitityTitle="@{viewModel.dailyId}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="활동 제목" />
+
+            <TextView
+                android:id="@+id/text_co2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_component"
+                style="@style/StyleText"
+                app:layout_constraintTop_toBottomOf="@id/text_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:activityCo2="@{viewModel.dailyId}"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/explain_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/text_co2"
+                tools:layout_editor_absoluteX="20dp">
+
+                <ImageView
+                    android:id="@+id/image_example"
+                    android:layout_width="@dimen/image_resouce_size"
+                    android:layout_height="@dimen/image_resouce_size"
+                    android:layout_margin="@dimen/margin_default"
+                    android:contentDescription="@string/description_myact_card_image"
+                    android:src="@drawable/common_image_placeholder"
+                    app:activityExampleImage="@{viewModel.dailyId}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_garbage_one"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:text="@string/post_text_available"
+                    app:layout_constraintEnd_toEndOf="@+id/image_example"
+                    app:layout_constraintStart_toStartOf="@+id/image_example"
+                    app:layout_constraintTop_toBottomOf="@+id/image_example" />
+
+                <TextView
+                    android:id="@+id/text_available_body"
+                    style="@style/StyleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_component"
+                    android:text=""
+
+                    app:activityFreq="@{viewModel.dailyId}"
+                    app:layout_constraintEnd_toEndOf="@+id/text_garbage_one"
+                    app:layout_constraintStart_toStartOf="@+id/text_garbage_one"
+                    app:layout_constraintTop_toBottomOf="@+id/text_garbage_one"
+                    tools:text="하루에 한 번" />
+
+                <TextView
+                    android:id="@+id/text_garbage_two"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+
+                    android:text="@string/post_text_guidlines"
+                    android:visibility="@{viewModel.textVisible ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="@+id/text_garbage_one"
+                    app:layout_constraintStart_toStartOf="@+id/text_garbage_one"
+                    app:layout_constraintTop_toBottomOf="@+id/text_available_body" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/text_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_component"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_garbage_two">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

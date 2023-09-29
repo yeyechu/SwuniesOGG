@@ -12,7 +12,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.chip.Chip
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -41,6 +40,12 @@ class ListsetFragment : Fragment() {
             inflater, R.layout.fragment_listset, container, false)
 
         // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                      버튼 인터랙션
+        viewModel.progressBar.observe(viewLifecycleOwner) {
+            binding.progressBar.progress = it
+        }
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
         //                          이전 프로젝트가 몇회차 프로젝트인지 검색
         val docRef = db.collection("User").document(user?.email.toString())
         docRef.get().addOnSuccessListener { document ->
@@ -53,46 +58,6 @@ class ListsetFragment : Fragment() {
             }
         }.addOnFailureListener { exception ->
             Timber.i(exception.toString())
-        }
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                     카테고리 출력
-
-        viewModel.activityFilter.observe(viewLifecycleOwner, object : Observer<List<String>> {
-
-            override fun onChanged(value: List<String>) {
-                value ?: return
-                val chipGroup = binding.activityFilter
-                val inflater = LayoutInflater.from(chipGroup.context)
-
-                val children = value.map { category ->
-                    val chip = inflater.inflate(R.layout.item_chips, chipGroup, false) as Chip
-                    chip.text = category
-                    chip.tag = category
-                    if(category == "energy") {
-                        chip.isChecked = true
-                    }
-                    chip.setOnCheckedChangeListener { button, isChecked ->
-                        viewModel.onFilterChanged(button.tag as String, isChecked)
-                    }
-                    chip
-                }
-                chipGroup.removeAllViews()
-
-                for(chip in children) {
-                    chipGroup.addView(chip)
-                }
-            }
-        })
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                       어댑터
-        val adapter = ActivityListAdapter(requireContext())
-        binding.activityList.adapter = adapter
-
-        viewModel.filteredList.observe(viewLifecycleOwner) {
-            it?.let {
-                adapter.submitList(it)
-            }
         }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
@@ -107,7 +72,7 @@ class ListsetFragment : Fragment() {
                 //프로젝트 진행상태 업데이트(새로 시작인지 수정인지 구분 추가)
                 //projectCount =+ 1
 
-                // ──────────────────────────────────────────────────────────────────────────────────────
+
                 //                                  firebase 리스트 저장
                 var act1 = 10001
                 var act2 = 10005
@@ -119,7 +84,6 @@ class ListsetFragment : Fragment() {
                 actList2.setFirstList(act2)
                 var actList3 = MyList()
                 actList3.setFirstList(act3)
-
 
 
                 val db1 = db.collection("User").document(user?.email.toString())

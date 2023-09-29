@@ -101,9 +101,14 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_component"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/common_progressbar_drawable_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_stamp_today" />
+                app:layout_constraintTop_toBottomOf="@id/image_stamp_today" />
 
             <TextView
                 android:id="@+id/text_progress_co2_zero"

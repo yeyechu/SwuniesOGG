@@ -152,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@{@string/listaim_text_instruction_two(viewModel.aimAmount)}"
+                android:text="@{@string/listaim_text_instruction_two(viewModel.aimCotent)}"
                 tools:text="멸종위기종 3위인 바다거북을 구해봐요!" />
 
         </LinearLayout>

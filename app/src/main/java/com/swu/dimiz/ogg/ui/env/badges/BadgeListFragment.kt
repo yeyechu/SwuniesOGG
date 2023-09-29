@@ -94,6 +94,7 @@ class BadgeListFragment : Fragment() {
             }
         }
         binding.badgeList.layoutManager = manager
+
         val badgeAdapter = BadgeListAdapter(BadgeListAdapter.BadgeClickListener { id ->
             viewModel.showPopup(id)
         })

@@ -1,13 +1,11 @@
 package com.swu.dimiz.ogg.ui.env.badges
 
 import android.graphics.Color
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.ui.env.myenv.InventoryAdapter
 
