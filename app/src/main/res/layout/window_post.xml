@@ -5,6 +5,7 @@
 
     <data>
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.myact.post.PostWindowViewModel" />
@@ -69,8 +70,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/text_co2"
                 tools:layout_editor_absoluteX="20dp"
-                android:visibility="visible"
-                >
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/image_example"
@@ -142,7 +142,6 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:orientation="horizontal"
                     android:visibility="visible"
-
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

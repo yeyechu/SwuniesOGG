@@ -18,7 +18,6 @@ class BadgeDetailWindow : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: BadgeListViewModel by activityViewModels() { BadgeListViewModel.Factory }
-
     private lateinit var fragmentManager: FragmentManager
 
     override fun onCreateView(
@@ -33,30 +32,17 @@ class BadgeDetailWindow : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        viewModel.navigateToSelected.observe(viewLifecycleOwner) {
-
-        }
-
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        Timber.i("배지 디테일")
     }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        Timber.i("프래그먼트 백그라운드")
     }
-
-    override fun onDetach() {
-        super.onDetach()
-        Timber.i("프래그먼트 완벽 삭제")
-    }
-
 }

@@ -17,7 +17,7 @@ interface ActivitiesDailyDatabaseDao {
     suspend fun addData(acts: List<ActivitiesDaily>)
 
     @Update
-    fun update(act: ActivitiesDaily)
+    suspend fun update(act: ActivitiesDaily)
 
     @Query("SELECT * FROM daily")
     fun getAllDailys() : Flow<List<ActivitiesDaily>>

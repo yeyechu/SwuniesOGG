@@ -11,139 +11,147 @@
             type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/frame_layout_listset"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/StyleText.header"
-                android:text="@string/destination_title_listset"
-                android:layout_gravity="center"
-                tools:text="활동 선택" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_allset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/listset_button_allset"
-                android:background="@android:color/transparent"
-                android:textColor="@{viewModel.saveButtonEnabled? @color/primary_blue : @color/secondary_light_gray}"
-                android:onClick="@{() -> viewModel.onSaveButtonClicked()}"
-                android:clickable="@{viewModel.saveButtonEnabled}"
-
-                style="@style/StyleText.title" />
-        </androidx.appcompat.widget.Toolbar>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/instruction_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/secondary_light_gray"
-            android:paddingTop="@dimen/padding_big"
-            android:paddingBottom="@dimen/padding_big"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-            <TextView
-                android:id="@+id/text_garbage_one"
-                style="@style/StyleText.subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_default"
-                android:layout_marginBottom="@dimen/margin_default"
-                android:text="@string/listset_text_title"
-                app:layout_constraintBottom_toTopOf="@id/text_listset_instruction"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="">
 
-            <TextView
-                android:id="@+id/text_listset_instruction"
-                style="@style/StyleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/spacing_text"
-                android:text="@string/listset_text_title_instruction"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/list_holder"
-                app:layout_constraintTop_toBottomOf="@id/text_garbage_one" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/StyleText.header"
+                    android:text="@string/destination_title_listset"
+                    android:layout_gravity="center"
+                    tools:text="활동 선택" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_holder"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_allset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/listset_button_allset"
+                    android:background="@android:color/transparent"
+                    android:textColor="@{viewModel.saveButtonEnabled? @color/primary_blue : @color/secondary_light_gray}"
+                    android:onClick="@{() -> viewModel.onSaveButtonClicked()}"
+                    android:clickable="@{viewModel.saveButtonEnabled}"
+
+                    style="@style/StyleText.title" />
+            </androidx.appcompat.widget.Toolbar>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/instruction_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/text_listset_instruction"
+                android:background="@color/secondary_light_gray"
+                android:paddingTop="@dimen/padding_big"
+                android:paddingBottom="@dimen/padding_big"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/fragment_listset_list_holder"/>
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                style="?android:attr/progressBarStyleHorizontal"
+                <TextView
+                    android:id="@+id/text_garbage_one"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:text="@string/listset_text_title"
+                    app:layout_constraintBottom_toTopOf="@id/text_listset_instruction"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_listset_instruction"
+                    style="@style/StyleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/spacing_text"
+                    android:text="@string/listset_text_title_instruction"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/list_holder"
+                    app:layout_constraintTop_toBottomOf="@id/text_garbage_one" />
+
+                <GridView
+                    android:id="@+id/list_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_big"
+                    android:layout_marginStart="@dimen/margin_component"
+                    android:layout_marginBottom="@dimen/margin_big"
+                    android:numColumns="5"
+                    app:layout_constraintTop_toBottomOf="@id/text_listset_instruction"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:listitem="@layout/fragment_listset_list_holder"/>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_big"
+                    android:layout_marginTop="@dimen/margin_big"
+                    android:layout_marginEnd="@dimen/margin_big"
+                    android:layout_marginBottom="@dimen/text_line_spacing"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/common_progressbar_drawable"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/list_holder" />
+
+                <TextView
+                    android:id="@+id/text_garbage_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_big"
+                    android:paddingStart="@dimen/text_line_spacing"
+                    android:text="@string/co2_default_zero"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+
+                <TextView
+                    android:id="@+id/text_aim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_big"
+                    android:text="@{String.valueOf(viewModel.aimCo2)}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+                    tools:text="1.4" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <fragment
+                android:id="@+id/list_layout"
+                android:name="com.swu.dimiz.ogg.contents.listset.ListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_big"
-                android:layout_marginTop="@dimen/margin_component"
-                android:layout_marginEnd="@dimen/margin_big"
-                android:layout_marginBottom="@dimen/text_line_spacing"
-                android:indeterminate="false"
-                android:max="100"
-                android:progress="0"
-                android:progressDrawable="@drawable/common_progressbar_drawable"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/list_holder" />
-
-            <TextView
-                android:id="@+id/text_garbage_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_big"
-                android:paddingStart="@dimen/text_line_spacing"
-                android:text="@string/co2_default_zero"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
-
-            <TextView
-                android:id="@+id/text_aim"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_big"
-                android:text="@{String.valueOf(viewModel.aimCo2)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progress_bar"
-                tools:text="1.4" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <fragment
-            android:id="@+id/list_layout"
-            android:name="com.swu.dimiz.ogg.contents.listset.ListFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/instruction_layout"/>
-    </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@id/instruction_layout"/>
+        </LinearLayout>
+    </FrameLayout>
 </layout>

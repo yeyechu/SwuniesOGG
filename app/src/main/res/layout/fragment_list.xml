@@ -8,33 +8,39 @@
             type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
     </data>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <HorizontalScrollView
-            android:id="@+id/chips"
+    <FrameLayout
+        android:id="@+id/frame_layout_listset"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/padding_extra_small"
-            android:layout_marginTop="@dimen/margin_component">
+            android:orientation="vertical">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/activity_filter"
+            <HorizontalScrollView
+                android:id="@+id/chips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:chipSpacingHorizontal="@dimen/padding_small"
-                app:singleLine="true"
-                app:singleSelection="true"
-                app:selectionRequired="false"/>
-        </HorizontalScrollView>
+                android:paddingStart="@dimen/padding_extra_small"
+                android:layout_marginTop="@dimen/margin_component">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/activity_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipSpacingHorizontal="@dimen/padding_small"
+                    app:singleLine="true"
+                    app:singleSelection="true"
+                    app:selectionRequired="false"/>
+            </HorizontalScrollView>
 
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        </LinearLayout>
+    </FrameLayout>
+
 </layout>

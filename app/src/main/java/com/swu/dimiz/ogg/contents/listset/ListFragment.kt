@@ -11,6 +11,8 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentListBinding
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import com.swu.dimiz.ogg.ui.myact.post.TextAdapter
 import timber.log.Timber
 
 class ListFragment : Fragment() {
@@ -19,17 +21,19 @@ class ListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
-    private lateinit var fragmentManager: FragmentManager
+    private var listHolder = ArrayList<ListData>()
+    private var numberHolder = ArrayList<NumberData>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         _binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_list, container, false)
+            inflater, R.layout.fragment_list, container, false
+        )
 
-        fragmentManager = childFragmentManager
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-
+        listInitialize()
+        viewModel.setListHolder(listHolder)
+        viewModel.setNumberHolder(numberHolder)
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력
 
@@ -41,7 +45,7 @@ class ListFragment : Fragment() {
                 val chip = chipInflater.inflate(R.layout.item_chips, chipGroup, false) as Chip
                 chip.text = category
                 chip.tag = category
-                if (category == "energy") {
+                if (category == "에너지") {
                     chip.isChecked = true
                 }
                 chip.setOnCheckedChangeListener { button, isChecked ->
@@ -58,38 +62,95 @@ class ListFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
-        val numList: ArrayList<ListData> = viewModel.numList
-        val adapter = ListsetAdapter(numList,
+        val adapter = ListsetAdapter(
             ListsetAdapter.ListClickListener {
                 viewModel.co2Minus(it)
+                deleteItem(it)
+                viewModel.setListHolder(listHolder)
             },
             ListsetAdapter.ListClickListener {
                 viewModel.co2Plus(it)
+                if (!addItem(it)) {
+                    updateItem(it)
+                }
+                viewModel.setListHolder(listHolder)
             },
             ListsetAdapter.ListClickListener {
                 viewModel.showPopup(it)
             })
+
         binding.activityList.adapter = adapter
 
         viewModel.filteredList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
 
-        viewModel.navigateToDetail.observe(viewLifecycleOwner) {
-            it?.let {
-                addWindow()
-                viewModel.completedPopup()
-            }
-        }
         return binding.root
     }
 
-    private fun addWindow() {
-        fragmentManager.beginTransaction()
-            .add(R.id.frame_layout, ListDetailWindow())
-            .setReorderingAllowed(true)
-            .addToBackStack(null)
-            .commit()
+    private fun listInitialize() {
+        listHolder.clear()
+        numberHolder.clear()
+        var index = 10001
+
+        for (i in 0..4) {
+            listHolder.add(ListData(0, 0))
+        }
+
+        for (i in 0..20) {
+            numberHolder.add(NumberData(index++, 0))
+        }
+    }
+
+    private fun addItem(item: ActivitiesDaily): Boolean {
+
+        for (i in listHolder) {
+            if (i.aId == item.dailyId) {
+                if (item.freq < item.limit) {
+                    i.aNumber++
+                    numberHolder[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
+                }
+                Timber.i("$listHolder")
+                Timber.i("$numberHolder")
+                return true
+            }
+        }
+        Timber.i("$listHolder")
+        return false
+    }
+
+    private fun updateItem(item: ActivitiesDaily) {
+        for (i in listHolder) {
+            if (i.aId == 0) {
+                i.aId = item.dailyId
+                i.aNumber++
+                numberHolder[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
+                break
+            }
+        }
+        Timber.i("$listHolder")
+        Timber.i("$numberHolder")
+    }
+
+    private fun deleteItem(item: ActivitiesDaily) {
+        for (i in listHolder) {
+            if (i.aId == item.dailyId) {
+                i.aNumber--
+                numberHolder[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
+                if (i.aNumber == 0) {
+                    i.aId = 0
+                }
+            }
+        }
+        Timber.i("$listHolder")
+        Timber.i("$numberHolder")
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
     override fun onDestroyView() {
@@ -98,3 +159,5 @@ class ListFragment : Fragment() {
         Timber.i("onDestroyView()")
     }
 }
+
+const val ID_MODIFIER = 10001

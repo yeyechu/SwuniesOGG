@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.contents.listset
 
+import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -45,8 +46,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
-    private var filter = FilterHolder()
-    private val category = mutableListOf("energy", "consume", "transport", "recycle")
+    private val category = mutableListOf("에너지", "소비", "이동수단", "자원순환")
 
     private val _filteredList = MutableLiveData<List<ActivitiesDaily>>()
     val filteredList: LiveData<List<ActivitiesDaily>>
@@ -82,9 +82,13 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val aimCotent: LiveData<String>
         get() = _aimCotent
 
-    private val _listHolder = MutableLiveData<List<ActivitiesDaily>?>()
-    val listHolder: LiveData<List<ActivitiesDaily>?>
+    private val _listHolder = MutableLiveData<List<ListData>?>()
+    val listHolder: LiveData<List<ListData>?>
         get() = _listHolder
+
+    private val _numberHolder = MutableLiveData<List<NumberData>?>()
+    val numberHolder: LiveData<List<NumberData>?>
+        get() = _numberHolder
 
     private val _co2Holder = MutableLiveData<Float>()
     val co2Holder: LiveData<Float>
@@ -94,10 +98,9 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val textVisible: LiveData<Boolean>
         get() = _textVisible
 
-    private var numId = 0
-    var numContent = 0
-
-    var numList = ArrayList<ListData>()
+    private val _instructions = MutableLiveData<List<Instruction>>()
+    val instructions: LiveData<List<Instruction>>
+        get() = _instructions
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                      뷰모델 초기화
@@ -108,12 +111,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _co2Holder.value = 0f
         _listHolder.value = null
         getFilters()
-        onFilterChanged("energy", true)
+        onFilterChanged("에너지", true)
         Timber.i("created")
-
-        numList.clear()
-        Timber.i("numList 초기화")
-        setList()
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
@@ -151,26 +150,29 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 선택 내용 결정자
 
-    fun setList() {
-        while(numId <= 20) {
-            numList.add(ListData(0))
-            Timber.i("numList 초기화 $numId $numList")
-            numId++
-        }
+    fun setListHolder(data: List<ListData>) {
+        _listHolder.postValue(data)
     }
+
+    fun setNumberHolder(data: List<NumberData>) {
+        _numberHolder.postValue(data)
+    }
+
     fun co2Plus(item: ActivitiesDaily) {
-        _co2Holder.value = _co2Holder.value?.plus(item.co2)
-        numId = item.dailyId - 10000
-        numContent = numList[numId].aNumber + 1
-        numList[numId] = ListData(numContent)
+        if (item.limit > item.freq) {
+            _co2Holder.value = _co2Holder.value?.plus(item.co2)
+            item.freq++
+            update(item)
+        }
     }
 
     fun co2Minus(item: ActivitiesDaily) {
-        if (co2Holder.value!! > 0f) {
-            _co2Holder.value = _co2Holder.value?.minus(item.co2)
-            numId = item.dailyId - 10000 - 1
-            numContent = numList[numId].aNumber - 1
-            numList[numId] = ListData(numContent)
+        if (0 < item.freq) {
+            if (co2Holder.value!! > 0f) {
+                _co2Holder.value = _co2Holder.value?.minus(item.co2)
+            }
+            item.freq--
+            update(item)
         }
     }
 
@@ -216,6 +218,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _navigateToDetail.value = act
         _dailyId.value = act
         val getInstructions: LiveData<List<Instruction>> = repository.getInstructions(act.dailyId, act.limit)
+        _instructions.value = getInstructions.value
         val textVision = getInstructions.map {
             it.isNotEmpty()
         }
@@ -226,6 +229,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _navigateToDetail.value = null
     }
 
+    fun update(act: ActivitiesDaily) = viewModelScope.launch {
+        repository.updateFreq(act)
+        Timber.i("$act")
+    }
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                          필터
@@ -252,22 +259,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun onFilterChanged(filter: String, isChecked: Boolean) {
         if (isChecked) {
             onFilterUpdated(filter)
-        }
-    }
-
-    private class FilterHolder {
-        var currentValue: String? = null
-            private set
-
-        fun update(changedFilter: String, isChecked: Boolean): Boolean {
-            if (isChecked) {
-                currentValue = changedFilter
-                return true
-            } else if (currentValue == changedFilter) {
-                currentValue = null
-                return true
-            }
-            return false
         }
     }
 

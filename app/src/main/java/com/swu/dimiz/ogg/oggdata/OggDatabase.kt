@@ -23,7 +23,6 @@ import timber.log.Timber
 @TypeConverters(RoomTypeConverter::class)
 abstract class OggDatabase : RoomDatabase() {
 
-
     abstract val dailyDatabaseDao: ActivitiesDailyDatabaseDao
     abstract val sustDatabaseDao: ActivitiesSustDatabaseDao
     abstract val extraDatabaseDao: ActivitiesExtraDatabaseDao

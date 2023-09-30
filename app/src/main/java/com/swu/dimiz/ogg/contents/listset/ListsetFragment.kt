@@ -4,14 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridView
+import android.widget.ListView
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -29,20 +34,48 @@ class ListsetFragment : Fragment() {
 
     private val viewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
     private lateinit var navController: NavController
+    private lateinit var fragmentManager: FragmentManager
 
     val db = Firebase.firestore
     val user = Firebase.auth.currentUser
     private var projectCount:Int = 0
+
+    private lateinit var listHolderAdapter: ListHolderAdapter
+    private lateinit var numberHolderAdapter: NumberHolderAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listset, container, false)
 
+        val listView: GridView = binding.listHolder
+        //val numberView: TextView = binding.root.findViewById(R.id.text_number)
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      버튼 인터랙션
         viewModel.progressBar.observe(viewLifecycleOwner) {
             binding.progressBar.progress = it
+        }
+
+        viewModel.navigateToDetail.observe(viewLifecycleOwner) {
+            it?.let {
+                addWindow()
+                viewModel.completedPopup()
+            }
+        }
+
+        viewModel.listHolder.observe(viewLifecycleOwner) {
+            it?.let {
+                listHolderAdapter = ListHolderAdapter(requireContext(), it)
+                listView.adapter = listHolderAdapter
+            }
+        }
+
+        viewModel.numberHolder.observe(viewLifecycleOwner) {
+            it?.let {
+                numberHolderAdapter = NumberHolderAdapter(requireContext(), it)
+                //numberView.adapter = numberHolderAdapter
+            }
         }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
@@ -125,13 +158,23 @@ class ListsetFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         navController = findNavController()
+        fragmentManager = childFragmentManager
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this.viewLifecycleOwner
+        binding.lifecycleOwner = viewLifecycleOwner
+    }
+
+    private fun addWindow() {
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout_listset, ListDetailWindow())
+            .setReorderingAllowed(true)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroyView() {

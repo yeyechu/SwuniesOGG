@@ -36,6 +36,12 @@ class OggRepository(private val database: OggDatabase) {
         return database.badgesDatabaseDao.getFilteredList(filter)
     }
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateFreq(data: ActivitiesDaily) {
+        database.dailyDatabaseDao.update(data)
+    }
+
     fun getInventory() : LiveData<List<Badges>> {
         return database.badgesDatabaseDao.getBadgeInventory()
     }

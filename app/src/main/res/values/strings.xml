@@ -140,10 +140,15 @@
     <!-- 인증 팝업 -->
     <string name="post_text_co2">탄소 감축량 %.3f kg</string>
     <string name="post_text_available">인증 가능 횟수</string>
+    <string name="post_text_available_body">하루 %d번</string>
     <string name="post_text_guidlines">인증 방법</string>
 
     <string name="post_button_take_photo">카메라 촬영</string>
     <string name="post_button_take_gallary">앨범 업로드</string>
+    <string name="post_button_2">확인하기</string>
+    <string name="post_button_3">인증하기</string>
+    <string name="post_button_4">차량 등록하기</string>
+    <string name="post_button_5">체크리스트 작성하기</string>
 
     <string name="post_text"> </string>
 
