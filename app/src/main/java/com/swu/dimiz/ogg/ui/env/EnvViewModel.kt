@@ -1,14 +1,12 @@
 package com.swu.dimiz.ogg.ui.env
 
-import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-
+import com.swu.dimiz.ogg.contents.listset.StampData
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import io.reactivex.rxjava3.disposables.Disposable
@@ -68,9 +66,13 @@ class EnvViewModel : ViewModel() {
                 Timber.i(exception.toString())
             }
     }
+    private val _stampHolder = MutableLiveData<List<StampData>?>()
+    val stampHolder: LiveData<List<StampData>?>
+        get() = _stampHolder
 
-
-
+    private val _co2Holder = MutableLiveData<Float>()
+    val co2Holder: LiveData<Float>
+        get() = _co2Holder
 
     val layerVisible = fakeDate.map {
         //it.startDate == 0L
@@ -99,6 +101,12 @@ class EnvViewModel : ViewModel() {
         Timber.i("ViewModel created")
         _fakeUser.value = User()
         _fakeDate.value = 0
+        _co2Holder.value = 0f
+        _stampHolder.value = null
+    }
+
+    fun setStampHolder(item: List<StampData>) {
+        _stampHolder.postValue(item)
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────

@@ -91,7 +91,7 @@ class ListFragment : Fragment() {
     private fun listInitialize() {
         listHolder.clear()
         numberHolder.clear()
-        var index = 10001
+        var index = ID_MODIFIER
 
         for (i in 0..4) {
             listHolder.add(ListData(0, 0))

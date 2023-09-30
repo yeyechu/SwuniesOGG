@@ -18,7 +18,6 @@ import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
 import com.swu.dimiz.ogg.ui.myact.myactcard.*
-import com.swu.dimiz.ogg.ui.myact.postsust.PostSustWindow
 
 import timber.log.Timber
 
@@ -56,8 +55,7 @@ class MyActFragment : Fragment() {
 
         binding.buttonTodayActEdit.setOnClickListener { view: View ->
             view.findNavController().navigate(
-                MyActFragmentDirections
-                    .actionNavigationMyactToDestinationListchanger()
+                MyActFragmentDirections.actionNavigationMyactToDestinationListset()
             )
         }
         // ──────────────────────────────────────────────────────────────────────────────────────
