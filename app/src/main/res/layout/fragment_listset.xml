@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/spacing_text"
-                    android:text="@string/listset_text_title_instruction"
+                    android:text="@{viewModel.saveButtonEnabled ? @string/listset_text_title_instruction_allset : @string/listset_text_title_instruction }"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/list_holder"

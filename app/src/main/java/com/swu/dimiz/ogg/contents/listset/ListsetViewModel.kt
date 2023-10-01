@@ -1,15 +1,10 @@
 package com.swu.dimiz.ogg.contents.listset
 
-import android.provider.SyncStateContract.Helpers.update
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.bumptech.glide.Glide.init
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
