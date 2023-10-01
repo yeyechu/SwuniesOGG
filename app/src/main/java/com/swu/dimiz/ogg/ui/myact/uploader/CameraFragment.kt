@@ -89,7 +89,6 @@ class CameraFragment : Fragment() {
 
             PostWindow.postWindow!!.finish()
             CameraActivity.cameraActivity!!.finish()
-            //todo post 데이터가 올라가야 함
             Timber.i("post 데이터가 올라가야 함")
 
             /* 10000이면 daily, 20000이면 sustain, 30000이면 extra
@@ -118,7 +117,6 @@ class CameraFragment : Fragment() {
                         }
                     }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
             }
-            imageCapture
         }
         return binding.root
     }

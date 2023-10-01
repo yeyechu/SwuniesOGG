@@ -9,13 +9,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.ListHolderAdapter
 import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import timber.log.Timber
 
 class ListsetFragment : Fragment() {
@@ -37,6 +44,11 @@ class ListsetFragment : Fragment() {
 
         val listView: GridView = binding.listHolder
         //val numberView: TextView = binding.root.findViewById(R.id.text_number)
+
+        //사용자 정보 가져오기
+        viewModel.fireInfo()
+        //지속활동 진행중 리스트
+        viewModel.fireGetSust()
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      버튼 인터랙션
@@ -65,6 +77,7 @@ class ListsetFragment : Fragment() {
             }
         }
 
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                     완료 버튼을 누르면 저장 후 화면을 이동시키는 관찰자
         viewModel.navigateToSave.observe(viewLifecycleOwner) {
@@ -73,6 +86,9 @@ class ListsetFragment : Fragment() {
                 viewModel.onNavigatedToSave()
                 Timber.i("완료 버튼 클릭")
                 // 메모리 누수 확인 필요
+
+                viewModel.fireSave()
+
             }
         }
 

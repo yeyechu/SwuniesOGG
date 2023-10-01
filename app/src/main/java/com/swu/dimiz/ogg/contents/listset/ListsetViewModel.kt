@@ -76,7 +76,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     private var sustlist = ArrayList<Int>()     // 등록한 지속가능한 활동
 
-    fun fireSearch(){
+    fun fireInfo(){
         //사용자 기본 정보
         val docRef = db.collection("User").document(user?.email.toString())
         docRef.get().addOnSuccessListener { document ->
@@ -93,14 +93,17 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }.addOnFailureListener { exception ->
             Timber.i(exception.toString())
         }
-        //지속 가능한 활동 받아오기
+    }
+
+    fun fireGetSust(){
+        //이미 한 sust 받아오기
         db.collection("User").document(user?.email.toString()).collection("Sustainable")
             .get()
             .addOnSuccessListener { result  ->
                 for (document in result ) {
                     val mysust = document.toObject<MySustainable>()
                     if (mysust != null) {
-                        sustlist.add(mysust.sustID)
+                        sustlist.add(mysust.sustID!!)
                     }
                     Timber.i( "sustlist result: $sustlist")
                 }
@@ -108,6 +111,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 Timber.i(exception.toString())
             }
     }
+
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 리스트 저장
