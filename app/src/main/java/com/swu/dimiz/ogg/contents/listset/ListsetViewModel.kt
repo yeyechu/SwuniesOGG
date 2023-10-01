@@ -1,14 +1,25 @@
 package com.swu.dimiz.ogg.contents.listset
 
+import android.provider.SyncStateContract.Helpers.update
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.bumptech.glide.Glide.init
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.AggregateSource
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -59,11 +70,103 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     유저 정보 초기화
 
-    // 유저 객체를 여기에다가 데려다놔 주세요
-    // 차량 등록 정보 필요
-    // 활동 날짜 정보 필요
-    // 목표 탄소량 정보 필요
-    // 등록한 지속가능한 활동 정보 필요
+    val db = Firebase.firestore
+    val user = Firebase.auth.currentUser
+
+    private var projectCount:Int = 0    //몇회차 프로젝트
+
+    private var car: Int = 0                    // 차량 등록
+    private var startDate: String = ""          // 활동 날짜
+    private var aim: Float = 0f                 // 목표 탄소량
+
+    private var sustlist = ArrayList<Int>()     // 등록한 지속가능한 활동
+
+    fun fireSearch(){
+        //사용자 기본 정보
+        val docRef = db.collection("User").document(user?.email.toString())
+        docRef.get().addOnSuccessListener { document ->
+            if (document != null) {
+                Timber.i( "DocumentSnapshot data: ${document.data}")
+                val gotUser = document.toObject<MyCondition>()
+                projectCount = gotUser!!.projectCount
+                car = gotUser!!.car
+                startDate = gotUser!!.startDate.toString()
+                aim =gotUser!!.aim
+            } else {
+                Timber.i("No such document")
+            }
+        }.addOnFailureListener { exception ->
+            Timber.i(exception.toString())
+        }
+        //지속 가능한 활동 받아오기
+        db.collection("User").document(user?.email.toString()).collection("Sustainable")
+            .get()
+            .addOnSuccessListener { result  ->
+                for (document in result ) {
+                    val mysust = document.toObject<MySustainable>()
+                    if (mysust != null) {
+                        sustlist.add(mysust.sustID)
+                    }
+                    Timber.i( "sustlist result: $sustlist")
+                }
+            }.addOnFailureListener { exception ->
+                Timber.i(exception.toString())
+            }
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                                  firebase 리스트 저장
+    fun fireSave(){
+        //프로젝트 진행상태 업데이트(새로 시작인지 수정인지 구분 추가)
+        //projectCount =+ 1
+
+        var act1 = 10001
+        var act2 = 10005
+        var act3 = 10010
+
+        var actList1 = MyList()
+        actList1.setFirstList(act1)
+        var actList2 = MyList()
+        actList2.setFirstList(act2)
+        var actList3 = MyList()
+        actList3.setFirstList(act3)
+
+
+        val db1 = db.collection("User").document(user?.email.toString())
+            .collection("Project$projectCount").document("1")
+        val db2 = db.collection("User").document(user?.email.toString())
+            .collection("Project$projectCount").document("2")
+        val db3 =db.collection("User").document(user?.email.toString())
+            .collection("Project$projectCount").document("3")
+
+        db.runBatch { batch ->
+            // Set the value of 'NYC'
+            batch.set(db1, actList1)
+            batch.set(db2, actList2)
+            batch.set(db3, actList3)
+
+        }.addOnCompleteListener {
+            Timber.i("DocumentSnapshot1 successfully written!")
+        }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
+
+        /*체크리스트 받으면 아래처럼 줄일 예정
+        var checkCount :Int = 3 //활동할게 몇게인지 가져오기
+
+        for(i in 1 until checkCount){
+            var activity = 100000//체크 항목 i번
+
+            var actList = MyList()
+            actList.setFirstList(activity)
+
+            db.collection("User").document(user?.email.toString())
+                .collection("project$projectCount").document(i.toString())
+                .set(activity)
+                .addOnCompleteListener {Timber.i("DocumentSnapshot1 successfully written!")
+                }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
+        }*/
+
+    }
+
 
     val automobile = 0
 

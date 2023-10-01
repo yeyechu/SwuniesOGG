@@ -93,7 +93,7 @@ class CameraFragment : Fragment() {
             Timber.i("post 데이터가 올라가야 함")
 
             /* 10000이면 daily, 20000이면 sustain, 30000이면 extra
-            Feed(MySus, Myextra)
+            Feed(MySus, Myextra) 분리해서 업로드하기
             */
 
             if(savedUri!=null) {
@@ -113,8 +113,7 @@ class CameraFragment : Fragment() {
 
                             firestore.collection("Feed").document(auth.currentUser?.email.toString())
                                 .set(post)
-                                .addOnCompleteListener {
-                                    Timber.i("feed firestore 올리기 완료")
+                                .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
                                 }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
                         }
                     }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}

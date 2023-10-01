@@ -97,7 +97,7 @@ class SigninFragment: Fragment() {
 
                         //사용자 정보 저장
                         firestore.collection("User")
-                            .whereEqualTo("email", "")
+                            .whereEqualTo("email", email)
                             .get()
                             .addOnSuccessListener { documents ->
                                 for (document in documents) { //사용자 있는지 탐색
