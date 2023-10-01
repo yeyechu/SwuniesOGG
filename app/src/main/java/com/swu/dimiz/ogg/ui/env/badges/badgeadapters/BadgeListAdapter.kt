@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.ui.env.badges
+package com.swu.dimiz.ogg.ui.env.badges.badgeadapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

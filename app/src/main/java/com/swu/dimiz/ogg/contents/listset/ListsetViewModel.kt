@@ -57,7 +57,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
-    private val category = mutableListOf("에너지", "소비", "이동수단", "자원순환")
+    private val category = mutableListOf(ENERGY, CONSUME, TRANSPORT, RECYCLE)
 
     private val _filteredList = MutableLiveData<List<ActivitiesDaily>>()
     val filteredList: LiveData<List<ActivitiesDaily>>
@@ -211,10 +211,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         setCo2(AIMCO2_ONE)
         _aimTitle.value = ""
         _aimCotent.value = ""
-        _co2Holder.value = 0f
+        _co2Holder.postValue(FLOAT_ZERO)
         _listHolder.value = null
         getFilters()
-        onFilterChanged("에너지", true)
+        onFilterChanged(ENERGY, true)
         Timber.i("created")
     }
 
@@ -252,6 +252,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 선택 내용 결정자
+    fun initCo2Holder() {
+        _co2Holder.postValue(FLOAT_ZERO)
+        Timber.i("${_co2Holder.value}")
+    }
 
     fun setListHolder(data: List<ListData>) {
         _listHolder.postValue(data)
@@ -267,16 +271,23 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             item.freq++
             update(item)
         }
+        Timber.i("${_co2Holder.value}")
+        Timber.i("$item")
     }
 
     fun co2Minus(item: ActivitiesDaily) {
-        if (0 < item.freq) {
-            if (co2Holder.value!! > 0f) {
+        if (INTEGER_ZERO < item.freq) {
+            if (co2Holder.value!! > FLOAT_ZERO) {
                 _co2Holder.value = _co2Holder.value?.minus(item.co2)
             }
             item.freq--
             update(item)
         }
+        if(_co2Holder.value!! < FLOAT_ZERO) {
+            initCo2Holder()
+        }
+        Timber.i("${_co2Holder.value}")
+        Timber.i("$item")
     }
 
 //    val haveCar = automobile.map {
@@ -284,7 +295,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 //    }
 
     val minusButtonEnabled = co2Holder.map {
-        it <= 0f
+        it <= FLOAT_ZERO
     }
 
     val saveButtonEnabled = co2Holder.map {
@@ -378,10 +389,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val setOfAimThree = "고수" to "1위인 바키타 돌고래"
 
     companion object {
-
-        const val AIMCO2_ONE = 1.4f
-        const val AIMCO2_TWO = 2.78f
-        const val AIMCO2_THREE = 5.22f
 
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

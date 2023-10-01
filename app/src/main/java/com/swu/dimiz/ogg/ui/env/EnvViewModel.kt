@@ -1,12 +1,11 @@
 package com.swu.dimiz.ogg.ui.env
 
 import androidx.lifecycle.*
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.swu.dimiz.ogg.contents.listset.StampData
+import com.swu.dimiz.ogg.contents.listset.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import io.reactivex.rxjava3.disposables.Disposable
@@ -14,10 +13,10 @@ import timber.log.Timber
 
 data class User(
     var nickname: String = "플라스틱애호가",
-    var aim: Float = 1.4f,
-    var car: Int = 0,
+    var aim: Float = AIMCO2_ONE,
+    var car: Int = INTEGER_ZERO,
     var startDate:Long = 0L,
-    var report: Int = 0
+    var report: Int = INTEGER_ZERO
 )
 class EnvViewModel : ViewModel() {
 
@@ -40,7 +39,7 @@ class EnvViewModel : ViewModel() {
     // MyCondition.car
     // MyCondition.startDate
     val db = Firebase.firestore
-    val fbuser = Firebase.auth.currentUser
+    private val fbuser = Firebase.auth.currentUser
 
     lateinit var user: User
 
@@ -71,12 +70,10 @@ class EnvViewModel : ViewModel() {
         get() = _stampHolder
 
     private val _co2Holder = MutableLiveData<Float>()
-    val co2Holder: LiveData<Float>
-        get() = _co2Holder
 
     val layerVisible = fakeDate.map {
         //it.startDate == 0L
-        it == 0
+        it == INTEGER_ZERO
     }
     val date = fakeUser.map {
         convertDurationToFormatted(it.startDate)
@@ -100,8 +97,8 @@ class EnvViewModel : ViewModel() {
     init {
         Timber.i("ViewModel created")
         _fakeUser.value = User()
-        _fakeDate.value = 0
-        _co2Holder.value = 0f
+        _fakeDate.value = INTEGER_ZERO
+        _co2Holder.value = FLOAT_ZERO
         _stampHolder.value = null
     }
 
@@ -136,7 +133,7 @@ class EnvViewModel : ViewModel() {
     }
 
     fun onDateButtonClicked() {
-        if (_fakeDate.value!! < 21) {
+        if (_fakeDate.value!! < DATE_WHOLE) {
             _fakeDate.value = _fakeDate.value?.plus(1)
 
             Timber.i("데이트 변경버튼 눌림 ${_fakeDate.value}")

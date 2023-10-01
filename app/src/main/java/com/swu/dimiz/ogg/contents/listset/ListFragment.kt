@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter
 import com.swu.dimiz.ogg.databinding.FragmentListBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
-import com.swu.dimiz.ogg.ui.myact.post.TextAdapter
 import timber.log.Timber
 
 class ListFragment : Fragment() {
@@ -32,6 +31,7 @@ class ListFragment : Fragment() {
         )
 
         listInitialize()
+        viewModel.initCo2Holder()
         viewModel.setListHolder(listHolder)
         viewModel.setNumberHolder(numberHolder)
         // ──────────────────────────────────────────────────────────────────────────────────────
@@ -45,7 +45,7 @@ class ListFragment : Fragment() {
                 val chip = chipInflater.inflate(R.layout.item_chips, chipGroup, false) as Chip
                 chip.text = category
                 chip.tag = category
-                if (category == "에너지") {
+                if (category == ENERGY) {
                     chip.isChecked = true
                 }
                 chip.setOnCheckedChangeListener { button, isChecked ->
@@ -97,7 +97,7 @@ class ListFragment : Fragment() {
             listHolder.add(ListData(0, 0))
         }
 
-        for (i in 0..20) {
+        for (i in 1..DATE_WHOLE) {
             numberHolder.add(NumberData(index++, 0))
         }
     }
@@ -160,4 +160,3 @@ class ListFragment : Fragment() {
     }
 }
 
-const val ID_MODIFIER = 10001

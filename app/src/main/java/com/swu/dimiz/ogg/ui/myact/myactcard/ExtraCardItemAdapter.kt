@@ -23,7 +23,7 @@ class ExtraCardItemAdapter (val context: Context) :
 
         holder.apply {
             bind(activity) {
-                var intent = Intent(context, PostWindow::class.java)
+                val intent = Intent(context, PostWindow::class.java)
                 val activityId = activity.extraId.toString()
                 intent.putExtra("activity", activityId)
                 Timber.i("어댑터 $activityId")

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
 import com.swu.dimiz.ogg.ui.myact.post.TextAdapter

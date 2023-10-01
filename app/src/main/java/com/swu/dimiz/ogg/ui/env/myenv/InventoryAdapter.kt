@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.databinding.LayerEnvItemBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
-import com.swu.dimiz.ogg.ui.env.badges.BadgeListAdapter
+import com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeListAdapter
 
 
 class InventoryAdapter(private val onClickListener: BadgeListAdapter.BadgeClickListener) :

@@ -5,21 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
-import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.WindowPostBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraFragment
 import timber.log.Timber
 
 class PostWindow : AppCompatActivity() {
@@ -56,11 +47,11 @@ class PostWindow : AppCompatActivity() {
             viewModel.onPostButton()
         }
 
-        viewModel.gettInstructions.observe(this, Observer {
+        viewModel.gettInstructions.observe(this) {
             it?.let {
                 adapter.data = it
             }
-        })
+        }
 
         viewModel.showPostButton.observe(this) {
             if (it == true) {
@@ -72,7 +63,7 @@ class PostWindow : AppCompatActivity() {
         }
 
         binding.buttonRight.setOnClickListener {
-            val intent : Intent = Intent(this, CameraActivity::class.java)
+            val intent = Intent(this, CameraActivity::class.java)
 //            intent.putExtra("titleActivity", extraTitle)
 //            intent.putExtra("co2Activity", activityCo2)
             this.startActivity(intent)
