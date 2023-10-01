@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter
 import com.swu.dimiz.ogg.databinding.FragmentListBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
-import com.swu.dimiz.ogg.ui.myact.post.TextAdapter
 import timber.log.Timber
 
 class ListFragment : Fragment() {

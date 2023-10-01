@@ -15,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentBadgeListBinding
+import com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeListAdapter
 import timber.log.Timber
 
 class BadgeListFragment : Fragment() {

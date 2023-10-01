@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.contents.listset
+package com.swu.dimiz.ogg.contents.listset.listutils
 
 import android.content.Context
 import android.content.Intent

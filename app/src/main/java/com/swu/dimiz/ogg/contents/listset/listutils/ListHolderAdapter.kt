@@ -1,5 +1,6 @@
-package com.swu.dimiz.ogg.contents.listset
+package com.swu.dimiz.ogg.contents.listset.listutils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
-import com.swu.dimiz.ogg.ui.env.stamp.setImage
+import com.swu.dimiz.ogg.contents.listset.ListData
 
 class ListHolderAdapter(val context: Context,
                         private val listHolder: List<ListData>)
@@ -21,13 +21,14 @@ class ListHolderAdapter(val context: Context,
 
     override fun getItemId(p0: Int): Long = 0
 
+    @SuppressLint("ViewHolder")
     override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
-        val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.fragment_listset_list_holder, null)
+        val rootView: View = LayoutInflater.from(parent?.context).inflate(R.layout.fragment_listset_list_holder, null)
 
         val item = listHolder[position]
 
-        val image: ImageView = view.findViewById(R.id.image_list_holder)
-        val text: TextView = view.findViewById(R.id.text_list_holder)
+        val image: ImageView = rootView.findViewById(R.id.image_list_holder)
+        val text: TextView = rootView.findViewById(R.id.text_list_holder)
 
         if (item.aId > 0) {
             text.text = ""
@@ -39,6 +40,6 @@ class ListHolderAdapter(val context: Context,
             image.setImageResource(R.color.transparency_transparent)
         }
 
-        return view
+        return rootView
     }
 }

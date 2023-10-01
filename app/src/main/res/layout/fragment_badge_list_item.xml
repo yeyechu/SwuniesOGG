@@ -10,7 +10,7 @@
 
         <variable
             name="clickListener"
-            type="com.swu.dimiz.ogg.ui.env.badges.BadgeListAdapter.BadgeClickListener" />
+            type="com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeListAdapter.BadgeClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

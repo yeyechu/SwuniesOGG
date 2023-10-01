@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.LayerEnvBinding
-import com.swu.dimiz.ogg.ui.env.badges.BadgeListAdapter
+import com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeListAdapter
 import com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel
 
 class MyEnvLayer : Fragment() {

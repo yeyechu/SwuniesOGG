@@ -11,15 +11,15 @@
 
         <variable
             name="minusListener"
-            type="com.swu.dimiz.ogg.contents.listset.ListsetAdapter.ListClickListener" />
+            type="com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter.ListClickListener" />
 
         <variable
             name="plusListener"
-            type="com.swu.dimiz.ogg.contents.listset.ListsetAdapter.ListClickListener" />
+            type="com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter.ListClickListener" />
 
         <variable
             name="detailListener"
-            type="com.swu.dimiz.ogg.contents.listset.ListsetAdapter.ListClickListener" />
+            type="com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter.ListClickListener" />
 
     </data>
 
