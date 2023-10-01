@@ -55,6 +55,13 @@ class MyActFragment : Fragment() {
                 MyActFragmentDirections.actionNavigationMyactToDestinationListset()
             )
         }
+
+        //firebase 동작확인
+        viewModel.fireInfo()
+        viewModel.fireDaily()
+        viewModel.fireSust()
+        viewModel.fireExtra()
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
         val adapter = TodayCardItemAdapter(requireContext())

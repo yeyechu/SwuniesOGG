@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.oggdata.remotedatabase
 
+import java.net.URI
 import java.sql.Date
 
 /*
@@ -24,6 +25,8 @@ data class MyGraph (    //통계 페이지 들어올때마다 업데이트
 
     //var reactionCount : Int = 0,
     //가장 많은 반응을 받은 활동
+    var reactionName:String = "",
+    var reactionURI: URI ?=null,
     var good : Int = 0,
     var funny : Int = 0,
     var best : Int = 0,

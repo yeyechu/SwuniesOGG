@@ -4,7 +4,7 @@ import androidx.room.PrimaryKey
 
 /*
 fireStore 위치
-User/사용자 이메일/1(Profject1~..)/index
+User/사용자 이메일/Profject1~../index
 
 활동 계획 + 활동 탭
  */
