@@ -29,22 +29,14 @@ class GraphFragment : Fragment() {
     ): View {
 
         _binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_graph, container, false
-        )
-
-        navController = findNavController()
-
-        binding.button2.setOnClickListener {
-
-
-        }
+            inflater, R.layout.fragment_graph, container, false)
 
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
     }
 
     override fun onDestroyView() {

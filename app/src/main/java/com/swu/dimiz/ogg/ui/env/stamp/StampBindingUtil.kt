@@ -4,6 +4,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.CO2_WHOLE
 import com.swu.dimiz.ogg.ui.env.User
 
 @BindingAdapter("expandButtonImage")
@@ -19,6 +20,6 @@ fun ImageView.setImage(boolean: Boolean) {
 @BindingAdapter("userCo2")
 fun TextView.setCo2(item: User?) {
     item?.let {
-        text = (item.aim * 21f).toString()
+        text = (item.aim * CO2_WHOLE).toString()
     }
 }

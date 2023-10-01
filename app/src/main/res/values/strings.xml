@@ -70,6 +70,7 @@
     <string name="description_pager_indicator">페이지를 표시하는 점</string>
     <string name="description_button_plus">더하기 버튼</string>
     <string name="description_button_minus">빼기 버튼</string>
+    <string name="description_button_report">신고하기 기능</string>
 
 
     <!--                    모든 EditText에 들어가는 Hint 속성은 이곳에 선언되어야 함                   -->
@@ -171,7 +172,8 @@
 
 
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->
-    <string name="graph_"> </string>
+    <string name="graph_text_title_null">아직 통계가 없어요</string>
+    <string name="graph_text_body_null">탄소 중립을 위한 기후활동을 시작해보아요</string>
 
     <!-- ──────────────────────────────────────   피드탭   ────────────────────────────────────── -->
     <string name="feed_text_title_null">아직 등록된 피드가 없어요</string>

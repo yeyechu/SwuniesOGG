@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.feed.FeedViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="">
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/minTouchTargetSize"
+                android:padding="@dimen/padding_small"
+                android:layout_marginStart="@dimen/margin_default"
+                android:textAppearance="@style/StyleText.subtitle"
+                android:textColor="@color/secondary_light_gray"
+                app:chipBackgroundColor="@color/selected_highlight"
+                app:chipEndPadding="@dimen/padding_small"
+                app:chipStartPadding="@dimen/padding_small"
+                app:chipStrokeColor="@color/secondary_light_gray"
+                app:chipStrokeWidth="@dimen/stroke_shape_regular"
+                app:chipSurfaceColor="@color/white"
+                tools:text="에너지"/>
+
+            <TextView
+                android:id="@+id/text_title_feed_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                style="@style/StyleText.header"
+                android:text="@string/destination_title_listset"
+                tools:text="활동 제목" />
+
+            <ImageView
+                android:id="@+id/button_report"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="@dimen/icon_small"
+                android:layout_marginEnd="@dimen/margin_component"
+                android:layout_gravity="end"
+                android:contentDescription="@string/description_button_report"
+                app:srcCompat="@drawable/feed_button_reaction_report" />
+
+            <ImageView
+                android:id="@+id/button_exit"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="@dimen/icon_small"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_gravity="end"
+                android:contentDescription="@string/description_common_button_exit"
+                app:srcCompat="@drawable/common_button_exit" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <ImageView
+            android:id="@+id/image_feed_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimension_60"
+            android:layout_marginStart="@dimen/dimension_50"
+            android:layout_marginEnd="@dimen/dimension_50"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/image_feed_reaction_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/feed_button_reaction_like"/>
+
+            <ImageView
+                android:id="@+id/image_feed_reaction_fun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/feed_button_reaction_fun"/>
+
+            <ImageView
+                android:id="@+id/image_feed_reaction_greate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/feed_button_reaction_great"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
