@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -18,7 +16,6 @@ import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
 import com.swu.dimiz.ogg.ui.myact.myactcard.*
-
 import timber.log.Timber
 
 class MyActFragment : Fragment() {
@@ -64,19 +61,18 @@ class MyActFragment : Fragment() {
 
         binding.todayCardList.adapter = adapter
 
-        viewModel.getAllData.observe(viewLifecycleOwner, Observer {
-
+        viewModel.getAllData.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.submitList(it)
             }
-        })
+        }
 
         binding.sustainableActList.adapter = SustCardItemAdapter(SustCardItemAdapter.OnClickListener {
             viewModel.showPopup(it)
             Timber.i("버튼 클릭 리스너 : $it")
         })
 
-        viewModel.navigateToSelected.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSelected.observe(viewLifecycleOwner) {
             Timber.i("버튼 클릭 관찰자 : $it")
             if (it == null) {
                 binding.frameLayout.visibility = View.GONE
@@ -85,17 +81,17 @@ class MyActFragment : Fragment() {
                 binding.frameLayout.visibility = View.VISIBLE
                 mainActivity.hideBottomNavView(true)
             }
-        })
+        }
 
         val adapterextra = ExtraCardItemAdapter(requireContext())
         binding.extraActList.adapter = adapterextra
 
-        viewModel.getExtraData.observe(viewLifecycleOwner, Observer {
+        viewModel.getExtraData.observe(viewLifecycleOwner) {
             Timber.i("$it")
             it?.let {
                 adapterextra.submitList(it)
             }
-        })
+        }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                   tooltip
@@ -137,7 +133,6 @@ class MyActFragment : Fragment() {
             setBalloonAnimation(BalloonAnimation.FADE)
             build()
         }
-
         return binding.root
     }
     override fun onDestroyView() {

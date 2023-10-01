@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMemberBinding
-import com.swu.dimiz.ogg.ui.env.badges.BadgeListFragmentDirections
 import timber.log.Timber
 
 class MemberFragment : Fragment() {
@@ -23,21 +21,22 @@ class MemberFragment : Fragment() {
 
     private lateinit var navController: NavController
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_member, container, false)
 
-        navController = findNavController()
-
-        binding.buttonSettings.setOnClickListener { view: View ->
-            navController.navigate(
-                R.id.destination_settings
-            )
+        binding.buttonSettings.setOnClickListener {
+            it?.let {
+                navController.navigate(R.id.destination_settings)
+            }
         }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }

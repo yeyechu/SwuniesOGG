@@ -42,11 +42,11 @@ fun ImageView.setImage(item: Badges?) {
     }
 }
 
-@BindingAdapter("badgeListData")
-fun bindRecyclerBadge(recyclerView: RecyclerView, data: List<Badges>?) {
-    val adapter = recyclerView.adapter as BadgeListAdapter
-    adapter.submitList(data)
-}
+//@BindingAdapter("badgeListData")
+//fun bindRecyclerBadge(recyclerView: RecyclerView, data: List<Badges>?) {
+//    val adapter = recyclerView.adapter as BadgeListAdapter
+//    adapter.submitList(data)
+//}
 
 @BindingAdapter("badgeInventory")
 fun bindRecyclerInventory(recyclerView: RecyclerView, data: List<Badges>?) {

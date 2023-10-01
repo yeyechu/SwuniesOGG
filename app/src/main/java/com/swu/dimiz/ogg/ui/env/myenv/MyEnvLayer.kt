@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,7 +23,7 @@ class MyEnvLayer : Fragment() {
     private var _binding: LayerEnvBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: BadgeListViewModel by activityViewModels() { BadgeListViewModel.Factory }
+    private val viewModel: BadgeListViewModel by activityViewModels { BadgeListViewModel.Factory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -93,8 +92,8 @@ class MyEnvLayer : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.buttonSave.setOnClickListener { view: View ->
-            view.findNavController().navigateUp()
+        binding.buttonSave.setOnClickListener { item: View ->
+            item.findNavController().navigateUp()
         }
     }
 

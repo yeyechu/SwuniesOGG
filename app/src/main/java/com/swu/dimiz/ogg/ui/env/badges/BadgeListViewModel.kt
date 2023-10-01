@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.swu.dimiz.ogg.OggApplication
-import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import kotlinx.coroutines.Job
@@ -71,7 +70,7 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    fun addList() {
+    private fun addList() {
         val list = _badgeFilter.value?.asSequence()?.map{
             onFilterUpdated(it)
         }

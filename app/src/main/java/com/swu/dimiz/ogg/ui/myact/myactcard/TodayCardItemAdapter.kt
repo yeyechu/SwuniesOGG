@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.databinding.FragmentMyActCardItemBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.ui.myact.post.PostWindow
-import timber.log.Timber
 
 private const val PATH_VALUE = "TODAY_ADAPTER"
 class TodayCardItemAdapter(val context: Context) :
@@ -24,7 +23,7 @@ class TodayCardItemAdapter(val context: Context) :
 
         holder.apply {
             bind(activity) {
-                var intent = Intent(context, PostWindow::class.java)
+                val intent = Intent(context, PostWindow::class.java)
 
                 val activityId = activity.dailyId.toString()
                 val activityValid = activity.instructionCount.toString()

@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.WindowPostSustBinding
-import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
 
 class PostSustWindow : Fragment() {
@@ -30,7 +28,6 @@ class PostSustWindow : Fragment() {
 
         return binding.root
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

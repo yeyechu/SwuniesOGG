@@ -1,7 +1,6 @@
 package com.swu.dimiz.ogg
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
 import android.icu.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit

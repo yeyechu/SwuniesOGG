@@ -1,19 +1,12 @@
 package com.swu.dimiz.ogg.ui.myact.myactcard
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.swu.dimiz.ogg.contents.common.dialog.SystemWindow
 import com.swu.dimiz.ogg.databinding.FragmentMyActCardItemBigBinding
-import com.swu.dimiz.ogg.databinding.FragmentMyActCardItemBigExtraBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
-import timber.log.Timber
 
 class SustCardItemAdapter(private val onClickListener: OnClickListener)
     : ListAdapter<ActivitiesSustainable, SustCardItemAdapter.SustViewHolder>(SustDiffCallback) {
@@ -26,7 +19,6 @@ class SustCardItemAdapter(private val onClickListener: OnClickListener)
             binding.executePendingBindings()
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SustViewHolder {
 
         return SustViewHolder(

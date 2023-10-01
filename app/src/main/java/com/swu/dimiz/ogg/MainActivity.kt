@@ -3,18 +3,14 @@ package com.swu.dimiz.ogg
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.View
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.swu.dimiz.ogg.OggApplication.Companion.auth
 import com.swu.dimiz.ogg.databinding.ActivityMainBinding
 import com.swu.dimiz.ogg.member.login.SignInActivity
 import timber.log.Timber
@@ -57,7 +53,6 @@ class MainActivity : AppCompatActivity() {
                 bottomNavView.visibility = View.GONE
             }
         }
-        //setupActionBarWithNavController(navController, appBarConfiguration)
         binding.mainToolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
@@ -83,27 +78,6 @@ class MainActivity : AppCompatActivity() {
         }else{
             Timber.i("이미 로그인 되어있습니다.")
         }
-        Timber.i("onStart()")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Timber.i("onResume()")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Timber.i("onPause()")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Timber.i("onStop()")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.i("onDestroy()")
     }
 
     fun hideBottomNavView(state: Boolean) {

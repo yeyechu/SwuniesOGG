@@ -20,3 +20,17 @@ data class TodayData (
     var tNumber: Float = 0f
 )
 
+const val AIMCO2_ONE = 1.4f
+const val AIMCO2_TWO = 2.78f
+const val AIMCO2_THREE = 5.22f
+
+const val FLOAT_ZERO = 0f
+const val INTEGER_ZERO = 0
+const val CO2_WHOLE = 21f
+const val DATE_WHOLE = 21
+const val ID_MODIFIER = 10001
+
+const val ENERGY = "에너지"
+const val CONSUME = "소비"
+const val TRANSPORT = "이동수단"
+const val RECYCLE = "자원순환"

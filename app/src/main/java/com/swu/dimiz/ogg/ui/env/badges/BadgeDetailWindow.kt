@@ -10,19 +10,18 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.WindowBadgeDetailBinding
-import timber.log.Timber
 
 class BadgeDetailWindow : Fragment() {
 
     private var _binding: WindowBadgeDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: BadgeListViewModel by activityViewModels() { BadgeListViewModel.Factory }
+    private val viewModel: BadgeListViewModel by activityViewModels { BadgeListViewModel.Factory }
     private lateinit var fragmentManager: FragmentManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.window_badge_detail, container, false)
 

@@ -6,12 +6,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentEnvBinding
-import timber.log.Timber
 
 class EnvFragment : Fragment() {
 
@@ -40,22 +38,22 @@ class EnvFragment : Fragment() {
             foreground = ContextCompat.getDrawable(requireContext(), R.drawable.env_button_edit_badge_floating)
         }
 
-        viewModel.navigateToMyEnv.observe(viewLifecycleOwner, Observer<Boolean> { shouldNavigate ->
-            if(shouldNavigate) {
+        viewModel.navigateToMyEnv.observe(viewLifecycleOwner) {
+            if(it) {
                 navController.navigate(
                     EnvFragmentDirections.actionNavigationEnvToDestinationMyenv())
                 viewModel.onNavigatedMyEnv()
             }
-        })
+        }
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                프로젝트 시작 버튼 정의
-        viewModel.navigateToStart.observe(viewLifecycleOwner, Observer<Boolean> { shouldNavigate ->
-            if(shouldNavigate) {
+        viewModel.navigateToStart.observe(viewLifecycleOwner) {
+            if(it) {
                 navController.navigate(
                     EnvFragmentDirections.actionNavigationEnvToDestinationListaim())
                 viewModel.onNavigatedToStart()
             }
-        })
+        }
         return binding.root
     }
 
@@ -70,15 +68,13 @@ class EnvFragment : Fragment() {
             when(it.itemId) {
                 R.id.action_badges -> {
                     navController.navigate(
-                        EnvFragmentDirections
-                            .actionNavigationEnvToDestinationBadgeList()
+                        EnvFragmentDirections.actionNavigationEnvToDestinationBadgeList()
                     )
                     true
                 }
                 R.id.action_my_page -> {
                     navController.navigate(
-                        EnvFragmentDirections
-                            .actionNavigationEnvToDestinationMember()
+                        EnvFragmentDirections.actionNavigationEnvToDestinationMember()
                     )
                     true
                 }

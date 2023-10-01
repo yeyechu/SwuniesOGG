@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.GridView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.StampData

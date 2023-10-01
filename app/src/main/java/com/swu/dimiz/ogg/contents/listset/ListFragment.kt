@@ -32,6 +32,7 @@ class ListFragment : Fragment() {
         )
 
         listInitialize()
+        viewModel.initCo2Holder()
         viewModel.setListHolder(listHolder)
         viewModel.setNumberHolder(numberHolder)
         // ──────────────────────────────────────────────────────────────────────────────────────
@@ -45,7 +46,7 @@ class ListFragment : Fragment() {
                 val chip = chipInflater.inflate(R.layout.item_chips, chipGroup, false) as Chip
                 chip.text = category
                 chip.tag = category
-                if (category == "에너지") {
+                if (category == ENERGY) {
                     chip.isChecked = true
                 }
                 chip.setOnCheckedChangeListener { button, isChecked ->
@@ -97,7 +98,7 @@ class ListFragment : Fragment() {
             listHolder.add(ListData(0, 0))
         }
 
-        for (i in 0..20) {
+        for (i in 1..DATE_WHOLE) {
             numberHolder.add(NumberData(index++, 0))
         }
     }
@@ -160,4 +161,3 @@ class ListFragment : Fragment() {
     }
 }
 
-const val ID_MODIFIER = 10001
