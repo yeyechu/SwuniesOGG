@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -34,6 +35,13 @@ class ListFragment : Fragment() {
         viewModel.initCo2Holder()
         viewModel.setListHolder(listHolder)
         viewModel.setNumberHolder(numberHolder)
+
+        viewModel.toastVisibility.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(activity, getString(R.string.listset_text_toast), Toast.LENGTH_SHORT).show()
+                viewModel.toastInvisible()
+            }
+        }
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력
 
@@ -70,8 +78,8 @@ class ListFragment : Fragment() {
             },
             ListsetAdapter.ListClickListener {
                 viewModel.co2Plus(it)
-                if (!addItem(it)) {
-                    updateItem(it)
+                if (!updateItem(it)) {
+                    addItem(it)
                 }
                 viewModel.setListHolder(listHolder)
             },
@@ -102,40 +110,41 @@ class ListFragment : Fragment() {
         }
     }
 
-    private fun addItem(item: ActivitiesDaily): Boolean {
-
+    private fun updateItem(item: ActivitiesDaily): Boolean {
         for (i in listHolder) {
             if (i.aId == item.dailyId) {
-                if (item.freq < item.limit) {
-                    i.aNumber++
+                if ((i.aNumber < item.limit)) {
+                    i.aNumber += 1
                     numberHolder[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
                 }
-                Timber.i("$listHolder")
-                Timber.i("$numberHolder")
+                Timber.i("업데이트 아이템 $listHolder")
                 return true
             }
         }
-        Timber.i("$listHolder")
         return false
     }
 
-    private fun updateItem(item: ActivitiesDaily) {
+    private fun addItem(item: ActivitiesDaily) {
+        var count = 0
         for (i in listHolder) {
             if (i.aId == 0) {
                 i.aId = item.dailyId
-                i.aNumber++
+                i.aNumber += 1
                 numberHolder[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
                 break
+            } else {
+                count++
             }
         }
-        Timber.i("$listHolder")
-        Timber.i("$numberHolder")
+        if (count == 5) {
+            viewModel.toastVisible()
+        }
     }
 
     private fun deleteItem(item: ActivitiesDaily) {
         for (i in listHolder) {
             if (i.aId == item.dailyId) {
-                i.aNumber--
+                i.aNumber -= 1
                 numberHolder[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
                 if (i.aNumber == 0) {
                     i.aId = 0
@@ -143,7 +152,6 @@ class ListFragment : Fragment() {
             }
         }
         Timber.i("$listHolder")
-        Timber.i("$numberHolder")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

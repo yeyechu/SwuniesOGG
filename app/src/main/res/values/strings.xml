@@ -104,7 +104,9 @@
     <string name="listset_button_allset">완료</string>
 
     <string name="listset_text_title">관심있는 활동을 선택해보세요</string>
-    <string name="listset_text_title_instruction">최대 5개를 선택할 수 있습니다</string>
+    <string name="listset_text_title_instruction">아직 목표 탄소량을 채우지 못했어요</string>
+    <string name="listset_text_title_instruction_allset">선택한 활동들로 지구를 구해보세요</string>
+    <string name="listset_text_toast">최대 5개를 선택할 수 있습니다</string>
 
 
     <!--                                         배지 리스트                                       -->

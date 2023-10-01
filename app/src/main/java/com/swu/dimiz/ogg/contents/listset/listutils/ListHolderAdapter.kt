@@ -29,17 +29,47 @@ class ListHolderAdapter(val context: Context,
 
         val image: ImageView = rootView.findViewById(R.id.image_list_holder)
         val text: TextView = rootView.findViewById(R.id.text_list_holder)
+        val badgeText: TextView = rootView.findViewById(R.id.text_list_holder_badge)
 
         if (item.aId > 0) {
             text.text = ""
+            badgeText.visibility = View.VISIBLE
+            badgeText.text = item.aNumber.toString()
             text.setBackgroundResource(R.drawable.listset_shape_listholder_stroke)
-            image.setImageResource(R.drawable.feed_button_reaction_like)
+            //image.setImageResource(R.drawable.feed_button_reaction_like)
+            setImage(item.aId, image)
         } else {
             text.text = (position + 1).toString()
+            badgeText.visibility = View.GONE
             text.setBackgroundResource(R.drawable.listset_shape_listholder_dash)
             image.setImageResource(R.color.transparency_transparent)
         }
-
         return rootView
     }
+}
+
+private fun setImage(id: Int, imageView: ImageView) {
+    when(id) {
+        10001 -> imageView.setImageResource(R.drawable.daily_10001)
+        10002 -> imageView.setImageResource(R.drawable.daily_10002)
+        10003 -> imageView.setImageResource(R.drawable.daily_10003)
+        10004 -> imageView.setImageResource(R.drawable.daily_10004)
+        10005 -> imageView.setImageResource(R.drawable.daily_10005)
+        10006 -> imageView.setImageResource(R.drawable.daily_10006)
+        10007 -> imageView.setImageResource(R.drawable.daily_10007)
+        10008 -> imageView.setImageResource(R.drawable.daily_10008)
+        10009 -> imageView.setImageResource(R.drawable.daily_10009)
+        10010 -> imageView.setImageResource(R.drawable.daily_10010)
+        10011 -> imageView.setImageResource(R.drawable.daily_10011)
+        10012 -> imageView.setImageResource(R.drawable.daily_10012)
+        10013 -> imageView.setImageResource(R.drawable.daily_10013)
+        10014 -> imageView.setImageResource(R.drawable.daily_10014)
+        10015 -> imageView.setImageResource(R.drawable.daily_10015)
+        10016 -> imageView.setImageResource(R.drawable.daily_10016)
+        10017 -> imageView.setImageResource(R.drawable.daily_10017)
+        10018 -> imageView.setImageResource(R.drawable.daily_10018)
+        10019 -> imageView.setImageResource(R.drawable.daily_10019)
+        10020 -> imageView.setImageResource(R.drawable.daily_10020)
+    }
+
 }

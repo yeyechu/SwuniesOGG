@@ -26,14 +26,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val navigateToSelection: LiveData<Boolean>
         get() = _navigateToSelection
 
-    private val _navigateToDetail = MutableLiveData<ActivitiesDaily?>()
-    val navigateToDetail: LiveData<ActivitiesDaily?>
-        get() = _navigateToDetail
-
-    private val _dailyId = MutableLiveData<ActivitiesDaily?>()
-    val dailyId: LiveData<ActivitiesDaily?>
-        get() = _dailyId
-
     //                                          활동 선택
     // 완료 버튼 : suspend 구현
     // ConditionRecord에 활동시작일/활동목표 저장
@@ -43,6 +35,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val _navigateToSave = MutableLiveData<Boolean>()
     val navigateToSave: LiveData<Boolean>
         get() = _navigateToSave
+
+    private val _navigateToDetail = MutableLiveData<ActivitiesDaily?>()
+    val navigateToDetail: LiveData<ActivitiesDaily?>
+        get() = _navigateToDetail
+
+    private val _dailyId = MutableLiveData<ActivitiesDaily?>()
+    val dailyId: LiveData<ActivitiesDaily?>
+        get() = _dailyId
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
@@ -70,6 +70,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                   필요한 데이터 초기화
 
+    //                                      활동 레벨 선택
     private val _aimCo2 = MutableLiveData<Float>()
     val aimCo2: LiveData<Float>
         get() = _aimCo2
@@ -82,6 +83,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val aimCotent: LiveData<String>
         get() = _aimCotent
 
+    //                                        활동 선택
     private val _listHolder = MutableLiveData<List<ListData>?>()
     val listHolder: LiveData<List<ListData>?>
         get() = _listHolder
@@ -94,6 +96,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val co2Holder: LiveData<Float>
         get() = _co2Holder
 
+    private val _toastVisibility = MutableLiveData<Boolean>()
+    val toastVisibility: LiveData<Boolean>
+        get() = _toastVisibility
+
+    //                                       활동 디테일
     private val _textVisible = MutableLiveData<Boolean>()
     val textVisible: LiveData<Boolean>
         get() = _textVisible
@@ -108,8 +115,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         setCo2(AIMCO2_ONE)
         _aimTitle.value = ""
         _aimCotent.value = ""
-        _co2Holder.postValue(FLOAT_ZERO)
+
+        _co2Holder.value = FLOAT_ZERO
         _listHolder.value = null
+
         getFilters()
         onFilterChanged(ENERGY, true)
         Timber.i("created")
@@ -150,7 +159,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 선택 내용 결정자
     fun initCo2Holder() {
-        _co2Holder.postValue(FLOAT_ZERO)
+        _co2Holder.value = FLOAT_ZERO
         Timber.i("${_co2Holder.value}")
     }
 
@@ -185,6 +194,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
         Timber.i("${_co2Holder.value}")
         Timber.i("$item")
+    }
+
+    fun toastVisible() {
+        _toastVisibility.value = true
+    }
+
+    fun toastInvisible() {
+        _toastVisibility.value = false
     }
 
 //    val haveCar = automobile.map {
@@ -242,7 +259,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     fun update(act: ActivitiesDaily) = viewModelScope.launch {
         repository.updateFreq(act)
-        Timber.i("$act")
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
