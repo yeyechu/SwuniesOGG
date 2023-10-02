@@ -67,7 +67,6 @@ class FeedViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-
     override fun onCleared() {
         super.onCleared()
         Timber.i("destroyed")

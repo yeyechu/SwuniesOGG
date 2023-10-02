@@ -112,7 +112,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             }
     }
 
-
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 리스트 저장
     fun fireSave(){
@@ -165,7 +164,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }*/
 
     }
-
 
     val automobile = 0
 
@@ -307,7 +305,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
 //    val haveCar = automobile.map {
-//        automobile == 0
+//        automobile != 0
 //    }
 
     val minusButtonEnabled = co2Holder.map {

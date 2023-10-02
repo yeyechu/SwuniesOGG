@@ -70,6 +70,10 @@ class EnvViewModel : ViewModel() {
         get() = _stampHolder
 
     private val _co2Holder = MutableLiveData<Float>()
+    val co2Holder: LiveData<Float>
+        get() = _co2Holder
+
+    private val _aimCo2 = MutableLiveData<Float>()
 
     val layerVisible = fakeDate.map {
         //it.startDate == 0L
@@ -100,6 +104,19 @@ class EnvViewModel : ViewModel() {
         _fakeDate.value = INTEGER_ZERO
         _co2Holder.value = FLOAT_ZERO
         _stampHolder.value = null
+        setCo2(AIMCO2_ONE)
+    }
+
+    val leftCo2 = co2Holder.map {
+        _aimCo2.value!!.times(CO2_WHOLE) - it
+    }
+
+    fun setCo2(co2: Float) {
+        _aimCo2.value = co2
+    }
+
+    val progressBar = co2Holder.map {
+        it.div(_co2Holder.value!!).times(100).toInt()
     }
 
     fun setStampHolder(item: List<StampData>) {
@@ -135,10 +152,6 @@ class EnvViewModel : ViewModel() {
     fun onDateButtonClicked() {
         if (_fakeDate.value!! < DATE_WHOLE) {
             _fakeDate.value = _fakeDate.value?.plus(1)
-
-            Timber.i("데이트 변경버튼 눌림 ${_fakeDate.value}")
-        } else {
-            Timber.i("데이트 변경 불가 ${_fakeDate.value}")
         }
     }
 

@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.DATE_WHOLE
 import com.swu.dimiz.ogg.contents.listset.StampData
 import com.swu.dimiz.ogg.databinding.LayerStampBinding
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
@@ -43,6 +44,10 @@ class StampLayer : Fragment() {
             }
         }
 
+        viewModel.progressBar.observe(viewLifecycleOwner) {
+            binding.progressBar.progress = it
+        }
+
         return binding.root
     }
 
@@ -50,7 +55,7 @@ class StampLayer : Fragment() {
         stampHolder.clear()
         var index = 1
 
-        for (i in 1..STAMP_VALUE) {
+        for (i in 1..DATE_WHOLE) {
             stampHolder.add(StampData(index++, 0f))
         }
     }
@@ -65,4 +70,3 @@ class StampLayer : Fragment() {
         Timber.i("onDestroyView()")
     }
 }
-const val STAMP_VALUE = 21
