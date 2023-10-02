@@ -68,15 +68,16 @@ class CameraFragment : Fragment() {
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 변수
-    val fireDB = Firebase.firestore
-    val fireUser = Firebase.auth.currentUser
-    val fireStorage = Firebase.storage
+    private val fireDB = Firebase.firestore
+    private val fireUser = Firebase.auth.currentUser
+    private val fireStorage = Firebase.storage
 
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                                      기타
     //var bitmap : Bitmap? = null
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
@@ -97,8 +98,8 @@ class CameraFragment : Fragment() {
             */
 
             if(savedUri!=null) {
-                var postTime = SimpleDateFormat("yyyyMMddHHmmss").format(Date()).toLong() // 파일명이 겹치면 안되기 때문
-                var fileName = fireUser?.email.toString() + "_" + postTime
+                val postTime: Long = SimpleDateFormat("yyyyMMddHHmmss").format(Date()).toLong() // 파일명이 겹치면 안되기 때문
+                val fileName: String = fireUser?.email.toString() + "_" + postTime.toString()
 
                 fireStorage.reference.child("Feed").child(fileName)
                     .putFile(savedUri!!)
@@ -107,8 +108,8 @@ class CameraFragment : Fragment() {
                         Timber.i("feed storage 올리기 완료")
                         taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
                                 it->
-                            var imageUrl=it.toString()
-                            var post = Feed( email = fireUser?.email.toString(),  //활동코드 추가
+                            val imageUrl=it.toString()
+                            val post = Feed( email = fireUser?.email.toString(),  //활동코드 추가
                                 postTime = postTime, imageUrl = imageUrl)
 
                             fireDB.collection("Feed").document(fileName)

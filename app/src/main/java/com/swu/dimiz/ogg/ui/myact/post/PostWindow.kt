@@ -103,7 +103,7 @@ class PostWindow : AppCompatActivity() {
             // post 데이터가 올라가야 함
             //스토리지와 피드 업로드
             val postTime = SimpleDateFormat("yyyyMMddHHmmss").format(Date()).toLong() // 파일명이 겹치면 안되기 때문
-            val fileName = fireUser?.email.toString() + "_" + postTime
+            val fileName: String = fireUser?.email.toString() + "_" + postTime.toString()
 
             fireStorage.reference.child("Feed").child(fileName)
                 .putFile(uri)

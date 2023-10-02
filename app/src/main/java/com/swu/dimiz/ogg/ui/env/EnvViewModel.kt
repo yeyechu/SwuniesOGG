@@ -38,7 +38,7 @@ class EnvViewModel : ViewModel() {
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
-    private lateinit var appUser: MyCondition   //사용자 기본 정보 저장
+    private var appUser = MyCondition()   //사용자 기본 정보 저장   //사용자 기본 정보 저장
     fun fireInfo(){
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
 
@@ -50,7 +50,7 @@ class EnvViewModel : ViewModel() {
                     appUser.nickName = gotUser.nickName
                     appUser.aim = gotUser.aim
                     appUser.car = gotUser.car
-                    appUser.startDate = gotUser.startDate!!
+                    appUser.startDate = gotUser.startDate
                     appUser.report = gotUser.report
                 }
             } else {

@@ -68,18 +68,20 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
-    private lateinit var appUser: MyCondition   //사용자 기본 정보 저장
+
+    private var appUser = MyCondition()   //사용자 기본 정보 저장
 
     fun fireInfo(){
+        Timber.i("이메일 ${fireUser?.email.toString()}")
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
             .get().addOnSuccessListener { document ->
                 if (document != null) {
-                    val gotUser = document.toObject<MyCondition>()
+                    var gotUser = document.toObject<MyCondition>()
                     if (gotUser != null) {
                         appUser.projectCount = gotUser.projectCount
                         appUser.car = gotUser.car
-                        appUser.startDate = gotUser.startDate!!
+                        appUser.startDate = gotUser.startDate
                         appUser.aim = gotUser.aim
                         Timber.i( "사용자 기본정보 받아오기 성공: ${document.data}")
                     }

@@ -36,7 +36,7 @@ class MyActViewModel (repository: OggRepository) : ViewModel() {
 
     //todo 오늘 며칠째인지 받아오기
     private var today = 3
-    private lateinit var appUser: MyCondition   //사용자 기본 정보 저장
+    private var appUser = MyCondition()   //사용자 기본 정보 저장
 
     //사용자 기본 정보
     fun fireInfo(){
