@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.myact.post
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,10 +10,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.swu.dimiz.ogg.OggApplication.Companion.auth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.databinding.WindowPostBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
@@ -27,13 +28,9 @@ class PostWindow : AppCompatActivity() {
 
     private lateinit var intentPath: String
 
-    lateinit var uri: Uri
-    // ─────────────────────────────────────────────────────────────────────────────────
-    //                                  firebase 변수
-    lateinit var storage: FirebaseStorage
-    lateinit var firestore: FirebaseFirestore
-    lateinit var auth: FirebaseAuth
+    private lateinit var uri: Uri
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -98,35 +95,33 @@ class PostWindow : AppCompatActivity() {
             startGallery()
         }
 
+        val fireDB = Firebase.firestore
+        val fireUser = Firebase.auth.currentUser
+        val fireStorage = Firebase.storage
+
         binding.buttonDone.setOnClickListener {
             // post 데이터가 올라가야 함
-            storage = FirebaseStorage.getInstance()
-            firestore = FirebaseFirestore.getInstance()
-            auth = FirebaseAuth.getInstance()
-
             //스토리지와 피드 업로드
-            if(uri!=null) {
-                var postTime = SimpleDateFormat("yyyyMMddHHmmss").format(Date()) // 파일명이 겹치면 안되기 때문
-                var fileName = auth.currentUser?.email.toString() + "_" + postTime
+            val postTime = SimpleDateFormat("yyyyMMddHHmmss").format(Date()).toLong() // 파일명이 겹치면 안되기 때문
+            val fileName = fireUser?.email.toString() + "_" + postTime
 
-                storage.reference.child("Feed").child(fileName)
-                    .putFile(uri!!)
-                    .addOnSuccessListener {
-                            taskSnapshot -> // 업로드 정보를 담는다
-                        Timber.i("feed storage 올리기 완료")
-                        taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
-                                it->
-                            var imageUrl=it.toString()
-                            var post = Feed( email = auth.currentUser?.email.toString(),  //활동코드 추가
-                                postTime = postTime, imageUrl = imageUrl)
+            fireStorage.reference.child("Feed").child(fileName)
+                .putFile(uri)
+                .addOnSuccessListener {
+                        taskSnapshot -> // 업로드 정보를 담는다
+                    Timber.i("feed storage 올리기 완료")
+                    taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
+                            it->
+                        val imageUrl=it.toString()
+                        val post = Feed( email = fireUser?.email.toString(),  //활동코드 추가
+                            postTime = postTime, imageUrl = imageUrl)
 
-                            firestore.collection("Feed").document(fileName)
-                                .set(post)
-                                .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
-                                }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
-                        }
-                    }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
-            }
+                        fireDB.collection("Feed").document(fileName)
+                            .set(post)
+                            .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
+                            }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
+                    }
+                }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
             //스탬프 수치 업로드
             //daily 상태 업로드
             finish()

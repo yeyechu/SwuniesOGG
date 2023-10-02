@@ -12,15 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.firestore.FirebaseFirestore
 import com.swu.dimiz.ogg.databinding.FragmentSignupBinding
 import timber.log.Timber
 
 
 
 class SignupFragment : Fragment() {
-    lateinit var auth: FirebaseAuth
-    lateinit var firestore: FirebaseFirestore
+    private val auth = FirebaseAuth.getInstance()
 
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
@@ -32,10 +30,6 @@ class SignupFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, com.swu.dimiz.ogg.R.layout.fragment_signup, container, false
         )
-
-        auth = FirebaseAuth.getInstance()
-        firestore = FirebaseFirestore.getInstance()
-
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                    InputField
@@ -54,10 +48,7 @@ class SignupFragment : Fragment() {
         }
 
         binding.passwordEtFirst.editText?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // 작성 전
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { } //작성 전
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // 작성 중
                 val password1 = s.toString()
@@ -68,19 +59,11 @@ class SignupFragment : Fragment() {
                     binding.passwordEtFirst.error = null
                 }
             }
-
-            override fun afterTextChanged(s: Editable?) {
-                // 작성 후
-            }
+            override fun afterTextChanged(s: Editable?) { } //작성 후
         })
 
         binding.passwordEtSecond.editText?.addTextChangedListener(object : TextWatcher {
-
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // 작성 전
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { } //작성 전
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // 작성 중
                 val password1 = binding.passwordEtFirst.editText?.text.toString()
@@ -92,10 +75,7 @@ class SignupFragment : Fragment() {
                     binding.passwordEtSecond.error = null
                 }
             }
-
-            override fun afterTextChanged(s: Editable?) {
-                // 작성 후
-            }
+            override fun afterTextChanged(s: Editable?) { } //작성 후
         })
 
         //이메일 중복 확인 버튼-> 사용 가능한 이메일에요 // error:이미 가입되어있는 이메일이에요
@@ -139,8 +119,8 @@ class SignupFragment : Fragment() {
                     val user = FirebaseAuth.getInstance().currentUser
 
                     //기본 프로필 사진(모두 동일하고 drawable에 있기때문에 storage 저장 불필요)
-                    var strimg = "android.resource://com.swu.dimiz.ogg/" + com.swu.dimiz.ogg.R.drawable.feed_button_reaction_great
-                    var profileImage = Uri.parse(strimg)
+                    val strimg = "android.resource://com.swu.dimiz.ogg/" + com.swu.dimiz.ogg.R.drawable.feed_button_reaction_great
+                    val profileImage = Uri.parse(strimg)
 
                     // 유저 닉네임, 프로필 사진 추가하기
                     val profileUpdates = userProfileChangeRequest {

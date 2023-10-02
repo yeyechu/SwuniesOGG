@@ -65,39 +65,37 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     유저 정보 초기화
 
-    val db = Firebase.firestore
-    val user = Firebase.auth.currentUser
+    private val fireDB = Firebase.firestore
+    private val fireUser = Firebase.auth.currentUser
 
-    private var projectCount:Int = 0    //몇회차 프로젝트
-
-    private var car: Int = 0                    // 차량 등록
-    private var startDate: String = ""          // 활동 날짜
-    private var aim: Float = 0f                 // 목표 탄소량
-
-    private var sustlist = ArrayList<Int>()     // 등록한 지속가능한 활동
+    private lateinit var appUser: MyCondition   //사용자 기본 정보 저장
 
     fun fireInfo(){
         //사용자 기본 정보
-        val docRef = db.collection("User").document(user?.email.toString())
-        docRef.get().addOnSuccessListener { document ->
-            if (document != null) {
-                Timber.i( "DocumentSnapshot data: ${document.data}")
-                val gotUser = document.toObject<MyCondition>()
-                projectCount = gotUser!!.projectCount
-                car = gotUser!!.car
-                startDate = gotUser!!.startDate.toString()
-                aim =gotUser!!.aim
-            } else {
-                Timber.i("No such document")
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val gotUser = document.toObject<MyCondition>()
+                    if (gotUser != null) {
+                        appUser.projectCount = gotUser.projectCount
+                        appUser.car = gotUser.car
+                        appUser.startDate = gotUser.startDate!!
+                        appUser.aim = gotUser.aim
+                        Timber.i( "사용자 기본정보 받아오기 성공: ${document.data}")
+                    }
+                } else {
+                    Timber.i("사용자 기본정보 받아오기 실패")
+                }
+            }.addOnFailureListener { exception ->
+                Timber.i(exception.toString())
             }
-        }.addOnFailureListener { exception ->
-            Timber.i(exception.toString())
-        }
     }
 
+    private var sustlist = ArrayList<Int>()     // 등록한 지속가능한 활동
     fun fireGetSust(){
         //이미 한 sust 받아오기
-        db.collection("User").document(user?.email.toString()).collection("Sustainable")
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Sustainable")
             .get()
             .addOnSuccessListener { result  ->
                 for (document in result ) {
@@ -130,14 +128,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         actList3.setFirstList(act3)
 
 
-        val db1 = db.collection("User").document(user?.email.toString())
-            .collection("Project$projectCount").document("1")
-        val db2 = db.collection("User").document(user?.email.toString())
-            .collection("Project$projectCount").document("2")
-        val db3 =db.collection("User").document(user?.email.toString())
-            .collection("Project$projectCount").document("3")
+        val db1 = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${appUser.projectCount}").document("1")
+        val db2 = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${appUser.projectCount}").document("2")
+        val db3 =fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${appUser.projectCount}").document("3")
 
-        db.runBatch { batch ->
+        fireDB.runBatch { batch ->
             // Set the value of 'NYC'
             batch.set(db1, actList1)
             batch.set(db2, actList2)
@@ -157,7 +155,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             actList.setFirstList(activity)
 
             db.collection("User").document(user?.email.toString())
-                .collection("project$projectCount").document(i.toString())
+                .collection("project${appUser.projectCount}").document(i.toString())
                 .set(activity)
                 .addOnCompleteListener {Timber.i("DocumentSnapshot1 successfully written!")
                 }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}

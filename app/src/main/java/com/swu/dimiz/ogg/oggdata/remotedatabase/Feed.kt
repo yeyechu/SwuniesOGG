@@ -10,7 +10,7 @@ Feed/사용자 이메일
 data class Feed(
     var email: String ="",     //업로드한 사용자 (통계, 나의피드에서 이메일 검색으로 가져옴)
 
-    var postTime: String ?=null,  //올린 시간
+    var postTime: Long ?=null,  //올린 시간
 
     var actId: Int = 0,         //활동 ID
 

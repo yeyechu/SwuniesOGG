@@ -28,8 +28,13 @@ import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
+import com.swu.dimiz.ogg.OggApplication.Companion.auth
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
@@ -63,9 +68,9 @@ class CameraFragment : Fragment() {
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 변수
-    lateinit var storage: FirebaseStorage
-    lateinit var firestore: FirebaseFirestore
-    lateinit var auth: FirebaseAuth
+    val fireDB = Firebase.firestore
+    val fireUser = Firebase.auth.currentUser
+    val fireStorage = Firebase.storage
 
 
     // ─────────────────────────────────────────────────────────────────────────────────
@@ -81,10 +86,6 @@ class CameraFragment : Fragment() {
             binding.previewLayout.visibility = View.GONE
         }
 
-        storage = FirebaseStorage.getInstance()
-        firestore = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
-
         binding.buttonDone.setOnClickListener {
 
             PostWindow.postWindow!!.finish()
@@ -96,10 +97,10 @@ class CameraFragment : Fragment() {
             */
 
             if(savedUri!=null) {
-                var postTime = SimpleDateFormat("yyyyMMddHHmmss").format(Date()) // 파일명이 겹치면 안되기 때문
-                var fileName = auth.currentUser?.email.toString() + "_" + postTime
+                var postTime = SimpleDateFormat("yyyyMMddHHmmss").format(Date()).toLong() // 파일명이 겹치면 안되기 때문
+                var fileName = fireUser?.email.toString() + "_" + postTime
 
-                storage.reference.child("Feed").child(fileName)
+                fireStorage.reference.child("Feed").child(fileName)
                     .putFile(savedUri!!)
                     .addOnSuccessListener {
                             taskSnapshot -> // 업로드 정보를 담는다
@@ -107,15 +108,17 @@ class CameraFragment : Fragment() {
                         taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
                                 it->
                             var imageUrl=it.toString()
-                            var post = Feed( email = auth.currentUser?.email.toString(),  //활동코드 추가
+                            var post = Feed( email = fireUser?.email.toString(),  //활동코드 추가
                                 postTime = postTime, imageUrl = imageUrl)
 
-                            firestore.collection("Feed").document(auth.currentUser?.email.toString())
+                            fireDB.collection("Feed").document(fileName)
                                 .set(post)
                                 .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
                                 }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
                         }
                     }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
+                //스탬프 수치 업로드
+                //daily 상태 업로드
             }
         }
         return binding.root

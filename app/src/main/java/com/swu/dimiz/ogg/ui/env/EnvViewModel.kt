@@ -34,28 +34,24 @@ class EnvViewModel : ViewModel() {
     val fakeDate: LiveData<Int>
         get() = _fakeDate
 
-    // MyCondition.nickname
-    // MyCondition.aim
-    // MyCondition.car
-    // MyCondition.startDate
-    val db = Firebase.firestore
-    private val fbuser = Firebase.auth.currentUser
 
-    lateinit var user: User
+    private val fireDB = Firebase.firestore
+    private val fireUser = Firebase.auth.currentUser
 
-    fun getUser(){
-        val docRef = db.collection("User").document(fbuser?.email.toString())
+    private lateinit var appUser: MyCondition   //사용자 기본 정보 저장
+    fun fireInfo(){
+        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
 
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {
                 Timber.i( "DocumentSnapshot data: ${document.data}")
                 val gotUser = document.toObject<MyCondition>()
                 if (gotUser != null) {
-                    user.nickname = gotUser.nickName
-                    user.aim = gotUser.aim
-                    user.car = gotUser.car
-                    //user.startDate = gotUser.startDate.toString() //타입오류
-                    user.report = gotUser.report
+                    appUser.nickName = gotUser.nickName
+                    appUser.aim = gotUser.aim
+                    appUser.car = gotUser.car
+                    appUser.startDate = gotUser.startDate!!
+                    appUser.report = gotUser.report
                 }
             } else {
                 Timber.i("No such document")

@@ -9,7 +9,7 @@ User/사용자 이메일/Profject1~../Graph
  */
 
 data class MyGraph (    //통계 페이지 들어올때마다 업데이트
-    var startDate: Date ?=null,
+    var startDate: Long ?=null,
 
     //카테고리 별 줄인 탄소량
     var energy : Int = 0,
