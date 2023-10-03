@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/radius_card"
         app:cardBackgroundColor="@color/secondary_baby_blue"
-        app:contentPadding="@dimen/padding_button_small"
+        app:contentPadding="@dimen/spacing_text"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true">
 
@@ -43,7 +43,7 @@
                 android:id="@+id/image_activity"
                 android:layout_width="@dimen/image_size_aim_face"
                 android:layout_height="@dimen/image_size_aim_face"
-                android:layout_margin="@dimen/margin_component"
+                android:layout_margin="@dimen/spacing_small"
                 android:layout_weight="1"
                 android:contentDescription="@string/description_myact_card_image"
                 app:activityImage="@{activity}"
@@ -55,8 +55,8 @@
                 android:layout_width="@dimen/dimension_300"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:paddingStart="@dimen/padding_small"
-                android:paddingEnd="@dimen/padding_big">
+                android:paddingStart="@dimen/spacing_small"
+                android:paddingEnd="@dimen/spacing_regular">
                 <TextView
                     android:id="@+id/text_title"
                     style="@style/StyleText.subtitle"
@@ -129,7 +129,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:contentDescription="@string/description_common_button_arrow_right"
-                android:padding="@dimen/padding_big"
+                android:padding="@dimen/spacing_regular"
                 android:onClick="@{() -> detailListener.onClick(activity)}"
                 android:src="@drawable/common_button_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"

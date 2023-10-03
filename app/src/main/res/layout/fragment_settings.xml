@@ -27,7 +27,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_default"
+            android:layout_margin="@dimen/spacing_regular"
 
             >
 
@@ -51,7 +51,7 @@
                 android:drawableStart="@drawable/settings_button_to_des_nickname"
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_account_chage_nickname"
-                android:layout_marginTop="@dimen/margin_big"
+                android:layout_marginTop="@dimen/spacing_big"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,8 +60,8 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/change_nickname_btn"
-                android:layout_width="@dimen/icon_middle"
-                android:layout_height="@dimen/icon_middle"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
                 android:background="@drawable/common_button_arrow_right"
                 app:layout_constraintBottom_toBottomOf="@+id/change_nickname_text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_account_chage_pssword"
                 android:drawableLeft="@drawable/settings_button_to_des_password"
-                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginTop="@dimen/spacing_regular"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -88,8 +88,8 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/change_password_btn"
-                android:layout_width="@dimen/icon_middle"
-                android:layout_height="@dimen/icon_middle"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
                 android:background="@drawable/common_button_arrow_right"
                 app:layout_constraintBottom_toBottomOf="@+id/change_password_text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +105,7 @@
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_account_chage_pssword"
                 android:drawableLeft="@drawable/settings_button_to_des_car"
-                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginTop="@dimen/spacing_regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -114,8 +114,8 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/mycar_btn"
-                android:layout_width="@dimen/icon_middle"
-                android:layout_height="@dimen/icon_middle"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
                 android:background="@drawable/common_button_arrow_right"
                 app:layout_constraintBottom_toBottomOf="@+id/mycar_text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -128,7 +128,7 @@
             <TextView
                 android:id="@+id/other_setting"
                 style="@style/StyleText.header"
-                android:layout_marginTop="@dimen/margin_big"
+                android:layout_marginTop="@dimen/spacing_big"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/setting_text_title_about_other"
@@ -146,7 +146,7 @@
                 android:drawableStart="@drawable/settings_button_to_des_logout"
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_other_logout"
-                android:layout_marginTop="@dimen/margin_big"
+                android:layout_marginTop="@dimen/spacing_big"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -155,8 +155,8 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/logout_btn"
-                android:layout_width="@dimen/icon_middle"
-                android:layout_height="@dimen/icon_middle"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
                 android:background="@drawable/common_button_arrow_right"
                 app:layout_constraintBottom_toBottomOf="@+id/logout_text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -172,7 +172,7 @@
                 android:drawableStart="@drawable/settings_button_to_des_membernout"
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_other_signout"
-                android:layout_marginTop="@dimen/margin_big"
+                android:layout_marginTop="@dimen/spacing_big"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -181,8 +181,8 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/signout_btn"
-                android:layout_width="@dimen/icon_middle"
-                android:layout_height="@dimen/icon_middle"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
                 android:background="@drawable/common_button_arrow_right"
                 app:layout_constraintBottom_toBottomOf="@+id/signout_text"
                 app:layout_constraintEnd_toEndOf="parent"

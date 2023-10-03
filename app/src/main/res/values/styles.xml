@@ -35,10 +35,14 @@
         <item name="android:textSize">@dimen/text_size_title</item>
         <item name="android:fontFamily">@font/nanumsquare_b</item>
         <item name="fontFamily">@font/nanumsquare_b</item>
-
-
     </style>
 
+    <style name="StyleText.name" parent="StyleText">
+        <item name="android:textSize">@dimen/text_size_user_name</item>
+        <item name="android:fontFamily">@font/nanumsquare_eb</item>
+        <item name="fontFamily">@font/nanumsquare_eb</item>
+        <item name="android:maxLines">1</item>
+    </style>
 
     <!-- 숫자 텍스트 -->
     <!-- 오늘 날짜만 Attribute에서 textStyle="bold" 지정하기/ 나머지 숫자는 모두 regular -->
@@ -53,7 +57,7 @@
         <item name="android:textColor">@color/primary_gray</item>
         <item name="android:fontFamily">@font/nanumsquare_b</item>
         <item name="fontFamily">@font/nanumsquare_b</item>
-        <item name="android:layout_marginLeft">@dimen/margin_component</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_small</item>
 
     </style>
 
@@ -72,10 +76,10 @@
     <!-- 큰 버튼 : 파란색 -->
     <style name="StyleButtonOgg">
         <item name="android:background">@drawable/common_button_skyblue</item>
-        <item name="android:layout_marginStart">@dimen/margin_component</item>
-        <item name="android:layout_marginEnd">@dimen/margin_component</item>
-        <item name="paddingStart">@dimen/padding_popup_big</item>
-        <item name="paddingEnd">@dimen/padding_popup_big</item>
+        <item name="android:layout_marginStart">@dimen/spacing_small</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_small</item>
+        <item name="paddingStart">@dimen/spacing_big</item>
+        <item name="paddingEnd">@dimen/spacing_big</item>
 
         <item name="fontFamily">@font/nanumsquare_b</item>
         <item name="android:fontFamily">@font/nanumsquare_b</item>
@@ -88,7 +92,7 @@
     <!-- 큰 버튼 : 흰색 -->
     <style name="StyleButtonOggWhite">
         <item name="android:background">@drawable/common_button_white</item>
-        <item name="android:layout_margin">@dimen/margin_component</item>
+        <item name="android:layout_margin">@dimen/spacing_small</item>
 
         <item name="fontFamily">@font/nanumsquare_b</item>
         <item name="android:fontFamily">@font/nanumsquare_b</item>
@@ -101,19 +105,21 @@
     <!-- 작은 버튼 : 파란색 -->
     <style name="StyleButtonOgg.smaller" parent="StyleButtonOgg">
         <item name="android:textSize">@dimen/text_size_body_big</item>
-        <item name="android:paddingStart">@dimen/padding_big</item>
-        <item name="android:paddingEnd">@dimen/padding_big</item>
+        <item name="android:paddingTop">@dimen/spacing_extra_small</item>
+        <item name="android:paddingBottom">@dimen/spacing_extra_small</item>
+        <item name="android:paddingStart">@dimen/spacing_regular</item>
+        <item name="android:paddingEnd">@dimen/spacing_regular</item>
     </style>
 
     <!-- 작은 버튼 : 흰색 -->
     <style name="StyleButtonOggWhite.smaller" >
         <item name="android:textSize">@dimen/text_size_body_big</item>
         <item name="android:background">@drawable/common_button_white_nonline</item>
-        <item name="android:layout_margin">@dimen/margin_component</item>
+        <item name="android:layout_margin">@dimen/spacing_small</item>
         <item name="fontFamily">@font/nanumsquare_b</item>
         <item name="android:fontFamily">@font/nanumsquare_b</item>
-        <item name="android:paddingStart">@dimen/padding_big</item>
-        <item name="android:paddingEnd">@dimen/padding_big</item>
+        <item name="android:paddingStart">@dimen/spacing_regular</item>
+        <item name="android:paddingEnd">@dimen/spacing_regular</item>
         <item name="android:minHeight">?attr/minTouchTargetSize</item>
         <item name="android:minWidth">?attr/minTouchTargetSize</item>
 
@@ -137,10 +143,10 @@
     <style name="StyleCard">
 
         <item name="android:background">@drawable/common_button_white</item>
-        <item name="android:padding">@dimen/padding_card_big</item>
+        <item name="android:padding">@dimen/spacing_regular</item>
         <item name="android:radius">@dimen/radius_card</item>
-        <item name="android:layout_marginLeft">@dimen/margin_big</item>
-        <item name="android:layout_marginRight">@dimen/margin_big</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_big</item>
+        <item name="android:layout_marginRight">@dimen/spacing_big</item>
         <item name="android:textColor">@color/black</item>
 
 

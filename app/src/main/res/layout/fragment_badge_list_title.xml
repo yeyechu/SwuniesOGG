@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/text_line_spacing"
-    android:padding="@dimen/padding_big"
+    android:padding="@dimen/spacing_regular"
     android:text=""
     style="@style/StyleText.title"
     tools:text="피드 반응하기" />
