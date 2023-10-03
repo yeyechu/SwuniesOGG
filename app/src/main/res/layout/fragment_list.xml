@@ -21,14 +21,14 @@
                 android:id="@+id/chips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_extra_small"
-                android:layout_marginTop="@dimen/margin_component">
+                android:paddingStart="@dimen/spacing_extra_small"
+                android:layout_marginTop="@dimen/spacing_small">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/activity_filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:chipSpacingHorizontal="@dimen/padding_small"
+                    app:chipSpacingHorizontal="@dimen/spacing_small"
                     app:singleLine="true"
                     app:singleSelection="true"
                     app:selectionRequired="false"/>

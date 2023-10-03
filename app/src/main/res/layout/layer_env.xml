@@ -40,7 +40,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_save"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/icon_size_small"
                 style="@style/StyleButtonOgg.smaller"
                 android:text="@string/envlayer_button_save"
                 android:layout_gravity="end"/>
@@ -65,7 +65,7 @@
                 android:id="@+id/handler"
                 android:layout_width="@dimen/bottom_sheet_button_width"
                 android:layout_height="@dimen/bottom_sheet_button_height"
-                android:layout_margin="@dimen/margin_component"
+                android:layout_margin="@dimen/spacing_small"
                 android:layout_gravity="center"
                 android:text=""
                 android:contentDescription="@string/description_bottom_sheet"

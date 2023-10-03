@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/padding_big"
+        android:padding="@dimen/spacing_regular"
         >
 
         <androidx.appcompat.widget.Toolbar
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity=""
-            android:layout_marginTop="@dimen/padding_big"
+            android:layout_marginTop="@dimen/spacing_regular"
             app:layout_constraintTop_toBottomOf="@+id/sinup_info"
             tools:layout_editor_absoluteX="16dp">
 
@@ -90,7 +90,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginTop="@dimen/spacing_regular"
             android:hint="@string/nickname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +112,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginTop="@dimen/spacing_regular"
             android:hint="@string/password"
 
             app:layout_constraintEnd_toEndOf="@+id/nickname_et"
@@ -134,7 +134,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginTop="@dimen/spacing_regular"
             android:hint="@string/password"
             app:layout_constraintEnd_toEndOf="@+id/password_et_first"
             app:layout_constraintStart_toStartOf="@+id/password_et_first"
@@ -156,9 +156,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/signup_shape_line_box"
-            android:padding="@dimen/padding_big"
+            android:padding="@dimen/spacing_regular"
 
-            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginTop="@dimen/spacing_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password_et_second">
@@ -189,8 +189,8 @@
 
             <ImageView
                 android:id="@+id/info_detail_btn1"
-                android:layout_width="@dimen/icon_small"
-                android:layout_height="@dimen/icon_small"
+                android:layout_width="@dimen/icon_extra_small"
+                android:layout_height="@dimen/icon_extra_small"
                 android:src="@drawable/common_button_arrow_right"
 
                 app:layout_constraintBottom_toBottomOf="@+id/checkBox"
@@ -210,8 +210,8 @@
 
             <ImageView
                 android:id="@+id/info_detail_btn2"
-                android:layout_width="@dimen/icon_small"
-                android:layout_height="@dimen/icon_small"
+                android:layout_width="@dimen/icon_extra_small"
+                android:layout_height="@dimen/icon_extra_small"
                 android:src="@drawable/common_button_arrow_right"
 
                 app:layout_constraintBottom_toBottomOf="@+id/checkBox2"
@@ -230,7 +230,7 @@
             style="@style/StyleButtonOgg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginTop="@dimen/spacing_regular"
             android:text="@string/send_email"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

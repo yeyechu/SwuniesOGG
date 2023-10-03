@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/badge_container"
         android:onClick="@{() -> clickListener.onClick(badge)}"
-        android:padding="@dimen/padding_small">
+        android:padding="@dimen/spacing_small">
 
         <ImageView
             android:id="@+id/image_badge_icon"

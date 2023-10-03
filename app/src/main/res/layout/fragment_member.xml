@@ -37,7 +37,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_big"
+            android:layout_margin="@dimen/spacing_big"
             >
 
             <ImageView
@@ -54,7 +54,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_default"
+                android:layout_marginLeft="@dimen/spacing_regular"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@+id/user_image"
                 app:layout_constraintStart_toEndOf="@+id/user_image"
@@ -84,7 +84,7 @@
                 style="@style/StyleText.header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_big"
+                android:layout_marginTop="@dimen/spacing_big"
                 android:text="@string/member_text_title_myfeed"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

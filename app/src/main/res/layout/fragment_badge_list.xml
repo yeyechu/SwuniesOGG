@@ -48,7 +48,7 @@
                     android:textAlignment="textEnd"
                     android:text="@{@string/badgelist_text_badge_count(viewModel.inventorySize)}"
                     android:background="@color/secondary_light_gray"
-                    android:padding="@dimen/padding_big"
+                    android:padding="@dimen/spacing_regular"
                     style="@style/StyleText.subtitle"
                     tools:text="보유한 배지 15개 " />
 

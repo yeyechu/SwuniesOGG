@@ -1,41 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ────────────────────────────────────── 기본값 ────────────────────────────────────── -->
-    <!--                                         패딩                                         -->
-    <dimen name="spacing_text">30dp</dimen>
+    <!--                                         여백                                         -->
+    <dimen name="spacing_text">3dp</dimen>
+    <dimen name="spacing_extra_small">5dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
 
-    <dimen name="padding_text">3dp</dimen>
-    <dimen name="padding_extra_small">5dp</dimen>
-    <dimen name="padding_small">8dp</dimen>
-    <dimen name="padding_big">16dp</dimen>
+    <dimen name="spacing_extra_medium">10dp</dimen>
+    <dimen name="spacing_medium">12dp</dimen>
+    <dimen name="spacing_regular">16dp</dimen>
 
-    <dimen name="padding_button_small">3dp</dimen>
-    <dimen name="padding_button_big">10dp</dimen>
-
-    <dimen name="padding_card_small">10dp</dimen>
-    <dimen name="padding_card_big">16dp</dimen>
-
-    <dimen name="padding_popup_small">10dp</dimen>
-    <dimen name="padding_popup_big">20dp</dimen>
-
-    <!--                                         마진                                         -->
-    <dimen name="margin_extra_small">5dp</dimen>
-    <dimen name="margin_component">8dp</dimen>
-    <dimen name="margin_default">16dp</dimen>
-    <dimen name="margin_big">21dp</dimen>
-    <dimen name="margin_large">30dp</dimen>
-    <dimen name="margin_scroll">50dp</dimen>
+    <dimen name="spacing_big">21dp</dimen>
+    <dimen name="spacing_large">30dp</dimen>
+    <dimen name="spacing_scroll">50dp</dimen>
 
     <!--                                        텍스트                                        -->
+    <dimen name="text_line_spacing_small">3sp</dimen>
     <dimen name="text_line_spacing">6sp</dimen>
 
-    <dimen name="text_size_body_small">10sp</dimen>
-    <dimen name="text_size_body_big">13sp</dimen>
+    <dimen name="text_size_body_small">11sp</dimen>
+    <dimen name="text_size_body_big">14sp</dimen>
 
-    <dimen name="text_size_subtitle">17sp</dimen>
-    <dimen name="text_size_title">20sp</dimen>
+    <dimen name="text_size_subtitle">16sp</dimen>
+    <dimen name="text_size_title">18sp</dimen>
 
-    <!--                                         코너                                         -->
+    <!--                                        라운드                                        -->
     <dimen name="radius_component">10dp</dimen>
     <dimen name="radius_card">17dp</dimen>
     <dimen name="radius_layer">20dp</dimen>
@@ -46,13 +35,13 @@
     <dimen name="stroke_shape_regular">2dp</dimen>
     <dimen name="stroke_shape_bold">3dp</dimen>
 
-    <!--아이콘 사이즈-->
-    <dimen name="icon_resource_size">36dp</dimen>
-    <dimen name="image_resouce_size">150dp</dimen>
-    <dimen name="icon_big">50dp</dimen>
-    <dimen name="icon_middle">30dp</dimen>
-    <dimen name="icon_small">20dp</dimen>
+    <!--                                        아이콘                                        -->
+    <dimen name="icon_extra_small">20dp</dimen>
+    <dimen name="icon_size_small">30dp</dimen>
+    <dimen name="icon_size_regular">36dp</dimen>
+    <dimen name="icon_size_big">50dp</dimen>
 
+    <!--                                       고정길이                                       -->
     <dimen name="dimension_50">50dp</dimen>
     <dimen name="dimension_60">60dp</dimen>
     <dimen name="dimension_70">70dp</dimen>
@@ -64,37 +53,41 @@
     <dimen name="dimension_250">250dp</dimen>
     <dimen name="dimension_300">300dp</dimen>
 
-    <!-- ────────────────────────────────────── 한 두군데만 쓰이는 값 ────────────────────────────────────── -->
-    <!-- 패딩 -->
+    <!-- ──────────────────────────────── 한 두군데만 쓰이는 값 ──────────────────────────────── -->
+    <!--                                         여백                                         -->
+    <dimen name="spacing_listaim_image">35dp</dimen>
+    <dimen name="spacing_floating_button">80dp</dimen>
 
-    <!-- 마진 -->
-    <dimen name="margin_floating_button">80dp</dimen>
-    <dimen name="margin_listaim_image">35dp</dimen>
-
-    <!-- 텍스트 -->
-    <dimen name="text_size_user_name">0sp</dimen>
+    <!--                                        텍스트                                        -->
     <dimen name="text_size_hint">15sp</dimen>
+    <dimen name="text_size_user_name">20sp</dimen>
 
-    <!-- 바텀시트 -->
-    <dimen name="bottom_nav_size">65dp</dimen>
+    <!--                                       내비게이션                                      -->
     <dimen name="bottom_nav_icon_size">50dp</dimen>
+    <dimen name="bottom_nav_size">65dp</dimen>
 
+    <!--                                        바텀시트                                      -->
     <dimen name="bottom_sheet_peek_height">33dp</dimen>
-    <dimen name="bottom_sheet_button_width">100dp</dimen>
     <dimen name="bottom_sheet_button_height">16dp</dimen>
+    <dimen name="bottom_sheet_button_width">100dp</dimen>
     <dimen name="bottom_sheet_scroll_height">300dp</dimen>
 
     <!-- 고정 길이 -->
-    <dimen name="progressbar_width">300dp</dimen>
     <dimen name="progressbar_height">5dp</dimen>
+    <dimen name="progressbar_width">300dp</dimen>
+
     <dimen name="myact_today_card_width">150dp</dimen>
+
     <dimen name="post_window_height">550dp</dimen>
 
 
     <!-- 기타 -->
+    <dimen name="image_size_stamp_face">40dp</dimen>
+    <dimen name="image_size_stamp_face_big">70dp</dimen>
+    <dimen name="image_size_list_holder">65dp</dimen>
 
     <dimen name="image_size_aim_face">80dp</dimen>
-    <dimen name="image_size_stamp_face">40dp</dimen>
+    <dimen name="image_size_big">150dp</dimen>
 
 
 

@@ -14,7 +14,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_sheet_peek_height"
-            android:layout_margin="@dimen/margin_default"
+            android:layout_margin="@dimen/spacing_regular"
             android:max="100"
             android:progress="50"
             android:progressDrawable="@drawable/myact_progressbar_custom"

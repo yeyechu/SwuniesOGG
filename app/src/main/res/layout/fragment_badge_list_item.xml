@@ -14,11 +14,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/image_resouce_size"
+        android:layout_width="@dimen/image_size_big"
         android:layout_height="wrap_content"
         android:id="@+id/badge_container"
         android:onClick="@{() -> clickListener.onClick(badge)}"
-        android:padding="@dimen/padding_small">
+        android:padding="@dimen/spacing_small">
 
         <ImageView
             android:id="@+id/image_badge_icon"
@@ -38,7 +38,7 @@
             android:id="@+id/text_badge_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_component"
+            android:layout_marginTop="@dimen/spacing_small"
             android:text=""
             android:maxLines="1"
             android:textAlignment="center"
