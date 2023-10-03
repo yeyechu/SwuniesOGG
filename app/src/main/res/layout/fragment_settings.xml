@@ -169,7 +169,7 @@
                 style="@style/StyleText.subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/settings_button_to_des_membernout"
+                android:drawableStart="@drawable/settings_button_to_des_memberout"
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_other_signout"
                 android:layout_marginTop="@dimen/spacing_big"

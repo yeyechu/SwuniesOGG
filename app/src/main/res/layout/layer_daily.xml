@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_text">
+
+        <!-- 메인 타이틀 텍스트 -->
+        <TextView
+            android:id="@+id/myact_text_member_name"
+            style="@style/StyleText.name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_regular"
+            android:text=""
+            app:layout_constraintBottom_toTopOf="@+id/myact_text_title"
+            app:layout_constraintStart_toStartOf="@+id/myact_text_title"
+            app:layout_constraintTop_toBottomOf="parent"
+            tools:text="오지지님" />
+
+        <TextView
+            android:id="@+id/myact_text_title"
+            style="@style/StyleText.title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_regular"
+            android:text="@string/myact_text_main_title"
+            app:layout_constraintBottom_toTopOf="@id/progress_daily"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myact_text_member_name" />
+
+        <!-- 프로그래스바 -->
+        <ProgressBar
+            android:id="@+id/progress_daily"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_sheet_peek_height"
+            android:layout_margin="@dimen/spacing_regular"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/myact_progressbar_custom"
+            app:layout_constraintBottom_toTopOf="@id/text_co2_zero"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myact_text_title"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/text_co2_zero"
+            style="@style/StyleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_regular"
+            android:text="@string/co2_default_zero"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/text_co2_daily"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progress_daily" />
+
+        <TextView
+            android:id="@+id/text_co2_daily"
+            style="@style/StyleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_regular"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="@+id/text_co2_zero"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_co2_zero"
+            app:layout_constraintTop_toTopOf="@+id/text_co2_zero"
+            tools:text="0.00" />
+
+        <ImageView
+            android:id="@+id/myact_image_appbar"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="@drawable/myact_image_appbar"
+            android:contentDescription="@string/description_myact_image_appbar"
+            app:layout_constraintBottom_toTopOf="@id/text_title_daily"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progress_daily" />
+
+        <TextView
+            android:id="@+id/text_title_daily"
+            style="@style/StyleText.subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_regular"
+            android:layout_marginTop="@dimen/spacing_regular"
+            android:text="@string/myact_text_title_today"
+            app:layout_constraintBottom_toTopOf="@id/today_card_list"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myact_image_appbar" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_today_act_edit"
+            style="@style/StyleButtonOgg.smaller"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/icon_size_small"
+            android:contentDescription="@string/myact_today_edit_button"
+            android:text="@string/myact_today_edit_button"
+            app:layout_constraintBottom_toBottomOf="@id/text_title_daily"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_title_daily" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/today_card_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_regular"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_title_daily"
+            tools:listitem="@layout/fragment_my_act_card_item" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
