@@ -51,16 +51,6 @@
                 tools:text="활동 제목" />
 
             <ImageView
-                android:id="@+id/button_report"
-                style="@style/StyleImageButton"
-                android:layout_width="@dimen/icon_extra_small"
-                android:layout_height="@dimen/icon_extra_small"
-                android:layout_marginEnd="@dimen/spacing_small"
-                android:layout_gravity="end"
-                android:contentDescription="@string/description_button_report"
-                app:srcCompat="@drawable/feed_button_reaction_report" />
-
-            <ImageView
                 android:id="@+id/button_exit"
                 style="@style/StyleImageButton"
                 android:layout_width="@dimen/icon_extra_small"
@@ -69,6 +59,16 @@
                 android:layout_gravity="end"
                 android:contentDescription="@string/description_common_button_exit"
                 app:srcCompat="@drawable/common_button_exit" />
+
+            <ImageView
+                android:id="@+id/button_report"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/icon_extra_small"
+                android:layout_height="@dimen/icon_extra_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:layout_gravity="end"
+                android:contentDescription="@string/description_button_report"
+                app:srcCompat="@drawable/feed_button_reaction_report" />
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView
@@ -94,8 +94,8 @@
                 android:id="@+id/image_feed_reaction_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:src="@drawable/feed_button_reaction_like"/>
-
             <ImageView
                 android:id="@+id/image_feed_reaction_fun"
                 android:layout_width="wrap_content"
@@ -107,8 +107,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/feed_button_reaction_great"/>
-
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

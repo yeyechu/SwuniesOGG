@@ -15,17 +15,22 @@
         android:layout_height="match_parent">
 
         <!--                                 환경 전체 스크롤 부분                                  -->
-        <ScrollView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/description_scroll">
+            android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
                 app:srcCompat="@drawable/env_image_background_stage1_very_dirty" />
-        </ScrollView>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/myenv_image_dot"
+                android:visibility="gone"
+                android:adjustViewBounds="true"/>
+        </FrameLayout>
 
         <!-- ─────────────────────────────────────────────────────────────────────────────────── -->
         <!--                                     상단 툴바 부분                                     -->
@@ -90,19 +95,19 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dimension_150"
+                    android:layout_height="@dimen/dimension_150"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/dimension_100"
-                    android:layout_marginBottom="@dimen/text_line_spacing"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_extra_small"
                     android:contentDescription="@string/description_badgelist_image_placeholder"
-                    android:src="@drawable/common_image_placeholder" />
+                    android:src="@drawable/myenv_image_empty" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/text_line_spacing"
+                    android:layout_marginBottom="@dimen/spacing_extra_small"
                     android:text="@string/envlayer_text_default_title"
                     style="@style/StyleText.title"/>
 
@@ -110,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/text_line_spacing"
+                    android:layout_marginBottom="@dimen/spacing_extra_small"
                     android:text="@string/envlayer_text_default_detail"
                     style="@style/StyleText"/>
 
