@@ -1,5 +1,8 @@
 package com.swu.dimiz.ogg.oggdata.remotedatabase
 
+import java.util.*
+
+
 /*
 fireStore 위치
 Feed/사용자 이메일
@@ -8,9 +11,11 @@ Feed/사용자 이메일
  */
 
 data class Feed(
+    var id:String?=null,
+
     var email: String ="",     //업로드한 사용자 (통계, 나의피드에서 이메일 검색으로 가져옴)
 
-    var postTime: Long ?=null,  //올린 시간
+    var postTime: Date = Date(),  //올린 시간
 
     var actId: Int = 0,         //활동 ID
 

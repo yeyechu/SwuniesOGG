@@ -1,28 +1,35 @@
 package com.swu.dimiz.ogg.ui.feed
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.chip.Chip
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.ENERGY
 import com.swu.dimiz.ogg.databinding.FragmentFeedBinding
+import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
 
-class FeedFragment : Fragment() {
+
+class FeedFragment : Fragment(){
 
     private var _binding: FragmentFeedBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: FeedViewModel by activityViewModels { FeedViewModel.Factory }
     private lateinit var navController: NavController
+
+//    private lateinit var feedAdapter:FeedAdapter
+//    lateinit var feedList:ArrayList<Feed>
+//
+//    lateinit var ct: Context
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,12 +61,10 @@ class FeedFragment : Fragment() {
                 chipGroup.addView(chip)
             }
         }
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         navController = findNavController()
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
