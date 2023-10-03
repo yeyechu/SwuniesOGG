@@ -1,9 +1,18 @@
 package com.swu.dimiz.ogg.ui.feed
 
+import android.content.Context
+import androidx.core.os.bundleOf
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.recyclerview.widget.GridLayoutManager
+import com.firebase.ui.auth.AuthUI.getApplicationContext
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.*
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
@@ -12,7 +21,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
 
-class FeedViewModel(private val repository: OggRepository) : ViewModel() {
+class FeedViewModel(private val repository: OggRepository) : ViewModel()  {    //, FeedAdapter.OnItemClickListener
 
     private var currentJob: Job? = null
     // ───────────────────────────────────────────────────────────────────────────────────
@@ -49,6 +58,7 @@ class FeedViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
+    private lateinit var feedAdapter:FeedAdapter
     private fun onFilterUpdated(filter: String) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
@@ -59,7 +69,39 @@ class FeedViewModel(private val repository: OggRepository) : ViewModel() {
                 _feedList.value = listOf()
             }
         }
+
+        // ───────────────────────────────────────────────────────────────────────────────────
+        //                             firebase 피드리스트 받기
+//todo 코드 수정 필요
+        /*val fireDB = Firebase.firestore
+
+        feedAdapter =FeedAdapter(this ,_feedList)
+
+        binding.feedListGrid.layoutManager= GridLayoutManager(this, 3)
+        binding.feedListGrid.adapter=feedAdapter
+
+        feedAdapter.onItemClickListener = this
+
+        fireDB.collection("Feed").addSnapshotListener {
+                querySnapshot, FirebaseFIrestoreException ->
+            if(querySnapshot!=null){
+                for(dc in querySnapshot.documentChanges){
+                    if(dc.type== DocumentChange.Type.ADDED){
+                        var feed= dc.document.toObject<Feed>()
+                        feed.id=dc.document.id
+                        feedList.add(feed)
+                    }
+                }
+                feedAdapter.notifyDataSetChanged()
+            }else Timber.i("feed storage 가져오기 오류", FirebaseFIrestoreException)
+        }*/
     }
+//todo 코드 수정 필요
+   /* override fun onItemClick(feed: Feed) {
+         val bundle = bundleOf("id" to feed.id)
+         view?.findNavController()
+             ?.navigate(R.id.action_navigation_feed_to_feedDetailFragment, bundle)
+    }*/
 
     fun onFilterChanged(filter: String, isChecked: Boolean) {
         if (isChecked) {

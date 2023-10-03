@@ -3,14 +3,15 @@ package com.swu.dimiz.ogg.oggdata.remotedatabase
 
 /*
 fireStore 위치
-User/사용자 이메일/Daily/며칠째
+User/사용자 이메일/ALlAct/actID
 */
 
+data class MyAllAct ( //전체활동 활동명 별 상황 저장 -> graph에서 사용
+    var ID:Int = 0,
 
+    var actCode:String = "",
 
-data class MyAllAct ( //일반활동 상황 저장
-    var day:Int = 0,
+    var upCount:Int =0,
 
-    var act1_doCount:Int =0,
-
+    var allC02:Float =0f
 )

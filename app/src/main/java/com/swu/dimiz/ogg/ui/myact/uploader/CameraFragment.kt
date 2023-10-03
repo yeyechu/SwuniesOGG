@@ -98,11 +98,10 @@ class CameraFragment : Fragment() {
             */
 
             if(savedUri!=null) {
-                val postTime: Long = SimpleDateFormat("yyyyMMddHHmmss").format(Date()).toLong() // 파일명이 겹치면 안되기 때문
-                val fileName: String = fireUser?.email.toString() + "_" + postTime.toString()
+                val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(Date())// 파일명이 겹치면 안되기 때문
 
                 fireStorage.reference.child("Feed").child(fileName)
-                    .putFile(savedUri!!)
+                    .putFile(savedUri!!)          //uri를 여기서 받기때문에 여기에 위치함
                     .addOnSuccessListener {
                             taskSnapshot -> // 업로드 정보를 담는다
                         Timber.i("feed storage 올리기 완료")
@@ -110,9 +109,9 @@ class CameraFragment : Fragment() {
                                 it->
                             val imageUrl=it.toString()
                             val post = Feed( email = fireUser?.email.toString(),  //활동코드 추가
-                                postTime = postTime, imageUrl = imageUrl)
+                                imageUrl = imageUrl)
 
-                            fireDB.collection("Feed").document(fileName)
+                            fireDB.collection("Feed").document()
                                 .set(post)
                                 .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
                                 }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
@@ -120,6 +119,7 @@ class CameraFragment : Fragment() {
                     }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
                 //스탬프 수치 업로드
                 //daily 상태 업로드
+                //MyALLAct
             }
         }
         return binding.root

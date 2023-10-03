@@ -49,7 +49,11 @@
     <fragment
         android:id="@+id/navigation_feed"
         android:name="com.swu.dimiz.ogg.ui.feed.FeedFragment"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_navigation_feed_to_feedDetailFragment"
+            app:destination="@id/feedDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/destination_badge_list"
@@ -134,5 +138,9 @@
 
 
     <include app:graph="@navigation/navigation_camera" />
+    <fragment
+        android:id="@+id/feedDetailFragment"
+        android:name="com.swu.dimiz.ogg.ui.feed.detail.FeedDetailFragment"
+        android:label="FeedDetailFragment" />
 
 </navigation>
