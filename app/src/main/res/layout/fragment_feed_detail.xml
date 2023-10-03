@@ -75,40 +75,38 @@
             android:id="@+id/image_feed_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimension_60"
             android:layout_marginStart="@dimen/dimension_50"
             android:layout_marginEnd="@dimen/dimension_50"
             android:layout_marginBottom="@dimen/spacing_regular"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageView
                 android:id="@+id/image_feed_reaction_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/feed_button_reaction_like" />
+                android:src="@drawable/feed_button_reaction_like"/>
 
             <ImageView
                 android:id="@+id/image_feed_reaction_fun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/feed_button_reaction_fun" />
+                android:src="@drawable/feed_button_reaction_fun"/>
 
             <ImageView
                 android:id="@+id/image_feed_reaction_greate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/feed_button_reaction_great" />
+                android:src="@drawable/feed_button_reaction_great"/>
 
         </LinearLayout>
 
