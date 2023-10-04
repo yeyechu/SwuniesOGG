@@ -27,9 +27,6 @@ class EnvFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_env, container, false)
 
-        navController = findNavController()
-        binding.viewModel = viewModel
-
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                               환경 수정 플로팅 버튼 정의
 
@@ -60,6 +57,9 @@ class EnvFragment : Fragment() {
     // ──────────────────────────────────────────────────────────────────────────────────────
     //                                         툴바 초기화
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+        binding.viewModel = viewModel
 
         val envToolbar = binding.envToolbar
         envToolbar.inflateMenu(R.menu.env_menu)

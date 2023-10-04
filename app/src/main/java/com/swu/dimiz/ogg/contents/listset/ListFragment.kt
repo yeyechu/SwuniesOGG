@@ -75,6 +75,7 @@ class ListFragment : Fragment() {
                 viewModel.co2Minus(it)
                 deleteItem(it)
                 viewModel.setListHolder(listHolder)
+                Timber.i("$listHolder")
             },
             ListsetAdapter.ListClickListener {
                 viewModel.co2Plus(it)
@@ -82,6 +83,7 @@ class ListFragment : Fragment() {
                     addItem(it)
                 }
                 viewModel.setListHolder(listHolder)
+                Timber.i("$listHolder")
             },
             ListsetAdapter.ListClickListener {
                 viewModel.showPopup(it)

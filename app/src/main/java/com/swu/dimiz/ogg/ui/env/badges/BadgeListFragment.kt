@@ -13,8 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentBadgeListBinding
+import com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeHeaderAdapter
 import com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeListAdapter
 import timber.log.Timber
 
@@ -39,14 +41,21 @@ class BadgeListFragment : Fragment() {
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
 
-        val headerAdapter = HeaderAdapter()
-        binding.badgeHeader.adapter = headerAdapter
+        //val headerAdapter = HeaderAdapter()
+
+        val headerAdapter = BadgeHeaderAdapter()
+
+            binding.badgeHeader.apply {
+            //adapter = headerAdapter
+            adapter = headerAdapter
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+        }
 
         viewModel.badgeFilter.observe(viewLifecycleOwner) {
             it?.let {
                 Timber.i("$it")
                 headerAdapter.data = it
-
             }
         }
 
@@ -63,6 +72,12 @@ class BadgeListFragment : Fragment() {
             viewModel.showPopup(id)
         })
         binding.badgeList.adapter = badgeAdapter
+
+        viewModel.badgeFilteredListTitle.observe(viewLifecycleOwner) {
+            it?.let {
+                //headerAdapter.filtered = it
+            }
+        }
         viewModel.getAllData.observe(viewLifecycleOwner) {
             it?.let {
                 badgeAdapter.submitList(it)

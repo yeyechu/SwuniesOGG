@@ -9,10 +9,10 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/nanumsquare_r</item>
         <item name="fontFamily">@font/nanumsquare_r</item>
-        <item name="android:lineSpacingExtra">@dimen/text_line_spacing</item>
+        <item name="android:lineSpacingExtra">@dimen/text_line_spacing_small</item>
     </style>
 
-    <style name="StyleText.gray">
+    <style name="StyleText.gray" parent="StyleText">
         <item name="android:textColor">@color/primary_gray</item>
 
     </style>
@@ -46,9 +46,12 @@
 
     <!-- 숫자 텍스트 -->
     <!-- 오늘 날짜만 Attribute에서 textStyle="bold" 지정하기/ 나머지 숫자는 모두 regular -->
-    <style name="StyleText.title.number" parent="StyleText.title">
+    <style name="StyleText.number" parent="StyleText">
+        <item name="android:textSize">@dimen/text_size_body_small</item>
+        <item name="android:textColor">@color/primary_gray</item>
         <item name="android:fontFamily">@font/gmarketsans_m</item>
         <item name="fontFamily">@font/gmarketsans_m</item>
+        <item name="android:lineSpacingExtra">@dimen/text_line_spacing</item>
     </style>
 
     <!-- 카드에 쓰이는 탄소감축 텍스트 -->

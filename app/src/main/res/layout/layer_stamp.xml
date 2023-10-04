@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/text_line_spacing"
-                android:text="@{@string/stamplayout_text_nickname(condition.fakeUser.nickname)}"
+                android:text="@{@string/stamplayout_text_nickname(condition.userCondition.nickName)}"
                 tools:text="오지지님" />
 
             <TextView
@@ -58,7 +58,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/spacing_regular"
-            android:paddingTop="@dimen/spacing_regular"
             android:paddingEnd="@dimen/spacing_regular"
             android:visibility="@{condition.layerVisible ? View.GONE : View.VISIBLE}">
 
@@ -68,42 +67,49 @@
                 android:layout_height="@dimen/image_size_stamp_face_big"
                 android:layout_marginEnd="@dimen/spacing_small"
                 android:contentDescription="@string/description_env_stamp_today"
-                app:layout_constraintBottom_toTopOf="@id/progressBar"
+                app:layout_constraintBottom_toTopOf="@id/progress_env"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/env_image_stamp_000" />
 
             <TextView
                 android:id="@+id/text_date_of_21"
-                style="@style/StyleText.title"
+                style="@style/StyleText.name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_line_spacing"
+                android:paddingStart="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
                 android:text="@{@string/stamplayout_text_title(condition.fakeDate)}"
-                app:layout_constraintBottom_toTopOf="@+id/text_co2_left"
-                app:layout_constraintStart_toEndOf="@+id/image_stamp_today"
+                app:layout_constraintBottom_toTopOf="@id/text_co2_left"
+                app:layout_constraintStart_toEndOf="@id/image_stamp_today"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="21일 중 11일째" />
 
             <TextView
                 android:id="@+id/text_co2_left"
-                style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_line_spacing"
+                android:paddingStart="@dimen/spacing_small"
                 android:text="@{@string/stamplayout_text_body(condition.leftCo2)}"
-                app:layout_constraintBottom_toTopOf="@+id/progressBar"
-                app:layout_constraintStart_toEndOf="@+id/image_stamp_today"
-                app:layout_constraintTop_toBottomOf="@+id/text_date_of_21"
+                android:textSize="@dimen/text_size_subtitle"
+                android:fontFamily="@font/nanumsquare_r"
+                android:textColor="@color/primary_gray"
+                android:bufferType="spannable"
+                app:layout_constraintBottom_toTopOf="@id/progress_env"
+                app:layout_constraintStart_toEndOf="@id/image_stamp_today"
+                app:layout_constraintTop_toBottomOf="@id/text_date_of_21"
                 tools:text="목표 탄소량까지 1.05kg 남았어요" />
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/progress_env"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_small"
                 android:indeterminate="false"
                 android:max="100"
+                android:paddingBottom="@dimen/spacing_small"
                 android:progress="0"
                 android:progressDrawable="@drawable/common_progressbar_drawable_gray"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -112,19 +118,24 @@
 
             <TextView
                 android:id="@+id/text_progress_co2_zero"
+                style="@style/StyleText.number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_extra_small"
                 android:text="@string/co2_default_zero"
+                app:layout_constraintBottom_toBottomOf="@id/text_progress_co2_aim"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progressBar" />
+                app:layout_constraintTop_toTopOf="@id/text_progress_co2_aim" />
 
             <TextView
                 android:id="@+id/text_progress_co2_aim"
+                style="@style/StyleText.number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/spacing_small"
                 android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progressBar"
+                app:layout_constraintTop_toBottomOf="@id/progress_env"
                 app:userCo2="@{condition.fakeUser}"
                 tools:text="29.4" />
 
@@ -133,27 +144,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="@{condition.expandLayout ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toTopOf="@+id/button_expand"
+                app:layout_constraintBottom_toTopOf="@id/button_expand"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_progress_co2_aim">
 
                 <GridView
                     android:id="@+id/stamp_grid"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_regular"
-                    android:layout_marginBottom="@dimen/spacing_regular"
-                    android:horizontalSpacing="@dimen/spacing_extra_small"
-                    android:verticalSpacing="@dimen/spacing_extra_small"
+                    android:horizontalSpacing="@dimen/spacing_extra_medium"
                     android:numColumns="7"
+                    android:verticalSpacing="@dimen/spacing_extra_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-\
+
+
             <ImageButton
                 android:id="@+id/button_expand"
                 style="@style/StyleImageButton"
@@ -162,11 +173,11 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/description_common_button_arrow_down"
                 android:onClick="@{() -> condition.onExpandButtonClicked()}"
+                app:expandButtonImage="@{condition.expandLayout}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_stamp"
-                app:expandButtonImage="@{condition.expandLayout}"/>
+                app:layout_constraintTop_toBottomOf="@id/layout_stamp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

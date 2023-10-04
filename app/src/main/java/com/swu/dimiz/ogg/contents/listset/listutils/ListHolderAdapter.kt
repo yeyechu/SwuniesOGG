@@ -36,7 +36,6 @@ class ListHolderAdapter(val context: Context,
             badgeText.visibility = View.VISIBLE
             badgeText.text = item.aNumber.toString()
             text.setBackgroundResource(R.drawable.listset_shape_listholder_stroke)
-            //image.setImageResource(R.drawable.feed_button_reaction_like)
             setImage(item.aId, image)
         } else {
             text.text = (position + 1).toString()

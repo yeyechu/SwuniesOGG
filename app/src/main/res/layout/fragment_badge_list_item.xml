@@ -11,6 +11,10 @@
         <variable
             name="clickListener"
             type="com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeListAdapter.BadgeClickListener" />
+
+        <variable
+            name="clickListener2"
+            type="com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeAdapter.BadgeClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,8 +26,8 @@
 
         <ImageView
             android:id="@+id/image_badge_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/image_size_stamp_face_big"
+            android:layout_height="@dimen/image_size_stamp_face_big"
             android:background="@drawable/badgelist_shape_badge_background"
             android:contentDescription="@string/description_badgelist_image_badges"
             android:adjustViewBounds="true"

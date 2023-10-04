@@ -39,14 +39,17 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     val badgeFilter: LiveData<List<String>>
         get() = _badgeFilter
 
-    private val _badgeFilteredList = MutableLiveData<List<Badges>>()
-    val badgeFilteredList: LiveData<List<Badges>>
+    private val _badgeFilteredList = MutableLiveData<List<String>>()
+    val badgeFilteredList: LiveData<List<String>>
         get() = _badgeFilteredList
+
+    private val _badgeFilteredListTitle = MutableLiveData<List<List<String>>>()
+    val badgeFilteredListTitle: LiveData<List<List<String>>>
+        get() = _badgeFilteredListTitle
 
     init {
         Timber.i("created")
         getFilters()
-        addList()
     }
 
     fun showPopup(badge: Badges) {
@@ -64,30 +67,39 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         currentJob = viewModelScope.launch {
             try {
                 _badgeFilter.value = repository.getFilter()
+                onFilterUpdated()
             } catch (e: IOException) {
                 _badgeFilter.value = listOf()
             }
         }
     }
 
-    private fun addList() {
-        val list = _badgeFilter.value?.asSequence()?.map{
-            onFilterUpdated(it)
-        }
-    }
+//    private fun onFilterUpdated(filter: String) {
+//        currentJob?.cancel()
+//
+//        currentJob = viewModelScope.launch {
+//
+//            try {
+//                _badgeFilteredList.value = repository.getFilteredList(filter)
+//            } catch (e: IOException) {
+//                _badgeFilteredList.value = listOf()
+//            }
+//        }
+//    }
+private fun onFilterUpdated() {
+    currentJob?.cancel()
 
-    private fun onFilterUpdated(filter: String) {
-        currentJob?.cancel()
+    currentJob = viewModelScope.launch {
 
-        currentJob = viewModelScope.launch {
-
-            try {
-                _badgeFilteredList.value = repository.getFilteredList(filter)
-            } catch (e: IOException) {
-                _badgeFilteredList.value = listOf()
+        try {
+            _badgeFilter.value!!.forEach {
+                _badgeFilteredList.value = repository.getFilteredListTitle(it)
             }
+        } catch (e: IOException) {
+            _badgeFilteredList.value = listOf()
         }
     }
+}
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {

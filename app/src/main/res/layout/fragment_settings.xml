@@ -79,7 +79,6 @@
                 android:text="@string/setting_text_subtitle_account_chage_pssword"
                 android:drawableLeft="@drawable/settings_button_to_des_password"
                 android:layout_marginTop="@dimen/spacing_regular"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

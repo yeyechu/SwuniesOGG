@@ -25,7 +25,6 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      회원 정보 저장
-    // MyCondition LiveData 객체 필요
     private val _fakeUser = MutableLiveData<User>()
     val fakeUser: LiveData<User>
         get() = _fakeUser
@@ -34,33 +33,6 @@ class EnvViewModel : ViewModel() {
     val fakeDate: LiveData<Int>
         get() = _fakeDate
 
-
-    private val fireDB = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
-
-    private var appUser = MyCondition()   //사용자 기본 정보 저장   //사용자 기본 정보 저장
-    fun fireInfo(){
-        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
-
-        docRef.get().addOnSuccessListener { document ->
-            if (document != null) {
-                Timber.i( "DocumentSnapshot data: ${document.data}")
-                val gotUser = document.toObject<MyCondition>()
-                if (gotUser != null) {
-                    appUser.nickName = gotUser.nickName
-                    appUser.aim = gotUser.aim
-                    appUser.car = gotUser.car
-                    appUser.startDate = gotUser.startDate
-                    appUser.report = gotUser.report
-                }
-            } else {
-                Timber.i("No such document")
-            }
-        }
-            .addOnFailureListener { exception ->
-                Timber.i(exception.toString())
-            }
-    }
     private val _stampHolder = MutableLiveData<List<StampData>?>()
     val stampHolder: LiveData<List<StampData>?>
         get() = _stampHolder
@@ -94,7 +66,18 @@ class EnvViewModel : ViewModel() {
     val expandLayout: LiveData<Boolean>
         get() = _expandLayout
 
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                   파이어베이스 변수
+
+    private val fireDB = Firebase.firestore
+    val fireUser = Firebase.auth.currentUser
+
+    private val _userCondition = MutableLiveData<MyCondition>()
+    val userCondition: LiveData<MyCondition>
+        get() = _userCondition
+
     init {
+        userInit()
         Timber.i("ViewModel created")
         _fakeUser.value = User()
         _fakeDate.value = INTEGER_ZERO
@@ -102,6 +85,37 @@ class EnvViewModel : ViewModel() {
         _stampHolder.value = null
         setCo2(AIMCO2_ONE)
     }
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                   파이어베이스 함수
+    private fun userInit() {
+        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+        val appUser = MyCondition()
+
+        docRef.get()
+            .addOnSuccessListener {
+            it?.let {
+                val gotUser = it.toObject<MyCondition>()
+
+                gotUser?.let {
+                    appUser.nickName = gotUser.nickName
+                    appUser.aim = gotUser.aim
+                    appUser.car = gotUser.car
+                    appUser.startDate = gotUser.startDate
+                    appUser.report = gotUser.report
+
+                    _userCondition.value = appUser
+                }
+            }
+                Timber.i("No such document")
+        }
+            .addOnFailureListener { exception ->
+                Timber.i(exception.toString())
+            }
+    }
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                     룸데이터 함수
 
     val leftCo2 = co2Holder.map {
         _aimCo2.value!!.times(CO2_WHOLE) - it

@@ -38,6 +38,12 @@ class OggRepository(private val database: OggDatabase) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun getFilteredListTitle(filter: String) : List<String>? {
+        return database.badgesDatabaseDao.getFilteredListTitle(filter)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun updateFreq(data: ActivitiesDaily) {
         database.dailyDatabaseDao.update(data)
     }

@@ -85,7 +85,7 @@
     <!--                                           스탬프                                         -->
     <string name="stamplayout_text_nickname">%s님</string>
     <string name="stamplayout_text_title">21일 중 %d일째</string>
-    <string name="stamplayout_text_body">목표 탄소량까지 %.1fkg 남았어요</string>
+    <string name="stamplayout_text_body">목표 탄소량까지 %.2fkg 남았어요</string>
 
     <!--                                       활동 레벨 선택                                      -->
     <string name="listaim_text_title">온실가스 1인 1톤 줄이기란,</string>
@@ -104,9 +104,9 @@
     <!--                                         활동 선택                                        -->
     <string name="listset_button_allset">완료</string>
 
-    <string name="listset_text_title">관심있는 활동을 선택해보세요</string>
+    <string name="listset_text_title">오늘의 환경 활동 리스트를 만들어보세요</string>
     <string name="listset_text_title_instruction">아직 목표 탄소량을 채우지 못했어요</string>
-    <string name="listset_text_title_instruction_allset">선택한 활동들로 지구를 구해보세요</string>
+    <string name="listset_text_title_instruction_allset">선택한 활동들로 지구를 구해보아요</string>
     <string name="listset_text_toast">최대 5개를 선택할 수 있습니다</string>
 
 

@@ -3,7 +3,7 @@
     android:shape="oval">
 
     <!-- 환경페이지 스탬프 레이어 오늘 날짜 표시용 -->
-    <size android:width="?attr/minTouchTargetSize" android:height="?attr/minTouchTargetSize" />
+    <size android:width="@dimen/image_size_stamp_face" android:height="@dimen/image_size_stamp_face" />
     <stroke android:width="@dimen/stroke_shape_bold" android:color="@color/primary_blue" />
     <padding android:bottom="@dimen/stroke_shape_light" android:top="@dimen/stroke_shape_light" android:left="@dimen/stroke_shape_light" android:right="@dimen/stroke_shape_light" />
 
