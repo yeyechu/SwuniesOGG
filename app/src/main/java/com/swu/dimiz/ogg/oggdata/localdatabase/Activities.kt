@@ -33,10 +33,10 @@ data class ActivitiesDaily (
     @ColumnInfo(name = "daily_ways_to_post")
     var waytoPost: Int= 0,
 
-    @ColumnInfo(name = "daily_image",)
+    @ColumnInfo(name = "daily_image")
     var image: Bitmap? = null,
 
-    @ColumnInfo(name = "daily_guide_image",)
+    @ColumnInfo(name = "daily_guide_image")
     var guideImage: Bitmap? = null,
 
     @ColumnInfo(name = "update_badge_code")

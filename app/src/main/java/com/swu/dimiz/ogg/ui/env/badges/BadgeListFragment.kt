@@ -55,7 +55,7 @@ class BadgeListFragment : Fragment() {
         viewModel.badgeFilter.observe(viewLifecycleOwner) {
             it?.let {
                 Timber.i("$it")
-                headerAdapter.data = it
+                //headerAdapter.data = it
             }
         }
 

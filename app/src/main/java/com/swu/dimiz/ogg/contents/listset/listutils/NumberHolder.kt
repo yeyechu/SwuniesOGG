@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.listutils.NumberData
 
 class NumberHolderAdapter(val context: Context,
                         private val numberHolder: List<NumberData>)

@@ -1,7 +1,10 @@
 package com.swu.dimiz.ogg
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.icu.text.SimpleDateFormat
+import android.text.Spanned
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -33,5 +36,3 @@ fun convertDurationToFormatted(startTimeMilli: Long): Int {
 }
 
 // 탄소량에 따라 스티커를 결정해주는 메서드
-
-// 탄소량에 따라 프로그레스바를 계산해주는 메서드

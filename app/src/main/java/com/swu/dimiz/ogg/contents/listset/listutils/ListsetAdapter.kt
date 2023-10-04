@@ -1,11 +1,11 @@
 package com.swu.dimiz.ogg.contents.listset.listutils
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentListsetListItemBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 
@@ -25,12 +25,19 @@ class ListsetAdapter(
             detailListener: ListClickListener
         ) {
             binding.activity = activity
+            //binding.cardView.setCardBackgroundColor(R.color.secondary_baby_blue)
             binding.minusListener = minusListener
             binding.plusListener = plusListener
             binding.detailListener = detailListener
             binding.executePendingBindings()
         }
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListsetViewHolder {
         return ListsetViewHolder(

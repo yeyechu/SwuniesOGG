@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/text_stamp_date"
-    android:layout_width="@dimen/image_size_aim_face"
-    android:layout_height="@dimen/image_size_aim_face"
-    android:text=""
-    android:textSize="@dimen/text_size_body_big"
-    android:fontFamily="@font/gmarketsans_m"
-    android:textColor="@color/secondary_light_gray"
-    android:gravity="center"
-    android:adjustViewBounds="true"
-    android:background="@drawable/env_shape_stamp_circle_dash"
-    tools:text="1" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image_stamp_face"
+        android:layout_width="@dimen/image_size_stamp_face"
+        android:layout_height="@dimen/image_size_stamp_face"
+        />
+
+
+    <TextView
+        android:id="@+id/text_stamp_date"
+        android:layout_width="@dimen/image_size_stamp_face"
+        android:layout_height="@dimen/image_size_stamp_face"
+        android:text=""
+        android:textSize="@dimen/text_size_body_big"
+        android:fontFamily="@font/gmarketsans_m"
+        android:textColor="@color/secondary_light_gray"
+        android:gravity="center"
+        android:adjustViewBounds="true"
+        android:background="@drawable/env_shape_stamp_circle_dash"
+        tools:text="1" />
+</FrameLayout>

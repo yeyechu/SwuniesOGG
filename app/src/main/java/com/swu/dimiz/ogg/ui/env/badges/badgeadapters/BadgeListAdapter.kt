@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.env.badges.badgeadapters
 
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -19,6 +20,10 @@ class BadgeListAdapter(private val onClickListener: BadgeClickListener) :
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BadgesViewHolder {
         return BadgesViewHolder(FragmentBadgeListItemBinding.inflate(

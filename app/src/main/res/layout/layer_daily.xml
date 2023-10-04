@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_text">
+        android:background="@color/secondary_baby_blue">
 
         <!-- 메인 타이틀 텍스트 -->
         <TextView
@@ -19,11 +22,13 @@
             style="@style/StyleText.name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_regular"
-            android:text=""
+            android:paddingTop="@dimen/spacing_big"
+            android:paddingBottom="@dimen/spacing_text"
+            android:text="@{@string/stamplayout_text_nickname(viewModel.userCondition.nickName)}"
             app:layout_constraintBottom_toTopOf="@+id/myact_text_title"
             app:layout_constraintStart_toStartOf="@+id/myact_text_title"
-            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
             tools:text="오지지님" />
 
         <TextView
@@ -33,9 +38,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_regular"
             android:text="@string/myact_text_main_title"
-            app:layout_constraintBottom_toTopOf="@id/progress_daily"
+            app:layout_constraintBottom_toTopOf="@+id/progress_daily"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myact_text_member_name" />
+            app:layout_constraintTop_toBottomOf="@+id/myact_text_member_name"
+            app:layout_constraintVertical_bias="0.5" />
 
         <!-- 프로그래스바 -->
         <ProgressBar
@@ -47,11 +53,12 @@
             android:max="100"
             android:progress="0"
             android:progressDrawable="@drawable/myact_progressbar_custom"
+            android:visibility="@{viewModel.layerVisible ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/text_co2_zero"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/myact_text_title"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/myact_text_title"
+            app:layout_constraintVertical_bias="0.5" />
 
         <TextView
             android:id="@+id/text_co2_zero"
@@ -59,73 +66,145 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_regular"
-            android:text="@string/co2_default_zero"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/spacing_extra_small"
+            android:text="@{@string/myact_text_reduced_co2(viewModel.fakeToday)}"
+            android:visibility="@{viewModel.layerVisible ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toStartOf="@id/text_co2_daily"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_daily" />
+            app:layout_constraintTop_toBottomOf="@id/progress_daily"
+            app:layout_constraintVertical_bias="0.5"
+            tools:text=" 0" />
 
         <TextView
             android:id="@+id/text_co2_daily"
             style="@style/StyleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_regular"
-            android:text=""
-            app:layout_constraintBottom_toBottomOf="@+id/text_co2_zero"
+            android:text="@{@string/myact_text_aim_co2(viewModel.userCondition.aim)}"
+            android:visibility="@{viewModel.layerVisible ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toTopOf="@id/myact_image_appbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_co2_zero"
-            app:layout_constraintTop_toTopOf="@+id/text_co2_zero"
+            app:layout_constraintTop_toBottomOf="@id/progress_daily"
+            app:layout_constraintVertical_bias="0.16000003"
             tools:text="0.00" />
 
         <ImageView
             android:id="@+id/myact_image_appbar"
             android:layout_width="0dp"
             android:layout_height="200dp"
+            android:adjustViewBounds="true"
             android:background="@drawable/myact_image_appbar"
             android:contentDescription="@string/description_myact_image_appbar"
-            app:layout_constraintBottom_toTopOf="@id/text_title_daily"
+            app:layout_constraintBottom_toTopOf="@+id/daily_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_daily" />
+            app:layout_constraintTop_toBottomOf="@+id/text_co2_daily"
+            app:layout_constraintVertical_bias="0.5" />
 
-        <TextView
-            android:id="@+id/text_title_daily"
-            style="@style/StyleText.subtitle"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/daily_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_regular"
-            android:layout_marginTop="@dimen/spacing_regular"
-            android:text="@string/myact_text_title_today"
-            app:layout_constraintBottom_toTopOf="@id/today_card_list"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/myact_image_appbar" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_today_act_edit"
-            style="@style/StyleButtonOgg.smaller"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/icon_size_small"
-            android:contentDescription="@string/myact_today_edit_button"
-            android:text="@string/myact_today_edit_button"
-            app:layout_constraintBottom_toBottomOf="@id/text_title_daily"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/text_title_daily" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/today_card_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_regular"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:background="@color/white"
+            android:paddingBottom="@dimen/spacing_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_title_daily"
-            tools:listitem="@layout/fragment_my_act_card_item" />
+            app:layout_constraintTop_toBottomOf="@id/myact_image_appbar">
 
+            <TextView
+                android:id="@+id/text_title_daily"
+                style="@style/StyleText.subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_marginTop="@dimen/spacing_regular"
+                android:text="@string/myact_text_title_today"
+                app:layout_constraintBottom_toTopOf="@id/today_card_list"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_today_act_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/icon_size_small"
+                android:layout_marginEnd="@dimen/spacing_regular"
+                android:background="@drawable/common_button_yellow"
+                android:contentDescription="@string/myact_today_edit_button"
+                android:enabled="@{!viewModel.layerVisible}"
+                android:fontFamily="@font/nanumsquare_r"
+                android:onClick="@{() -> viewModel.onListsetClicked()}"
+                android:text="@string/myact_today_edit_button"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/text_title_daily"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_title_daily" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/today_card_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_regular"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/spacing_regular"
+                android:visibility="@{viewModel.layerVisible ? View.VISIBLE : View.GONE}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_title_daily"
+                tools:listitem="@layout/fragment_my_act_card_item" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_regular"
+                android:padding="@dimen/spacing_small"
+                android:visibility="@{viewModel.layerVisible ? View.VISIBLE : View.GONE}"
+                app:cardCornerRadius="@dimen/radius_card"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_title_daily">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_large">
+
+                    <TextView
+                        android:id="@+id/text_no_daily_title"
+                        style="@style/StyleText.title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_big"
+                        android:text="@string/myact_text_title_null"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/text_no_daily_body"
+                        style="@style/StyleText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/myact_text_body_null"
+                        android:textAlignment="center" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/env_button_start"
+                        style="@style/StyleButtonOgg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:onClick="@{() -> viewModel.onStartClickedFromMyAct()}"
+                        android:text="@string/env_button_start" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

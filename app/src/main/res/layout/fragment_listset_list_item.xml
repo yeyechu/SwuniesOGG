@@ -28,15 +28,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/radius_card"
-        app:cardBackgroundColor="@color/secondary_baby_blue"
         app:contentPadding="@dimen/spacing_text"
+        app:cardBackgroundColor="@color/white"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="horizontal">
 
             <ImageView
@@ -102,6 +101,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/text_line_spacing"
                     android:text=""
+                    app:freq="@{activity}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/button_plus"
                     app:layout_constraintStart_toEndOf="@id/button_minus"
@@ -127,7 +127,7 @@
                 android:layout_width="?attr/minTouchTargetSize"
                 android:layout_height="?attr/minTouchTargetSize"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/description_common_button_arrow_right"
                 android:padding="@dimen/spacing_regular"
                 android:onClick="@{() -> detailListener.onClick(activity)}"

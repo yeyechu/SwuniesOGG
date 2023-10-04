@@ -19,6 +19,9 @@ interface ActivitiesDailyDatabaseDao {
     @Update
     suspend fun update(act: ActivitiesDaily)
 
+    @Query("UPDATE daily SET daily_freq = 0")
+    suspend fun resetFreq()
+
     @Query("SELECT * FROM daily")
     fun getAllDailys() : Flow<List<ActivitiesDaily>>
 
@@ -30,6 +33,9 @@ interface ActivitiesDailyDatabaseDao {
 
     @Query("SELECT * FROM daily WHERE filter = :data")
     suspend fun getFilteredList(data: String): List<ActivitiesDaily>?
+
+    @Query("SELECT * FROM daily WHERE daily_freq > 0 LIMIT 5")
+    fun getToday(): LiveData<List<ActivitiesDaily>>
 }
 
 @Dao

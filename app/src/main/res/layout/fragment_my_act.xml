@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.myact.MyActViewModel" />
@@ -21,184 +22,92 @@
             tools:context=".MyActFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/card_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
-                <!--상단 콘텐츠-->
-                <!-- 멤버 이름 텍스트 -->
-                <TextView
-                    android:id="@+id/myact_text_member_name"
-                    style="@style/StyleText.title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_regular"
-                    android:text=""
-                    app:layout_constraintBottom_toTopOf="@+id/myact_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed"
-                    tools:text="오지지님" />
-
-                <!-- 메인 타이틀 텍스트 -->
-                <TextView
-                    android:id="@+id/myact_text"
-                    style="@style/StyleText.title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_regular"
-                    android:text="@string/myact_text_main_title"
-                    app:layout_constraintBottom_toTopOf="@+id/myact_progressbar"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/myact_text_member_name" />
-
-                <!-- 프로그래스바 -->
-                <include
-                    android:id="@+id/myact_progressbar"
-                    layout="@layout/fragment_my_act_progressbar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@+id/myact_image_appbar"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/myact_text" />
-
-                <!-- myact 이미지 -->
-
-                <ImageView
-                    android:id="@+id/myact_image_appbar"
-                    android:layout_width="0dp"
-                    android:layout_height="200dp"
-                    android:background="@drawable/myact_image_appbar"
-                    android:contentDescription="@string/description_myact_image_appbar"
-                    app:layout_constraintBottom_toTopOf="@+id/card_container"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/myact_progressbar" />
-
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/card_container"
+                <fragment
+                    android:id="@+id/included_daily_layout"
+                    android:name="com.swu.dimiz.ogg.ui.myact.daily.DailyLayer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/text_title_sust"/>
+
+                <TextView
+                    android:id="@+id/text_title_sust"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_regular"
+                    android:text="@string/myact_text_title_sustainable"
+                    app:layout_constraintBottom_toTopOf="@id/sustainable_act_list"
+                    app:layout_constraintEnd_toStartOf="@id/button_tooltip_sust"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/included_daily_layout" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_tooltip_sust"
+                    android:layout_width="@dimen/icon_size_small"
+                    android:layout_height="@dimen/icon_size_small"
+                    android:background="@drawable/common_button_tooltip"
+                    android:contentDescription="@string/myact_tooltip_sustainable"
+                    app:layout_constraintBottom_toBottomOf="@id/text_title_sust"
+                    app:layout_constraintStart_toEndOf="@id/text_title_sust"
+                    app:layout_constraintTop_toTopOf="@id/text_title_sust" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/sustainable_act_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_regular"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/text_title_extra"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_title_sust"
+                    app:listData="@{viewModel.getSustData}"
+                    tools:listitem="@layout/fragment_my_act_card_item_big" />
+
+                <!-- 특별 활동  -->
+
+                <TextView
+                    android:id="@+id/text_title_extra"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_regular"
+                    android:text="@string/myact_text_title_extra"
+                    app:layout_constraintBottom_toTopOf="@id/extra_act_list"
+                    app:layout_constraintEnd_toStartOf="@id/button_tooltip_extra"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sustainable_act_list" />
+
+                <ImageView
+                    android:id="@+id/button_tooltip_extra"
+                    android:layout_width="@dimen/icon_size_small"
+                    android:layout_height="@dimen/icon_size_small"
+                    android:contentDescription="@string/myact_tooltip_extra"
+                    app:layout_constraintBottom_toBottomOf="@id/text_title_extra"
+                    app:layout_constraintStart_toEndOf="@id/text_title_extra"
+                    app:layout_constraintTop_toTopOf="@id/text_title_extra"
+                    app:srcCompat="@drawable/common_button_tooltip" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/extra_act_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/myact_image_appbar">
-
-                    <TextView
-                        android:id="@+id/text_title_daily"
-                        style="@style/StyleText.subtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/myact_text_title_today"
-                        android:layout_marginStart="@dimen/spacing_regular"
-                        android:layout_marginTop="@dimen/spacing_regular"
-
-                        app:layout_constraintBottom_toTopOf="@+id/today_card_list"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_today_act_edit"
-                        style="@style/StyleButtonOgg.smaller"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/icon_size_small"
-                        android:contentDescription="@string/myact_today_edit_button"
-                        android:text="@string/myact_today_edit_button"
-                        app:layout_constraintBottom_toBottomOf="@+id/text_title_daily"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/text_title_daily" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/today_card_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_regular"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toTopOf="@+id/text_title_sust"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/text_title_daily"
-                        tools:listitem="@layout/fragment_my_act_card_item" />
-
-                    <TextView
-                        android:id="@+id/text_title_sust"
-                        style="@style/StyleText.subtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_regular"
-                        android:text="@string/myact_text_title_sustainable"
-                        app:layout_constraintBottom_toTopOf="@id/today_card_list"
-                        app:layout_constraintEnd_toStartOf="@id/button_tooltip_sust"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/today_card_list" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_tooltip_sust"
-                        android:layout_width="@dimen/icon_size_small"
-                        android:layout_height="@dimen/icon_size_small"
-                        android:background="@drawable/common_button_tooltip"
-                        android:contentDescription="@string/myact_tooltip_sustainable"
-                        app:layout_constraintBottom_toBottomOf="@id/text_title_sust"
-                        app:layout_constraintStart_toEndOf="@id/text_title_sust"
-                        app:layout_constraintTop_toTopOf="@+id/text_title_sust" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/sustainable_act_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_regular"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toTopOf="@id/text_title_extra"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/text_title_sust"
-                        app:listData="@{viewModel.getSustData}"
-                        tools:listitem="@layout/fragment_my_act_card_item_big" />
-
-                    <!-- 특별 활동  -->
-
-                    <TextView
-                        android:id="@+id/text_title_extra"
-                        style="@style/StyleText.subtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_regular"
-                        android:text="@string/myact_text_title_extra"
-                        app:layout_constraintBottom_toTopOf="@id/extra_act_list"
-                        app:layout_constraintEnd_toStartOf="@id/button_tooltip_extra"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/sustainable_act_list" />
-
-                    <ImageView
-                        android:id="@+id/button_tooltip_extra"
-                        android:layout_width="@dimen/icon_size_small"
-                        android:layout_height="@dimen/icon_size_small"
-                        android:contentDescription="@string/myact_tooltip_extra"
-                        app:layout_constraintBottom_toBottomOf="@id/text_title_extra"
-                        app:layout_constraintStart_toEndOf="@id/text_title_extra"
-                        app:layout_constraintTop_toTopOf="@id/text_title_extra"
-                        app:srcCompat="@drawable/common_button_tooltip" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/extra_act_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/text_title_extra"
-                        tools:listitem="@layout/fragment_my_act_card_item_big" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintTop_toBottomOf="@id/text_title_extra"
+                    tools:listitem="@layout/fragment_my_act_card_item_big" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
@@ -211,16 +120,15 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/bottom_nav_size"
-                android:background="@drawable/myact_image_fake_bottom_nav"
                 android:layout_gravity="bottom"
-                android:visibility="visible"/>
+                android:background="@drawable/myact_image_fake_bottom_nav"
+                android:visibility="visible" />
 
             <fragment
-                android:name="com.swu.dimiz.ogg.ui.myact.postsust.PostSustWindow"
                 android:id="@+id/fragment_popup"
+                android:name="com.swu.dimiz.ogg.ui.myact.postsust.PostSustWindow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </FrameLayout>
-
     </FrameLayout>
 </layout>

@@ -12,7 +12,7 @@
     app:chipEndPadding="@dimen/spacing_small"
     app:chipStartPadding="@dimen/spacing_small"
     app:chipStrokeColor="@color/secondary_light_gray"
-    app:chipStrokeWidth="@dimen/stroke_shape_regular"
+    app:chipStrokeWidth="@dimen/stroke_shape_light"
     app:chipSurfaceColor="@color/white"
     tools:text="에너지">
 

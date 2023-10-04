@@ -9,7 +9,6 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.listset.ListData
 
 class ListHolderAdapter(val context: Context,
                         private val listHolder: List<ListData>)

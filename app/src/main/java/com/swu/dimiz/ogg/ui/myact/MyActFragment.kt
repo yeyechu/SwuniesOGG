@@ -15,6 +15,7 @@ import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
+import com.swu.dimiz.ogg.ui.env.EnvFragmentDirections
 import com.swu.dimiz.ogg.ui.myact.myactcard.*
 import timber.log.Timber
 
@@ -50,12 +51,6 @@ class MyActFragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel
 
-        binding.buttonTodayActEdit.setOnClickListener { view: View ->
-            view.findNavController().navigate(
-                MyActFragmentDirections.actionNavigationMyactToDestinationListset()
-            )
-        }
-
         //firebase 동작확인
         viewModel.fireInfo()
         viewModel.fireDaily()
@@ -64,23 +59,12 @@ class MyActFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
-        val adapter = TodayCardItemAdapter(requireContext())
-
-        binding.todayCardList.adapter = adapter
-
-        viewModel.getAllData.observe(viewLifecycleOwner) {
-            it?.let {
-                adapter.submitList(it)
-            }
-        }
 
         binding.sustainableActList.adapter = SustCardItemAdapter(SustCardItemAdapter.OnClickListener {
             viewModel.showPopup(it)
-            Timber.i("버튼 클릭 리스너 : $it")
         })
 
         viewModel.navigateToSelected.observe(viewLifecycleOwner) {
-            Timber.i("버튼 클릭 관찰자 : $it")
             if (it == null) {
                 binding.frameLayout.visibility = View.GONE
                 mainActivity.hideBottomNavView(false)

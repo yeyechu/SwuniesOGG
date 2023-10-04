@@ -5,7 +5,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.swu.dimiz.ogg.contents.listset.*
+import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import io.reactivex.rxjava3.disposables.Disposable
@@ -21,6 +21,7 @@ data class User(
 class EnvViewModel : ViewModel() {
 
     private val disposable: Disposable? = null
+    //private var currentJob: Job? = null
     // SavedStateHandle 알아보기
 
     //──────────────────────────────────────────────────────────────────────────────────────
@@ -33,13 +34,23 @@ class EnvViewModel : ViewModel() {
     val fakeDate: LiveData<Int>
         get() = _fakeDate
 
+    private val _fakeToday = MutableLiveData<Float>()
+    val fakeToday: LiveData<Float>
+        get() = _fakeToday
+
     private val _stampHolder = MutableLiveData<List<StampData>?>()
     val stampHolder: LiveData<List<StampData>?>
         get() = _stampHolder
 
+    private var stampList = ArrayList<StampData>()
+
     private val _co2Holder = MutableLiveData<Float>()
     val co2Holder: LiveData<Float>
         get() = _co2Holder
+
+    private val _leftHolder = MutableLiveData<Float>()
+    val leftHolder: LiveData<Float>
+        get() = _leftHolder
 
     private val _aimCo2 = MutableLiveData<Float>()
 
@@ -62,6 +73,14 @@ class EnvViewModel : ViewModel() {
     val navigateToStart: LiveData<Boolean>
         get() = _navigateToStart
 
+    private val _navigateToStartFromMyAct = MutableLiveData<Boolean>()
+    val navigateToStartFromMyAct: LiveData<Boolean>
+        get() = _navigateToStartFromMyAct
+
+    private val _navigateToListset = MutableLiveData<Boolean>()
+    val navigateToListset: LiveData<Boolean>
+        get() = _navigateToListset
+
     private val _expandLayout = MutableLiveData<Boolean>()
     val expandLayout: LiveData<Boolean>
         get() = _expandLayout
@@ -70,7 +89,7 @@ class EnvViewModel : ViewModel() {
     //                                   파이어베이스 변수
 
     private val fireDB = Firebase.firestore
-    val fireUser = Firebase.auth.currentUser
+    private val fireUser = Firebase.auth.currentUser
 
     private val _userCondition = MutableLiveData<MyCondition>()
     val userCondition: LiveData<MyCondition>
@@ -79,10 +98,16 @@ class EnvViewModel : ViewModel() {
     init {
         userInit()
         Timber.i("ViewModel created")
+
         _fakeUser.value = User()
         _fakeDate.value = INTEGER_ZERO
+        _fakeToday.value = FLOAT_ZERO
+
         _co2Holder.value = FLOAT_ZERO
         _stampHolder.value = null
+
+        stampInitialize()
+        setStampHolder(stampList)
         setCo2(AIMCO2_ONE)
     }
 
@@ -113,24 +138,37 @@ class EnvViewModel : ViewModel() {
                 Timber.i(exception.toString())
             }
     }
-
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                     룸데이터 함수
 
-    val leftCo2 = co2Holder.map {
-        _aimCo2.value!!.times(CO2_WHOLE) - it
+    fun leftCo2() {
+        if(_co2Holder.value!! < _aimCo2.value!!) {
+           _leftHolder.value = _aimCo2.value!!.minus(_co2Holder.value!!)
+        }
     }
 
     fun setCo2(co2: Float) {
-        _aimCo2.value = co2
+        _aimCo2.value = co2 * CO2_WHOLE
     }
 
     val progressBar = co2Holder.map {
-        it.div(_co2Holder.value!!).times(100).toInt()
+        it.div(_aimCo2.value!!).times(100).toInt()
     }
 
-    fun setStampHolder(item: List<StampData>) {
+    val progressDaily = fakeToday.map {
+        it.div(_userCondition.value!!.aim).times(100).toInt()
+    }
+
+    private fun setStampHolder(item: List<StampData>) {
         _stampHolder.postValue(item)
+    }
+
+    private fun stampInitialize() {
+        stampList.clear()
+
+        for (i in 1..DATE_WHOLE) {
+            stampList.add(StampData( i,0f, 0))
+        }
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
@@ -150,19 +188,51 @@ class EnvViewModel : ViewModel() {
 
     fun onStartClicked() {
         _navigateToStart.value = true
-        _fakeUser.value!!.startDate = System.currentTimeMillis()
-        Timber.i("${_fakeUser.value}")
-        Timber.i("${date.value}")
     }
 
     fun onNavigatedToStart() {
         _navigateToStart.value = false
     }
 
+    fun onStartClickedFromMyAct() {
+        _navigateToStartFromMyAct.value = true
+    }
+
+    fun onNavigatedToStartFromMyAct() {
+        _navigateToStartFromMyAct.value = false
+    }
+
+    fun onListsetClicked() {
+        _navigateToListset.value = true
+    }
+
+    fun onNavigatedToListset() {
+        _navigateToListset.value = false
+    }
+
     fun onDateButtonClicked() {
-        if (_fakeDate.value!! < DATE_WHOLE) {
+        val date = _fakeDate.value!!
+
+        if (date < DATE_WHOLE) {
+            if(date >= 1) {
+                stampList[date - 1] = StampData(_fakeDate.value!!, _fakeToday.value!!, 2)
+            }
+            Timber.i("$stampList")
             _fakeDate.value = _fakeDate.value?.plus(1)
+            resetToday()
+            stampList[date] = StampData(_fakeDate.value!!, _fakeToday.value!!, 1)
+            Timber.i("$stampList")
         }
+    }
+
+    fun onCo2ButtonClicked() {
+        _fakeToday.value = _fakeToday.value!!.plus(0.5f)
+        _co2Holder.value = _co2Holder.value!!.plus(0.5f)
+        Timber.i("${_fakeToday.value}")
+    }
+
+    private fun resetToday() {
+        _fakeToday.value = FLOAT_ZERO
     }
 
     override fun onCleared() {

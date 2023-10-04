@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- default -->
+    <item android:state_enabled="true" >
+        <shape>
+            <gradient
+                android:startColor="@color/point_yellow"
+                android:endColor="@color/point_yellow"
+                android:angle="270" />
+            <corners android:radius="@dimen/radius_button" />
+        </shape>
+    </item>
+
+    <item android:state_enabled="false" >
+        <shape>
+            <gradient
+                android:startColor="@color/secondary_light_gray"
+                android:endColor="@color/secondary_light_gray"
+                android:angle="270" />
+            <corners android:radius="@dimen/radius_button" />
+        </shape>
+    </item>
+</selector>

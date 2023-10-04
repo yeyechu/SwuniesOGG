@@ -9,6 +9,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
@@ -63,111 +64,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         get() = _activityFilter
 
     // ───────────────────────────────────────────────────────────────────────────────────
-    //                                     유저 정보 초기화
-
-    private val fireDB = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
-
-
-    private var appUser = MyCondition()   //사용자 기본 정보 저장
-
-    fun fireInfo(){
-        Timber.i("이메일 ${fireUser?.email.toString()}")
-        //사용자 기본 정보
-        fireDB.collection("User").document(fireUser?.email.toString())
-            .get().addOnSuccessListener { document ->
-                if (document != null) {
-                    var gotUser = document.toObject<MyCondition>()
-                    if (gotUser != null) {
-                        appUser.projectCount = gotUser.projectCount
-                        appUser.car = gotUser.car
-                        appUser.startDate = gotUser.startDate
-                        appUser.aim = gotUser.aim
-                        Timber.i( "사용자 기본정보 받아오기 성공: ${document.data}")
-                    }
-                } else {
-                    Timber.i("사용자 기본정보 받아오기 실패")
-                }
-            }.addOnFailureListener { exception ->
-                Timber.i(exception.toString())
-            }
-    }
-
-    private var sustlist = ArrayList<Int>()     // 등록한 지속가능한 활동
-    fun fireGetSust(){
-        //이미 한 sust 받아오기
-        fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Sustainable")
-            .get()
-            .addOnSuccessListener { result  ->
-                for (document in result ) {
-                    val mysust = document.toObject<MySustainable>()
-                    if (mysust != null) {
-                        sustlist.add(mysust.sustID!!)
-                    }
-                    Timber.i( "sustlist result: $sustlist")
-                }
-            }.addOnFailureListener { exception ->
-                Timber.i(exception.toString())
-            }
-    }
-
-    // ───────────────────────────────────────────────────────────────────────────────────
-    //                                  firebase 리스트 저장
-    fun fireSave(){
-        //프로젝트 진행상태 업데이트(새로 시작인지 수정인지 구분 추가)
-        //projectCount =+ 1
-
-        var act1 = 10001
-        var act2 = 10005
-        var act3 = 10010
-
-        var actList1 = MyList()
-        actList1.setFirstList(act1)
-        var actList2 = MyList()
-        actList2.setFirstList(act2)
-        var actList3 = MyList()
-        actList3.setFirstList(act3)
-
-
-        val db1 = fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project${appUser.projectCount}").document("1")
-        val db2 = fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project${appUser.projectCount}").document("2")
-        val db3 =fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project${appUser.projectCount}").document("3")
-
-        fireDB.runBatch { batch ->
-            // Set the value of 'NYC'
-            batch.set(db1, actList1)
-            batch.set(db2, actList2)
-            batch.set(db3, actList3)
-
-        }.addOnCompleteListener {
-            Timber.i("DocumentSnapshot1 successfully written!")
-        }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
-
-        /*체크리스트 받으면 아래처럼 줄일 예정
-        var checkCount :Int = 3 //활동할게 몇게인지 가져오기
-
-        for(i in 1 until checkCount){
-            var activity = 100000//체크 항목 i번
-
-            var actList = MyList()
-            actList.setFirstList(activity)
-
-            db.collection("User").document(user?.email.toString())
-                .collection("project${appUser.projectCount}").document(i.toString())
-                .set(activity)
-                .addOnCompleteListener {Timber.i("DocumentSnapshot1 successfully written!")
-                }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
-        }*/
-
-    }
-
-    val automobile = 0
-
-    // ───────────────────────────────────────────────────────────────────────────────────
     //                                   필요한 데이터 초기화
 
     //                                      활동 레벨 선택
@@ -175,15 +71,20 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val aimCo2: LiveData<Float>
         get() = _aimCo2
 
-    private val _aimTitle = MutableLiveData<String>()
-    val aimTitle: LiveData<String>
+    private val _aimTitle = MutableLiveData<String?>()
+    val aimTitle: LiveData<String?>
         get() = _aimTitle
 
-    private val _aimCotent = MutableLiveData<String>()
-    val aimCotent: LiveData<String>
+    private val _aimCotent = MutableLiveData<String?>()
+    val aimCotent: LiveData<String?>
         get() = _aimCotent
 
     //                                        활동 선택
+    private val todayList: LiveData<List<ActivitiesDaily>> = repository.getTodayList()
+
+    var listArray = ArrayList<ListData>()
+    var numberArray = ArrayList<NumberData>()
+
     private val _listHolder = MutableLiveData<List<ListData>?>()
     val listHolder: LiveData<List<ListData>?>
         get() = _listHolder
@@ -193,7 +94,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         get() = _numberHolder
 
     private val _co2Holder = MutableLiveData<Float>()
-    val co2Holder: LiveData<Float>
+    private val co2Holder: LiveData<Float>
         get() = _co2Holder
 
     private val _toastVisibility = MutableLiveData<Boolean>()
@@ -219,6 +120,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _co2Holder.value = FLOAT_ZERO
         _listHolder.value = null
 
+        listInitialize()
+        setListHolder(listArray)
+        setNumberHolder(numberArray)
+
+        Timber.i("오늘 리스트 : ${todayList.value}")
         getFilters()
         onFilterChanged(ENERGY, true)
         Timber.i("created")
@@ -242,29 +148,102 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun setAimTitle(co2: Float) {
         when (co2) {
             AIMCO2_ONE -> {
-                _aimTitle.value = setOfAimOne.first!!
-                _aimCotent.value = setOfAimOne.second!!
+                _aimTitle.value = setOfAimOne.first
+                _aimCotent.value = setOfAimOne.second
             }
             AIMCO2_TWO -> {
-                _aimTitle.value = setOfAimTwo.first!!
-                _aimCotent.value = setOfAimTwo.second!!
+                _aimTitle.value = setOfAimTwo.first
+                _aimCotent.value = setOfAimTwo.second
             }
             AIMCO2_THREE -> {
-                _aimTitle.value = setOfAimThree.first!!
-                _aimCotent.value = setOfAimThree.second!!
+                _aimTitle.value = setOfAimThree.first
+                _aimCotent.value = setOfAimThree.second
             }
             else -> _aimTitle.value = "오류쓰레기"
         }
     }
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 선택 내용 결정자
-    fun initCo2Holder() {
+    private fun initCo2Holder() {
         _co2Holder.value = FLOAT_ZERO
-        Timber.i("${_co2Holder.value}")
     }
 
     fun setListHolder(data: List<ListData>) {
         _listHolder.postValue(data)
+    }
+
+    private fun listInitialize() {
+
+        var index = ID_MODIFIER
+        var count = 5
+
+        listArray.clear()
+        numberArray.clear()
+
+        if(todayList.value == null) {
+
+            for (i in 0..4) {
+                listArray.add(ListData(0, 0))
+            }
+        } else {
+            Timber.i("기존 리스트 : $todayList")
+            todayList.value!!.forEach {
+                listArray.add(ListData(it.dailyId, it.freq))
+                count--
+            }
+            while (count != 0) {
+                listArray.add(ListData(0, 0))
+                count--
+            }
+        }
+
+        for (i in 1..DATE_WHOLE) {
+            numberArray.add(NumberData(index++, 0))
+        }
+    }
+
+    fun updateItem(item: ActivitiesDaily): Boolean {
+        for (i in listArray) {
+            if (i.aId == item.dailyId) {
+                if ((i.aNumber < item.limit)) {
+                    i.aNumber += 1
+                    numberArray[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
+                }
+                Timber.i("업데이트 아이템 $listHolder")
+                return true
+            }
+        }
+        return false
+    }
+
+    fun addItem(item: ActivitiesDaily) {
+        var count = 0
+        for (i in listArray) {
+            if (i.aId == 0) {
+                i.aId = item.dailyId
+                i.aNumber += 1
+                numberArray[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
+                break
+            } else {
+                count++
+            }
+        }
+        if (count == 5) {
+            toastVisible()
+        }
+    }
+
+    fun deleteItem(item: ActivitiesDaily) {
+        for (i in listArray) {
+            if (i.aId == item.dailyId) {
+                i.aNumber -= 1
+                numberArray[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
+                if (i.aNumber == 0) {
+                    i.aId = 0
+                }
+            }
+        }
+        Timber.i("$listHolder")
     }
 
     fun setNumberHolder(data: List<NumberData>) {
@@ -296,7 +275,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         Timber.i("$item")
     }
 
-    fun toastVisible() {
+    private fun toastVisible() {
         _toastVisibility.value = true
     }
 
@@ -387,6 +366,109 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         if (isChecked) {
             onFilterUpdated(filter)
         }
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                                     유저 정보 초기화
+
+    private val fireDB = Firebase.firestore
+    private val fireUser = Firebase.auth.currentUser
+
+
+    private var appUser = MyCondition()   //사용자 기본 정보 저장
+
+    fun fireInfo(){
+        Timber.i("이메일 ${fireUser?.email.toString()}")
+        //사용자 기본 정보
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val gotUser = document.toObject<MyCondition>()
+                    if (gotUser != null) {
+                        appUser.projectCount = gotUser.projectCount
+                        appUser.car = gotUser.car
+                        appUser.startDate = gotUser.startDate
+                        appUser.aim = gotUser.aim
+                        Timber.i( "사용자 기본정보 받아오기 성공: ${document.data}")
+                    }
+                } else {
+                    Timber.i("사용자 기본정보 받아오기 실패")
+                }
+            }.addOnFailureListener { exception ->
+                Timber.i(exception.toString())
+            }
+    }
+
+    private var sustlist = ArrayList<Int>()     // 등록한 지속가능한 활동
+    fun fireGetSust(){
+        //이미 한 sust 받아오기
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Sustainable")
+            .get()
+            .addOnSuccessListener { result  ->
+                for (document in result ) {
+                    val mysust = document.toObject<MySustainable>()
+                    if (mysust != null) {
+                        sustlist.add(mysust.sustID!!)
+                    }
+                    Timber.i( "sustlist result: $sustlist")
+                }
+            }.addOnFailureListener { exception ->
+                Timber.i(exception.toString())
+            }
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                                  firebase 리스트 저장
+    fun fireSave(){
+        //프로젝트 진행상태 업데이트(새로 시작인지 수정인지 구분 추가)
+        //projectCount =+ 1
+
+        val act1 = 10001
+        val act2 = 10005
+        val act3 = 10010
+
+        val actList1 = MyList()
+        actList1.setFirstList(act1)
+        val actList2 = MyList()
+        actList2.setFirstList(act2)
+        val actList3 = MyList()
+        actList3.setFirstList(act3)
+
+
+        val db1 = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${appUser.projectCount}").document("1")
+        val db2 = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${appUser.projectCount}").document("2")
+        val db3 =fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${appUser.projectCount}").document("3")
+
+        fireDB.runBatch { batch ->
+            // Set the value of 'NYC'
+            batch.set(db1, actList1)
+            batch.set(db2, actList2)
+            batch.set(db3, actList3)
+
+        }.addOnCompleteListener {
+            Timber.i("DocumentSnapshot1 successfully written!")
+        }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
+
+        /*체크리스트 받으면 아래처럼 줄일 예정
+        var checkCount :Int = 3 //활동할게 몇게인지 가져오기
+
+        for(i in 1 until checkCount){
+            var activity = 100000//체크 항목 i번
+
+            var actList = MyList()
+            actList.setFirstList(activity)
+
+            db.collection("User").document(user?.email.toString())
+                .collection("project${appUser.projectCount}").document(i.toString())
+                .set(activity)
+                .addOnCompleteListener {Timber.i("DocumentSnapshot1 successfully written!")
+                }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
+        }*/
+
     }
 
     override fun onCleared() {

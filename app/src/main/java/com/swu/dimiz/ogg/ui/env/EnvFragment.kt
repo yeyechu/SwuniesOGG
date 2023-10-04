@@ -5,6 +5,7 @@ import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -16,7 +17,7 @@ class EnvFragment : Fragment() {
     private var _binding: FragmentEnvBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: EnvViewModel by viewModels()
+    private val viewModel: EnvViewModel by activityViewModels()
     private lateinit var navController: NavController
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

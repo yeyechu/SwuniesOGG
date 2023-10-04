@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.contents.listset
+package com.swu.dimiz.ogg.contents.listset.listutils
 
 import android.view.View
 import android.widget.ImageButton
@@ -52,6 +52,7 @@ fun TextView.setLimit(item: ActivitiesDaily?) {
         text = item.freq.toString()
     }
 }
+
 @BindingAdapter("buttonVisibility")
 fun buttonVisible(view: View, item: ActivitiesDaily?) {
     item?.let {

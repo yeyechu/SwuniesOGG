@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.contents.listset
+package com.swu.dimiz.ogg.contents.listset.listutils
 
 data class ListData (
     var aId: Int = 0,
@@ -12,12 +12,18 @@ data class NumberData (
 
 data class StampData (
     var sId: Int = 0,
-    var sNumber: Float = 0f
+    var sNumber: Float = 0f,
+    var today: Int = 0
 )
 
 data class TodayData (
     var tId: Int = 0,
     var tNumber: Float = 0f
+)
+
+data class BadgeStatusHolder(
+    var id: Int,
+    var visible: Boolean
 )
 
 const val AIMCO2_ONE = 1.4f

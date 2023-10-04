@@ -8,8 +8,16 @@
                 android:startColor="@color/primary_blue"
                 android:endColor="@color/primary_blue"
                 android:angle="270" />
+            <corners android:radius="@dimen/radius_button" />
+        </shape>
+    </item>
 
-            <stroke android:width="0dp" android:color="@color/primary_blue" />
+    <item android:state_enabled="false" >
+        <shape>
+            <gradient
+                android:startColor="@color/primary_gray"
+                android:endColor="@color/primary_gray"
+                android:angle="270" />
             <corners android:radius="@dimen/radius_button" />
         </shape>
     </item>

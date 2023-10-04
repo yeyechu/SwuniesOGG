@@ -16,13 +16,12 @@ import android.widget.GridView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.text.buildSpannedString
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.listset.DATE_WHOLE
-import com.swu.dimiz.ogg.contents.listset.StampData
+import com.swu.dimiz.ogg.contents.listset.listutils.DATE_WHOLE
+import com.swu.dimiz.ogg.contents.listset.listutils.StampData
 import com.swu.dimiz.ogg.databinding.LayerStampBinding
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import timber.log.Timber
@@ -32,10 +31,9 @@ class StampLayer : Fragment() {
     private var _binding: LayerStampBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: EnvViewModel by viewModels({ requireParentFragment() })
+    private val viewModel: EnvViewModel by activityViewModels()
 
     private lateinit var stampHolderAdapter: StampAdapter
-    private var stampHolder = ArrayList<StampData>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -45,9 +43,6 @@ class StampLayer : Fragment() {
 
         val stampView: GridView = binding.stampGrid
         val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
-
-        stampInitialize()
-        viewModel.setStampHolder(stampHolder)
 
         viewModel.fakeDate.observe(viewLifecycleOwner) {
             val textDecorator = SpannableStringBuilder.valueOf(getString(R.string.stamplayout_text_title, it))
@@ -59,7 +54,7 @@ class StampLayer : Fragment() {
             }
         }
 
-        viewModel.leftCo2.observe(viewLifecycleOwner) {
+        viewModel.leftHolder.observe(viewLifecycleOwner) {
             val textDecorator = SpannableStringBuilder.valueOf(getString(R.string.stamplayout_text_body, it))
 
             //val startIndex = textDecorator.indexOfFirst { char -> Character.isDefined(char) }
@@ -75,7 +70,7 @@ class StampLayer : Fragment() {
         }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                    d
+        //                                    스탬프
         viewModel.stampHolder.observe(viewLifecycleOwner) {
             it?.let {
                 stampHolderAdapter = StampAdapter(requireContext(), it)
@@ -87,16 +82,18 @@ class StampLayer : Fragment() {
             binding.progressEnv.progress = it
         }
 
-        return binding.root
-    }
-
-    private fun stampInitialize() {
-        stampHolder.clear()
-        var index = 1
-
-        for (i in 1..DATE_WHOLE) {
-            stampHolder.add(StampData(index++, 0f))
+        viewModel.co2Holder.observe(viewLifecycleOwner) {
+            viewModel.leftCo2()
         }
+
+        viewModel.fakeToday.observe(viewLifecycleOwner) {
+            when(it) {
+                0f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_000)
+                in 0.001f..0.99f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_050)
+                else -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_100)
+            }
+        }
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

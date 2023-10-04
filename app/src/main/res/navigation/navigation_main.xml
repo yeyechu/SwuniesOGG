@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_navigation_myact_to_destination_listset"
             app:destination="@id/destination_listset" />
+        <action
+            android:id="@+id/action_navigation_myact_to_destination_listaim"
+            app:destination="@id/destination_listaim" />
     </fragment>
 
     <fragment
