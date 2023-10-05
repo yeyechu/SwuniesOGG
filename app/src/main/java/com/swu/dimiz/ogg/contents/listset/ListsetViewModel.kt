@@ -52,17 +52,9 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val dailyId: LiveData<ActivitiesDaily?>
         get() = _dailyId
 
-    private val _clickButtonEnabled1 = MutableLiveData<Boolean>()
-    val clickButtonEnabled1: LiveData<Boolean>
-        get() = _clickButtonEnabled1
-
-    private val _clickButtonEnabled2 = MutableLiveData<Boolean>()
-    val clickButtonEnabled2: LiveData<Boolean>
-        get() = _clickButtonEnabled2
-
-    private val _clickButtonEnabled3 = MutableLiveData<Boolean>()
-    val clickButtonEnabled3: LiveData<Boolean>
-        get() = _clickButtonEnabled3
+    private val _setListaimUI = MutableLiveData<Int>()
+    val setListaimUI: LiveData<Int>
+        get() = _setListaimUI
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
@@ -129,9 +121,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         setCo2(AIMCO2_ONE)
         _aimTitle.value = ""
         _aimCotent.value = ""
-        _clickButtonEnabled1.value = false
-        _clickButtonEnabled2.value = false
-        _clickButtonEnabled3.value = false
+        _setListaimUI.value = 1
 
         _co2Holder.value = FLOAT_ZERO
         _listHolder.value = null
@@ -149,11 +139,26 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 목표 내용 결정자
 
+    val onClickedFaceOne = setListaimUI.map {
+        it == 1
+    }
+
+    val onClickedFaceTwo = setListaimUI.map {
+        it == 2
+    }
+    val onClickedFaceThree = setListaimUI.map {
+        it == 3
+    }
     fun setCo2(co2: Float) {
         _aimCo2.value = co2
     }
 
+    private fun setUI(item: Int) {
+        _setListaimUI.value = item
+    }
+
     fun setAimCo2(button: Int) {
+        setUI(button)
         when (button) {
             1 -> setCo2(AIMCO2_ONE)
             2 -> setCo2(AIMCO2_TWO)
@@ -166,23 +171,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             AIMCO2_ONE -> {
                 _aimTitle.value = setOfAimOne.first
                 _aimCotent.value = setOfAimOne.second
-                _clickButtonEnabled1.value = true
-                _clickButtonEnabled2.value = false
-                _clickButtonEnabled3.value = false
             }
             AIMCO2_TWO -> {
                 _aimTitle.value = setOfAimTwo.first
                 _aimCotent.value = setOfAimTwo.second
-                _clickButtonEnabled2.value = true
-                _clickButtonEnabled1.value = false
-                _clickButtonEnabled3.value = false
             }
             AIMCO2_THREE -> {
                 _aimTitle.value = setOfAimThree.first
                 _aimCotent.value = setOfAimThree.second
-                _clickButtonEnabled3.value = true
-                _clickButtonEnabled2.value = false
-                _clickButtonEnabled1.value = false
             }
             else -> _aimTitle.value = "오류쓰레기"
         }

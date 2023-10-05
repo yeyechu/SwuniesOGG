@@ -96,6 +96,7 @@ class EnvViewModel : ViewModel() {
         get() = _userCondition
 
     init {
+        setCo2(AIMCO2_ONE)
         userInit()
         Timber.i("ViewModel created")
 
@@ -108,7 +109,6 @@ class EnvViewModel : ViewModel() {
 
         stampInitialize()
         setStampHolder(stampList)
-        setCo2(AIMCO2_ONE)
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────

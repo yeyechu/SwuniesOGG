@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/secondary_light_gray">
+        android:background="@color/secondary_baby_gray">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header_layout"

@@ -10,12 +10,15 @@
     <color name="secondary_light_blue">#A4C1F8</color>
     <color name="secondary_baby_blue">#E8EFFD</color>
 
-    <color name="primary_gray">#6A6A6A</color>
-    <color name="secondary_light_gray">#DEE0E0</color>
+    <color name="primary_gray">#757575</color>
+    <color name="secondary_light_gray">#C2C2C2</color>
+    <color name="secondary_baby_gray">#F5F5F5</color>
 
     <color name="accent_orange">#E77860</color>
-    <color name="point_yellow">#FFE2A8</color>
-    <color name="point_yellow_light">#FFE5E2</color>
+
+    <color name="point_yellow">#FFCE6E</color>
+    <color name="point_yellow_light">#FFE2A8</color>
+    <color name="point_yellow_baby">#FFE5E2</color>
 
     <!-- ────────────────────────────────────── 팝업 투명도 ────────────────────────────────────── -->
     <color name="transparency_dimmed">#80000000</color>

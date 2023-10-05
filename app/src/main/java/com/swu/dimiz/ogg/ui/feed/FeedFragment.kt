@@ -47,6 +47,7 @@ class FeedFragment : Fragment(){
                 chip.tag = category
                 if (category == TOGETHER) {
                     chip.isChecked = true
+                    chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                 }
                 chip.setOnCheckedChangeListener { button, isChecked ->
                     viewModel.onFilterChanged(button.tag as String, isChecked)
