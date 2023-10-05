@@ -15,25 +15,20 @@ import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.TOGETHER
 import com.swu.dimiz.ogg.databinding.FragmentFeedBinding
 
-
 class FeedFragment : Fragment(){
 
     private var _binding: FragmentFeedBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: FeedViewModel by activityViewModels { FeedViewModel.Factory }
+    private val viewModel: FeedViewModel by activityViewModels()
     private lateinit var navController: NavController
 
-    //    private lateinit var feedAdapter:FeedAdapter
-//    lateinit var feedList:ArrayList<Feed>
-//
-//    lateinit var ct: Context
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_feed, container, false)
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력
 
@@ -50,6 +45,7 @@ class FeedFragment : Fragment(){
                     chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                 }
                 chip.setOnCheckedChangeListener { button, isChecked ->
+
                     viewModel.onFilterChanged(button.tag as String, isChecked)
                     button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                     if (!chip.isChecked) {
@@ -71,6 +67,14 @@ class FeedFragment : Fragment(){
         navController = findNavController()
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        viewModel.navigateToSelectedItem.observe(viewLifecycleOwner) {
+            it?.let {
+                //navController.navigate(FeedFragmentDirections.actionNavigationFeedToDestinationFeedDetail(it))
+                navController.navigate(FeedFragmentDirections.actionNavigationFeedToDestinationFeedDetail())
+                viewModel.onFeedDetailCompleted()
+            }
+        }
     }
 
     override fun onDestroyView() {

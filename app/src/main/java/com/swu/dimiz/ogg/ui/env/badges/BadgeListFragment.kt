@@ -1,9 +1,18 @@
 package com.swu.dimiz.ogg.ui.env.badges
 
+import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -37,6 +46,18 @@ class BadgeListFragment : Fragment() {
         //                                  화면 및 뷰모델 초기화
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_badge_list, container, false)
+        val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
+
+        viewModel.inventorySize.observe(viewLifecycleOwner) {
+            val textDecorator = SpannableStringBuilder.valueOf(getString(R.string.badgelist_text_badge_count, it))
+            binding.textBadgeCount.text = textDecorator.apply {
+                setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.primary_blue)), 7, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                setSpan(StyleSpan(Typeface.BOLD), 7, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//                    setSpan(TypefaceSpan(typeface), 7, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+//                }
+            }
+        }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터

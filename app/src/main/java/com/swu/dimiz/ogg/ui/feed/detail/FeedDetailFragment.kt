@@ -33,6 +33,8 @@ class FeedDetailFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_feed_detail, container, false)
 
+        //val feed = FeedDetailFragmentArgs.fromBundle(requireArguments()).selectedItem
+
         val firesDB= Firebase.firestore
         val fireUser = Firebase.auth.currentUser
 

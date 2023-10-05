@@ -80,18 +80,6 @@ fun TextView.setButtonText(item: ActivitiesDaily?) {
         }
     }
 }
-@BindingAdapter("minusButton")
-fun minusButton(view: ImageButton, item: ActivitiesDaily?) {
-    item?.let {
-//        if (item.freq == 0) {
-//            view.isClickable = false
-//            view.setColorFilter(R.color.black)
-//        } else {
-//            view.isClickable = true
-//            view.setColorFilter(R.color.transparency_transparent)
-//        }
-    }
-}
 
 @BindingAdapter("listDataSource")
 fun bindRecyclerActivity(recyclerView: RecyclerView, data: List<ActivitiesDaily>?) {

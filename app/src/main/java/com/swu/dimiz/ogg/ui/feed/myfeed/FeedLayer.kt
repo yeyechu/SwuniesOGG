@@ -17,12 +17,17 @@ class FeedLayer : Fragment() {
     private var _binding: LayerFeedBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: FeedViewModel by activityViewModels { FeedViewModel.Factory }
+    private val viewModel: FeedViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
     : View {
         _binding =
             DataBindingUtil.inflate(inflater, R.layout.layer_feed, container, false)
+
+        binding.feedListGrid.adapter = FeedGridAdapter(FeedGridAdapter.OnFeedClickListener {
+            viewModel.onFeedDetailClicked(it)
+        })
+
 
         return binding.root
     }

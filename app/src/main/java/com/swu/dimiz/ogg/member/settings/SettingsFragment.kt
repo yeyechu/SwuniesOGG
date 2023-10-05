@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.member.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSettingsBinding
+import com.swu.dimiz.ogg.member.login.SignInActivity
+import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
 class SettingsFragment : Fragment() {
@@ -21,18 +29,28 @@ class SettingsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_settings, container, false)
 
-        navController = findNavController()
+        val mainActivity = activity as MainActivity
+        auth = Firebase.auth
+
+        binding.logoutBtn.setOnClickListener {
+            auth.signOut()
+            MainActivity.mainActivity!!.finish()
+        }
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }

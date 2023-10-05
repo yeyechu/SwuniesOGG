@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.swu.dimiz.ogg.databinding.ActivityMainBinding
 import com.swu.dimiz.ogg.member.login.SignInActivity
+import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.mainToolbar)
+        mainActivity = this
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment
         navController = navHostFragment.navController
@@ -91,5 +93,9 @@ class MainActivity : AppCompatActivity() {
         else {
             binding.bottomNavView.visibility = View.VISIBLE
         }
+    }
+
+    companion object {
+        var mainActivity: MainActivity? = null
     }
 }
