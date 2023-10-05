@@ -5,10 +5,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.swu.dimiz.ogg.ui.feed.FeedFragment">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.feed.FeedViewModel" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    </LinearLayout>
 
+        <HorizontalScrollView
+            android:id="@+id/chips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/spacing_extra_small"
+            android:layout_marginTop="@dimen/spacing_small">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/activity_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                app:chipSpacingHorizontal="@dimen/spacing_small"
+                app:singleLine="true"
+                app:singleSelection="true"
+                app:selectionRequired="false"/>
+        </HorizontalScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/secondary_light_gray">
+
+            <TextView
+                android:id="@+id/text_no_feed_title"
+                style="@style/StyleText.title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_big"
+                android:text="@string/feed_text_title_null"
+                android:textAlignment="center"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@id/text_no_feed_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/text_no_feed_body"
+                style="@style/StyleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/feed_text_body_null"
+                android:textAlignment="center"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_no_feed_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feed_list_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

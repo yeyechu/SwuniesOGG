@@ -17,6 +17,7 @@ import com.swu.dimiz.ogg.contents.common.dialog.SystemWindow
 import com.swu.dimiz.ogg.databinding.FragmentGraphBinding
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraFragment
 
+
 class GraphFragment : Fragment() {
 
     private var _binding: FragmentGraphBinding? = null
@@ -29,22 +30,14 @@ class GraphFragment : Fragment() {
     ): View {
 
         _binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_graph, container, false
-        )
-
-        navController = findNavController()
-
-        binding.button2.setOnClickListener {
-
-
-        }
+            inflater, R.layout.fragment_graph, container, false)
 
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
     }
 
     override fun onDestroyView() {
