@@ -98,7 +98,7 @@ class CameraFragment : Fragment() {
             */
 
             if(savedUri!=null) {
-                val fileName = SimpleDateFormat("yyyy-mm-dd' 'HH:mm").format(Date())// 파일명이 겹치면 안되기 때문
+                val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(Date())// 파일명이 겹치면 안되기 때문
 
                 fireStorage.reference.child("Feed").child(fileName)
                     .putFile(savedUri!!)          //uri를 여기서 받기때문에 여기에 위치함
@@ -108,7 +108,7 @@ class CameraFragment : Fragment() {
                         taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
                                 it->
                             val imageUrl=it.toString()
-                            val post = Feed( email = fireUser?.email.toString(),  //활동코드 추가
+                            val post = Feed( email = fireUser?.email.toString(),  postTime = fileName.toLong(),//활동코드 추가
                                 imageUrl = imageUrl)
 
                             fireDB.collection("Feed").document(fileName)

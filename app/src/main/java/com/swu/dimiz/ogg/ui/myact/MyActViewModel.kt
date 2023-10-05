@@ -41,7 +41,6 @@ class MyActViewModel (repository: OggRepository) : ViewModel() {
 
     //사용자 기본 정보
     fun fireInfo(){
-
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {

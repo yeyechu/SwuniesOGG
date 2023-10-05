@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }else{
+            Timber.i( auth.currentUser?.email.toString())
             Timber.i("이미 로그인 되어있습니다.")
         }
     }
