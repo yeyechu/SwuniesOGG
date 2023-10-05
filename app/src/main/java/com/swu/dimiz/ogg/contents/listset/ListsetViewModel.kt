@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.contents.listset
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -10,7 +9,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
-import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.OggRepository
@@ -430,51 +428,49 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }else{
             today = convertDurationToFormatted(appUser.startDate!!)
         }
-        Timber.i( _aimCo2.value.toString())
+        Timber.i( "today: $today")
     }
 
     //오늘 활동 리스트 가져오기
     fun fireGetDaily() {
-        if(today > 1){
-            var myDailyList = ArrayList<ListData>()
+        var myDailyList = ArrayList<ListData>()
 
-            val docRef2 =  fireDB.collection("User").document(fireUser?.email.toString()).
-            collection("Project${appUser.projectCount}")
-            docRef2.get()
-                .addOnSuccessListener { result  ->
-                    for (document in result ) {
-                        val mylist = document.toObject<MyList>()
-                        when (today) {
-                            1 -> myDailyList.add(mylist.day1act)
-                            2 -> myDailyList.add(mylist.day2act)
-                            3 -> myDailyList.add(mylist.day3act)
-                            4 -> myDailyList.add(mylist.day4act)
-                            5 -> myDailyList.add(mylist.day5act)
-                            6 -> myDailyList.add(mylist.day6act)
-                            7 -> myDailyList.add(mylist.day7act)
-                            8 -> myDailyList.add(mylist.day8act)
-                            9 -> myDailyList.add(mylist.day9act)
-                            10 -> myDailyList.add(mylist.day10act)
-                            11 -> myDailyList.add(mylist.day11act)
-                            12 -> myDailyList.add(mylist.day12act)
-                            13 -> myDailyList.add(mylist.day13act)
-                            14 -> myDailyList.add(mylist.day14act)
-                            15 -> myDailyList.add(mylist.day15act)
-                            16 -> myDailyList.add(mylist.day16act)
-                            17 -> myDailyList.add(mylist.day17act)
-                            18 -> myDailyList.add(mylist.day18act)
-                            19 -> myDailyList.add(mylist.day19act)
-                            20 -> myDailyList.add(mylist.day20act)
-                            21 -> myDailyList.add(mylist.day21act)
-                        }
-                        Timber.i( "Daily result: $myDailyList")
-                        _listHolder.value = myDailyList
+        val docRef2 =  fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
+        docRef2.get()
+            .addOnSuccessListener { result  ->
+                for (document in result ) {
+                    val mylist = document.toObject<MyList>()
+                    when (today) {
+                        1 -> myDailyList.add(mylist.day1act)
+                        2 -> myDailyList.add(mylist.day2act)
+                        3 -> myDailyList.add(mylist.day3act)
+                        4 -> myDailyList.add(mylist.day4act)
+                        5 -> myDailyList.add(mylist.day5act)
+                        6 -> myDailyList.add(mylist.day6act)
+                        7 -> myDailyList.add(mylist.day7act)
+                        8 -> myDailyList.add(mylist.day8act)
+                        9 -> myDailyList.add(mylist.day9act)
+                        10 -> myDailyList.add(mylist.day10act)
+                        11 -> myDailyList.add(mylist.day11act)
+                        12 -> myDailyList.add(mylist.day12act)
+                        13 -> myDailyList.add(mylist.day13act)
+                        14 -> myDailyList.add(mylist.day14act)
+                        15 -> myDailyList.add(mylist.day15act)
+                        16 -> myDailyList.add(mylist.day16act)
+                        17 -> myDailyList.add(mylist.day17act)
+                        18 -> myDailyList.add(mylist.day18act)
+                        19 -> myDailyList.add(mylist.day19act)
+                        20 -> myDailyList.add(mylist.day20act)
+                        21 -> myDailyList.add(mylist.day21act)
                     }
-                }.addOnFailureListener { exception ->
-                    Timber.i(exception.toString())
                 }
-        }
-
+                for(i in 0 until 5){
+                    listArray[i] = myDailyList[i]
+                }
+                setListHolder(listArray)
+            }.addOnFailureListener { exception ->
+                Timber.i(exception.toString())
+            }
     }
     //이미 한 sust
     private var mySustList = ArrayList<Int>()
@@ -518,7 +514,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             var actList = MyList()
             actList.setFirstList(listArray[i-1].aId, listArray[i-1].aNumber)
             fireDB.collection("User").document(fireUser?.email.toString())
-                .collection("project${appUser.projectCount}").document(i.toString())
+                .collection("Project${appUser.projectCount}").document(i.toString())
                 .set(actList)
                 .addOnCompleteListener {
                     Timber.i("DocumentSnapshot1 successfully written!")
