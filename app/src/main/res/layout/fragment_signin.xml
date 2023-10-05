@@ -7,35 +7,36 @@
 
     </data>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    <ImageView
+        android:id="@+id/signin_bg"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/login_image_wave" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/spacing_regular">
 
         <!-- 물결 이미지 -->
-        <ImageView
-            android:id="@+id/signin_bg"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/myact_image_appbar"
-            app:layout_constraintBottom_toTopOf="@+id/logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
         <!-- 로고 이미지 -->
-        <TextView
+        <ImageView
             android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="로고"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:layout_width="@dimen/dimension_100"
+            android:layout_height="@dimen/dimension_50"
+            android:background="@drawable/common_image_ogg_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <!-- 이메일 인풋 -->
         <com.google.android.material.textfield.TextInputLayout
@@ -190,5 +191,7 @@
         <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
 </layout>

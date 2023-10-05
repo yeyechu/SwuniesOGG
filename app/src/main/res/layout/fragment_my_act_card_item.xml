@@ -11,7 +11,7 @@
     <!-- CardView 레이아웃 -->
     <!--텍스트의 다양한 길이로 인해 width 고정값 부여-->
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/category_reduce_card"
         android:layout_width="@dimen/myact_today_card_width"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_small"

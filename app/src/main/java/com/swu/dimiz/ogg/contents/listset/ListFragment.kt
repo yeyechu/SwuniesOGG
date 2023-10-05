@@ -112,4 +112,3 @@ class ListFragment : Fragment() {
         Timber.i("onDestroyView()")
     }
 }
-

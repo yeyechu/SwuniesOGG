@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+   >
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+        <!-- CardView 레이아웃 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/most_reaction_act_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            app:cardCornerRadius="@dimen/radius_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_small"
+
+                >
+
+                <TextView
+                    android:id="@+id/most_reaction_title"
+                    style="@style/StyleText.header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="가장 많은 반응을 받은 활동"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/most_reaction_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_medium"
+
+                    android:contentDescription="@string/description_myact_card_image"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/most_reaction_title"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/most_reaction_act"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/StyleText.subtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/most_reaction_image"
+                    app:layout_constraintTop_toTopOf="@+id/most_reaction_image"
+                    tools:text="활동명" />
+
+
+                <ImageView
+                    android:id="@+id/reaction_like_icon"
+                    android:layout_width="@dimen/fui_min_height_target"
+                    android:layout_height="@dimen/fui_min_height_target"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:background="@drawable/feed_button_reaction_like"
+                    app:layout_constraintEnd_toStartOf="@+id/reaction_great_icon"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/most_reaction_image"
+                    app:layout_constraintTop_toBottomOf="@+id/most_reaction_act" />
+
+
+                <ImageView
+                    android:id="@+id/reaction_great_icon"
+                    android:layout_width="@dimen/fui_min_height_target"
+                    android:layout_height="@dimen/fui_min_height_target"
+
+                    android:background="@drawable/feed_button_reaction_great"
+                    app:layout_constraintBottom_toBottomOf="@+id/reaction_like_icon"
+                    app:layout_constraintEnd_toStartOf="@+id/reaction_fun_icon"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/reaction_like_icon"
+                    app:layout_constraintTop_toTopOf="@+id/reaction_like_icon" />
+
+                <ImageView
+                    android:id="@+id/reaction_fun_icon"
+                    android:layout_width="@dimen/fui_min_height_target"
+                    android:layout_height="@dimen/fui_min_height_target"
+
+                    android:background="@drawable/feed_button_reaction_fun"
+                    app:layout_constraintBottom_toBottomOf="@+id/reaction_great_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/reaction_great_icon"
+                    app:layout_constraintTop_toTopOf="@+id/reaction_great_icon" />
+
+                <TextView
+                    android:id="@+id/reaction_like_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/StyleText"
+                    app:layout_constraintBottom_toBottomOf="@+id/most_reaction_image"
+                    app:layout_constraintEnd_toEndOf="@+id/reaction_like_icon"
+                    app:layout_constraintStart_toStartOf="@+id/reaction_like_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/reaction_like_icon"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="1개" />
+
+
+
+                <TextView
+                    android:id="@+id/reaction_great_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="1개"
+                    style="@style/StyleText"
+                    app:layout_constraintBottom_toBottomOf="@+id/reaction_like_cnt"
+                    app:layout_constraintEnd_toEndOf="@+id/reaction_great_icon"
+                    app:layout_constraintStart_toStartOf="@+id/reaction_great_icon" />
+                <TextView
+                    android:id="@+id/reaction_fun_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="1개"
+                    style="@style/StyleText"
+                    app:layout_constraintBottom_toBottomOf="@+id/reaction_great_cnt"
+                    app:layout_constraintEnd_toEndOf="@+id/reaction_fun_icon"
+                    app:layout_constraintStart_toStartOf="@+id/reaction_fun_icon" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    <!-- CardView 레이아웃 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/most_certify_act_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            app:cardCornerRadius="@dimen/radius_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_vie1w">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_small"
+
+                >
+
+                <TextView
+                    android:id="@+id/most_certify_title"
+                    style="@style/StyleText.header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="가장 많이 인증한 활동명 TOP3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.github.mikephil.charting.charts.HorizontalBarChart
+                    android:id="@+id/most_certify_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+
+    </LinearLayout>
+
+</layout>

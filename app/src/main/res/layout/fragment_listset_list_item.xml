@@ -24,7 +24,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/category_reduce_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/radius_card"
@@ -131,7 +131,7 @@
                 android:contentDescription="@string/description_common_button_arrow_right"
                 android:padding="@dimen/spacing_regular"
                 android:onClick="@{() -> detailListener.onClick(activity)}"
-                android:src="@drawable/common_button_arrow_right"
+                android:background="@drawable/common_button_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
