@@ -72,6 +72,12 @@
     </style>
 
 
+    <!-- 카드에 쓰이는 활동 타이틀 텍스트 -->
+    <style name="StyleText.percent" >
+        <item name="android:textSize">50dp</item>
+        <item name="android:fontFamily">@font/gmarketsans_m</item>
+        <item name="fontFamily">@font/gmarketsans_m</item>
+    </style>
 
 
     <!-- ────────────────────────────────────── 기본 컴포넌트 ────────────────────────────────────── -->

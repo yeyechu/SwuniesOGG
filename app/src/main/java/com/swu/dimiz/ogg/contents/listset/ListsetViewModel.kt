@@ -9,6 +9,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.OggRepository
@@ -52,6 +53,18 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val _dailyId = MutableLiveData<ActivitiesDaily?>()
     val dailyId: LiveData<ActivitiesDaily?>
         get() = _dailyId
+
+    private val _clickButtonEnabled1 = MutableLiveData<Boolean>()
+    val clickButtonEnabled1: LiveData<Boolean>
+        get() = _clickButtonEnabled1
+
+    private val _clickButtonEnabled2 = MutableLiveData<Boolean>()
+    val clickButtonEnabled2: LiveData<Boolean>
+        get() = _clickButtonEnabled2
+
+    private val _clickButtonEnabled3 = MutableLiveData<Boolean>()
+    val clickButtonEnabled3: LiveData<Boolean>
+        get() = _clickButtonEnabled3
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
@@ -118,6 +131,9 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         setCo2(AIMCO2_ONE)
         _aimTitle.value = ""
         _aimCotent.value = ""
+        _clickButtonEnabled1.value = false
+        _clickButtonEnabled2.value = false
+        _clickButtonEnabled3.value = false
 
         _co2Holder.value = FLOAT_ZERO
         _listHolder.value = null
@@ -152,14 +168,23 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             AIMCO2_ONE -> {
                 _aimTitle.value = setOfAimOne.first
                 _aimCotent.value = setOfAimOne.second
+                _clickButtonEnabled1.value = true
+                _clickButtonEnabled2.value = false
+                _clickButtonEnabled3.value = false
             }
             AIMCO2_TWO -> {
                 _aimTitle.value = setOfAimTwo.first
                 _aimCotent.value = setOfAimTwo.second
+                _clickButtonEnabled2.value = true
+                _clickButtonEnabled1.value = false
+                _clickButtonEnabled3.value = false
             }
             AIMCO2_THREE -> {
                 _aimTitle.value = setOfAimThree.first
                 _aimCotent.value = setOfAimThree.second
+                _clickButtonEnabled3.value = true
+                _clickButtonEnabled2.value = false
+                _clickButtonEnabled1.value = false
             }
             else -> _aimTitle.value = "오류쓰레기"
         }

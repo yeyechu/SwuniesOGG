@@ -30,7 +30,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="end"
                 android:contentDescription="@string/destination_title_settings"
-                android:src="@drawable/member_button_to_des_settings" />
+                android:background="@drawable/member_button_to_des_settings" />
 
         </androidx.appcompat.widget.Toolbar>
 
