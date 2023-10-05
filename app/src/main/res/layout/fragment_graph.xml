@@ -5,26 +5,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.swu.dimiz.ogg.ui.graph.GraphFragment">
 
-    <FrameLayout
-        android:id="@+id/container_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/secondary_baby_gray">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/header_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/button_left"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/icon_extra_small"
+                android:layout_height="@dimen/icon_extra_small"
+                android:contentDescription="@string/description_common_button_arrow_right"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text_graph_title"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/common_button_arrow_left" />
 
-            <Button
-                android:id="@+id/button2"
+            <TextView
+                android:id="@+id/text_graph_title"
+                style="@style/StyleText.header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/button_right"
+                app:layout_constraintStart_toEndOf="@id/button_left"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="몇 회?" />
+
+            <ImageView
+                android:id="@+id/button_right"
+                style="@style/StyleImageButton"
+                android:layout_width="26dp"
+                android:layout_height="17dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/description_common_button_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintStart_toEndOf="@id/text_graph_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/common_button_arrow_right" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+
+        <TextView
+            android:id="@+id/text_no_graph_title"
+            style="@style/StyleText.title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_big"
+            android:text="@string/graph_text_title_null"
+            android:textAlignment="center"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/text_no_graph_body"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/text_no_graph_body"
+            style="@style/StyleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/graph_text_body_null"
+            android:textAlignment="center"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_no_graph_title" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

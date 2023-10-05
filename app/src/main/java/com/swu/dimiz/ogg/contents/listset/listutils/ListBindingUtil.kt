@@ -59,6 +59,14 @@ fun buttonVisible(view: View, item: ActivitiesDaily?) {
         view.visibility = if (item.waytoPost == 1) View.VISIBLE else View.GONE
     }
 }
+@BindingAdapter("setBackground")
+fun setBackground(view: View, data: Int) {
+    when(data) {
+        1 -> view.setBackgroundResource(R.drawable.listaim_balloon_left)
+        2 -> view.setBackgroundResource(R.drawable.listaim_balloon_center)
+        3 -> view.setBackgroundResource(R.drawable.listaim_balloon_right)
+    }
+}
 
 @BindingAdapter("buttonText")
 fun TextView.setButtonText(item: ActivitiesDaily?) {

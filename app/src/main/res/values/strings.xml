@@ -71,6 +71,7 @@
     <string name="description_button_plus">더하기 버튼</string>
     <string name="description_button_minus">빼기 버튼</string>
     <string name="description_button_report">신고하기 기능</string>
+    <string name="description_indicator">%d번 째 인디케이터</string>
 
 
     <!--                    모든 EditText에 들어가는 Hint 속성은 이곳에 선언되어야 함                   -->

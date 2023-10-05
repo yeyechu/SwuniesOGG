@@ -1,19 +1,9 @@
 package com.swu.dimiz.ogg.ui.feed
 
-import android.content.Context
-import androidx.core.os.bundleOf
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.recyclerview.widget.GridLayoutManager
-import com.firebase.ui.auth.AuthUI.getApplicationContext
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
-import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.listset.*
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
@@ -59,7 +49,6 @@ class FeedViewModel(private val repository: OggRepository) : ViewModel()  {    /
         }
     }
 
-    private lateinit var feedAdapter:FeedAdapter
     private fun onFilterUpdated(filter: String) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {

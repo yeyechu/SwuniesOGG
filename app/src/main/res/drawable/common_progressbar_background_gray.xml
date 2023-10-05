@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <solid android:color="@color/secondary_light_gray" />
+    <solid android:color="@color/secondary_baby_gray" />
     <corners android:radius ="@dimen/radius_layer" />
     <size android:width="@dimen/progressbar_width" android:height="@dimen/progressbar_height" />
 

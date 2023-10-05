@@ -25,6 +25,7 @@
     <dimen name="text_size_title">18sp</dimen>
 
     <!--                                        라운드                                        -->
+    <dimen name="radius_little">6dp</dimen>
     <dimen name="radius_component">10dp</dimen>
     <dimen name="radius_card">17dp</dimen>
     <dimen name="radius_layer">20dp</dimen>
@@ -75,7 +76,7 @@
     <dimen name="bottom_sheet_scroll_height">300dp</dimen>
 
     <!-- 고정 길이 -->
-    <dimen name="progressbar_height">4dp</dimen>
+    <dimen name="progressbar_height">3dp</dimen>
     <dimen name="progressbar_width">300dp</dimen>
 
     <dimen name="myact_today_card_width">150dp</dimen>
@@ -84,11 +85,12 @@
 
 
     <!-- 기타 -->
+    <dimen name="image_size_indicator">10dp</dimen>
     <dimen name="image_size_stamp_face">40dp</dimen>
     <dimen name="image_size_stamp_face_big">70dp</dimen>
     <dimen name="image_size_list_holder">62dp</dimen>
 
-    <dimen name="image_size_aim_face">80dp</dimen>
+    <dimen name="image_size_aim_face">100dp</dimen>
     <dimen name="image_size_big">150dp</dimen>
 
 
