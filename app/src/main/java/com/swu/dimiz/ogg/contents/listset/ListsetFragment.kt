@@ -49,6 +49,7 @@ class ListsetFragment : Fragment() {
         viewModel.fireInfo()
         //지속활동 진행중 리스트
         viewModel.fireGetSust()
+        viewModel.fireGetExtra()
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      버튼 인터랙션

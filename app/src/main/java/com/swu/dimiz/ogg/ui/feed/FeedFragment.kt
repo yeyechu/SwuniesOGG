@@ -1,6 +1,7 @@
 package com.swu.dimiz.ogg.ui.feed
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.TOGETHER
 import com.swu.dimiz.ogg.databinding.FragmentFeedBinding
+import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import timber.log.Timber
 
 
 class FeedFragment : Fragment(){
@@ -62,6 +70,38 @@ class FeedFragment : Fragment(){
             for (chip in children) {
                 chipGroup.addView(chip)
             }
+        }
+    // ──────────────────────────────────────────────────────────────────────────────────────
+    //                                     피드 이미지
+
+    val fireDB = Firebase.firestore
+
+    val feedList = ArrayList<String>()
+
+    fireDB.collection("Feed")
+        .get()
+        .addOnSuccessListener { result ->
+            for (document in result) {
+                Timber.i( "${document.id} => ${document.data}")
+                val gotFeed = document.toObject<Feed>()
+               var feedFile = Feed()
+
+                feedFile.email = gotFeed.email
+                feedFile.postTime = gotFeed.postTime
+                feedFile.imageUrl = gotFeed.imageUrl
+
+               // feedList.add(gotFeed)
+
+                var fileUrl = ""
+
+                fileUrl = gotFeed.imageUrl
+                feedList.add(fileUrl)
+                //Timber.i(gotFeed.toString())
+            }
+            Timber.i( feedList.toString())
+        }
+        .addOnFailureListener { exception ->
+            Timber.i( "Error getting documents: ", exception)
         }
         return binding.root
     }

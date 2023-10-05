@@ -102,7 +102,7 @@ class PostWindow : AppCompatActivity() {
         binding.buttonDone.setOnClickListener {
             // post 데이터가 올라가야 함
             //스토리지와 피드 업로드
-            val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(Date()) // 파일명이 겹치면 안되기 때문
+            val fileName = SimpleDateFormat("yyyy-mm-dd' 'HH:mm").format(Date()) // 파일명이 겹치면 안되기 때문
 
             fireStorage.reference.child("Feed").child(fileName)
                 .putFile(uri)              //uri를 여기서 받기때문에 여기에 위치함
@@ -115,7 +115,7 @@ class PostWindow : AppCompatActivity() {
                         val post = Feed( email = fireUser?.email.toString(),  //활동코드 추가
                             imageUrl = imageUrl)
 
-                        fireDB.collection("Feed").document()
+                        fireDB.collection("Feed").document(fileName)
                             .set(post)
                             .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
                             }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
