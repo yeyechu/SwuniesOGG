@@ -49,6 +49,8 @@ class ListsetFragment : Fragment() {
         viewModel.fireInfo()
         //지속활동 진행중 리스트
         viewModel.fireGetSust()
+        viewModel.fireGetExtra()
+        viewModel.fireGetDaily()
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      버튼 인터랙션
@@ -102,6 +104,7 @@ class ListsetFragment : Fragment() {
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        //binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

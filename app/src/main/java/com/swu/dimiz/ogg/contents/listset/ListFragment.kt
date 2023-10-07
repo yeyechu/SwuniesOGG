@@ -15,7 +15,6 @@ import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.ENERGY
 import com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter
 import com.swu.dimiz.ogg.databinding.FragmentListBinding
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import timber.log.Timber
 
 class ListFragment : Fragment() {
@@ -52,6 +51,7 @@ class ListFragment : Fragment() {
                 chip.tag = category
                 if (category == ENERGY) {
                     chip.isChecked = true
+                    chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                 }
                 chip.setOnCheckedChangeListener { button, isChecked ->
                     viewModel.onFilterChanged(button.tag as String, isChecked)

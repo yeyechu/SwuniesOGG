@@ -66,7 +66,6 @@ class SigninFragment: Fragment() {
                 val gotuser = Firebase.auth.currentUser
                 gotuser?.let {
                     for (profile in it.providerData) {
-                        appUser.uid = profile.uid
                         appUser.nickName = profile.displayName.toString()
                         appUser.profileUrl = profile.photoUrl.toString()
                     }
@@ -76,9 +75,7 @@ class SigninFragment: Fragment() {
                 if (FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
                     val saveUser = auth.currentUser?.let {
                         MyCondition(
-                            uid = appUser.uid,
                             email = email,
-                            password = password,
                             nickName = appUser.nickName,
                             profileUrl = appUser.profileUrl
                         )

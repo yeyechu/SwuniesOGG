@@ -57,6 +57,7 @@ class ListaimFragment : Fragment() {
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar.setNavigationIcon(R.drawable.common_button_exit)
 
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel

@@ -108,10 +108,10 @@ class CameraFragment : Fragment() {
                         taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
                                 it->
                             val imageUrl=it.toString()
-                            val post = Feed( email = fireUser?.email.toString(),  //활동코드 추가
+                            val post = Feed( email = fireUser?.email.toString(),  postTime = fileName.toLong(),//활동코드 추가
                                 imageUrl = imageUrl)
 
-                            fireDB.collection("Feed").document()
+                            fireDB.collection("Feed").document(fileName)
                                 .set(post)
                                 .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
                                 }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}

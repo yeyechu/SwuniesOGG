@@ -59,6 +59,14 @@ fun buttonVisible(view: View, item: ActivitiesDaily?) {
         view.visibility = if (item.waytoPost == 1) View.VISIBLE else View.GONE
     }
 }
+@BindingAdapter("setBackground")
+fun setBackground(view: View, data: Int) {
+    when(data) {
+        1 -> view.setBackgroundResource(R.drawable.listaim_balloon_left)
+        2 -> view.setBackgroundResource(R.drawable.listaim_balloon_center)
+        3 -> view.setBackgroundResource(R.drawable.listaim_balloon_right)
+    }
+}
 
 @BindingAdapter("buttonText")
 fun TextView.setButtonText(item: ActivitiesDaily?) {
@@ -70,18 +78,6 @@ fun TextView.setButtonText(item: ActivitiesDaily?) {
             5 -> resources.getString(R.string.post_button_5)
             else -> resources.getString(R.string.post_button_take_photo)
         }
-    }
-}
-@BindingAdapter("minusButton")
-fun minusButton(view: ImageButton, item: ActivitiesDaily?) {
-    item?.let {
-//        if (item.freq == 0) {
-//            view.isClickable = false
-//            view.setColorFilter(R.color.black)
-//        } else {
-//            view.isClickable = true
-//            view.setColorFilter(R.color.transparency_transparent)
-//        }
     }
 }
 

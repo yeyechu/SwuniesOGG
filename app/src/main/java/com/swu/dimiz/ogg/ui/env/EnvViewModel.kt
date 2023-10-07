@@ -96,6 +96,7 @@ class EnvViewModel : ViewModel() {
         get() = _userCondition
 
     init {
+        setCo2(AIMCO2_ONE)
         userInit()
         Timber.i("ViewModel created")
 
@@ -108,15 +109,13 @@ class EnvViewModel : ViewModel() {
 
         stampInitialize()
         setStampHolder(stampList)
-        setCo2(AIMCO2_ONE)
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
-    private fun userInit() {
+    fun userInit() {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
         val appUser = MyCondition()
-
         docRef.get()
             .addOnSuccessListener {
             it?.let {
@@ -126,7 +125,7 @@ class EnvViewModel : ViewModel() {
                     appUser.nickName = gotUser.nickName
                     appUser.aim = gotUser.aim
                     appUser.car = gotUser.car
-                    appUser.startDate = gotUser.startDate
+                    appUser.startDate = gotUser.startDate.toLong()
                     appUser.report = gotUser.report
 
                     _userCondition.value = appUser

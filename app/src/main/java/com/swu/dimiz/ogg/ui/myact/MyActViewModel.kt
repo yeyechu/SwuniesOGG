@@ -5,6 +5,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.contents.listset.listutils.ListData
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
@@ -40,7 +41,6 @@ class MyActViewModel (repository: OggRepository) : ViewModel() {
 
     //사용자 기본 정보
     fun fireInfo(){
-
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {
@@ -52,7 +52,7 @@ class MyActViewModel (repository: OggRepository) : ViewModel() {
     }
 
     //오늘 해야하는 활동 리스트
-    private var myDailyList = ArrayList<Int>()
+    private var myDailyList = ArrayList<ListData>()
     fun fireDaily() {
         val docRef2 =  fireDB.collection("User").document(fireUser?.email.toString()).
         collection("Project${appUser.projectCount}")

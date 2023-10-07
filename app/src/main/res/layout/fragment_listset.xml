@@ -46,7 +46,7 @@
                     android:layout_gravity="end"
                     android:text="@string/listset_button_allset"
                     android:background="@android:color/transparent"
-                    android:textColor="@{viewModel.saveButtonEnabled? @color/primary_blue : @color/secondary_light_gray}"
+                    android:textColor="@{viewModel.saveButtonEnabled? @color/primary_blue : @color/secondary_baby_gray}"
                     android:onClick="@{() -> viewModel.onSaveButtonClicked()}"
                     android:clickable="@{viewModel.saveButtonEnabled}"
 
@@ -57,7 +57,7 @@
                 android:id="@+id/instruction_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/secondary_light_gray"
+                android:background="@color/secondary_baby_gray"
                 android:paddingTop="@dimen/spacing_regular"
                 android:paddingBottom="@dimen/spacing_regular"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,12 +66,13 @@
 
                 <TextView
                     android:id="@+id/text_garbage_one"
-                    style="@style/StyleText.subtitle"
+                    style="@style/StyleText.title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/spacing_regular"
                     android:layout_marginBottom="@dimen/spacing_regular"
+                    android:paddingTop="@dimen/spacing_small"
                     android:text="@string/listset_text_title"
                     app:layout_constraintBottom_toTopOf="@id/text_listset_instruction"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +87,9 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/spacing_large"
                     android:text="@{viewModel.saveButtonEnabled ? @string/listset_text_title_instruction_allset : @string/listset_text_title_instruction }"
+                    android:textColor="@color/primary_gray"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/list_holder"
@@ -95,9 +99,9 @@
                     android:id="@+id/list_holder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_big"
-                    android:layout_marginStart="@dimen/spacing_small"
-                    android:layout_marginBottom="@dimen/spacing_big"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    android:layout_marginBottom="@dimen/spacing_medium"
                     android:numColumns="5"
                     app:layout_constraintTop_toBottomOf="@id/text_listset_instruction"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -113,6 +117,7 @@
                     android:layout_marginTop="@dimen/spacing_big"
                     android:layout_marginEnd="@dimen/spacing_big"
                     android:layout_marginBottom="@dimen/text_line_spacing"
+                    android:paddingBottom="@dimen/spacing_extra_small"
                     android:indeterminate="false"
                     android:max="100"
                     android:progress="0"
@@ -128,9 +133,11 @@
                     android:layout_marginStart="@dimen/spacing_big"
                     android:paddingStart="@dimen/text_line_spacing"
                     android:text="@string/co2_default_zero"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+                    app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+                    style="@style/StyleText.gray"/>
 
                 <TextView
                     android:id="@+id/text_aim"
@@ -138,10 +145,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_big"
                     android:text="@{String.valueOf(viewModel.aimCo2)}"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/progress_bar"
-                    tools:text="1.4" />
+                    tools:text="1.4"
+                    style="@style/StyleText.gray"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <fragment

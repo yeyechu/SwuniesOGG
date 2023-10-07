@@ -9,18 +9,22 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
-import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.*
+import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyExtra
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
@@ -52,17 +56,9 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val dailyId: LiveData<ActivitiesDaily?>
         get() = _dailyId
 
-    private val _clickButtonEnabled1 = MutableLiveData<Boolean>()
-    val clickButtonEnabled1: LiveData<Boolean>
-        get() = _clickButtonEnabled1
-
-    private val _clickButtonEnabled2 = MutableLiveData<Boolean>()
-    val clickButtonEnabled2: LiveData<Boolean>
-        get() = _clickButtonEnabled2
-
-    private val _clickButtonEnabled3 = MutableLiveData<Boolean>()
-    val clickButtonEnabled3: LiveData<Boolean>
-        get() = _clickButtonEnabled3
+    private val _setListaimUI = MutableLiveData<Int>()
+    val setListaimUI: LiveData<Int>
+        get() = _setListaimUI
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
@@ -129,9 +125,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         setCo2(AIMCO2_ONE)
         _aimTitle.value = ""
         _aimCotent.value = ""
-        _clickButtonEnabled1.value = false
-        _clickButtonEnabled2.value = false
-        _clickButtonEnabled3.value = false
+        _setListaimUI.value = 1
 
         _co2Holder.value = FLOAT_ZERO
         _listHolder.value = null
@@ -149,11 +143,26 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 목표 내용 결정자
 
+    val onClickedFaceOne = setListaimUI.map {
+        it == 1
+    }
+
+    val onClickedFaceTwo = setListaimUI.map {
+        it == 2
+    }
+    val onClickedFaceThree = setListaimUI.map {
+        it == 3
+    }
     fun setCo2(co2: Float) {
         _aimCo2.value = co2
     }
 
+    private fun setUI(item: Int) {
+        _setListaimUI.value = item
+    }
+
     fun setAimCo2(button: Int) {
+        setUI(button)
         when (button) {
             1 -> setCo2(AIMCO2_ONE)
             2 -> setCo2(AIMCO2_TWO)
@@ -166,23 +175,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             AIMCO2_ONE -> {
                 _aimTitle.value = setOfAimOne.first
                 _aimCotent.value = setOfAimOne.second
-                _clickButtonEnabled1.value = true
-                _clickButtonEnabled2.value = false
-                _clickButtonEnabled3.value = false
             }
             AIMCO2_TWO -> {
                 _aimTitle.value = setOfAimTwo.first
                 _aimCotent.value = setOfAimTwo.second
-                _clickButtonEnabled2.value = true
-                _clickButtonEnabled1.value = false
-                _clickButtonEnabled3.value = false
             }
             AIMCO2_THREE -> {
                 _aimTitle.value = setOfAimThree.first
                 _aimCotent.value = setOfAimThree.second
-                _clickButtonEnabled3.value = true
-                _clickButtonEnabled2.value = false
-                _clickButtonEnabled1.value = false
             }
             else -> _aimTitle.value = "오류쓰레기"
         }
@@ -399,22 +399,22 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
-
-    private var appUser = MyCondition()   //사용자 기본 정보 저장
+    var appUser = MyCondition()   //사용자 기본 정보 저장
+    var today = 0
 
     fun fireInfo(){
-        Timber.i("이메일 ${fireUser?.email.toString()}")
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
             .get().addOnSuccessListener { document ->
                 if (document != null) {
                     val gotUser = document.toObject<MyCondition>()
-                    if (gotUser != null) {
-                        appUser.projectCount = gotUser.projectCount
+                    gotUser?.let {
+                        appUser.nickName = gotUser.nickName
+                        appUser.aim = gotUser.aim
                         appUser.car = gotUser.car
                         appUser.startDate = gotUser.startDate
-                        appUser.aim = gotUser.aim
-                        Timber.i( "사용자 기본정보 받아오기 성공: ${document.data}")
+                        appUser.report = gotUser.report
+                        appUser.projectCount = gotUser.projectCount
                     }
                 } else {
                     Timber.i("사용자 기본정보 받아오기 실패")
@@ -422,78 +422,118 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }
+
+        if(appUser.startDate == today.toLong()){
+            today = 1
+        }else{
+            today = convertDurationToFormatted(appUser.startDate!!)
+        }
+        Timber.i( "today: $today")
     }
 
-    private var sustlist = ArrayList<Int>()     // 등록한 지속가능한 활동
+    //오늘 활동 리스트 가져오기
+    fun fireGetDaily() {
+        var myDailyList = ArrayList<ListData>()
+
+        val docRef2 =  fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
+        docRef2.get()
+            .addOnSuccessListener { result  ->
+                for (document in result ) {
+                    val mylist = document.toObject<MyList>()
+                    when (today) {
+                        1 -> myDailyList.add(mylist.day1act)
+                        2 -> myDailyList.add(mylist.day2act)
+                        3 -> myDailyList.add(mylist.day3act)
+                        4 -> myDailyList.add(mylist.day4act)
+                        5 -> myDailyList.add(mylist.day5act)
+                        6 -> myDailyList.add(mylist.day6act)
+                        7 -> myDailyList.add(mylist.day7act)
+                        8 -> myDailyList.add(mylist.day8act)
+                        9 -> myDailyList.add(mylist.day9act)
+                        10 -> myDailyList.add(mylist.day10act)
+                        11 -> myDailyList.add(mylist.day11act)
+                        12 -> myDailyList.add(mylist.day12act)
+                        13 -> myDailyList.add(mylist.day13act)
+                        14 -> myDailyList.add(mylist.day14act)
+                        15 -> myDailyList.add(mylist.day15act)
+                        16 -> myDailyList.add(mylist.day16act)
+                        17 -> myDailyList.add(mylist.day17act)
+                        18 -> myDailyList.add(mylist.day18act)
+                        19 -> myDailyList.add(mylist.day19act)
+                        20 -> myDailyList.add(mylist.day20act)
+                        21 -> myDailyList.add(mylist.day21act)
+                    }
+                }
+                for(i in 0 until 5){
+                    listArray[i] = myDailyList[i]
+                }
+                setListHolder(listArray)
+            }.addOnFailureListener { exception ->
+                Timber.i(exception.toString())
+            }
+    }
+    //이미 한 sust
+    private var mySustList = ArrayList<Int>()
     fun fireGetSust(){
-        //이미 한 sust 받아오기
-        fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Sustainable")
+        //지속 가능한 활동 받아오기
+        fireDB.collection("User").document(fireUser?.email.toString()).collection("Sustainable")
             .get()
             .addOnSuccessListener { result  ->
                 for (document in result ) {
                     val mysust = document.toObject<MySustainable>()
-                    if (mysust != null) {
-                        sustlist.add(mysust.sustID!!)
-                    }
-                    Timber.i( "sustlist result: $sustlist")
+                    mySustList.add(mysust.sustID!!)
+                    Timber.i( "Sust result: $mySustList")
                 }
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }
     }
 
+    //이미 한 extra
+    private var myExtraList = ArrayList<Int>()
+    fun fireGetExtra(){
+        //지속 가능한 활동 받아오기
+        fireDB.collection("User").document(fireUser?.email.toString()).collection("Extra")
+            .get()
+            .addOnSuccessListener { result  ->
+                for (document in result ) {
+                    val myextra = document.toObject<MyExtra>()
+                    myExtraList.add(myextra.extraID!!)
+                    Timber.i( "Extra result: $myExtraList")
+                }
+            }.addOnFailureListener { exception ->
+                Timber.i(exception.toString())
+            }
+    }
+
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 리스트 저장
     fun fireSave(){
-        //프로젝트 진행상태 업데이트(새로 시작인지 수정인지 구분 추가)
-        //projectCount =+ 1
-
-        val act1 = 10001
-        val act2 = 10005
-        val act3 = 10010
-
-        val actList1 = MyList()
-        actList1.setFirstList(act1)
-        val actList2 = MyList()
-        actList2.setFirstList(act2)
-        val actList3 = MyList()
-        actList3.setFirstList(act3)
-
-
-        val db1 = fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project${appUser.projectCount}").document("1")
-        val db2 = fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project${appUser.projectCount}").document("2")
-        val db3 =fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project${appUser.projectCount}").document("3")
-
-        fireDB.runBatch { batch ->
-            // Set the value of 'NYC'
-            batch.set(db1, actList1)
-            batch.set(db2, actList2)
-            batch.set(db3, actList3)
-
-        }.addOnCompleteListener {
-            Timber.i("DocumentSnapshot1 successfully written!")
-        }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
-
-        /*체크리스트 받으면 아래처럼 줄일 예정
-        var checkCount :Int = 3 //활동할게 몇게인지 가져오기
-
-        for(i in 1 until checkCount){
-            var activity = 100000//체크 항목 i번
-
+        for(i in 1 until 6){
             var actList = MyList()
-            actList.setFirstList(activity)
-
-            db.collection("User").document(user?.email.toString())
-                .collection("project${appUser.projectCount}").document(i.toString())
-                .set(activity)
-                .addOnCompleteListener {Timber.i("DocumentSnapshot1 successfully written!")
+            actList.setFirstList(listArray[i-1].aId, listArray[i-1].aNumber)
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${appUser.projectCount}").document(i.toString())
+                .set(actList)
+                .addOnCompleteListener {
+                    Timber.i("DocumentSnapshot1 successfully written!")
                 }.addOnFailureListener {  e -> Timber.i("Error writing document", e)}
-        }*/
+        }
+        if(today == 1){
+            val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
 
+            val toStartDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+            washingtonRef
+                .update("startDate", toStartDay.toLong())
+                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+
+            washingtonRef
+                .update("aim", _aimCo2.value)
+                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+        }
     }
 
     override fun onCleared() {
