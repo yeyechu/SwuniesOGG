@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_small"
-                    android:text="가장 많은 반응을 받은 활동"
+                    android:text="@string/graph_title_certify_most_reaction"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -70,7 +70,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/most_reaction_image"
                     app:layout_constraintTop_toTopOf="@+id/most_reaction_image"
-                    tools:text="활동명" />
+                    tools:text="@string/graph_title_certify_most_reaction_subtitle" />
 
 
                 <ImageView
@@ -163,6 +163,8 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="@dimen/spacing_small"
+                android:layout_margin="@dimen/spacing_regular"
+
 
                 >
 
@@ -172,22 +174,64 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_small"
-                    android:text="가장 많이 인증한 활동명 TOP3"
+                    android:text="@string/graph_title_certify_most_certify"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <com.github.mikephil.charting.charts.HorizontalBarChart
-                    android:id="@+id/most_certify_chart"
+
+                <ProgressBar
+                    android:id="@+id/most_certify_act1"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="@dimen/bottom_sheet_peek_height"
+                    android:max="100"
+                    android:progress="70"
+                    android:progressDrawable="@drawable/graph_progressbar_custom" />
+
+                <TextView
+                    android:id="@+id/most_certify_act1_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="활동명1"
+                    />
+                <ProgressBar
+                    android:id="@+id/most_certify_act2"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bottom_sheet_peek_height"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/graph_progressbar_2_custom" />
+
+                <TextView
+                    android:id="@+id/most_certify_act2_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="활동명1"
+                    />
+                <ProgressBar
+                    android:id="@+id/most_certify_act3"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bottom_sheet_peek_height"
+                    android:max="100"
+                    android:progress="30"
+                    android:progressDrawable="@drawable/graph_progressbar_3_custom" />
+
+                <TextView
+                    android:id="@+id/most_certify_act3_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="활동명1"
+                    />
+
+
+
+
+
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -198,3 +242,14 @@
     </LinearLayout>
 
 </layout>
+
+
+    <!--                <com.github.mikephil.charting.charts.HorizontalBarChart-->
+    <!--                    android:id="@+id/most_certify_chart"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="200dp"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintHorizontal_bias="0.5"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent" />-->

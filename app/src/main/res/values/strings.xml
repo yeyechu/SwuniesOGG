@@ -181,6 +181,23 @@
     <string name="graph_text_title_null">아직 통계가 없어요</string>
     <string name="graph_text_body_null">탄소 중립을 위한 기후활동을 시작해보아요</string>
 
+    <string name="graph_title_myact_category">카테고리 별 줄인 탄소량</string>
+    <string name="graph_title_myact_most_reduce">가장 많은 탄소를 줄인 활동명 TOP3</string>
+    <string name="graph_title_myact_seachart_1">당신이 지킨 \n북극빙하의 면적</string>
+    <string name="graph_title_myact_seachart_2">동일한 양의 탄소를 \n흡수하는 해초지 크기</string>
+    <string name="graph_title_myact_seachart_subtitle">내가 줄인 탄소량으로</string>
+
+    <string name="graph_title_certify_most_reaction">가장 많은 반응을 받은 활동</string>
+    <string name="graph_title_certify_most_reaction_subtitle">활동명</string>
+    <string name="graph_title_certify_most_certify">가장 많이 인증한 활동명 TOP3</string>
+
+    <string name="graph_title_special_act_chart">특별활동 전체 순위</string>
+
+
+
+
+
+
     <!-- ──────────────────────────────────────   피드탭   ────────────────────────────────────── -->
     <string name="feed_text_title_null">아직 등록된 피드가 없어요</string>
     <string name="feed_text_body_null">첫 번째로 활동을 등록해보세요</string>
@@ -240,5 +257,6 @@
 
     <!-- ──────────────────────────────────────   마이페이지 페이지   ────────────────────────────────────── -->
     <string name="member_text_title_myfeed">나의 피드</string>
+
 
 </resources>

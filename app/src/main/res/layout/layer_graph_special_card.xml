@@ -33,12 +33,12 @@
                 >
 
             <TextView
-                android:id="@+id/cartegory_reduce_title"
+                android:id="@+id/special_act_char_title"
                 style="@style/StyleText.header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_small"
-                android:text="특별활동 전체 순위"
+                android:text="@string/graph_title_special_act_chart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,20 +53,19 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cartegory_reduce_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/special_act_char_title" />
 
                 <TextView
                     android:id="@+id/my_special_act_percent"
                     style="@style/StyleText.percent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
                     tools:text="상위10%"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/special_chart"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cartegory_reduce_title"
+                    app:layout_constraintTop_toBottomOf="@+id/special_act_char_title"
                     app:layout_constraintVertical_bias="1.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

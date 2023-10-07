@@ -63,6 +63,8 @@
     <!--                                        텍스트                                        -->
     <dimen name="text_size_hint">15sp</dimen>
     <dimen name="text_size_user_name">20sp</dimen>
+    <dimen name="text_size_percent">30sp</dimen>
+
 
     <!--                                       내비게이션                                      -->
     <dimen name="bottom_nav_icon_size">50dp</dimen>
