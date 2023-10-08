@@ -115,7 +115,7 @@ class PostWindow : AppCompatActivity() {
                         val post = Feed( email = fireUser?.email.toString(),  postTime = fileName.toLong(), //활동코드 추가
                             imageUrl = imageUrl)
 
-                        fireDB.collection("Feed").document(fileName)
+                        fireDB.collection("Feed").document()
                             .set(post)
                             .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
                             }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
