@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface InstructionDatabaseDao {
@@ -15,9 +16,8 @@ interface InstructionDatabaseDao {
     @Update
     fun update(data: Instruction)
 
-//    @Query("SELECT detail FROM activity_detail WHERE activityId = :id ORDER BY insId")
-//    fun getDirection(id: Int): LiveData<String>
-
+    @Query("SELECT * FROM activity_detail")
+    fun getAllDirections(): Flow<List<Instruction>>
     @Query("SELECT * FROM activity_detail WHERE activityId = :id ORDER BY insId DESC LIMIT :valid")
     fun getDirections(id: Int, valid: Int): LiveData<List<Instruction>>
 }

@@ -42,6 +42,8 @@
     <dimen name="icon_size_regular">36dp</dimen>
     <dimen name="icon_size_big">50dp</dimen>
 
+    <dimen name="icon_size_button">48dp</dimen>
+
     <!--                                       고정길이                                       -->
     <dimen name="dimension_30">30dp</dimen>
     <dimen name="dimension_40">40dp</dimen>
@@ -88,6 +90,8 @@
     <dimen name="image_size_indicator">10dp</dimen>
     <dimen name="image_size_stamp_face">40dp</dimen>
     <dimen name="image_size_stamp_face_big">70dp</dimen>
+
+    <dimen name="image_size_listset">48dp</dimen>
     <dimen name="image_size_list_holder">62dp</dimen>
 
     <dimen name="image_size_aim_face">100dp</dimen>

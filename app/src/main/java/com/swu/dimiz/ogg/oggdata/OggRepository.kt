@@ -11,6 +11,7 @@ class OggRepository(private val database: OggDatabase) {
     val getAllSusts: Flow<List<ActivitiesSustainable>> = database.sustDatabaseDao.getAllSusts()
     val getAllextras: Flow<List<ActivitiesExtra>> = database.extraDatabaseDao.getAllExtras()
     val getAllBadges: Flow<List<Badges>> = database.badgesDatabaseDao.getAllItem()
+    val getAllInstructions: Flow<List<Instruction>> = database.instructionDatabaseDao.getAllDirections()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

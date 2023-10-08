@@ -38,12 +38,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val navigateToSelection: LiveData<Boolean>
         get() = _navigateToSelection
 
+    private val _setListaimUI = MutableLiveData<Int>()
+    val setListaimUI: LiveData<Int>
+        get() = _setListaimUI
+
     //                                          활동 선택
-    // 완료 버튼 : suspend 구현
-    // ConditionRecord에 활동시작일/활동목표 저장
-    // ListSet 데이터베이스 저장
-    // 완료버튼은 여기서 코루틴 함수 써서 레포지토리에 저장하는 함수 호출하고
-    // 레포지토리에 서버로 올리는 suspend 함수 구현해주시면 됩니다
     private val _navigateToSave = MutableLiveData<Boolean>()
     val navigateToSave: LiveData<Boolean>
         get() = _navigateToSave
@@ -55,10 +54,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val _dailyId = MutableLiveData<ActivitiesDaily?>()
     val dailyId: LiveData<ActivitiesDaily?>
         get() = _dailyId
-
-    private val _setListaimUI = MutableLiveData<Int>()
-    val setListaimUI: LiveData<Int>
-        get() = _setListaimUI
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
@@ -92,15 +87,15 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val todayList: LiveData<List<ActivitiesDaily>> = repository.getTodayList()
 
     var listArray = ArrayList<ListData>()
-    var numberArray = ArrayList<NumberData>()
+    private var checkArray = ArrayList<CheckStatus>()
 
     private val _listHolder = MutableLiveData<List<ListData>?>()
     val listHolder: LiveData<List<ListData>?>
         get() = _listHolder
 
-    private val _numberHolder = MutableLiveData<List<NumberData>?>()
-    val numberHolder: LiveData<List<NumberData>?>
-        get() = _numberHolder
+    private val _checkHolder = MutableLiveData<List<CheckStatus>?>()
+    val checkHolder: LiveData<List<CheckStatus>?>
+        get() = _checkHolder
 
     private val _co2Holder = MutableLiveData<Float>()
     private val co2Holder: LiveData<Float>
@@ -111,9 +106,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         get() = _toastVisibility
 
     //                                       활동 디테일
-    private val _textVisible = MutableLiveData<Boolean>()
-    val textVisible: LiveData<Boolean>
-        get() = _textVisible
+    val details = MediatorLiveData<List<Instruction>>()
+
+    val textVisible = details.map {
+        it.isNotEmpty()
+    }
 
     private val _instructions = MutableLiveData<List<Instruction>>()
     val instructions: LiveData<List<Instruction>>
@@ -122,17 +119,19 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                      뷰모델 초기화
     init {
+        // 활동 목표 설정 페이지
         setCo2(AIMCO2_ONE)
         _aimTitle.value = ""
         _aimCotent.value = ""
         _setListaimUI.value = 1
 
+        // 활동 선택 페이지
         _co2Holder.value = FLOAT_ZERO
         _listHolder.value = null
 
         listInitialize()
         setListHolder(listArray)
-        setNumberHolder(numberArray)
+        setNumberHolder(checkArray)
 
         Timber.i("오늘 리스트 : ${todayList.value}")
         getFilters()
@@ -203,7 +202,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         var count = 5
 
         listArray.clear()
-        numberArray.clear()
+        checkArray.clear()
 
         if(todayList.value == null) {
 
@@ -223,7 +222,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
 
         for (i in 1..DATE_WHOLE) {
-            numberArray.add(NumberData(index++, 0))
+            checkArray.add(CheckStatus(index++, false))
         }
     }
 
@@ -232,7 +231,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             if (i.aId == item.dailyId) {
                 if ((i.aNumber < item.limit)) {
                     i.aNumber += 1
-                    numberArray[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
+                    checkArray[item.dailyId - ID_MODIFIER] = CheckStatus(item.dailyId, true)
                 }
                 Timber.i("업데이트 아이템 $listHolder")
                 return true
@@ -247,7 +246,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             if (i.aId == 0) {
                 i.aId = item.dailyId
                 i.aNumber += 1
-                numberArray[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
+                checkArray[item.dailyId - ID_MODIFIER] = CheckStatus(item.dailyId, true)
                 break
             } else {
                 count++
@@ -258,21 +257,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    fun deleteItem(item: ActivitiesDaily) {
-        for (i in listArray) {
-            if (i.aId == item.dailyId) {
-                i.aNumber -= 1
-                numberArray[item.dailyId - ID_MODIFIER] = NumberData(item.dailyId, i.aNumber)
-                if (i.aNumber == 0) {
-                    i.aId = 0
-                }
-            }
-        }
-        Timber.i("$listHolder")
-    }
-
-    fun setNumberHolder(data: List<NumberData>) {
-        _numberHolder.postValue(data)
+    private fun setNumberHolder(data: List<CheckStatus>) {
+        _checkHolder.postValue(data)
     }
 
     fun co2Plus(item: ActivitiesDaily) {
@@ -280,21 +266,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             _co2Holder.value = _co2Holder.value?.plus(item.co2)
             item.freq++
             update(item)
-        }
-        Timber.i("${_co2Holder.value}")
-        Timber.i("$item")
-    }
-
-    fun co2Minus(item: ActivitiesDaily) {
-        if (INTEGER_ZERO < item.freq) {
-            if (co2Holder.value!! > FLOAT_ZERO) {
-                _co2Holder.value = _co2Holder.value?.minus(item.co2)
-            }
-            item.freq--
-            update(item)
-        }
-        if(_co2Holder.value!! < FLOAT_ZERO) {
-            initCo2Holder()
         }
         Timber.i("${_co2Holder.value}")
         Timber.i("$item")
@@ -311,10 +282,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 //    val haveCar = automobile.map {
 //        automobile != 0
 //    }
-
-    val minusButtonEnabled = co2Holder.map {
-        it <= FLOAT_ZERO
-    }
 
     val saveButtonEnabled = co2Holder.map {
         it >= _aimCo2.value!!
@@ -349,12 +316,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun showPopup(act: ActivitiesDaily) {
         _navigateToDetail.value = act
         _dailyId.value = act
-        val getInstructions: LiveData<List<Instruction>> = repository.getInstructions(act.dailyId, act.limit)
-        _instructions.value = getInstructions.value
-        val textVision = getInstructions.map {
-            it.isNotEmpty()
-        }
-        _textVisible.value = textVision.value
+        details.addSource(repository.getInstructions(act.dailyId, act.instructionCount), details::setValue)
     }
 
     fun completedPopup() {
@@ -399,8 +361,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
-    var appUser = MyCondition()   //사용자 기본 정보 저장
-    var today = 0
+    private var appUser = MyCondition()   //사용자 기본 정보 저장
+    private var today = 0
 
     fun fireInfo(){
         //사용자 기본 정보
@@ -423,17 +385,17 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 Timber.i(exception.toString())
             }
 
-        if(appUser.startDate == today.toLong()){
-            today = 1
+        today = if(appUser.startDate == today.toLong()){
+            1
         }else{
-            today = convertDurationToFormatted(appUser.startDate!!)
+            convertDurationToFormatted(appUser.startDate)
         }
         Timber.i( "today: $today")
     }
 
     //오늘 활동 리스트 가져오기
     fun fireGetDaily() {
-        var myDailyList = ArrayList<ListData>()
+        val myDailyList = ArrayList<ListData>()
 
         val docRef2 =  fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
         docRef2.get()
@@ -511,7 +473,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     //                                  firebase 리스트 저장
     fun fireSave(){
         for(i in 1 until 6){
-            var actList = MyList()
+            val actList = MyList()
             actList.setFirstList(listArray[i-1].aId, listArray[i-1].aNumber)
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Project${appUser.projectCount}").document(i.toString())

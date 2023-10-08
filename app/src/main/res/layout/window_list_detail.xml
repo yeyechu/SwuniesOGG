@@ -51,7 +51,7 @@
                 app:actitityTitle="@{viewModel.dailyId}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_exit"
                 tools:text="활동 제목" />
 
             <TextView
@@ -63,7 +63,8 @@
                 app:layout_constraintTop_toBottomOf="@id/text_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:activityCo2="@{viewModel.dailyId}"/>
+                app:activityCo2="@{viewModel.dailyId}"
+                tools:text="탄소감축량 : 0.000kg"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/explain_layout"
@@ -129,12 +130,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/spacing_small"
-                    app:instructionAdapter="@{viewModel.instructions}"
+                    app:instructionAdapter="@{viewModel.details}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_garbage_two">
-
                 </androidx.recyclerview.widget.RecyclerView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

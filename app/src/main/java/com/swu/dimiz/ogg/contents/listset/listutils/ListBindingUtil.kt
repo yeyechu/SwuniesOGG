@@ -91,6 +91,6 @@ fun bindRecyclerActivity(recyclerView: RecyclerView, data: List<ActivitiesDaily>
 fun bindRecyclerInstruction(recyclerView: RecyclerView, data: List<Instruction>?) {
     data?.let {
         val adapter = recyclerView.adapter as TextAdapter
-        adapter.data = data!!
+        adapter.data = data
     }
 }

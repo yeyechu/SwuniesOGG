@@ -13,7 +13,10 @@
     </style>
 
     <style name="StyleText.gray" parent="StyleText">
+        <item name="android:textSize">@dimen/text_size_body_big</item>
         <item name="android:textColor">@color/primary_gray</item>
+        <item name="android:fontFamily">@font/nanumsquare_r</item>
+        <item name="fontFamily">@font/nanumsquare_r</item>
 
     </style>
     <!-- 제목 텍스트 -->

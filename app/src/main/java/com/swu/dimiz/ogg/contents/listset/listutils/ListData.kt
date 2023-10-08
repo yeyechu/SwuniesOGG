@@ -5,9 +5,9 @@ data class ListData (
     var aNumber: Int = 0
         )
 
-data class NumberData (
-    var nId: Int = 0,
-    var nNumber: Int = 0
+data class CheckStatus (
+    var position: Int = 0,
+    var ischecked: Boolean = false
 )
 
 data class StampData (
