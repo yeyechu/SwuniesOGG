@@ -21,13 +21,13 @@ class FeedGridAdapter(private val onFeedClickListener: OnFeedClickListener):
 
         fun bind(feed: Feed) {
             binding.feed = feed
-            Glide.with(itemView).load("").into(imageIv)
+            Glide.with(itemView).load(feed.imageUrl).into(imageIv)
             Timber.i(feed.imageUrl)
             binding.executePendingBindings()
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedGridAdapter.FeedViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
         return FeedViewHolder(FragmentFeedItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
