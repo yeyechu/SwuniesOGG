@@ -73,6 +73,7 @@ class ListFragment : Fragment() {
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
         val adapter = ListsetAdapter(
+            viewModel = viewModel,
             ListsetAdapter.ListClickListener {
 
 //                viewModel.co2Plus(it)

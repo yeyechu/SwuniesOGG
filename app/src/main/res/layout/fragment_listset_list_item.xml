@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.widget.CompoundButton" />
+
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
 
         <variable
             name="activity"
@@ -25,7 +30,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/radius_component"
         app:contentPadding="@dimen/spacing_text"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@{activity.freq == 0 ? @color/white : @color/secondary_baby_blue}"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true">
 
@@ -40,7 +45,9 @@
                 android:layout_height="@dimen/icon_size_regular"
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/spacing_medium"
-                android:onClick="@{() -> detailListener.onClick(activity)}" />
+                android:onClick="@{(view) -> viewModel.addListHolder(activity, ((CompoundButton)view).isChecked())}"
+                android:checked="@{activity.freq != 0}"
+                  />
 
             <ImageView
                 android:id="@+id/image_activity"

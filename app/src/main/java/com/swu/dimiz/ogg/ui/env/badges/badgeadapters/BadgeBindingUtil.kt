@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.ui.env.badges
+package com.swu.dimiz.ogg.ui.env.badges.badgeadapters
 
 import android.graphics.Color
 import android.widget.ImageView

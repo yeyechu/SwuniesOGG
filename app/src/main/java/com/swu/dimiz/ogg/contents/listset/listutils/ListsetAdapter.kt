@@ -1,34 +1,34 @@
 package com.swu.dimiz.ogg.contents.listset.listutils
 
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.ViewGroup
-import android.widget.CompoundButton
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.ListsetViewModel
 import com.swu.dimiz.ogg.databinding.FragmentListsetListItemBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class ListsetAdapter(
+    private val viewModel: ListsetViewModel,
     private val checkListener: ListClickListener,
     private val detailListener: ListClickListener
 ) : ListAdapter<ActivitiesDaily, ListsetAdapter.ListsetViewHolder>(ListDiffCallback) {
 
-    private val checkStatus = arrayListOf<CheckStatus>()
+    private val adapterScope = CoroutineScope(Dispatchers.Default)
     class ListsetViewHolder(private var binding: FragmentListsetListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
             activity: ActivitiesDaily,
+            viewModel: ListsetViewModel,
             checkListener: ListClickListener,
             detailListener: ListClickListener
         ) {
             binding.activity = activity
-            //binding.cardView.setCardBackgroundColor(R.color.secondary_baby_blue)
+            binding.viewModel = viewModel
             binding.checkListener = checkListener
             binding.detailListener = detailListener
             binding.executePendingBindings()
@@ -49,13 +49,14 @@ class ListsetAdapter(
 
     override fun onBindViewHolder(holder: ListsetViewHolder, position: Int) {
         val activity = getItem(position)
-        holder.bind(activity, checkListener, detailListener)
+        holder.bind(activity, viewModel, checkListener, detailListener)
     }
 
     companion object ListDiffCallback : DiffUtil.ItemCallback<ActivitiesDaily>() {
 
         override fun areContentsTheSame(oldItem: ActivitiesDaily, newItem: ActivitiesDaily): Boolean {
-            return oldItem.dailyId == newItem.dailyId && oldItem.freq == newItem.freq
+
+            return (oldItem.freq == newItem.freq && oldItem.dailyId == newItem.dailyId)
         }
 
         override fun areItemsTheSame(oldItem: ActivitiesDaily, newItem: ActivitiesDaily): Boolean {
