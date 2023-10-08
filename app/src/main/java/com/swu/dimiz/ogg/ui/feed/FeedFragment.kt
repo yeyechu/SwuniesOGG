@@ -9,11 +9,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.TOGETHER
 import com.swu.dimiz.ogg.databinding.FragmentFeedBinding
+import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
+import timber.log.Timber
 
 class FeedFragment : Fragment(){
 
@@ -70,8 +77,8 @@ class FeedFragment : Fragment(){
 
         viewModel.navigateToSelectedItem.observe(viewLifecycleOwner) {
             it?.let {
-                //navController.navigate(FeedFragmentDirections.actionNavigationFeedToDestinationFeedDetail(it))
-                navController.navigate(FeedFragmentDirections.actionNavigationFeedToDestinationFeedDetail())
+                view?.findNavController()
+                    ?.navigate(com.swu.dimiz.ogg.R.id.action_navigation_feed_to_destination_feed_detail)
                 viewModel.onFeedDetailCompleted()
             }
         }
@@ -82,4 +89,27 @@ class FeedFragment : Fragment(){
         _binding = null
     }
 
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                             firebase 피드리스트 받기
+    // 필터링은 전체/에너지/소비/이동수단/자원순환 + 내가 올린 글
+    // 이렇게 총 6가지이고
+    // 필터링만 바꿔서 나의 피드로 들어감
+//todo 코드 수정 필요
+    val fireDB = Firebase.firestore
+
+    fun fireGetDeed(){
+        fireDB.collection("Feed").addSnapshotListener {
+                querySnapshot, FirebaseFIrestoreException ->
+            if(querySnapshot!=null){
+                for(dc in querySnapshot.documentChanges){
+                    if(dc.type== DocumentChange.Type.ADDED){
+                        var feed= dc.document.toObject<Feed>()
+                        feed.id = dc.document.id.toInt()
+                        //viewModel.feedList.(feed)
+                    }
+                }
+              //  feedAdapter.notifyDataSetChanged()
+            }else Timber.i("feed storage 가져오기 오류", FirebaseFIrestoreException)
+        }
+    }
 }

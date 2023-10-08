@@ -79,28 +79,6 @@ class FeedViewModel : ViewModel()  {
         }
     }
 
-    // ───────────────────────────────────────────────────────────────────────────────────
-    //                             firebase 피드리스트 받기
-    // 필터링은 전체/에너지/소비/이동수단/자원순환 + 내가 올린 글
-    // 이렇게 총 6가지이고
-    // 필터링만 바꿔서 나의 피드로 들어감
-//todo 코드 수정 필요
-    /*val fireDB = Firebase.firestore
-
-    fireDB.collection("Feed").addSnapshotListener {
-            querySnapshot, FirebaseFIrestoreException ->
-        if(querySnapshot!=null){
-            for(dc in querySnapshot.documentChanges){
-                if(dc.type== DocumentChange.Type.ADDED){
-                    var feed= dc.document.toObject<Feed>()
-                    feed.id=dc.document.id
-                    feedList.add(feed)
-                }
-            }
-            feedAdapter.notifyDataSetChanged()
-        }else Timber.i("feed storage 가져오기 오류", FirebaseFIrestoreException)
-    }*/
-
     override fun onCleared() {
         super.onCleared()
         Timber.i("destroyed")
