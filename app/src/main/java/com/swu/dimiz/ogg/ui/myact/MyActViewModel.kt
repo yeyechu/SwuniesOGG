@@ -97,41 +97,45 @@ class MyActViewModel (repository: OggRepository) : ViewModel() {
 
     //오늘 활동 리스트 가져오기
     fun fireGetDaily() {
-        var myDailyList = ArrayList<ListData>()
+        val myDailyList = ArrayList<ListData>()
 
-        val docRef2 =  fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
-        docRef2.get()
+        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
+            .get()
             .addOnSuccessListener { result  ->
-                for (document in result ) {
-                    val mylist = document.toObject<MyList>()
-                    when (today) {
-                        1 -> myDailyList.add(mylist.day1act)
-                        2 -> myDailyList.add(mylist.day2act)
-                        3 -> myDailyList.add(mylist.day3act)
-                        4 -> myDailyList.add(mylist.day4act)
-                        5 -> myDailyList.add(mylist.day5act)
-                        6 -> myDailyList.add(mylist.day6act)
-                        7 -> myDailyList.add(mylist.day7act)
-                        8 -> myDailyList.add(mylist.day8act)
-                        9 -> myDailyList.add(mylist.day9act)
-                        10 -> myDailyList.add(mylist.day10act)
-                        11 -> myDailyList.add(mylist.day11act)
-                        12 -> myDailyList.add(mylist.day12act)
-                        13 -> myDailyList.add(mylist.day13act)
-                        14 -> myDailyList.add(mylist.day14act)
-                        15 -> myDailyList.add(mylist.day15act)
-                        16 -> myDailyList.add(mylist.day16act)
-                        17 -> myDailyList.add(mylist.day17act)
-                        18 -> myDailyList.add(mylist.day18act)
-                        19 -> myDailyList.add(mylist.day19act)
-                        20 -> myDailyList.add(mylist.day20act)
-                        21 -> myDailyList.add(mylist.day21act)
+                if(result != null && result.size() != 0){
+                    for (document in result ) {
+                        val mylist = document.toObject<MyList>()
+                        when (today) {
+                            1 -> myDailyList.add(mylist.day1act)
+                            2 -> myDailyList.add(mylist.day2act)
+                            3 -> myDailyList.add(mylist.day3act)
+                            4 -> myDailyList.add(mylist.day4act)
+                            5 -> myDailyList.add(mylist.day5act)
+                            6 -> myDailyList.add(mylist.day6act)
+                            7 -> myDailyList.add(mylist.day7act)
+                            8 -> myDailyList.add(mylist.day8act)
+                            9 -> myDailyList.add(mylist.day9act)
+                            10 -> myDailyList.add(mylist.day10act)
+                            11 -> myDailyList.add(mylist.day11act)
+                            12 -> myDailyList.add(mylist.day12act)
+                            13 -> myDailyList.add(mylist.day13act)
+                            14 -> myDailyList.add(mylist.day14act)
+                            15 -> myDailyList.add(mylist.day15act)
+                            16 -> myDailyList.add(mylist.day16act)
+                            17 -> myDailyList.add(mylist.day17act)
+                            18 -> myDailyList.add(mylist.day18act)
+                            19 -> myDailyList.add(mylist.day19act)
+                            20 -> myDailyList.add(mylist.day20act)
+                            21 -> myDailyList.add(mylist.day21act)
+                        }
                     }
+                    for(i in 0 until 5){
+                        listArray[i] = myDailyList[i]
+                    }
+                    setListHolder(listArray)
+                }else{
+                    Timber.i("비어있음")
                 }
-                for(i in 0 until 5){
-                    listArray[i] = myDailyList[i]
-                }
-                setListHolder(listArray)
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }
