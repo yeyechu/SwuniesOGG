@@ -15,18 +15,17 @@ fun bindImage(image: ImageView, imageUrl: String?) {
     imageUrl?.let {
 
         // 여기 이미지 형식은 파이어베이스에 맞춰서 바까줘야함
-//        val imgUri = it.toUri().buildUpon().scheme("https").build()
-//
-//        Glide.with(image.context)
-//            .load(imgUri)
-//            .apply(
-//                RequestOptions()
-//                .placeholder(R.drawable.feed_animation_loading)
-//                .error(R.drawable.myenv_image_empty))
-//            .into(image)
+       // val imgUri = it.toUri().buildUpon().scheme("https").build()
 
-        Glide.with(image.context).load(imageUrl).into(image)
-        Timber.i(imageUrl)
+        Glide.with(image.context)
+            .load(imageUrl)
+            .apply(
+                RequestOptions()
+                .placeholder(R.drawable.feed_animation_loading)
+                .error(R.drawable.myenv_image_empty))
+            .into(image)
+
+
     }
 }
 

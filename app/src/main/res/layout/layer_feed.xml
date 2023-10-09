@@ -26,9 +26,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:listData="@{viewModel.feedList}"
             tools:itemCount="16"
             tools:listitem="@layout/fragment_feed_item" />
-        <!-- app:listData="@{viewModel.}" -->
+
 
         <ImageView
             android:id="@+id/feed_image_view"

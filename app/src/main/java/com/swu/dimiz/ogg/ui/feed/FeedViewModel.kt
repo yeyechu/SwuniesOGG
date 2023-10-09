@@ -101,6 +101,7 @@ class FeedViewModel : ViewModel()  {
     //firestore에서 이미지 url을 받아옴
     private val fireDB = Firebase.firestore
     var gotFeed = Feed()
+    var gotFeedList = arrayListOf<Feed>()
     fun fireGetFeed(){
         fireDB.collection("Feed")
             .get()
@@ -110,9 +111,11 @@ class FeedViewModel : ViewModel()  {
                     gotFeed.id = document.id.toLong()
                     gotFeed.imageUrl = feed.imageUrl
                     gotFeed.actCode = feed.actCode
-                    Timber.i(feed.imageUrl)
-                    _feedList.value = listOf(gotFeed)
+                   // Timber.i(feed.imageUrl)
+                    gotFeedList.add(gotFeed)
+                    _feedList.value = gotFeedList
                 }
+                Timber.i(_feedList.value.toString())
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)
