@@ -121,7 +121,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
 
     //오늘 활동 리스트 가져오기
-    fun fireGetDaily() {
+    /*fun fireGetDaily() {
         val myDailyList = ArrayList<ListData>()
 
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
@@ -164,7 +164,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }
-    }
+    }*/
     //이미 한 sust
     private var mySustList = ArrayList<Int>()
     fun fireGetSust(){

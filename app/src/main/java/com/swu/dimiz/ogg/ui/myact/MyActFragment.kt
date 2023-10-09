@@ -46,7 +46,7 @@ class MyActFragment : Fragment() {
 
         //firebase
         viewModel.fireInfo()
-        viewModel.fireGetDaily()
+        //viewModel.fireGetDaily()
         viewModel.fireGetSust()
         viewModel.fireGetExtra()
 

@@ -481,6 +481,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     }
                     setListHolder(listArray)
 
+
                 }else{
                     Timber.i("비어있음")
                 }

@@ -17,11 +17,8 @@ class FeedGridAdapter(private val onFeedClickListener: OnFeedClickListener):
     class FeedViewHolder(private var binding: FragmentFeedItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-
-
         fun bind(feed: Feed) {
             binding.feed = feed
-
             binding.executePendingBindings()
         }
     }

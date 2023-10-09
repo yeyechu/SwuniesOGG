@@ -1,9 +1,11 @@
 package com.swu.dimiz.ogg.ui.feed
 
 import android.content.ClipData
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -103,7 +105,7 @@ class FeedViewModel : ViewModel()  {
     var gotFeed = Feed()
     var gotFeedList = arrayListOf<Feed>()
     fun fireGetFeed(){
-        fireDB.collection("Feed")
+        /*fireDB.collection("Feed")
             .get()
             .addOnSuccessListener {result ->
                 for (document in result) {
@@ -119,7 +121,27 @@ class FeedViewModel : ViewModel()  {
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)
+            }*/
+
+        fireDB.collection("Feed").addSnapshotListener {   //실시간 업데이트 가져오기
+                querySnapshot, FirebaseFirestoreException ->
+            if(querySnapshot!=null){
+                for(dc in querySnapshot.documentChanges){
+                    if(dc.type== DocumentChange.Type.ADDED){
+                        for (document in querySnapshot) {
+                            val feed = document.toObject<Feed>()
+                            gotFeed.id = document.id.toLong()
+                            gotFeed.imageUrl = feed.imageUrl
+                            gotFeed.actCode = feed.actCode
+                            // Timber.i(feed.imageUrl)
+                            gotFeedList.add(gotFeed)
+                            _feedList.value = gotFeedList
+                        }
+                        Timber.i(_feedList.value.toString())
+                    }
+                }
             }
+        }
 
     }
 }
