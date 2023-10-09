@@ -73,7 +73,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_title_sust"
-                    app:listData="@{viewModel.getSustData}"
+                    app:listDataSust="@{viewModel.getSustData}"
                     tools:listitem="@layout/fragment_my_act_card_item_big" />
 
                 <GridView
@@ -121,6 +121,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_title_extra"
+                    app:listDataExtra="@{viewModel.getExtraData}"
                     tools:listitem="@layout/fragment_my_act_card_item_big" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

@@ -15,6 +15,8 @@ import com.skydoves.balloon.*
 import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
+import com.swu.dimiz.ogg.ui.myact.extra.ExtraAdapter
+import com.swu.dimiz.ogg.ui.myact.extra.PostExtraWindow
 import com.swu.dimiz.ogg.ui.myact.myactcard.*
 import com.swu.dimiz.ogg.ui.myact.sust.PostSustWindow
 import com.swu.dimiz.ogg.ui.myact.sust.SustCardItemAdapter
@@ -54,26 +56,30 @@ class MyActFragment : Fragment() {
         //                                       어댑터
 
         binding.sustainableActList.adapter = SustCardItemAdapter(SustCardItemAdapter.OnClickListener {
-            viewModel.showPopup(it)
+            viewModel.showSust(it)
         })
 
-        viewModel.navigateToSelected.observe(viewLifecycleOwner) {
+        viewModel.navigateToSust.observe(viewLifecycleOwner) {
 
             if (it == null) {
                 mainActivity.hideBottomNavView(false)
             } else {
                 mainActivity.hideBottomNavView(true)
-                addWindow()
+                addSustWindow()
             }
         }
 
-        val adapterextra = ExtraCardItemAdapter(requireContext())
-        binding.extraActList.adapter = adapterextra
+        binding.extraActList.adapter = ExtraAdapter(ExtraAdapter.OnClickListener {
+            viewModel.showExtra(it)
+        })
 
-        viewModel.getExtraData.observe(viewLifecycleOwner) {
-            Timber.i("$it")
-            it?.let {
-                adapterextra.submitList(it)
+        viewModel.navigateToExtra.observe(viewLifecycleOwner) {
+
+            if (it == null) {
+                mainActivity.hideBottomNavView(false)
+            } else {
+                mainActivity.hideBottomNavView(true)
+                addExtraWindow()
             }
         }
 
@@ -149,11 +155,26 @@ class MyActFragment : Fragment() {
                 fragmentManager.popBackStack()
             }
         }
+
+        viewModel.navigateToToLink.observe(viewLifecycleOwner) {
+            if(it) {
+                viewModel.onLinkCompleted()
+                fragmentManager.popBackStack()
+            }
+        }
     }
 
-    private fun addWindow() {
+    private fun addSustWindow() {
         fragmentManager.beginTransaction()
             .add(R.id.frame_layout_myact, PostSustWindow())
+            .setReorderingAllowed(true)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun addExtraWindow() {
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout_myact, PostExtraWindow())
             .setReorderingAllowed(true)
             .addToBackStack(null)
             .commit()

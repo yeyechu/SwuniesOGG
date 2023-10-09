@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.ui.myact.sust
+package com.swu.dimiz.ogg.ui.myact.extra
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,14 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.databinding.WindowPostExtraBinding
 import com.swu.dimiz.ogg.databinding.WindowPostSustBinding
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
-class PostSustWindow : Fragment() {
+class PostExtraWindow : Fragment() {
 
-    private var _binding : WindowPostSustBinding? = null
+    private var _binding : WindowPostExtraBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: MyActViewModel by activityViewModels { MyActViewModel.Factory }
@@ -25,11 +26,11 @@ class PostSustWindow : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate( inflater, R.layout.window_post_sust, container, false)
+        _binding = DataBindingUtil.inflate( inflater, R.layout.window_post_extra, container, false)
 
         binding.buttonExit.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
-            viewModel.completedSust()
+            viewModel.completedExtra()
         }
 
         return binding.root
