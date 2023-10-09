@@ -9,6 +9,7 @@ import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class EnvViewModel : ViewModel() {
@@ -93,7 +94,7 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
-    private fun userInit() {
+    fun userInit() = viewModelScope.launch {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
         val appUser = MyCondition()
         docRef.get()
@@ -121,12 +122,11 @@ class EnvViewModel : ViewModel() {
     //                                     룸데이터 함수
 
     // 여기 fakeDate 아니고 userCondition.startDate으로 갈아끼워야 함
-    val layerVisible = fakeDate.map {
-        //it.startDate == 0L
-        it == INTEGER_ZERO
+    val layerVisible = userCondition.map {
+        it.startDate == 0L
+        //it == INTEGER_ZERO
     }
 
-    // fakeUser 대신 userCondition으로 갈아끼워야 함
     val date = userCondition.map {
         convertDurationToFormatted(it.startDate)
     }

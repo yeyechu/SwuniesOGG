@@ -89,7 +89,7 @@ class CameraFragment : Fragment() {
 
         binding.buttonDone.setOnClickListener {
 
-            PostWindow.postWindow!!.finish()
+            //PostWindow.postWindow!!.finish()
             CameraActivity.cameraActivity!!.finish()
             Timber.i("post 데이터가 올라가야 함")
 

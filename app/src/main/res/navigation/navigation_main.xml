@@ -42,6 +42,12 @@
         <action
             android:id="@+id/action_navigation_myact_to_destination_listaim"
             app:destination="@id/destination_listaim" />
+        <action
+            android:id="@+id/action_navigation_myact_to_destination_checklist"
+            app:destination="@id/destination_checklist" />
+        <action
+            android:id="@+id/action_navigation_myact_to_destination_setting_car"
+            app:destination="@id/destination_setting_car" />
     </fragment>
 
     <fragment
@@ -138,6 +144,9 @@
             app:destination="@id/destination_member"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_destination_settings_to_destination_setting_car"
+            app:destination="@id/destination_setting_car" />
     </fragment>
 
 
@@ -148,5 +157,15 @@
         android:name="com.swu.dimiz.ogg.ui.feed.detail.FeedDetailFragment"
         tools:layout="@layout/fragment_feed_detail" >
     </fragment>
+
+    <fragment
+        android:id="@+id/destination_checklist"
+        android:name="com.swu.dimiz.ogg.ui.myact.myactcard.ChecklistFragment"
+        tools:layout="@layout/fragment_checklist"/>
+
+    <fragment
+        android:id="@+id/destination_setting_car"
+        android:name="com.swu.dimiz.ogg.member.settings.SettingCarFragment"
+        tools:layout="@layout/fragment_setting_car"/>
 
 </navigation>

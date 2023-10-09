@@ -35,6 +35,7 @@ const val INTEGER_ZERO = 0
 const val CO2_WHOLE = 21f
 const val DATE_WHOLE = 21
 const val ID_MODIFIER = 10001
+const val LIST_SIZE = 5
 
 const val ENERGY = "에너지"
 const val CONSUME = "소비"

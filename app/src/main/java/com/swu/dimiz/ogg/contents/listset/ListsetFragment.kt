@@ -35,17 +35,17 @@ class ListsetFragment : Fragment() {
             inflater, R.layout.fragment_listset, container, false)
 
         val listView: GridView = binding.listHolder
-        //val numberView: TextView = binding.root.findViewById(R.id.text_number)
 
         //사용자 정보 가져오기
-        viewModel.fireInfo()
+        //viewModel.fireInfo()
         //지속활동 진행중 리스트
         viewModel.fireGetSust()
-        viewModel.fireGetExtra()
+        //viewModel.fireGetExtra()
         //viewModel.fireGetDaily()
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      버튼 인터랙션
+
         viewModel.progressBar.observe(viewLifecycleOwner) {
             binding.progressBar.progress = it
         }

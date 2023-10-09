@@ -41,7 +41,7 @@ data class ActivitiesDaily (
 
     @ColumnInfo(name = "update_badge_code")
     var updateBadgeCode: Int = 0
-        )
+)
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
 //                                      지속가능한 활동
@@ -84,28 +84,20 @@ data class ActivitiesExtra (
     @PrimaryKey
     var extraId: Int = 0,
 
-    @ColumnInfo(name = "extra_title")
     var title: String = "",
 
-    @ColumnInfo(name = "extra_co2")
     val co2: Float = 0f,
 
-    @ColumnInfo(name = "extra_limit")
     var limit: Int = 0,
 
-    @ColumnInfo(name = "extra_instruction")
-    var instructionCount: String = "",
+    var instruction: String = "",
 
-    @ColumnInfo(name = "extra_ways_to_post")
     var waytoPost: Int= 0,
 
-    @ColumnInfo(name = "extra_image")
     var image: Bitmap? = null,
 
-    @ColumnInfo(name = "extra_guide_image")
     var guideImage: Bitmap? = null,
 
-    @ColumnInfo(name = "update_badge_code")
     var updateBadgeCode: Int = 0
 )
 

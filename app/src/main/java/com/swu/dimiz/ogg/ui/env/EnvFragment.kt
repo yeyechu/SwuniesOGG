@@ -28,6 +28,7 @@ class EnvFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_env, container, false)
 
+        viewModel.userInit()
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                               환경 수정 플로팅 버튼 정의
 

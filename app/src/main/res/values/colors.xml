@@ -21,6 +21,7 @@
     <color name="point_yellow_baby">#FFE5E2</color>
 
     <!-- ────────────────────────────────────── 팝업 투명도 ────────────────────────────────────── -->
+    <color name="transparency_done_black">#CC000000</color>
     <color name="transparency_dimmed">#80000000</color>
     <color name="transparency_transparent">#00FFFFFF</color>
 

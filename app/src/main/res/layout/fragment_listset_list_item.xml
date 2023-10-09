@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <import type="android.widget.CompoundButton" />
 
         <variable
@@ -45,9 +46,9 @@
                 android:layout_height="@dimen/icon_size_regular"
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/spacing_medium"
+                android:focusable="@{viewModel.userCondition.car != 0}"
                 android:onClick="@{(view) -> viewModel.addListHolder(activity, ((CompoundButton)view).isChecked())}"
-                android:checked="@{activity.freq != 0}"
-                  />
+                android:checked="@{activity.freq != 0}" />
 
             <ImageView
                 android:id="@+id/image_activity"
@@ -105,5 +106,28 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop" />
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:paddingTop="@dimen/spacing_medium"
+            android:paddingBottom="@dimen/spacing_medium"
+            android:paddingStart="@dimen/spacing_large"
+            android:paddingEnd="@dimen/spacing_large">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/listset_text_nocar"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_size_subtitle"
+                android:fontFamily="@font/nanumsquare_r"
+                app:automobileData="@{viewModel.userCondition.car == 0}"
+                app:activity="@{activity}"/>
+
+        </FrameLayout>
     </androidx.cardview.widget.CardView>
 </layout>

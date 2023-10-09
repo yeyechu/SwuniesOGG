@@ -32,13 +32,6 @@ class ListDetailWindow : Fragment() {
         val adapter = TextAdapter()
         binding.textList.adapter = adapter
 
-        // 초기화 시점에 null값이라
-        // 작동 안하는 중
-        viewModel.instructions.observe(viewLifecycleOwner) {
-            it?.let{
-                adapter.data = it
-            }
-        }
 
         binding.buttonExit.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()

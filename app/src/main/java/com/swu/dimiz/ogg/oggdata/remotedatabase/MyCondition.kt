@@ -22,7 +22,7 @@ MyCondition(             //사용자 기본 정보
 
     var car: Int = 0,
 
-    var startDate: Long = 0,     //그래프 쪽에서 같은지 판별
+    var startDate: Long = 0L,     //그래프 쪽에서 같은지 판별
 
     var report: Int = 0,            //신고 받은 횟수
 

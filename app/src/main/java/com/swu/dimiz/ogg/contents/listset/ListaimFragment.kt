@@ -29,6 +29,12 @@ class ListaimFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listaim, container, false)
 
+        viewModel.fireInfo()
+        viewModel.userCondition.observe(viewLifecycleOwner) {
+            it?.let {
+                viewModel.initCondition()
+            }
+        }
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                       활동 목표 선택 버튼 누르면 내용을 변경하는 관찰자
 

@@ -1,22 +1,24 @@
 package com.swu.dimiz.ogg.ui.myact
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.skydoves.balloon.*
 import com.swu.dimiz.ogg.MainActivity
-import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
-import com.swu.dimiz.ogg.ui.env.EnvFragmentDirections
 import com.swu.dimiz.ogg.ui.myact.myactcard.*
+import com.swu.dimiz.ogg.ui.myact.sust.PostSustWindow
+import com.swu.dimiz.ogg.ui.myact.sust.SustCardItemAdapter
+import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
 class MyActFragment : Fragment() {
@@ -24,8 +26,9 @@ class MyActFragment : Fragment() {
     private var _binding: FragmentMyActBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: MyActViewModel
+    private val viewModel: MyActViewModel by activityViewModels { MyActViewModel.Factory }
     private lateinit var navController: NavController
+    private lateinit var fragmentManager: FragmentManager
 
     private var balloonSus: Balloon? = null // Balloon 변수 추가
     private var balloonExtra: Balloon? = null
@@ -39,23 +42,13 @@ class MyActFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_my_act, container, false)
 
-        navController = findNavController()
-
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = MyActViewModelFactory((application as OggApplication).repository)
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MyActViewModel::class.java)
-
         val mainActivity = activity as MainActivity
 
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        binding.viewModel = viewModel
-
         //firebase
-        viewModel.fireInfo()
-        viewModel.fireGetDaily()
-        viewModel.fireGetSust()
-        viewModel.fireGetExtra()
+        //viewModel.fireInfo()
+        //viewModel.fireGetDaily()
+        //viewModel.fireGetSust()
+        //viewModel.fireGetExtra()
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
@@ -65,12 +58,12 @@ class MyActFragment : Fragment() {
         })
 
         viewModel.navigateToSelected.observe(viewLifecycleOwner) {
+
             if (it == null) {
-                binding.frameLayout.visibility = View.GONE
                 mainActivity.hideBottomNavView(false)
             } else {
-                binding.frameLayout.visibility = View.VISIBLE
                 mainActivity.hideBottomNavView(true)
+                addWindow()
             }
         }
 
@@ -126,6 +119,46 @@ class MyActFragment : Fragment() {
         }
         return binding.root
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+        fragmentManager = childFragmentManager
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        viewModel.navigateToToCamera.observe(viewLifecycleOwner) {
+            if(it) {
+                requireContext().startActivity(Intent(context, CameraActivity::class.java))
+                viewModel.onCameraCompleted()
+            }
+        }
+
+        viewModel.navigateToToChecklist.observe(viewLifecycleOwner) {
+            if(it) {
+                navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationChecklist())
+                viewModel.onChechlistCompleted()
+                fragmentManager.popBackStack()
+            }
+        }
+
+        viewModel.navigateToToCar.observe(viewLifecycleOwner) {
+            if(it) {
+                navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationSettingCar())
+                viewModel.onCarCompleted()
+                fragmentManager.popBackStack()
+            }
+        }
+    }
+
+    private fun addWindow() {
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout_myact, PostSustWindow())
+            .setReorderingAllowed(true)
+            .addToBackStack(null)
+            .commit()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

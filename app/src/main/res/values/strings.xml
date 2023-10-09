@@ -31,6 +31,8 @@
     <string name="destination_title_post">인증 등록</string>
     <string name="destination_title_listchanger">활동 수정</string>
 
+    <string name="destination_title_checklist">체크리스트</string>
+
     <!--                              통계페이지에서 접근하는 모든 페이지                             -->
 
     <!--                              피드페이지에서 접근하는 모든 페이지                             -->
@@ -57,6 +59,7 @@
     <string name="description_listaim_image_one">바다거북 탈을 쓴 얼굴 이미지</string>
     <string name="description_listaim_image_two">물개 탈을 쓴 얼굴 이미지</string>
     <string name="description_listaim_image_three">돌고래 탈을 쓴 얼굴 이미지</string>
+
     <string name="description_badgelist_image_badges">배지 그림</string>
     <string name="description_badgelist_image_placeholder">배지가 없을 때 보이는 물음표 이미지</string>
 
@@ -110,6 +113,9 @@
     <string name="listset_text_title_instruction_allset">선택한 활동들로 지구를 구해보아요</string>
     <string name="listset_text_toast">최대 5개를 선택할 수 있습니다</string>
 
+    <string name="listset_text_nocar">차량 정보 등록 후 활동 가능합니다</string>
+    <string name="listset_text_sust">이전에 등록한 \'지속가능한 활동\'에 </string>
+
 
     <!--                                         배지 리스트                                       -->
     <string name="badgelist_text_badge_count">보유한 배지 %d개</string>
@@ -151,6 +157,7 @@
     <string name="post_text_co2">탄소 감축량 %.3f kg</string>
     <string name="post_text_available">인증 가능 횟수</string>
     <string name="post_text_available_body">하루 %d번</string>
+    <string name="post_text_available_body_sust">%d일에 한 번</string>
     <string name="post_text_guidlines">인증 방법</string>
 
     <string name="post_button_take_photo">카메라 촬영</string>

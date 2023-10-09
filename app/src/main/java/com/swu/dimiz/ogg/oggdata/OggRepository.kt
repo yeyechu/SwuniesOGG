@@ -11,7 +11,7 @@ class OggRepository(private val database: OggDatabase) {
     val getAllSusts: Flow<List<ActivitiesSustainable>> = database.sustDatabaseDao.getAllSusts()
     val getAllextras: Flow<List<ActivitiesExtra>> = database.extraDatabaseDao.getAllExtras()
     val getAllBadges: Flow<List<Badges>> = database.badgesDatabaseDao.getAllItem()
-    val getAllInstructions: Flow<List<Instruction>> = database.instructionDatabaseDao.getAllDirections()
+    //val getAllInstructions: Flow<List<Instruction>> = database.instructionDatabaseDao.getAllDirections()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -53,6 +53,12 @@ class OggRepository(private val database: OggDatabase) {
     @WorkerThread
     suspend fun resetFreq() {
         database.dailyDatabaseDao.resetFreq()
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    fun getActivity(id: Int): LiveData<ActivitiesDaily> {
+        return database.dailyDatabaseDao.getItem(id)
     }
 
     fun getTodayList(): LiveData<List<ActivitiesDaily>> {

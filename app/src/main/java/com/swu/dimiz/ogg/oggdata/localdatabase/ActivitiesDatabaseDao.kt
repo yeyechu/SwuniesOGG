@@ -13,9 +13,6 @@ interface ActivitiesDailyDatabaseDao {
     @Insert
     fun insert(act: ActivitiesDaily)
 
-    @Insert
-    suspend fun addData(acts: List<ActivitiesDaily>)
-
     @Update
     suspend fun update(act: ActivitiesDaily)
 
@@ -44,9 +41,6 @@ interface ActivitiesSustDatabaseDao {
     @Insert
     fun insert(act: ActivitiesSustainable)
 
-    @Insert
-    suspend fun addData(acts: List<ActivitiesSustainable>)
-
     @Update
     fun update(act: ActivitiesSustainable)
 
@@ -62,9 +56,6 @@ interface ActivitiesExtraDatabaseDao {
 
     @Insert
     fun insert(act: ActivitiesExtra)
-
-    @Insert
-    suspend fun addData(acts: List<ActivitiesExtra>)
 
     @Update
     fun update(act: ActivitiesExtra)

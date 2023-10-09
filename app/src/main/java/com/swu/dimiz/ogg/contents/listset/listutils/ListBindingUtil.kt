@@ -82,6 +82,31 @@ fun TextView.setButtonText(item: ActivitiesDaily?) {
     }
 }
 
+@BindingAdapter("setCardBackground", "automobileData")
+fun setCardBackground(view: CardView, item: ActivitiesDaily, bool: Boolean) {
+    if(bool) {
+        when(item.dailyId) {
+            100010 -> view.setBackgroundResource(R.color.transparency_dimmed)
+            100011 -> view.setBackgroundResource(R.color.transparency_dimmed)
+            else -> view.setBackgroundResource(R.color.white)
+        }
+    } else {
+        view.setBackgroundResource(R.color.white)
+    }
+}
+@BindingAdapter("automobileData","activity", requireAll = true)
+fun setAutomobile(view: View, bool: Boolean, item: ActivitiesDaily) {
+    view.visibility = if(bool) {
+        when(item.dailyId) {
+            100010 -> View.VISIBLE
+            100011 -> View.VISIBLE
+            else -> View.GONE
+        }
+    } else {
+        View.GONE
+    }
+}
+
 @BindingAdapter("listDataSource")
 fun bindRecyclerActivity(recyclerView: RecyclerView, data: List<ActivitiesDaily>?) {
     val adapter = recyclerView.adapter as ListsetAdapter

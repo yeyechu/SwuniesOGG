@@ -10,75 +10,80 @@
 
         <variable
             name="clickListner"
-            type="com.swu.dimiz.ogg.ui.myact.myactcard.SustCardItemAdapter.OnClickListener" />
+            type="com.swu.dimiz.ogg.ui.myact.sust.SustCardItemAdapter.OnClickListener" />
 
     </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/category_reduce_card"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_small"
         android:padding="@dimen/spacing_regular"
-        app:cardCornerRadius="@dimen/radius_card">
+        app:cardCornerRadius="@dimen/radius_card"
+        app:contentPadding="@dimen/spacing_extra_small"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:padding="@dimen/spacing_regular">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_scroll"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/big_card_text_title"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:text=""
+                    app:actitityTitle="@{activity}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="틈새 바람막이 설치" />
+
+
+                <TextView
+                    android:id="@+id/big_card_text_co2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    app:activityCo2="@{activity}"
+                    app:layout_constraintStart_toStartOf="@id/big_card_text_title"
+                    app:layout_constraintTop_toBottomOf="@id/big_card_text_title"
+                    tools:text="여기는 코드로 설정해요"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_myact"
+                    style="@style/StyleButtonOggWhite.smaller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/bottom_sheet_peek_height"
+                    android:text="@string/myact_button"
+                    android:onClick="@{() -> clickListner.onClick(activity)}" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/big_card_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_weight="1"
                 android:contentDescription="@string/description_myact_card_image"
                 app:activityImage="@{activity}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/button_myact"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/common_image_placeholder" />
 
-            <TextView
-                android:id="@+id/big_card_text_title"
-                style="@style/StyleText.subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text=""
-                app:actitityTitle="@{activity}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                tools:text="틈새 바람막이 설치" />
-
-
-            <TextView
-                android:id="@+id/big_card_text_co2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text=""
-                app:activityCo2="@{activity}"
-                app:layout_constraintStart_toStartOf="@+id/big_card_text_title"
-                app:layout_constraintTop_toBottomOf="@+id/big_card_text_title"
-                tools:text="여기는 코드로 설정해요"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_myact"
-                style="@style/StyleButtonOggWhite.smaller"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/bottom_sheet_peek_height"
-                android:text="@string/myact_button"
-                android:onClick="@{() -> clickListner.onClick(activity)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/big_card_text_co2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/big_card_text_co2" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 </layout>

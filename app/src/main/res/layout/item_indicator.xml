@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -14,115 +14,10 @@
         android:layout_marginEnd="@dimen/spacing_text"
         android:contentDescription="@{@string/description_indicator(1)}"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/indicator2"
+
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/indicator2"
-        android:layout_width="@dimen/image_size_indicator"
-        android:layout_height="@dimen/image_size_indicator"
-        android:src="@drawable/myact_shape_indicator_gray"
-        android:layout_marginStart="@dimen/spacing_text"
-        android:layout_marginEnd="@dimen/spacing_text"
-        android:contentDescription="@{@string/description_indicator(2)}"
-        app:layout_constraintEnd_toStartOf="@+id/indicator3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/indicator1"
-        app:layout_constraintTop_toTopOf="@+id/indicator1" />
-
-    <ImageView
-        android:id="@+id/indicator3"
-        android:layout_width="@dimen/image_size_indicator"
-        android:layout_height="@dimen/image_size_indicator"
-        android:src="@drawable/myact_shape_indicator_gray"
-        android:layout_marginStart="@dimen/spacing_text"
-        android:layout_marginEnd="@dimen/spacing_text"
-        android:contentDescription="@{@string/description_indicator(3)}"
-        app:layout_constraintEnd_toStartOf="@+id/indicator4"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/indicator2"
-        app:layout_constraintTop_toTopOf="@+id/indicator2" />
-
-    <ImageView
-        android:id="@+id/indicator4"
-        android:layout_width="@dimen/image_size_indicator"
-        android:layout_height="@dimen/image_size_indicator"
-        android:src="@drawable/myact_shape_indicator_gray"
-        android:layout_marginStart="@dimen/spacing_text"
-        android:layout_marginEnd="@dimen/spacing_text"
-        android:contentDescription="@{@string/description_indicator(4)}"
-        app:layout_constraintEnd_toStartOf="@+id/indicator5"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/indicator3"
-        app:layout_constraintTop_toTopOf="@+id/indicator3" />
-
-    <ImageView
-        android:id="@+id/indicator5"
-        android:layout_width="@dimen/image_size_indicator"
-        android:layout_height="@dimen/image_size_indicator"
-        android:src="@drawable/myact_shape_indicator_gray"
-        android:layout_marginStart="@dimen/spacing_text"
-        android:layout_marginEnd="@dimen/spacing_text"
-        android:contentDescription="@{@string/description_indicator(5)}"
-        app:layout_constraintEnd_toStartOf="@+id/indicator6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/indicator4"
-        app:layout_constraintTop_toTopOf="@+id/indicator4" />
-
-    <ImageView
-        android:id="@+id/indicator6"
-        android:layout_width="@dimen/image_size_indicator"
-        android:layout_height="@dimen/image_size_indicator"
-        android:src="@drawable/myact_shape_indicator_gray"
-        android:layout_marginStart="@dimen/spacing_text"
-        android:layout_marginEnd="@dimen/spacing_text"
-        android:contentDescription="@{@string/description_indicator(6)}"
-        app:layout_constraintEnd_toStartOf="@+id/indicator7"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/indicator5"
-        app:layout_constraintTop_toTopOf="@+id/indicator5" />
-
-    <ImageView
-        android:id="@+id/indicator7"
-        android:layout_width="@dimen/image_size_indicator"
-        android:layout_height="@dimen/image_size_indicator"
-        android:src="@drawable/myact_shape_indicator_gray"
-        android:layout_marginStart="@dimen/spacing_text"
-        android:layout_marginEnd="@dimen/spacing_text"
-        android:contentDescription="@{@string/description_indicator(7)}"
-        app:layout_constraintEnd_toStartOf="@+id/indicator8"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/indicator6"
-        app:layout_constraintTop_toTopOf="@+id/indicator6" />
-
-    <ImageView
-        android:id="@+id/indicator8"
-        android:layout_width="@dimen/image_size_indicator"
-        android:layout_height="@dimen/image_size_indicator"
-        android:src="@drawable/myact_shape_indicator_gray"
-        android:layout_marginStart="@dimen/spacing_text"
-        android:layout_marginEnd="@dimen/spacing_text"
-        android:contentDescription="@{@string/description_indicator(8)}"
-        app:layout_constraintEnd_toStartOf="@+id/indicator9"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/indicator7"
-        app:layout_constraintTop_toTopOf="@+id/indicator7" />
-
-    <ImageView
-        android:id="@+id/indicator9"
-        android:layout_width="@dimen/image_size_indicator"
-        android:layout_height="@dimen/image_size_indicator"
-        android:src="@drawable/myact_shape_indicator_gray"
-        android:layout_marginStart="@dimen/spacing_text"
-        android:layout_marginEnd="@dimen/spacing_text"
-        android:contentDescription="@{@string/description_indicator(9)}"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/indicator8"
-        app:layout_constraintTop_toTopOf="@+id/indicator8" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

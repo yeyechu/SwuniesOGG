@@ -11,12 +11,13 @@
     </data>
 
     <FrameLayout
+        android:id="@+id/frame_layout_myact"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_scroll"
             android:background="@color/secondary_baby_blue"
             tools:context=".MyActFragment">
@@ -39,10 +40,11 @@
 
                 <TextView
                     android:id="@+id/text_title_sust"
-                    style="@style/StyleText.subtitle"
+                    style="@style/StyleText.title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_regular"
+                    android:layout_marginEnd="@dimen/spacing_regular"
                     android:text="@string/myact_text_title_sustainable"
                     app:layout_constraintBottom_toTopOf="@id/sustainable_act_list"
                     app:layout_constraintEnd_toStartOf="@id/button_tooltip_sust"
@@ -61,23 +63,35 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/sustainable_act_list"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_small"
                     android:layout_marginBottom="@dimen/spacing_regular"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toTopOf="@id/text_title_extra"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_title_sust"
+                    app:layout_constraintTop_toBottomOf="@id/text_title_sust"
                     app:listData="@{viewModel.getSustData}"
                     tools:listitem="@layout/fragment_my_act_card_item_big" />
+
+                <GridView
+                    android:id="@+id/indicator_sust"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="9"
+                    app:layout_constraintTop_toBottomOf="@id/sustainable_act_list"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/text_title_extra"
+                    tools:listitem="@layout/item_indicator"/>
 
                 <!-- 특별 활동  -->
 
                 <TextView
                     android:id="@+id/text_title_extra"
-                    style="@style/StyleText.subtitle"
+                    style="@style/StyleText.title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_regular"
@@ -111,24 +125,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <FrameLayout
-            android:id="@+id/frame_layout"
+        <ImageView
+            android:id="@+id/image_fake_bottom"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/bottom_nav_size"
-                android:layout_gravity="bottom"
-                android:background="@drawable/myact_image_fake_bottom_nav"
-                android:visibility="visible" />
-
-            <fragment
-                android:id="@+id/fragment_popup"
-                android:name="com.swu.dimiz.ogg.ui.myact.postsust.PostSustWindow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
+            android:layout_height="@dimen/bottom_nav_size"
+            android:layout_gravity="bottom"
+            android:background="@drawable/myact_image_fake_bottom_nav"
+            android:visibility="visible" />
     </FrameLayout>
 </layout>

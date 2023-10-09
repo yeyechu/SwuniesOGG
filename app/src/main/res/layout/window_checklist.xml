@@ -10,72 +10,72 @@
         android:layout_height="match_parent"
         >
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="">
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            android:theme="?attr/actionBarTheme"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:title="">-->
 
-            <TextView
-                android:id="@+id/checklist_page_title"
-                style="@style/StyleText.title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="친환경 운전 습관 확인하기"
-                tools:layout_editor_absoluteX="154dp"
-                tools:layout_editor_absoluteY="18dp" />
+<!--            <TextView-->
+<!--                android:id="@+id/checklist_page_title"-->
+<!--                style="@style/StyleText.title"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:text="친환경 운전 습관 확인하기"-->
+<!--                tools:layout_editor_absoluteX="154dp"-->
+<!--                tools:layout_editor_absoluteY="18dp" />-->
 
-        </androidx.appcompat.widget.Toolbar>
-
-
-        <TextView
-            android:id="@+id/checklist_title"
-            style="@style/StyleText.title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_big"
-            android:text="~~이란,"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-        <TextView
-            android:id="@+id/checklist_text"
-            style="@style/StyleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="~~~하고 , ~~할수있다 \n 두줄 두"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checklist_title" />
+<!--        </androidx.appcompat.widget.Toolbar>-->
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/checklistt_item"
-            android:layout_width="match_parent"
-            android:layout_height="700dp"
-            android:layout_marginTop="@dimen/spacing_small"
-            app:layout_constraintBottom_toTopOf="@+id/button"
-            app:layout_constraintEnd_toEndOf="@+id/button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checklist_text"
-            tools:listitem="@layout/layer_checklist_item" />
+<!--        <TextView-->
+<!--            android:id="@+id/checklist_title"-->
+<!--            style="@style/StyleText.title"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/spacing_big"-->
+<!--            android:text="~~이란,"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/toolbar" />-->
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="확인 완료"
-            style="@style/StyleButtonOgg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/checklist_text"-->
+<!--            style="@style/StyleText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:text="~~~하고 , ~~할수있다 \n 두줄 두"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/checklist_title" />-->
+
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/checklistt_item"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="700dp"-->
+<!--            android:layout_marginTop="@dimen/spacing_small"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/button"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/button"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/checklist_text"-->
+<!--            tools:listitem="@layout/layer_checklist_item" />-->
+
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/button"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="확인 완료"-->
+<!--            style="@style/StyleButtonOgg"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
 
 
