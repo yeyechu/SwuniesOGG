@@ -128,6 +128,7 @@ class FeedViewModel : ViewModel()  {
             if(querySnapshot!=null){
                 for(dc in querySnapshot.documentChanges){
                     if(dc.type== DocumentChange.Type.ADDED){
+                        gotFeedList.clear()
                         for (document in querySnapshot) {
                             val feed = document.toObject<Feed>()
                             gotFeed.id = document.id.toLong()
@@ -135,8 +136,8 @@ class FeedViewModel : ViewModel()  {
                             gotFeed.actCode = feed.actCode
                             // Timber.i(feed.imageUrl)
                             gotFeedList.add(gotFeed)
-                            _feedList.value = gotFeedList
                         }
+                        _feedList.value = gotFeedList
                         Timber.i(_feedList.value.toString())
                     }
                 }
