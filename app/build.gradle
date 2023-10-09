@@ -60,8 +60,12 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.7.2"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation "com.github.skydoves:balloon:1.4.6"
     implementation 'androidx.recyclerview:recyclerview:1.3.1'
+    implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    // 비공식 라이브러리
+    implementation "com.github.skydoves:balloon:1.4.6"
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // Kotlin components
@@ -69,7 +73,6 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation 'androidx.concurrent:concurrent-futures-ktx:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
 
     // test tool
     testImplementation 'junit:junit:4.13.2'

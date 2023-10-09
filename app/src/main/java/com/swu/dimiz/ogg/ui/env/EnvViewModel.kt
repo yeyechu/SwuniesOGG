@@ -11,13 +11,6 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import io.reactivex.rxjava3.disposables.Disposable
 import timber.log.Timber
 
-data class User(
-    var nickname: String = "플라스틱애호가",
-    var aim: Float = AIMCO2_ONE,
-    var car: Int = INTEGER_ZERO,
-    var startDate:Long = 0L,
-    var report: Int = INTEGER_ZERO
-)
 class EnvViewModel : ViewModel() {
 
     private val disposable: Disposable? = null
@@ -26,10 +19,6 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      회원 정보 저장
-    private val _fakeUser = MutableLiveData<User>()
-    val fakeUser: LiveData<User>
-        get() = _fakeUser
-
     private val _fakeDate = MutableLiveData<Int>()
     val fakeDate: LiveData<Int>
         get() = _fakeDate
@@ -53,14 +42,6 @@ class EnvViewModel : ViewModel() {
         get() = _leftHolder
 
     private val _aimCo2 = MutableLiveData<Float>()
-
-    val layerVisible = fakeDate.map {
-        //it.startDate == 0L
-        it == INTEGER_ZERO
-    }
-    val date = fakeUser.map {
-        convertDurationToFormatted(it.startDate)
-    }
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      인터랙션 감지
@@ -100,7 +81,6 @@ class EnvViewModel : ViewModel() {
         userInit()
         Timber.i("ViewModel created")
 
-        _fakeUser.value = User()
         _fakeDate.value = INTEGER_ZERO
         _fakeToday.value = FLOAT_ZERO
 
@@ -113,7 +93,7 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
-    fun userInit() {
+    private fun userInit() {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
         val appUser = MyCondition()
         docRef.get()
@@ -140,6 +120,17 @@ class EnvViewModel : ViewModel() {
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                     룸데이터 함수
 
+    // 여기 fakeDate 아니고 userCondition.startDate으로 갈아끼워야 함
+    val layerVisible = fakeDate.map {
+        //it.startDate == 0L
+        it == INTEGER_ZERO
+    }
+
+    // fakeUser 대신 userCondition으로 갈아끼워야 함
+    val date = userCondition.map {
+        convertDurationToFormatted(it.startDate)
+    }
+
     fun leftCo2() {
         if(_co2Holder.value!! < _aimCo2.value!!) {
            _leftHolder.value = _aimCo2.value!!.minus(_co2Holder.value!!)
@@ -150,7 +141,7 @@ class EnvViewModel : ViewModel() {
         _aimCo2.value = co2 * CO2_WHOLE
     }
 
-    val progressBar = co2Holder.map {
+    val progressWhole = co2Holder.map {
         it.div(_aimCo2.value!!).times(100).toInt()
     }
 

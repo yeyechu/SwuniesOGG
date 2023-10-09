@@ -49,7 +49,6 @@
                     android:textColor="@{viewModel.saveButtonEnabled? @color/primary_blue : @color/secondary_baby_gray}"
                     android:onClick="@{() -> viewModel.onSaveButtonClicked()}"
                     android:clickable="@{viewModel.saveButtonEnabled}"
-
                     style="@style/StyleText.title" />
             </androidx.appcompat.widget.Toolbar>
 
@@ -156,11 +155,12 @@
             <fragment
                 android:id="@+id/list_layout"
                 android:name="com.swu.dimiz.ogg.contents.listset.ListFragment"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/instruction_layout"/>
+                app:layout_constraintTop_toBottomOf="@id/instruction_layout"
+                tools:listData="@layout/fragment_listset_list_item"/>
         </LinearLayout>
     </FrameLayout>
 </layout>

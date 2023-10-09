@@ -5,29 +5,31 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.ListsetViewModel
 import com.swu.dimiz.ogg.databinding.FragmentListsetListItemBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class ListsetAdapter(
-    private val minusListener: ListClickListener,
-    private val plusListener: ListClickListener,
+    private val viewModel: ListsetViewModel,
+    private val checkListener: ListClickListener,
     private val detailListener: ListClickListener
 ) : ListAdapter<ActivitiesDaily, ListsetAdapter.ListsetViewHolder>(ListDiffCallback) {
 
+    private val adapterScope = CoroutineScope(Dispatchers.Default)
     class ListsetViewHolder(private var binding: FragmentListsetListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
             activity: ActivitiesDaily,
-            minusListener: ListClickListener,
-            plusListener: ListClickListener,
+            viewModel: ListsetViewModel,
+            checkListener: ListClickListener,
             detailListener: ListClickListener
         ) {
             binding.activity = activity
-            //binding.cardView.setCardBackgroundColor(R.color.secondary_baby_blue)
-            binding.minusListener = minusListener
-            binding.plusListener = plusListener
+            binding.viewModel = viewModel
+            binding.checkListener = checkListener
             binding.detailListener = detailListener
             binding.executePendingBindings()
         }
@@ -36,8 +38,6 @@ class ListsetAdapter(
     override fun getItemViewType(position: Int): Int {
         return position
     }
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListsetViewHolder {
         return ListsetViewHolder(
@@ -49,14 +49,14 @@ class ListsetAdapter(
 
     override fun onBindViewHolder(holder: ListsetViewHolder, position: Int) {
         val activity = getItem(position)
-
-        holder.bind(activity, minusListener, plusListener, detailListener)
+        holder.bind(activity, viewModel, checkListener, detailListener)
     }
 
     companion object ListDiffCallback : DiffUtil.ItemCallback<ActivitiesDaily>() {
 
         override fun areContentsTheSame(oldItem: ActivitiesDaily, newItem: ActivitiesDaily): Boolean {
-            return oldItem.dailyId == newItem.dailyId && oldItem.freq == newItem.freq
+
+            return (oldItem.freq == newItem.freq && oldItem.dailyId == newItem.dailyId)
         }
 
         override fun areItemsTheSame(oldItem: ActivitiesDaily, newItem: ActivitiesDaily): Boolean {

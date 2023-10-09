@@ -51,11 +51,11 @@ class MyActFragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel
 
-        //firebase 동작확인
+        //firebase
         viewModel.fireInfo()
-        viewModel.fireDaily()
-        viewModel.fireSust()
-        viewModel.fireExtra()
+        viewModel.fireGetDaily()
+        viewModel.fireGetSust()
+        viewModel.fireGetExtra()
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터

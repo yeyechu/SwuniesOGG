@@ -5,9 +5,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.CO2_WHOLE
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
-import com.swu.dimiz.ogg.ui.env.User
 
 @BindingAdapter("expandButtonImage")
 fun ImageView.setImage(boolean: Boolean) {

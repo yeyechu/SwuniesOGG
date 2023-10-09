@@ -2,19 +2,27 @@ package com.swu.dimiz.ogg.ui.feed.myfeed
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentFeedItemBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
+import timber.log.Timber
 
 class FeedGridAdapter(private val onFeedClickListener: OnFeedClickListener):
     ListAdapter<Feed, FeedGridAdapter.FeedViewHolder>(FeedDiffCallback) {
-
     class FeedViewHolder(private var binding: FragmentFeedItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
+
+        var imageIv: ImageView =itemView.findViewById(R.id.feed_image_view)
+
         fun bind(feed: Feed) {
             binding.feed = feed
+            Glide.with(itemView).load(feed.imageUrl).into(imageIv)
+            Timber.i(feed.imageUrl)
             binding.executePendingBindings()
         }
     }

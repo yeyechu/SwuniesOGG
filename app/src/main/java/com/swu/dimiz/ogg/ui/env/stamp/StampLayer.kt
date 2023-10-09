@@ -7,8 +7,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.text.style.TextAppearanceSpan
-import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +18,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.listset.listutils.DATE_WHOLE
-import com.swu.dimiz.ogg.contents.listset.listutils.StampData
 import com.swu.dimiz.ogg.databinding.LayerStampBinding
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import timber.log.Timber
@@ -44,21 +40,8 @@ class StampLayer : Fragment() {
         val stampView: GridView = binding.stampGrid
         val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
 
-        viewModel.fakeDate.observe(viewLifecycleOwner) {
-            val textDecorator = SpannableStringBuilder.valueOf(getString(R.string.stamplayout_text_title, it))
-            binding.textDateOf21.text = textDecorator.apply {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    setSpan(TypefaceSpan(typeface), 0, 2, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-                    setSpan(TypefaceSpan(typeface), 6, 7, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-                }
-            }
-        }
-
         viewModel.leftHolder.observe(viewLifecycleOwner) {
             val textDecorator = SpannableStringBuilder.valueOf(getString(R.string.stamplayout_text_body, it))
-
-            //val startIndex = textDecorator.indexOfFirst { char -> Character.isDefined(char) }
-            //val endIndex = textDecorator.indexOfLast { char -> Character.isDefined(char) }
 
             binding.textCo2Left.text = textDecorator.apply {
                 setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.primary_blue)), 9, 16, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -78,7 +61,7 @@ class StampLayer : Fragment() {
             }
         }
 
-        viewModel.progressBar.observe(viewLifecycleOwner) {
+        viewModel.progressWhole.observe(viewLifecycleOwner) {
             binding.progressEnv.progress = it
         }
 
