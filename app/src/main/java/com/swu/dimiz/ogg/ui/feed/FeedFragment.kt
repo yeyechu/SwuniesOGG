@@ -71,7 +71,7 @@ class FeedFragment : Fragment(){
 
             // ──────────────────────────────────────────────────────────────────────────────────────
             //                                  피드 리스트 출력
-            fireGetFeed()
+            //fireGetFeed()
         }
         return binding.root
     }
@@ -83,8 +83,7 @@ class FeedFragment : Fragment(){
 
         viewModel.navigateToSelectedItem.observe(viewLifecycleOwner) {
             it?.let {
-                view?.findNavController()
-                    ?.navigate(com.swu.dimiz.ogg.R.id.action_navigation_feed_to_destination_feed_detail)
+                navController.navigate(FeedFragmentDirections.actionNavigationFeedToDestinationFeedDetail())
                 viewModel.onFeedDetailCompleted()
             }
         }
@@ -104,23 +103,23 @@ class FeedFragment : Fragment(){
 
 
     //firestore에서 이미지 url을 받아옴
-    private val fireDB = Firebase.firestore
-    var gotFeed = Feed()
-   fun fireGetFeed(){
-       fireDB.collection("Feed")
-            .get()
-            .addOnSuccessListener {result ->
-                for (document in result) {
-                    val feed = document.toObject<Feed>()
-                    gotFeed.id = document.id.toInt()
-                    gotFeed.imageUrl = feed.imageUrl
-                    gotFeed.actCode = feed.actCode
-                    Timber.i(feed.imageUrl)
-                    feedList.add(gotFeed)
-                }
-            }
-            .addOnFailureListener { exception ->
-                Timber.i(exception)
-            }
-    }
+//    private val fireDB = Firebase.firestore
+//    var gotFeed = Feed()
+//   fun fireGetFeed(){
+//       fireDB.collection("Feed")
+//            .get()
+//            .addOnSuccessListener {result ->
+//                for (document in result) {
+//                    val feed = document.toObject<Feed>()
+//                    gotFeed.id = document.id.toInt()
+//                    gotFeed.imageUrl = feed.imageUrl
+//                    gotFeed.actCode = feed.actCode
+//                    Timber.i(feed.imageUrl)
+//                    feedList.add(gotFeed)
+//                }
+//            }
+//            .addOnFailureListener { exception ->
+//                Timber.i(exception)
+//            }
+//    }
 }
