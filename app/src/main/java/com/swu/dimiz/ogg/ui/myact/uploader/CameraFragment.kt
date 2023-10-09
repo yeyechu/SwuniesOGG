@@ -91,12 +91,15 @@ class CameraFragment : Fragment() {
 
             //PostWindow.postWindow!!.finish()
             CameraActivity.cameraActivity!!.finish()
+
             Timber.i("post 데이터가 올라가야 함")
 
             /* 10000이면 daily, 20000이면 sustain, 30000이면 extra
             Feed(MySus, Myextra) 분리해서 업로드하기
             */
 
+            // 활동 아이디 ▼
+            // CameraActivity.id
             if(savedUri!=null) {
                 val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(Date())// 파일명이 겹치면 안되기 때문
 

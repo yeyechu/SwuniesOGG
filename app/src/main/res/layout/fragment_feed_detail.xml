@@ -12,8 +12,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frame_layout_feed"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/transparency_dimmed">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -32,7 +34,9 @@
                 android:padding="@dimen/spacing_small"
                 android:layout_marginStart="@dimen/spacing_regular"
                 android:textAppearance="@style/StyleText.subtitle"
-                android:textColor="@color/secondary_light_gray"
+                android:textColor="@color/transparency_dimmed"
+                android:textStyle="bold"
+                android:text=""
                 app:chipBackgroundColor="@color/selected_highlight"
                 app:chipEndPadding="@dimen/spacing_small"
                 app:chipStartPadding="@dimen/spacing_small"
@@ -47,34 +51,44 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_regular"
                 style="@style/StyleText.header"
+                android:textColor="@color/white"
+                android:textStyle="bold"
                 android:text="@string/destination_title_listset"
                 tools:text="활동 제목" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/button_exit"
                 style="@style/StyleImageButton"
-                android:layout_width="@dimen/icon_extra_small"
-                android:layout_height="@dimen/icon_extra_small"
-                android:layout_marginEnd="@dimen/spacing_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:padding="@dimen/spacing_regular"
+                android:layout_marginEnd="@dimen/spacing_extra_small"
                 android:layout_gravity="end"
                 android:contentDescription="@string/description_common_button_exit"
-                app:srcCompat="@drawable/common_button_exit" />
+                android:src="@drawable/common_button_exit" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/button_report"
                 style="@style/StyleImageButton"
-                android:layout_width="@dimen/icon_extra_small"
-                android:layout_height="@dimen/icon_extra_small"
-                android:layout_marginEnd="@dimen/spacing_small"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:padding="@dimen/spacing_medium"
                 android:layout_gravity="end"
                 android:contentDescription="@string/description_button_report"
-                app:srcCompat="@drawable/feed_button_reaction_report" />
+                android:onClick="@{() -> viewModel.onReportClicked(viewModel.feedId)}"
+                android:src="@drawable/feed_button_reaction_report" />
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView
             android:id="@+id/image_feed_detail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            app:imageUrl="@{viewModel.feedId.imageUrl}"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -85,7 +99,9 @@
             android:layout_marginStart="@dimen/dimension_50"
             android:layout_marginEnd="@dimen/dimension_50"
             android:layout_marginBottom="@dimen/spacing_regular"
+            android:paddingStart="@dimen/spacing_larger"
             android:orientation="horizontal"
+            android:background="@drawable/feed_shape_detail_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
@@ -94,21 +110,25 @@
                 android:id="@+id/image_feed_reaction_like"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/spacing_big"
                 android:adjustViewBounds="true"
+                android:onClick="@{() -> viewModel.onreactionClicked(1)}"
                 android:src="@drawable/feed_button_reaction_like"/>
             <ImageView
                 android:id="@+id/image_feed_reaction_fun"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:paddingStart="@dimen/spacing_regular"
+                android:paddingEnd="@dimen/spacing_regular"
                 android:adjustViewBounds="true"
+                android:onClick="@{() -> viewModel.onreactionClicked(2)}"
                 android:src="@drawable/feed_button_reaction_fun"/>
 
             <ImageView
-                android:id="@+id/image_feed_reaction_greate"
+                android:id="@+id/image_feed_reaction_great"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
+                android:onClick="@{() -> viewModel.onreactionClicked(3)}"
                 android:src="@drawable/feed_button_reaction_great"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

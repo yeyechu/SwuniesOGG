@@ -3,17 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.swu.dimiz.ogg.member">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
+    </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/secondary_baby_gray">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:title="">
 
             <TextView
@@ -26,76 +35,85 @@
             <ImageButton
                 android:id="@+id/button_settings"
                 style="@style/StyleImageButton"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/spacing_medium"
                 android:layout_gravity="end"
                 android:contentDescription="@string/destination_title_settings"
-                android:background="@drawable/member_button_to_des_settings" />
+                android:src="@drawable/member_button_to_des_settings" />
 
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_member"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_big"
-            >
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
-                android:id="@+id/user_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-
-                android:background="@drawable/env_image_stamp_050"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/image_user_face"
+                android:layout_width="@dimen/image_size_aim_face"
+                android:layout_height="@dimen/image_size_aim_face"
+                android:src="@drawable/login_image_face"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_regular"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/user_image"
-                app:layout_constraintStart_toEndOf="@+id/user_image"
-                app:layout_constraintTop_toTopOf="@+id/user_image">
-
-                <TextView
-                    android:id="@+id/user_name"
-                    style="@style/StyleText.header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="오지지"
-                    app:layout_constraintStart_toStartOf="@+id/textView7"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/user_email"
-                    style="@style/StyleText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    tools:layout_editor_absoluteY="65dp"
-                    tools:text="이메일이메일이메일" />
-            </LinearLayout>
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
-                android:id="@+id/myfeed_text"
-                style="@style/StyleText.header"
+                android:id="@+id/text_user_nickname"
+                style="@style/StyleText.name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_big"
-                android:text="@string/member_text_title_myfeed"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_image" />
+                android:paddingTop="@dimen/spacing_big"
+                android:paddingBottom="@dimen/spacing_small"
+                android:text="@{viewModel.userCondition.nickName}"
+                app:layout_constraintStart_toEndOf="@id/image_user_face"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/text_user_email"
+                tools:text="오지지"/>
 
-            <!--내 피드 삽입-->
-
-
+            <TextView
+                android:id="@+id/text_user_email"
+                style="@style/StyleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.userCondition.email}"
+                app:layout_constraintStart_toEndOf="@id/image_user_face"
+                app:layout_constraintTop_toBottomOf="@id/text_user_nickname"
+                tools:layout_editor_absoluteY="65dp"
+                tools:text="이메일이메일이메일" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/text_title_myfeed"
+            style="@style/StyleText.title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_medium"
+            android:background="@color/white"
+            android:text="@string/member_text_title_myfeed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_member"/>
+
+<!--        <fragment-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:name="com.swu.dimiz.ogg.ui.feed.myfeed.FeedLayer"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/text_title_myfeed"-->
+<!--            tools:layout="@layout/layer_feed"/>-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

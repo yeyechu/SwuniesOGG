@@ -104,6 +104,7 @@ class EnvViewModel : ViewModel() {
 
                 gotUser?.let {
                     appUser.nickName = gotUser.nickName
+                    appUser.email = gotUser.email
                     appUser.aim = gotUser.aim
                     appUser.car = gotUser.car
                     appUser.startDate = gotUser.startDate.toLong()

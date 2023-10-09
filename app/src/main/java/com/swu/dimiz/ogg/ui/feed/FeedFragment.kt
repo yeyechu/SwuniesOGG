@@ -39,8 +39,6 @@ class FeedFragment : Fragment(){
     private val viewModel: FeedViewModel by activityViewModels()
     private lateinit var navController: NavController
 
-    lateinit var feedList:ArrayList<Feed>
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 

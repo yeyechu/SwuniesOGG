@@ -25,13 +25,15 @@
                 style="@style/StyleImageButton"
                 android:layout_width="@dimen/icon_extra_small"
                 android:layout_height="@dimen/icon_extra_small"
+                android:layout_marginStart="@dimen/spacing_regular"
                 android:contentDescription="@string/description_common_button_arrow_right"
+                android:src="@drawable/common_button_arrow_left"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/text_graph_title"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/common_button_arrow_left" />
+                 />
 
             <TextView
                 android:id="@+id/text_graph_title"
@@ -48,15 +50,16 @@
             <ImageView
                 android:id="@+id/button_right"
                 style="@style/StyleImageButton"
-                android:layout_width="26dp"
-                android:layout_height="17dp"
+                android:layout_width="@dimen/icon_extra_small"
+                android:layout_height="@dimen/icon_extra_small"
+                android:layout_marginEnd="@dimen/spacing_regular"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/description_common_button_arrow_right"
+                android:src="@drawable/common_button_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_graph_title"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/common_button_arrow_right" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

@@ -29,6 +29,14 @@ class FeedViewModel : ViewModel()  {
     val feedList: LiveData<List<Feed>>
         get() = _feedList
 
+    private val _feedId = MutableLiveData<Feed?>()
+    val feedId: LiveData<Feed?>
+        get() = _feedId
+
+    val layoutVisible = feedList.map {
+        it.isNotEmpty()
+    }
+
     // 필터링된 피드리스트
     private val _filteredList = MutableLiveData<List<Feed>>()
     val filteredList: LiveData<List<Feed>>
@@ -42,20 +50,41 @@ class FeedViewModel : ViewModel()  {
     val navigateToSelectedItem: LiveData<Feed?>
         get() = _navigateToSelectedItem
 
+    private val _navigateToReport = MutableLiveData<Feed?>()
+    val navigateToReport: LiveData<Feed?>
+        get() = _navigateToReport
+
     init {
         getFilters()
         onFilterChanged(TOGETHER, true)
         Timber.i("created")
     }
 
+    fun onreactionClicked(item: Int) {
+        when(item) {
+         1 -> Timber.i("눌린 버튼 $item")
+            2 -> Timber.i("눌린 버튼 $item")
+            3 -> Timber.i("눌린 버튼 $item")
+        }
+    }
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                          이동
     fun onFeedDetailClicked(feed: Feed) {
         _navigateToSelectedItem.value = feed
+        _feedId.value = feed
     }
 
     fun onFeedDetailCompleted() {
         _navigateToSelectedItem.value = null
+    }
+
+    fun onReportClicked(feed: Feed) {
+        _navigateToReport.value = feed
+    }
+
+    fun onReportCompleted() {
+        _navigateToReport.value = null
     }
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                          필터
