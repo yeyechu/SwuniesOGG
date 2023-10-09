@@ -113,8 +113,10 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/extra_act_list"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_regular"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -122,7 +124,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_title_extra"
                     app:listDataExtra="@{viewModel.getExtraData}"
-                    tools:listitem="@layout/fragment_my_act_card_item_big" />
+                    tools:listitem="@layout/fragment_my_act_card_item_big_extra" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
