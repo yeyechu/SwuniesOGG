@@ -11,7 +11,7 @@ Feed/사용자 이메일
  */
 
 data class Feed(
-    var id : Int = 0,
+    var id : Long = 0L,
 
     var email: String ="",     //업로드한 사용자 (통계, 나의피드에서 이메일 검색으로 가져옴)
 

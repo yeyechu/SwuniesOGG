@@ -1,12 +1,17 @@
 package com.swu.dimiz.ogg.ui.feed
 
+import android.content.ClipData
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
+import com.swu.dimiz.ogg.ui.feed.myfeed.bindImage
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -82,5 +87,36 @@ class FeedViewModel : ViewModel()  {
     override fun onCleared() {
         super.onCleared()
         Timber.i("destroyed")
+    }
+
+
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                             firebase 피드리스트 받기
+    // 필터링은 전체/에너지/소비/이동수단/자원순환 + 내가 올린 글
+    // 이렇게 총 6가지이고
+    // 필터링만 바꿔서 나의 피드로 들어감
+
+
+
+    //firestore에서 이미지 url을 받아옴
+    private val fireDB = Firebase.firestore
+    var gotFeed = Feed()
+    fun fireGetFeed(){
+        fireDB.collection("Feed")
+            .get()
+            .addOnSuccessListener {result ->
+                for (document in result) {
+                    val feed = document.toObject<Feed>()
+                    gotFeed.id = document.id.toLong()
+                    gotFeed.imageUrl = feed.imageUrl
+                    gotFeed.actCode = feed.actCode
+                    Timber.i(feed.imageUrl)
+                    _feedList.value = listOf(gotFeed)
+                }
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
+            }
+
     }
 }

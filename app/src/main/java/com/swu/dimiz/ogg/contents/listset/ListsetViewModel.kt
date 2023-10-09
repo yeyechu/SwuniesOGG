@@ -530,7 +530,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun fireSave() {
         for (i in 0 until LIST_SIZE) {
             val actList = MyList()
-            actList.setFirstList(listArray[i - 1].aId, listArray[i - 1].aNumber)
+            actList.setFirstList(listArray[i].aId, listArray[i].aNumber)
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Project${appUser.projectCount}").document(i.toString())
                 .set(actList)

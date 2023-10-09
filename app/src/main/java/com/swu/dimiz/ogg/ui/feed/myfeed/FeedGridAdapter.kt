@@ -17,12 +17,11 @@ class FeedGridAdapter(private val onFeedClickListener: OnFeedClickListener):
     class FeedViewHolder(private var binding: FragmentFeedItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        var imageIv: ImageView =itemView.findViewById(R.id.feed_image_view)
+
 
         fun bind(feed: Feed) {
             binding.feed = feed
-            Glide.with(itemView).load(feed.imageUrl).into(imageIv)
-            Timber.i(feed.imageUrl)
+
             binding.executePendingBindings()
         }
     }
