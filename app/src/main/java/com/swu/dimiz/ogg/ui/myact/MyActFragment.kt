@@ -47,8 +47,8 @@ class MyActFragment : Fragment() {
         val mainActivity = activity as MainActivity
 
         //firebase
-        viewModel.fireInfo()
-        viewModel.fireGetDaily()
+        //viewModel.fireInfo()
+        //viewModel.fireGetDaily()
         viewModel.fireGetSust()
         viewModel.fireGetExtra()
 
