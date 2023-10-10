@@ -168,7 +168,7 @@ class MyActFragment : Fragment() {
         viewModel.navigateToToChecklist.observe(viewLifecycleOwner) {
             if(it) {
                 navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationChecklist())
-                viewModel.onChechlistCompleted()
+                viewModel.onChecklistCompleted()
                 fragmentManager.popBackStack()
             }
         }

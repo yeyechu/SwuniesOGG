@@ -85,6 +85,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="21일 중 11일째" />
+            <!-- android:text="@{@string/stamplayout_text_title(condition.date)}"
+             실제 날짜 적용해보고 싶으면 갈아끼우면 됨 -->
 
             <TextView
                 android:id="@+id/text_co2_left"

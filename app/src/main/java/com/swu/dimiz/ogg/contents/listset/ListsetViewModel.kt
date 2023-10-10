@@ -106,11 +106,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val toastVisibility: LiveData<Boolean>
         get() = _toastVisibility
 
-    val activity = MediatorLiveData<ActivitiesDaily>()
-    private val activityList = MediatorLiveData<List<ActivitiesDaily>>()
-    //val activityList2 = LiveData<List<ActivitiesDaily>> = repository.getTodayList()
-    //val inventory: LiveData<List<Badges>> = repository.getInventory()
-
     //                                       활동 디테일
     val details = MediatorLiveData<List<Instruction>>()
 
@@ -131,10 +126,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _co2Holder.value = FLOAT_ZERO
 
         initListHolder()
-        activityList.addSource(repository.getTodayList(), activityList::setValue)
         //initCo2Holder()
 
-        Timber.i("액티비티 리스트 초기화 : ${activityList.value}")
         getFilters()
         onFilterChanged(ENERGY, true)
         Timber.i("created")
@@ -236,18 +229,18 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     private fun initCo2Holder(/*data: List<ListData>*/) = viewModelScope.launch {
 
-        for(i in activityList.value!!) {
-
-            if(i.dailyId > 0) {
-                //activity.addSource(repository.getActivity(i.aId), activity::setValue)
-                //Timber.i("initCo2Holder activity 초기화 : ${activity.value}")
-                plusCo2(i.co2)
-                Timber.i("initCo2Holder co2Holder 초기화 : ${_co2Holder.value}")
-
-                //i.freq++
-                //update(i)
-            }
-        }
+//        for(i in activityList.value!!) {
+//
+//            if(i.dailyId > 0) {
+//                //activity.addSource(repository.getActivity(i.aId), activity::setValue)
+//                //Timber.i("initCo2Holder activity 초기화 : ${activity.value}")
+//                plusCo2(i.co2)
+//                Timber.i("initCo2Holder co2Holder 초기화 : ${_co2Holder.value}")
+//
+//                //i.freq++
+//                //update(i)
+//            }
+//        }
     }
 
     fun addListHolder(act: ActivitiesDaily, isChecked: Boolean) {
