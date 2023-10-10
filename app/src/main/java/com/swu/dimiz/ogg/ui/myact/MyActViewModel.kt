@@ -203,6 +203,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             .get()
             .addOnSuccessListener { result  ->
                 for (document in result ) {
+                    mySustList.clear()
                     val mysust = document.toObject<MySustainable>()
                     mySustList.add(mysust.sustID!!)
                     Timber.i( "Sust result: $mySustList")
@@ -220,6 +221,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             .get()
             .addOnSuccessListener { result  ->
                 for (document in result ) {
+                    myExtraList.clear()
                     val myextra = document.toObject<MyExtra>()
                     myExtraList.add(myextra.extraID!!)
                     Timber.i( "Extra result: $myExtraList")

@@ -128,7 +128,6 @@ class FeedViewModel : ViewModel()  {
     // 필터링만 바꿔서 나의 피드로 들어감
 
 
-
     //firestore에서 이미지 url을 받아옴
     private val fireDB = Firebase.firestore
     var gotFeed = Feed()
@@ -139,13 +138,13 @@ class FeedViewModel : ViewModel()  {
             if(querySnapshot!=null){
                 for(dc in querySnapshot.documentChanges){
                     if(dc.type== DocumentChange.Type.ADDED){
-                        gotFeedList.clear()
                         for (document in querySnapshot) {
+                            gotFeedList.clear()
                             val feed = document.toObject<Feed>()
                             gotFeed.id = document.id.toLong()
                             gotFeed.imageUrl = feed.imageUrl
                             gotFeed.actCode = feed.actCode
-                            // Timber.i(feed.imageUrl)
+                            
                             gotFeedList.add(gotFeed)
                         }
                         _feedList.value = gotFeedList
@@ -154,6 +153,5 @@ class FeedViewModel : ViewModel()  {
                 }
             }
         }
-
     }
 }

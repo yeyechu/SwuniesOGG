@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Telephony.Mms.Part.FILENAME
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import androidx.annotation.RequiresApi
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.concurrent.futures.await
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -33,11 +35,13 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.OggApplication.Companion.auth
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.post.PostWindow
@@ -85,6 +89,21 @@ class CameraFragment : Fragment() {
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
         Timber.i("카메라 onCreateView()")
 
+        var startDate : Long = 0L
+        var today :Int = 0
+
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val gotUser = document.toObject<MyCondition>()
+                    gotUser?.let {
+                        startDate = gotUser.startDate
+                        today = convertDurationToFormatted(startDate)
+                        Timber.i("오늘 $today 일")
+                    }
+                } else { Timber.i("사용자 기본정보 받아오기 실패") }
+            }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
+
         binding.buttonRetake.setOnClickListener {
             binding.previewLayout.visibility = View.GONE
         }
@@ -94,19 +113,8 @@ class CameraFragment : Fragment() {
             //PostWindow.postWindow!!.finish()
             CameraActivity.cameraActivity!!.finish()
 
-
-            Timber.i("post 데이터가 올라가야 함")
             val feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
             val stampDay = SimpleDateFormat("yyyyMMdd").format(Date())
-
-            //todo 플젝 시작했다면 매일 새로 생성되는 쪽으로 이동해야함
-           /* var stamp = MyStamp(upDate = feedDay.toLong(), dayCo2 = 0f)
-
-            fireDB.collection("User").document(fireUser?.email.toString())
-                .collection("Stamp").document(stampDay)
-                .set(stamp)
-                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i( e ) }*/
 
             // ─────────────────────────────────────────────────────────────────────────────────
             //                               인증사진 피드 업로드
@@ -135,11 +143,9 @@ class CameraFragment : Fragment() {
 
                 // ─────────────────────────────────────────────────────────────────────────────────
                 //                              스탬프 수치 업로드
-                var itemCo2: Double = 0.1 //인증한 Co2
-
                 fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Stamp").document(stampDay)
-                    .update("dayCo2", FieldValue.increment(itemCo2))
+                    .collection("Stamp").document(today.toString())
+                    .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
                     .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
 
@@ -156,7 +162,7 @@ class CameraFragment : Fragment() {
                     fireDB.collection("User").document(fireUser?.email.toString())
                         .collection("Daily").document(stampDay)
                         .set(daily)
-                        .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                        .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
                         .addOnFailureListener { e -> Timber.i( e ) }
                 }else if( CameraActivity.id.toInt() < 30000){
                     //Sustainable
@@ -169,7 +175,7 @@ class CameraFragment : Fragment() {
                     fireDB.collection("User").document(fireUser?.email.toString())
                         .collection("Sustainable").document(CameraActivity.id)
                         .set(sust)
-                        .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                        .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
                         .addOnFailureListener { e -> Timber.i( e ) }
                 }else{
                     //Extra
@@ -182,25 +188,21 @@ class CameraFragment : Fragment() {
                     fireDB.collection("User").document(fireUser?.email.toString())
                         .collection("Extra").document(CameraActivity.id)
                         .set(extra)
-                        .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                        .addOnSuccessListener { Timber.i("Extra firestore 올리기 완료") }
                         .addOnFailureListener { e -> Timber.i( e ) }
                 }
                 // ─────────────────────────────────────────────────────────────────────────────────
                 //                              활동 전체 상황 업로드
                 //AllAct
-                //todo 얘도 먼저 있는거에 update하는 방식으로
-                val allAct = MyAllAct(
-                    ID = CameraActivity.id.toInt(),
-                    actCode = "",
-                    upCount = 0,
-                    allC02 = CameraActivity.co2.toDouble()
-                )
-                Timber.i(CameraActivity.co2.toDouble().toString())
-                Timber.i(CameraActivity.co2.toDouble().toString())
-                fireDB.collection("User").document(fireUser?.email.toString())
+                val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
                     .collection("AllAct").document(CameraActivity.id)
-                    .set(allAct)
-                    .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                washingtonRef
+                    .update("upCount", FieldValue.increment(1))
+                    .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+                washingtonRef
+                    .update("allC02", FieldValue.increment(CameraActivity.co2.toDouble()))
+                    .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
         }

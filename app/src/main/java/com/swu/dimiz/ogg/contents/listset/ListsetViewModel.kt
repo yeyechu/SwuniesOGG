@@ -428,6 +428,17 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 .addOnFailureListener { e -> Timber.i(e) }
         }
     }
+    fun fireStampReset(){
+        for(i in 1..21){
+            var stamp = MyStamp()
+            stamp = MyStamp(dayCo2 = 0.0)
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Stamp").document(i.toString())
+                .set(stamp)
+                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i(e) }
+        }
+    }
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                             기본 정보 가져오기
@@ -453,6 +464,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                         if (appUser.startDate == today.toLong()) {
                             today =  1
                             fireAllReset()
+                            fireStampReset()
                         } else {
                             today =convertDurationToFormatted(appUser.startDate)
                         }
@@ -519,6 +531,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
+                    mySustList.clear()
                     val mysust = document.toObject<MySustainable>()
                     mySustList.add(mysust.sustID!!)
                     Timber.i("Sust result: $mySustList")
