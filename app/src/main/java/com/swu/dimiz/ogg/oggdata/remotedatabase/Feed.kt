@@ -23,7 +23,9 @@ data class Feed(
 
     var imageUrl: String = "",  //인증 사진
 
-    var reactionLike: Int = 0,
+    //신고 받은 횟수
+
+   var reactionLike: Int = 0,
     var reactionFun: Int = 0,
     var reactionGreat: Int = 0,
     var reactionReport: Int = 0

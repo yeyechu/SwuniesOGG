@@ -14,10 +14,7 @@ import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyExtra
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
+import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -388,14 +385,54 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
-    //                                     유저 정보 초기화
-
+    //                                    firebase
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                             전체활동 기본정보 추가
+    private fun fireAllReset() {
+        for (i in 10001..10020) {
+            var daily = MyAllAct()
+            if (i in 10001..10008) {
+                daily = MyAllAct(ID = i, actCode = "에너지", upCount = 0, allC02 = 0.0)
+            } else if (i == 9) {
+                daily = MyAllAct(ID = i, actCode = "소비", upCount = 0, allC02 = 0.0)
+            } else if (i in 10010..10012) {
+                daily = MyAllAct(ID = i, actCode = "이동수단", upCount = 0, allC02 = 0.0)
+            } else if (i in 10013..10020) {
+                daily = MyAllAct(ID = i, actCode = "자원순환", upCount = 0, allC02 = 0.0)
+            }
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("AllAct").document(i.toString())
+                .set(daily)
+                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i(e) }
+        }
+        for(i in 20001 .. 20008){
+            var sust = MyAllAct()
+            sust = MyAllAct(ID = i, actCode = "", upCount = 0, allC02 = 0.0)
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("AllAct").document(i.toString())
+                .set(sust)
+                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i(e) }
+        }
+        for(i in 30001 .. 30007){
+            var extra = MyAllAct()
+            extra = MyAllAct(ID = i, actCode = "", upCount = 0, allC02 = 0.0)
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("AllAct").document(i.toString())
+                .set(extra)
+                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i(e) }
+        }
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                             기본 정보 가져오기
     private var appUser = MyCondition()   //사용자 기본 정보 저장
     private var today = 0
-
     fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
@@ -412,6 +449,13 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
                         _userCondition.value = appUser
                         Timber.i("유저 컨디션 초기화: ${_userCondition.value}")
+                        //today 초기화
+                        if (appUser.startDate == today.toLong()) {
+                            today =  1
+                            fireAllReset()
+                        } else {
+                            today =convertDurationToFormatted(appUser.startDate)
+                        }
                     }
                 } else {
                     Timber.i("사용자 기본정보 받아오기 실패")
@@ -419,26 +463,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }
-
-        today = if (appUser.startDate == today.toLong()) {
-            1
-        } else {
-            convertDurationToFormatted(appUser.startDate)
-        }
-        //몇번째 프로젝트 초기화
-        /*  if(appUser.projectCount == 0 ){
-              appUser.projectCount = 1
-
-          }else { //todo 수정하기 버튼으로 들어왔을 경우
-              appUser.projectCount += 1
-          }*/
-        Timber.i("today: $today")
     }
 
     //오늘 활동 리스트 가져오기
     fun fireGetDaily() = viewModelScope.launch {
         val myDailyList = ArrayList<ListData>()
-
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
             .get()
             .addOnSuccessListener { result  ->
@@ -474,7 +503,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     }
                     setListHolder(listArray)
 
-
                 }else{
                     Timber.i("비어있음")
                 }
@@ -500,28 +528,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    // 보민님 엑스트라는 List에 오지 않아도 됩니다
-    //이미 한 extra
-    private var myExtraList = ArrayList<Int>()
-    fun fireGetExtra() {
-        //지속 가능한 활동 받아오기
-        fireDB.collection("User").document(fireUser?.email.toString()).collection("Extra")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val myextra = document.toObject<MyExtra>()
-                    myExtraList.add(myextra.extraID!!)
-                    Timber.i("Extra result: $myExtraList")
-                }
-            }.addOnFailureListener { exception ->
-                Timber.i(exception.toString())
-            }
-    }
-
-
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 리스트 저장
     fun fireSave() {
+        //몇번째 프로젝트 초기화
+        if(appUser.aim == 0f && appUser.startDate == 0L ){
+            appUser.projectCount = +1
+        } else {  } //수정하기로 들어온 경우
+
         for (i in 0 until LIST_SIZE) {
             val actList = MyList()
             actList.setFirstList(listArray[i].aId, listArray[i].aNumber)

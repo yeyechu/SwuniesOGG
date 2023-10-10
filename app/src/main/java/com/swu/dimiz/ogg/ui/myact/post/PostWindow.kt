@@ -17,7 +17,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.databinding.WindowPostBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
-import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
+import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -127,7 +127,8 @@ class PostWindow : AppCompatActivity() {
                             }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
                     }
                 }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
-            //스탬프 수치 업로드
+            // ─────────────────────────────────────────────────────────────────────────────────
+            //                              스탬프 수치 업로드
             var itemCo2: Double = 0.1 //인증한 Co2
 
             fireDB.collection("User").document(fireUser?.email.toString())
@@ -136,8 +137,63 @@ class PostWindow : AppCompatActivity() {
                 .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
 
-            //daily 상태 업로드
-            //MyALLAct
+            // ─────────────────────────────────────────────────────────────────────────────────
+            //                           세가지 활동 분리해서 업로드
+            if(CameraActivity.id.toInt() < 20000){
+                //Daily
+                val daily = MyDaily(
+                    dailyID = CameraActivity.id.toInt(),
+                    upDate = feedDay.toLong(),
+                    Limit =0,
+                    doLeft = 0
+                )
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Daily").document(stampDay)
+                    .set(daily)
+                    .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+            }else if( CameraActivity.id.toInt() < 30000){
+                //Sustainable
+                val sust = MySustainable(
+                    sustID = CameraActivity.id.toInt(),
+                    strDay = feedDay.toLong(),
+                    Limit =0,
+                    dayLeft = 0
+                )
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Sustainable").document(CameraActivity.id)
+                    .set(sust)
+                    .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+            }else{
+                //Extra
+                val extra = MyExtra(
+                    extraID = CameraActivity.id.toInt(),
+                    strDay = feedDay.toLong(),
+                    Limit =0,
+                    dayLeft = 0
+                )
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Extra").document(CameraActivity.id)
+                    .set(extra)
+                    .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+            }
+            // ─────────────────────────────────────────────────────────────────────────────────
+            //                              활동 전체 상황 업로드
+            //AllAct
+            //todo 얘도 먼저 있는거에 update하는 방식으로
+            val allAct = MyAllAct(
+                ID = CameraActivity.id.toInt(),
+                actCode = "",
+                upCount = 0,
+                allC02 = CameraActivity.co2.toDouble()
+            )
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("AllAct").document(CameraActivity.id)
+                .set(allAct)
+                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
             finish()
         }
     }

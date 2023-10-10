@@ -130,61 +130,34 @@ class EnvViewModel : ViewModel() {
     fun userInit() = viewModelScope.launch {
         val appUser = MyCondition()
         //사용자 기본 정보
-        fireDB.collection("User")
-            .addSnapshotListener {   //실시간 업데이트 가져오기
-                querySnapshot, FirebaseFirestoreException ->
-            if(querySnapshot!=null){
-                for(dc in querySnapshot.documentChanges){
-                    if(dc.type== DocumentChange.Type.ADDED){
-                        for (document in querySnapshot) {
-                            val gotUser = document.toObject<MyCondition>()
-                            if(gotUser.email == fireUser?.email.toString()){
-                                appUser.nickName = gotUser.nickName
-                                appUser.aim = gotUser.aim
-                                appUser.car = gotUser.car
-                                appUser.startDate = gotUser.startDate
-                                appUser.report = gotUser.report
-                                appUser.projectCount = gotUser.projectCount
-                            }
-                        }
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val gotUser = document.toObject<MyCondition>()
+                    gotUser?.let {
+                        appUser.nickName = gotUser.nickName
+                        appUser.aim = gotUser.aim
+                        appUser.car = gotUser.car
+                        appUser.startDate = gotUser.startDate
+                        appUser.report = gotUser.report
+                        appUser.projectCount = gotUser.projectCount
+
                         _userCondition.value = appUser
                         Timber.i("유저 컨디션 초기화: ${_userCondition.value}")
                     }
+                } else {
+                    Timber.i("사용자 기본정보 받아오기 실패")
                 }
+            }.addOnFailureListener { exception ->
+                Timber.i(exception.toString())
             }
-            else {
-                Timber.i("사용자 기본정보 받아오기 실패")
-            }
-        }
-//        fireDB.collection("User").document(fireUser?.email.toString())
-//            .get().addOnSuccessListener { document ->
-//                if (document != null) {
-//                    val gotUser = document.toObject<MyCondition>()
-//                    gotUser?.let {
-//                        appUser.nickName = gotUser.nickName
-//                        appUser.aim = gotUser.aim
-//                        appUser.car = gotUser.car
-//                        appUser.startDate = gotUser.startDate
-//                        appUser.report = gotUser.report
-//                        appUser.projectCount = gotUser.projectCount
-//
-//                        _userCondition.value = appUser
-//                        Timber.i("유저 컨디션 초기화: ${_userCondition.value}")
-//                    }
-//                } else {
-//                    Timber.i("사용자 기본정보 받아오기 실패")
-//                }
-//            }.addOnFailureListener { exception ->
-//                Timber.i(exception.toString())
-//            }
-
     }
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                     룸데이터 함수
 
     // 여기 fakeDate 아니고 userCondition.startDate으로 갈아끼워야 함
     val layerVisible = userCondition.map {
-        it.startDate == 0L //userCondition.value?.startDate
+        it.startDate == 0L //0이면 참 초기화면
         //it == INTEGER_ZERO
     }
 
@@ -261,7 +234,7 @@ class EnvViewModel : ViewModel() {
         _navigateToListset.value = false
     }
 
-    fun onDateButtonClicked() {
+    fun onDateButtonClicked() { //스탬프 넣기
         val date = _fakeDate.value!!
 
         if (date < DATE_WHOLE) {

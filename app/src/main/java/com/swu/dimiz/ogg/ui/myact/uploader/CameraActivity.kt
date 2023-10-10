@@ -29,6 +29,7 @@ class CameraActivity : AppCompatActivity() {
         val intentTitle = intent.getStringExtra("title")
         val intentCo2 = intent.getStringExtra("co2")
         id = intent.getStringExtra("id")!!
+        co2 = intent.getStringExtra("co2")!!
 
         binding.textTitle.text = intentTitle
         binding.textCo2.text = getString(R.string.post_text_co2, intentCo2!!.toFloat())
@@ -50,6 +51,7 @@ class CameraActivity : AppCompatActivity() {
     companion object {
         var cameraActivity: CameraActivity? = null
         var id: String = ""
+        var co2: String = ""
     }
 }
 
