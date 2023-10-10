@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.oggdata.remotedatabase
 
-
 /*
 fireStore 위치
 User/사용자 이메일/ALlAct/actID

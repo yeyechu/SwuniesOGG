@@ -134,24 +134,6 @@ class FeedViewModel : ViewModel()  {
     var gotFeed = Feed()
     var gotFeedList = arrayListOf<Feed>()
     fun fireGetFeed(){
-        /*fireDB.collection("Feed")
-            .get()
-            .addOnSuccessListener {result ->
-                for (document in result) {
-                    val feed = document.toObject<Feed>()
-                    gotFeed.id = document.id.toLong()
-                    gotFeed.imageUrl = feed.imageUrl
-                    gotFeed.actCode = feed.actCode
-                   // Timber.i(feed.imageUrl)
-                    gotFeedList.add(gotFeed)
-                    _feedList.value = gotFeedList
-                }
-                Timber.i(_feedList.value.toString())
-            }
-            .addOnFailureListener { exception ->
-                Timber.i(exception)
-            }*/
-
         fireDB.collection("Feed").addSnapshotListener {   //실시간 업데이트 가져오기
                 querySnapshot, FirebaseFirestoreException ->
             if(querySnapshot!=null){

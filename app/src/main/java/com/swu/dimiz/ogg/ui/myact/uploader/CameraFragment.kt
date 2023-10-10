@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -38,6 +40,7 @@ import com.swu.dimiz.ogg.OggApplication.Companion.auth
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
 import com.swu.dimiz.ogg.ui.myact.post.PostWindow
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_FAST_MILLIS
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_SLOW_MILLIS
@@ -92,18 +95,30 @@ class CameraFragment : Fragment() {
             //PostWindow.postWindow!!.finish()
             CameraActivity.cameraActivity!!.finish()
 
+
             Timber.i("post 데이터가 올라가야 함")
+            val feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+            val stampDay = SimpleDateFormat("yyyyMMdd").format(Date())
+
+            //todo 플젝 시작했다면 매일 새로 생성되는 쪽으로 이동해야함
+           /* var stamp = MyStamp(upDate = feedDay.toLong(), dayCo2 = 0f)
+
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Stamp").document(stampDay)
+                .set(stamp)
+                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }*/
 
             /* 10000이면 daily, 20000이면 sustain, 30000이면 extra
-            Feed(MySus, Myextra) 분리해서 업로드하기
+            MySus, Myextra 각 테이블 따로 분리해서 업로드하기
+            MyAllAct 활동 limit 체크
+
             */
 
             // 활동 아이디 ▼
             // CameraActivity.id
             if(savedUri!=null) {
-                val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(Date())// 파일명이 겹치면 안되기 때문
-
-                fireStorage.reference.child("Feed").child(fileName)
+                fireStorage.reference.child("Feed").child(feedDay)
                     .putFile(savedUri!!)          //uri를 여기서 받기때문에 여기에 위치함
                     .addOnSuccessListener {
                             taskSnapshot -> // 업로드 정보를 담는다
@@ -111,17 +126,38 @@ class CameraFragment : Fragment() {
                         taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
                                 it->
                             val imageUrl=it.toString()
-                            val post = Feed( email = fireUser?.email.toString(),  postTime = fileName.toLong(), //활동코드 추가
+                            val post = Feed(
+                                email = fireUser?.email.toString(),
+                                postTime = feedDay.toLong(),
+                                actId = CameraActivity.id.toInt(),
+                                //활동코드 추가
                                 imageUrl = imageUrl)
 
-                            fireDB.collection("Feed").document(fileName)
+                            fireDB.collection("Feed").document(feedDay)
                                 .set(post)
                                 .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
                                 }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
                         }
                     }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
+
                 //스탬프 수치 업로드
-                //daily 상태 업로드
+                var itemCo2: Double = 0.1 //인증한 Co2
+
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Stamp").document(stampDay)
+                    .update("dayCo2", FieldValue.increment(itemCo2))
+                    .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+
+                //세활동 분리해서 저장
+                if(CameraActivity.id.toInt() < 20000){
+
+                }else if( CameraActivity.id.toInt() < 30000){
+
+                }else{
+
+                }
+
                 //MyALLAct
             }
         }

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -99,12 +100,13 @@ class PostWindow : AppCompatActivity() {
         val fireUser = Firebase.auth.currentUser
         val fireStorage = Firebase.storage
 
+        val feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+        val stampDay = SimpleDateFormat("yyyyMMdd").format(Date())
+
         binding.buttonDone.setOnClickListener {
             // post 데이터가 올라가야 함
             //스토리지와 피드 업로드
-            val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(Date()) // 파일명이 겹치면 안되기 때문
-
-            fireStorage.reference.child("Feed").child(fileName)
+            fireStorage.reference.child("Feed").child(feedDay)
                 .putFile(uri)              //uri를 여기서 받기때문에 여기에 위치함
                 .addOnSuccessListener {
                         taskSnapshot -> // 업로드 정보를 담는다
@@ -112,16 +114,28 @@ class PostWindow : AppCompatActivity() {
                     taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
                             it->
                         val imageUrl=it.toString()
-                        val post = Feed( email = fireUser?.email.toString(),  postTime = fileName.toLong(), //활동코드 추가
+                        val post = Feed(
+                            email = fireUser?.email.toString(),
+                            postTime = feedDay.toLong(),
+                            actId = CameraActivity.id.toInt(),
+                            //활동코드 추가
                             imageUrl = imageUrl)
 
-                        fireDB.collection("Feed").document(fileName)
+                        fireDB.collection("Feed").document(feedDay)
                             .set(post)
                             .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
                             }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
                     }
                 }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
             //스탬프 수치 업로드
+            var itemCo2: Double = 0.1 //인증한 Co2
+
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Stamp").document(stampDay)
+                .update("dayCo2", FieldValue.increment(itemCo2))
+                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+
             //daily 상태 업로드
             //MyALLAct
             finish()
