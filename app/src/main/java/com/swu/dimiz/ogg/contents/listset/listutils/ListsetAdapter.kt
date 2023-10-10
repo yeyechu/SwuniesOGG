@@ -1,6 +1,8 @@
 package com.swu.dimiz.ogg.contents.listset.listutils
 
+import android.graphics.Rect
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -66,5 +68,22 @@ class ListsetAdapter(
 
     class ListClickListener(val clickListener: (item: ActivitiesDaily) -> Unit) {
         fun onClick(item: ActivitiesDaily) = clickListener(item)
+    }
+
+    class ListsetAdapterDecoration : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            super.getItemOffsets(outRect, view, parent, state)
+
+            val position = parent.getChildAdapterPosition(view)
+            val count = state.itemCount
+            val offset = 20
+
+            outRect.left = offset
+        }
     }
 }

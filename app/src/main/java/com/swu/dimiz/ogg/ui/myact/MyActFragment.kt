@@ -35,6 +35,11 @@ class MyActFragment : Fragment() {
     private var balloonSus: Balloon? = null // Balloon 변수 추가
     private var balloonExtra: Balloon? = null
 
+    private lateinit var cameraTitle: String
+    private lateinit var cameraCo2: String
+    private lateinit var cameraId: String
+    private lateinit var cameraFilter: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,6 +85,22 @@ class MyActFragment : Fragment() {
             } else {
                 mainActivity.hideBottomNavView(true)
                 addExtraWindow()
+            }
+        }
+
+        viewModel.sustId.observe(viewLifecycleOwner) {
+            it?.let {
+                cameraTitle = it.title
+                cameraCo2 = it.co2.toString()
+                cameraId = it.sustId.toString()
+            }
+        }
+
+        viewModel.extraId.observe(viewLifecycleOwner) {
+            it?.let {
+                cameraTitle = it.title
+                cameraCo2 = it.co2.toString()
+                cameraId = it.extraId.toString()
             }
         }
 
@@ -135,7 +156,11 @@ class MyActFragment : Fragment() {
 
         viewModel.navigateToToCamera.observe(viewLifecycleOwner) {
             if(it) {
-                requireContext().startActivity(Intent(context, CameraActivity::class.java))
+                val intent = Intent(context, CameraActivity::class.java)
+                intent.putExtra("title", cameraTitle)
+                intent.putExtra("co2", cameraCo2)
+                intent.putExtra("id", cameraId)
+                requireContext().startActivity(intent)
                 viewModel.onCameraCompleted()
             }
         }
@@ -158,6 +183,9 @@ class MyActFragment : Fragment() {
 
         viewModel.navigateToToLink.observe(viewLifecycleOwner) {
             if(it) {
+                // 와이어프레임이 아직 안나와서
+                // 이동은 안함
+                // 이동 정의 필요
                 viewModel.onLinkCompleted()
                 fragmentManager.popBackStack()
             }

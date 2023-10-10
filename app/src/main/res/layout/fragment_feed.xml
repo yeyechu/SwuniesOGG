@@ -6,6 +6,7 @@
     tools:context="com.swu.dimiz.ogg.ui.feed.FeedFragment">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.feed.FeedViewModel" />
@@ -33,7 +34,7 @@
                 app:selectionRequired="false"/>
         </HorizontalScrollView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/spacing_scroll"
@@ -44,38 +45,27 @@
                 style="@style/StyleText.title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_big"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginBottom="@dimen/spacing_large"
                 android:text="@string/feed_text_title_null"
                 android:textAlignment="center"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@id/text_no_feed_body"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                android:visibility="@{viewModel.layoutVisible ? View.GONE : View.VISIBLE}" />
 
             <TextView
                 android:id="@+id/text_no_feed_body"
                 style="@style/StyleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:text="@string/feed_text_body_null"
                 android:textAlignment="center"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_no_feed_title" />
+                android:visibility="@{viewModel.layoutVisible ? View.GONE : View.VISIBLE}" />
 
             <fragment
                 android:id="@+id/included_feed_layer"
                 android:name="com.swu.dimiz.ogg.ui.feed.myfeed.FeedLayer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="wrap_content" />
+        </FrameLayout>
     </LinearLayout>
 </layout>

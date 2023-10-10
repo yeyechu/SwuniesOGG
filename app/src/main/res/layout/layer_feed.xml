@@ -10,16 +10,16 @@
             type="com.swu.dimiz.ogg.ui.feed.FeedViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_marginTop="?attr/actionBarSize">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/feed_list_grid"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
+            android:layout_height="wrap_content"
             app:spanCount="3"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,5 +42,5 @@
 
         <!-- app:status="@{viewModel.status}" 상태 판별 기능 추가하기 -->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

@@ -27,9 +27,10 @@
 
             <TextView
                 android:id="@+id/text_popup_title"
+                style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/StyleText.title"
+                android:paddingBottom="@dimen/spacing_extra_small"
                 android:text=""
                 app:layout_constraintBottom_toTopOf="@+id/text_popup_body"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -42,11 +43,11 @@
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginStart="@dimen/spacing_big"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_big"
                 android:layout_marginBottom="@dimen/spacing_regular"
-                android:lineSpacingExtra="@dimen/text_size_body_small"
+                android:lineSpacingExtra="@dimen/spacing_text"
                 android:text=""
                 android:textAlignment="center"
                 app:layout_constraintBottom_toTopOf="@id/button_left"
@@ -57,22 +58,23 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_left"
+                style="@style/StyleButtonOggWhite"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text=""
-                style="@style/StyleButtonOggWhite"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/button_right"
                 app:layout_constraintEnd_toStartOf="@id/button_right"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/button_right"
                 tools:text="아니오" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_right"
+                style="@style/StyleButtonOgg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_big"
-                style="@style/StyleButtonOgg"
+                android:layout_marginStart="@dimen/spacing_extra_medium"
                 android:text=""
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

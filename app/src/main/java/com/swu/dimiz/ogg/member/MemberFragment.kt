@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMemberBinding
+import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import timber.log.Timber
 
 class MemberFragment : Fragment() {
@@ -20,6 +22,7 @@ class MemberFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
+    private val viewModel: EnvViewModel by activityViewModels()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         _binding = DataBindingUtil.inflate(
@@ -39,6 +42,9 @@ class MemberFragment : Fragment() {
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
     override fun onDestroyView() {

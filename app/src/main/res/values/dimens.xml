@@ -12,6 +12,7 @@
 
     <dimen name="spacing_big">21dp</dimen>
     <dimen name="spacing_large">30dp</dimen>
+    <dimen name="spacing_larger">35dp</dimen>
     <dimen name="spacing_scroll">50dp</dimen>
 
     <!--                                        텍스트                                        -->

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.ActivityCameraBinding
 import timber.log.Timber
 
@@ -25,6 +26,12 @@ class CameraActivity : AppCompatActivity() {
         binding.buttonExit.setOnClickListener {
             finish()
         }
+        val intentTitle = intent.getStringExtra("title")
+        val intentCo2 = intent.getStringExtra("co2")
+        id = intent.getStringExtra("id")!!
+
+        binding.textTitle.text = intentTitle
+        binding.textCo2.text = getString(R.string.post_text_co2, intentCo2!!.toFloat())
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -42,6 +49,7 @@ class CameraActivity : AppCompatActivity() {
 
     companion object {
         var cameraActivity: CameraActivity? = null
+        var id: String = ""
     }
 }
 

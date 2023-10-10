@@ -88,6 +88,7 @@ class ListFragment : Fragment() {
             })
 
         binding.activityList.adapter = adapter
+        binding.activityList.addItemDecoration(ListsetAdapter.ListsetAdapterDecoration())
 
         viewModel.filteredList.observe(viewLifecycleOwner) {
             adapter.submitList(it)

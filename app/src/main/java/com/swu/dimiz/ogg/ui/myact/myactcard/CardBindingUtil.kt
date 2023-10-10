@@ -105,7 +105,11 @@ fun ImageView.setExampleImage(item: ActivitiesExtra?) {
 @BindingAdapter("activityFreq")
 fun TextView.setFreq(item: ActivitiesExtra?) {
     item?.let {
-        text = resources.getString(R.string.post_text_available_body_sust, item.limit)
+        text = if(item.limit != 0) {
+            resources.getString(R.string.post_text_available_body_sust, item.limit)
+        } else {
+            "무제한"
+        }
     }
 }
 
