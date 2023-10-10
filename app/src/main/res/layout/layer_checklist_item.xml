@@ -4,55 +4,56 @@
     >
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/checkBox_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_small"
+        android:layout_margin="@dimen/spacing_extra_small"
         app:cardCornerRadius="@dimen/radius_component"
 
 
         >
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="@dimen/spacing_medium"-->
-<!--            android:background="@drawable/common_checklist_background"-->
-<!--            >-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_medium"
+            android:background="@drawable/common_checklist_background"
+            >
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/checkBox"-->
-<!--                android:layout_width="@dimen/spacing_big"-->
-<!--                android:layout_height="@dimen/spacing_big"-->
-<!--                android:buttonTint="@color/primary_blue"-->
-<!--                android:layout_gravity="center"-->
-<!--                />-->
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="@dimen/spacing_big"
+                android:layout_height="@dimen/spacing_big"
+                android:buttonTint="@color/primary_blue"
+                android:layout_gravity="center"
+                />
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:padding="@dimen/spacing_extra_small"-->
-<!--                >-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:padding="@dimen/spacing_extra_small"
+                >
 
-<!--            <TextView-->
-<!--                android:id="@+id/title"-->
-<!--                style="@style/StyleText.title"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="어쩌구 하기"-->
-<!--               />-->
+            <TextView
+                android:id="@+id/checkBox_title"
+                style="@style/StyleText.title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="어쩌구 하기"
+               />
 
-<!--            <TextView-->
-<!--                android:id="@+id/subtitle"-->
-<!--                style="@style/StyleText"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="이렇게 저렇게"-->
-<!--                />-->
+            <TextView
+                android:id="@+id/checkBox_subtitle"
+                style="@style/StyleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이렇게 저렇게"
+                />
 
-<!--            </LinearLayout>-->
+            </LinearLayout>
 
-<!--        </LinearLayout>-->
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
