@@ -2,17 +2,21 @@ package com.swu.dimiz.ogg.ui.env
 
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
-import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EnvViewModel : ViewModel() {
 
@@ -45,7 +49,6 @@ class EnvViewModel : ViewModel() {
         get() = _leftHolder
 
     private val _aimCo2 = MutableLiveData<Float>()
-
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      인터랙션 감지
 
@@ -68,6 +71,32 @@ class EnvViewModel : ViewModel() {
     private val _expandLayout = MutableLiveData<Boolean>()
     val expandLayout: LiveData<Boolean>
         get() = _expandLayout
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                       오늘의 활동
+    private val _todayList = MutableLiveData<List<ActivitiesDaily>>()
+    val todayList: LiveData<List<ActivitiesDaily>>
+        get() = _todayList
+
+    private val _navigateToDaily = MutableLiveData<ActivitiesDaily?>()
+    val navigateToDaily: LiveData<ActivitiesDaily?>
+        get() = _navigateToDaily
+
+    private val _dailyId = MutableLiveData<ActivitiesDaily?>()
+    val dailyId: LiveData<ActivitiesDaily?>
+        get() = _dailyId
+
+    private val _navigateToCamera = MutableLiveData<Boolean>()
+    val navigateToToCamera: LiveData<Boolean>
+        get() = _navigateToCamera
+
+    private val _navigateToGallery = MutableLiveData<Boolean>()
+    val navigateToToGallery: LiveData<Boolean>
+        get() = _navigateToGallery
+
+    private val _navigateToChecklist = MutableLiveData<Boolean>()
+    val navigateToToChecklist: LiveData<Boolean>
+        get() = _navigateToChecklist
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 변수
@@ -209,12 +238,23 @@ class EnvViewModel : ViewModel() {
         if (date < DATE_WHOLE) {
             if(date >= 1) {
                 stampList[date - 1] = StampData(_fakeDate.value!!, _fakeToday.value!!, 2)
+                setStampHolder(stampList)
             }
             Timber.i("$stampList")
             _fakeDate.value = _fakeDate.value?.plus(1)
             resetToday()
             stampList[date] = StampData(_fakeDate.value!!, _fakeToday.value!!, 1)
+
+            setStampHolder(stampList)
             Timber.i("$stampList")
+        } else {
+            resetCondition()
+            userInit()
+            _fakeDate.value = INTEGER_ZERO
+            _fakeToday.value = FLOAT_ZERO
+            _co2Holder.value = FLOAT_ZERO
+            stampInitialize()
+            setStampHolder(stampList)
         }
     }
 
@@ -227,7 +267,66 @@ class EnvViewModel : ViewModel() {
     private fun resetToday() {
         _fakeToday.value = FLOAT_ZERO
     }
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                       오늘의 활동
 
+    fun showDaily(daily: ActivitiesDaily) {
+        _navigateToDaily.value = daily
+        _dailyId.value = daily
+    }
+
+    fun completedDaily() {
+        _navigateToDaily.value = null
+    }
+
+    fun onDailyButtonClicked(daily: ActivitiesDaily) {
+        when(daily.waytoPost) {
+            0 -> _navigateToCamera.value = true
+            1 -> _navigateToGallery.value = true
+            3 -> _navigateToChecklist.value = true
+        }
+    }
+
+    fun onCameraCompleted() {
+        _navigateToCamera.value = false
+    }
+
+    fun onGalleryCompleted() {
+        _navigateToGallery.value = false
+    }
+
+    fun onChecklistCompleted() {
+        _navigateToChecklist.value = false
+    }
+
+//    fun getDailyFromFirebase() = viewModelScope.launch {
+//        val todayList = ArrayList<ListData>()
+//
+//        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${_userCondition.value!!.projectCount}")
+//            .get()
+//            .addOnSuccessListener {
+//                if(it != null && it.size() != 0) {
+//                    for (i in it) {
+//                        val tempList = i.toObject<MyList>()
+//
+//                    }
+//                }
+//            }
+//
+//    }
+
+    private fun resetCondition() = viewModelScope.launch {
+        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+
+        docRef
+            .update("startDate", 0L)
+            .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+        docRef
+            .update("aim", 0f)
+            .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+    }
     override fun onCleared() {
         if(disposable?.isDisposed == false) {
             disposable.dispose()

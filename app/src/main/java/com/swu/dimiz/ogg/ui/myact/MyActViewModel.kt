@@ -98,7 +98,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         _navigateToCamera.value = false
     }
 
-    fun onChechlistCompleted() {
+    fun onChecklistCompleted() {
         _navigateToChecklist.value = false
     }
 
