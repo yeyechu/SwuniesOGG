@@ -60,6 +60,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val filteredList: LiveData<List<ActivitiesDaily>>
         get() = _filteredList
 
+    private val _dailyList = MutableLiveData<List<ActivitiesDaily>>()
+    val dailyList: LiveData<List<ActivitiesDaily>>
+        get() = _dailyList
+
     private val _activityFilter = MutableLiveData<List<String>>()
     val activityFilter: LiveData<List<String>>
         get() = _activityFilter

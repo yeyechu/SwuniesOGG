@@ -8,6 +8,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
+import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
@@ -120,6 +121,10 @@ class EnvViewModel : ViewModel() {
         _co2Holder.value = FLOAT_ZERO
         _stampHolder.value = null
 
+        Timber.i("현재 시간: ${System.currentTimeMillis()}")
+        Timber.i("─────────── 날짜 변환 확인용 로그 ───────────")
+        Timber.i("10월 11일 오전 1시 19분 이후: ${convertDurationToFormatted(1696954754160)}일 경과")
+
         stampInitialize()
         setStampHolder(stampList)
     }
@@ -162,7 +167,7 @@ class EnvViewModel : ViewModel() {
     }
 
     val date = userCondition.map {
-        convertDurationToFormatted(it.startDate)
+        convertDurationToInt(it.startDate)
     }
 
     fun leftCo2() {

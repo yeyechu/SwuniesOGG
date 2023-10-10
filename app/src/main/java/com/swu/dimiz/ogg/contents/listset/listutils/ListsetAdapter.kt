@@ -19,7 +19,7 @@ class ListsetAdapter(
     private val detailListener: ListClickListener
 ) : ListAdapter<ActivitiesDaily, ListsetAdapter.ListsetViewHolder>(ListDiffCallback) {
 
-    private val adapterScope = CoroutineScope(Dispatchers.Default)
+    //private val adapterScope = CoroutineScope(Dispatchers.Default)
     class ListsetViewHolder(private var binding: FragmentListsetListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -51,7 +51,10 @@ class ListsetAdapter(
 
     override fun onBindViewHolder(holder: ListsetViewHolder, position: Int) {
         val activity = getItem(position)
-        holder.bind(activity, viewModel, checkListener, detailListener)
+        holder.apply {
+
+            bind(activity, viewModel, checkListener, detailListener)
+        }
     }
 
     companion object ListDiffCallback : DiffUtil.ItemCallback<ActivitiesDaily>() {

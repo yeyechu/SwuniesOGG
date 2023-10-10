@@ -31,6 +31,9 @@ interface ActivitiesDailyDatabaseDao {
     @Query("SELECT * FROM daily WHERE filter = :data")
     suspend fun getFilteredList(data: String): List<ActivitiesDaily>?
 
+    @Query("SELECT * FROM daily WHERE filter = :data")
+    fun getFilteredLiveList(data: String): LiveData<List<ActivitiesDaily>>
+
     @Query("SELECT * FROM daily WHERE daily_freq > 0 LIMIT 5")
     fun getToday(): LiveData<List<ActivitiesDaily>>
 }

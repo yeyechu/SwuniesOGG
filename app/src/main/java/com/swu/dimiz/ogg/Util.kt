@@ -35,4 +35,9 @@ fun convertDurationToFormatted(startTimeMilli: Long): Int {
     }
 }
 
-// 탄소량에 따라 스티커를 결정해주는 메서드
+fun convertDurationToInt(startTime: Long): Int {
+    val current = java.text.SimpleDateFormat("yyyyMMddHHmmss").format(Date()).toLong()
+    val duration = (current - startTime)/1000_000
+    return duration.toInt()
+}
+

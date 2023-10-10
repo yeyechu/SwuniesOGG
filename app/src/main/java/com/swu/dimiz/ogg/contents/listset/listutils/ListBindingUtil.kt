@@ -1,6 +1,7 @@
 package com.swu.dimiz.ogg.contents.listset.listutils
 
 import android.view.View
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -34,6 +35,12 @@ fun ImageView.setImage(item: ActivitiesDaily?) {
     }
 }
 
+@BindingAdapter("checkBox")
+fun CheckBox.setChecked(item: ActivitiesDaily?) {
+    item?.let {
+
+    }
+}
 @BindingAdapter("activityFreq")
 fun TextView.setFreq(item: ActivitiesDaily?) {
     item?.let {
@@ -84,18 +91,6 @@ fun TextView.setButtonText(item: ActivitiesDaily?) {
 
 @BindingAdapter("setCardBackground", "automobileData")
 fun setCardBackground(view: CardView, item: ActivitiesDaily, bool: Boolean) {
-    if(bool) {
-        when(item.dailyId) {
-            100010 -> view.setBackgroundResource(R.color.transparency_dimmed)
-            100011 -> view.setBackgroundResource(R.color.transparency_dimmed)
-            else -> view.setBackgroundResource(R.color.white)
-        }
-    } else {
-        view.setBackgroundResource(R.color.white)
-    }
-}
-@BindingAdapter("automobileData","activity", requireAll = true)
-fun setAutomobile(view: View, bool: Boolean, item: ActivitiesDaily) {
     view.visibility = if(bool) {
         when(item.dailyId) {
             100010 -> View.VISIBLE

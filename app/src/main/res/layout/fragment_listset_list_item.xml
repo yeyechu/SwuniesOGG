@@ -26,18 +26,18 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/category_reduce_card"
-        android:layout_width="wrap_content"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/radius_component"
-        app:contentPadding="@dimen/spacing_text"
         app:cardBackgroundColor="@{activity.freq == 0 ? @color/white : @color/secondary_baby_blue}"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_text"
             android:orientation="horizontal">
 
             <CheckBox
@@ -46,7 +46,6 @@
                 android:layout_height="@dimen/icon_size_regular"
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/spacing_medium"
-                android:focusable="@{viewModel.userCondition.car != 0}"
                 android:onClick="@{(view) -> viewModel.addListHolder(activity, ((CompoundButton)view).isChecked())}"
                 android:checked="@{activity.freq != 0}" />
 
@@ -66,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/spacing_large"
+                android:paddingEnd="@dimen/spacing_scroll"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/text_title"
@@ -99,6 +99,7 @@
                 android:layout_width="@dimen/icon_size_button"
                 android:layout_height="@dimen/icon_size_button"
                 android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="@dimen/spacing_medium"
                 android:padding="@dimen/spacing_medium"
                 android:contentDescription="@string/description_common_button_arrow_right"
                 android:onClick="@{() -> detailListener.onClick(activity)}"
@@ -107,27 +108,27 @@
                 android:scaleType="centerCrop" />
         </LinearLayout>
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_car"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:paddingTop="@dimen/spacing_medium"
-            android:paddingBottom="@dimen/spacing_medium"
-            android:paddingStart="@dimen/spacing_large"
-            android:paddingEnd="@dimen/spacing_large">
+            app:cardCornerRadius="@dimen/radius_component"
+            app:contentPadding="@dimen/spacing_text"
+            app:cardBackgroundColor="@color/transparency_done_black"
+            app:setCardBackground="@{activity}"
+            app:automobileData="@{viewModel.userCondition.car == 0}">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:text="@string/listset_text_nocar"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:textSize="@dimen/text_size_subtitle"
-                android:fontFamily="@font/nanumsquare_r"
-                app:automobileData="@{viewModel.userCondition.car == 0}"
-                app:activity="@{activity}"/>
+                android:fontFamily="@font/nanumsquare_r" />
 
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 </layout>
