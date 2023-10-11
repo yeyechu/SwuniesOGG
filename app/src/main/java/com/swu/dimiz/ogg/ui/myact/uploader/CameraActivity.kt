@@ -26,14 +26,14 @@ class CameraActivity : AppCompatActivity() {
         binding.buttonExit.setOnClickListener {
             finish()
         }
-        val intentTitle = intent.getStringExtra("title")
-        val intentCo2 = intent.getStringExtra("co2")
+
         id = intent.getStringExtra("id")!!
+        title = intent.getStringExtra("title")!!
         co2 = intent.getStringExtra("co2")!!
         filter = intent.getStringExtra("filter")!!
 
-        binding.textTitle.text = intentTitle
-        binding.textCo2.text = getString(R.string.post_text_co2, intentCo2!!.toFloat())
+        binding.textTitle.text = title
+        binding.textCo2.text = getString(R.string.post_text_co2, co2.toFloat())
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -52,6 +52,7 @@ class CameraActivity : AppCompatActivity() {
     companion object {
         var cameraActivity: CameraActivity? = null
         var id: String = ""
+        var title: String = ""
         var co2: String = ""
         var filter: String = ""
     }
