@@ -16,7 +16,10 @@ interface ActivitiesDailyDatabaseDao {
     @Update
     suspend fun update(act: ActivitiesDaily)
 
-    @Query("UPDATE daily SET daily_freq = 0")
+    @Query("UPDATE daily SET exclusive = :data WHERE dailyId IN (10010, 10011)")
+    suspend fun updateMobility(data: Int)
+
+    @Query("UPDATE daily SET freq = 0")
     suspend fun resetFreq()
 
     @Query("SELECT * FROM daily")
@@ -34,8 +37,11 @@ interface ActivitiesDailyDatabaseDao {
     @Query("SELECT * FROM daily WHERE filter = :data")
     fun getFilteredLiveList(data: String): LiveData<List<ActivitiesDaily>>
 
-    @Query("SELECT * FROM daily WHERE daily_freq > 0 LIMIT 5")
+    @Query("SELECT * FROM daily WHERE freq > 0 LIMIT 5")
     fun getToday(): LiveData<List<ActivitiesDaily>>
+
+    @Query("SELECT co2 FROM daily WHERE dailyId = :id")
+    suspend fun getCo2(id: Int) : Float
 }
 
 @Dao
@@ -53,7 +59,7 @@ interface ActivitiesSustDatabaseDao {
     @Query("SELECT * FROM sust WHERE sustId = :id")
     fun getItem(id: Int) : LiveData<ActivitiesSustainable>
 
-    @Query("SELECT sust_co2 FROM sust WHERE sustId = :id")
+    @Query("SELECT co2 FROM sust WHERE sustId = :id")
     suspend fun getCo2(id: Int) : Float
 }
 

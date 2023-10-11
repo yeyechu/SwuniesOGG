@@ -133,6 +133,7 @@ class DailyLayer : Fragment() {
                 intent.putExtra("title", cameraTitle)
                 intent.putExtra("co2", cameraCo2)
                 intent.putExtra("id", cameraId)
+                intent.putExtra("filter", cameraFilter)
                 requireContext().startActivity(intent)
                 viewModel.onCameraCompleted()
             }

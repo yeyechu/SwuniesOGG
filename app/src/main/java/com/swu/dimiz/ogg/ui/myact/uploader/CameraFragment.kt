@@ -131,7 +131,7 @@ class CameraFragment : Fragment() {
                                 email = fireUser?.email.toString(),
                                 postTime = feedDay.toLong(),
                                 actId = CameraActivity.id.toInt(),
-                                //활동코드 추가
+                                actCode = CameraActivity.filter,
                                 imageUrl = imageUrl)
 
                             fireDB.collection("Feed").document(feedDay)

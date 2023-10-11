@@ -35,12 +35,6 @@ fun ImageView.setImage(item: ActivitiesDaily?) {
     }
 }
 
-@BindingAdapter("checkBox")
-fun CheckBox.setChecked(item: ActivitiesDaily?) {
-    item?.let {
-
-    }
-}
 @BindingAdapter("activityFreq")
 fun TextView.setFreq(item: ActivitiesDaily?) {
     item?.let {
@@ -93,12 +87,24 @@ fun TextView.setButtonText(item: ActivitiesDaily?) {
 fun setCardBackground(view: CardView, item: ActivitiesDaily, bool: Boolean) {
     view.visibility = if(bool) {
         when(item.dailyId) {
-            100010 -> View.VISIBLE
-            100011 -> View.VISIBLE
+            10010 -> View.VISIBLE
+            10011 -> View.VISIBLE
             else -> View.GONE
         }
     } else {
         View.GONE
+    }
+}
+@BindingAdapter("checkBox", "automobile")
+fun setCheckBox(view: CheckBox, item: ActivitiesDaily, bool: Boolean) {
+    if(bool) {
+        when(item.dailyId) {
+            10010 -> view.isEnabled = false
+            10011 -> view.isEnabled = false
+            else -> view.isEnabled = true
+        }
+    } else {
+        view.isEnabled = true
     }
 }
 

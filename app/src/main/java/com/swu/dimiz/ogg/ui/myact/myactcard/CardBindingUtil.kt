@@ -52,7 +52,7 @@ fun TextView.setFreq(item: ActivitiesSustainable?) {
 @BindingAdapter("actitityInstruction")
 fun TextView.setInstruction(item: ActivitiesSustainable?) {
     item?.let {
-        text = item.instructionCount
+        text = item.instruction
     }
 }
 

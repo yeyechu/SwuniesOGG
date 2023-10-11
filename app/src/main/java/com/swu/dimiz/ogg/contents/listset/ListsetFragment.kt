@@ -36,9 +36,11 @@ class ListsetFragment : Fragment() {
 
         //사용자 정보 가져오기
         //viewModel.fireInfo()
+
         //지속활동 진행중 리스트
         viewModel.initCo2Holder()
         viewModel.fireGetSust()
+
         //viewModel.fireGetExtra()
         //viewModel.fireGetDaily()
         Timber.i("ListsetFragment onCreateView() 생성")
@@ -93,10 +95,6 @@ class ListsetFragment : Fragment() {
                 listView.adapter = listHolderAdapter
             }
         }
-
-//        viewModel.userSustainable.observe(viewLifecycleOwner) {
-//            viewModel.initCo2Holder()
-//        }
     }
 
     private fun addWindow() {

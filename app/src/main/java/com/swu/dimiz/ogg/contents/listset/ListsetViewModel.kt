@@ -129,11 +129,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _setListaimUI.value = 1
 
         // 활동 선택 페이지
-        _co2Holder.value = FLOAT_ZERO
+        //_co2Holder.value = FLOAT_ZERO
         initListHolder()
 
         getFilters()
-        onFilterChanged(ENERGY, true)
         Timber.i("created")
     }
 
@@ -396,7 +395,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                             전체활동 기본정보 추가
-    private fun fireAllReset() {
+    private fun fireAllReset()= viewModelScope.launch {
         for (i in 10001..10020) {
             var daily = MyAllAct()
             if (i in 10001..10008) {
@@ -433,7 +432,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 .addOnFailureListener { e -> Timber.i(e) }
         }
     }
-    fun fireStampReset(){
+    fun fireStampReset() = viewModelScope.launch {
         for(i in 1..21){
             var stamp = MyStamp()
             stamp = MyStamp(dayCo2 = 0.0)
@@ -551,7 +550,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 리스트 저장
-    fun fireSave() {
+    fun fireSave() = viewModelScope.launch {
         //몇번째 프로젝트 초기화
         if(appUser.aim == 0f && appUser.startDate == 0L ){
             appUser.projectCount = +1

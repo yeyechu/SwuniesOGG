@@ -93,6 +93,7 @@ class MyActFragment : Fragment() {
                 cameraTitle = it.title
                 cameraCo2 = it.co2.toString()
                 cameraId = it.sustId.toString()
+                cameraFilter = it.filter
             }
         }
 
@@ -101,6 +102,7 @@ class MyActFragment : Fragment() {
                 cameraTitle = it.title
                 cameraCo2 = it.co2.toString()
                 cameraId = it.extraId.toString()
+                cameraFilter = it.filter
             }
         }
 
@@ -160,6 +162,7 @@ class MyActFragment : Fragment() {
                 intent.putExtra("title", cameraTitle)
                 intent.putExtra("co2", cameraCo2)
                 intent.putExtra("id", cameraId)
+                intent.putExtra("filter", cameraFilter)
                 requireContext().startActivity(intent)
                 viewModel.onCameraCompleted()
             }

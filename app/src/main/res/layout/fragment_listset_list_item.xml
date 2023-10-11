@@ -51,6 +51,8 @@
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/spacing_medium"
                 android:onClick="@{(view) -> viewModel.addListHolder(activity, ((CompoundButton)view).isChecked())}"
+                checkBox="@{activity}"
+                automobile="@{automobile == 0}"
                 android:checked="@{activity.freq != 0}" />
 
             <ImageView

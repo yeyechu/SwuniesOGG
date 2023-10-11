@@ -54,6 +54,7 @@ class ListFragment : Fragment() {
                 if (category == ENERGY) {
                     chip.isChecked = true
                     chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    viewModel.onFilterChanged(ENERGY, true)
                 }
                 chip.setOnCheckedChangeListener { button, isChecked ->
                     viewModel.onFilterChanged(button.tag as String, isChecked)

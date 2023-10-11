@@ -25,7 +25,6 @@ class SettingCarFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_setting_car, container, false)
 
-
         return binding.root
     }
 

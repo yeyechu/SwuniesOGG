@@ -28,11 +28,6 @@ class MemberFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_member, container, false)
 
-        binding.buttonSettings.setOnClickListener {
-            it?.let {
-                navController.navigate(R.id.destination_settings)
-            }
-        }
         return binding.root
     }
 
@@ -46,6 +41,12 @@ class MemberFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.buttonSettings.setOnClickListener {
+            it?.let {
+                navController.navigate(R.id.destination_settings)
+            }
+        }
     }
 
     override fun onDestroyView() {

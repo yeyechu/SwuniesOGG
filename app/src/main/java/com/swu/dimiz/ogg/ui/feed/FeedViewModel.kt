@@ -144,7 +144,7 @@ class FeedViewModel : ViewModel()  {
                             gotFeed.id = document.id.toLong()
                             gotFeed.imageUrl = feed.imageUrl
                             gotFeed.actCode = feed.actCode
-                            
+                            gotFeed.actId = feed.actId
                             gotFeedList.add(gotFeed)
                         }
                         _feedList.value = gotFeedList

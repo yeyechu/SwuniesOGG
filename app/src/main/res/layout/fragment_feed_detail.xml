@@ -33,17 +33,17 @@
                 android:layout_height="?attr/minTouchTargetSize"
                 android:padding="@dimen/spacing_small"
                 android:layout_marginStart="@dimen/spacing_regular"
+                android:clickable="false"
                 android:textAppearance="@style/StyleText.subtitle"
                 android:textColor="@color/transparency_dimmed"
                 android:textStyle="bold"
-                android:text="필터자리"
+                android:text="@{viewModel.feedId.actCode}"
                 app:chipBackgroundColor="@color/selected_highlight"
                 app:chipEndPadding="@dimen/spacing_small"
                 app:chipStartPadding="@dimen/spacing_small"
                 app:chipStrokeColor="@color/secondary_light_gray"
                 app:chipStrokeWidth="@dimen/stroke_shape_light"
                 app:chipSurfaceColor="@color/white"
-                android:clickable="false"
                 tools:text="에너지"/>
 
             <TextView
@@ -51,10 +51,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_regular"
-                style="@style/StyleText.header"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="@string/destination_title_listset"
+                android:text="@{String.valueOf(viewModel.feedId.actId)}"
+                style="@style/StyleText.header"
                 tools:text="활동 제목" />
 
             <ImageButton

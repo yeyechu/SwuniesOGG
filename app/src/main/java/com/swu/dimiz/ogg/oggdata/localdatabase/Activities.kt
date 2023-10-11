@@ -15,31 +15,26 @@ data class ActivitiesDaily (
 
     var filter: String = "",
 
-    @ColumnInfo(name = "daily_title")
     var title: String = "",
 
-    @ColumnInfo(name = "daily_co2")
     var co2: Float = 0f,
 
-    @ColumnInfo(name = "daily_freq")
     var freq: Int = 0,
 
-    @ColumnInfo(name = "daily_limit")
+    var exclusive: Int = 1,
+
     var limit: Int = 0,
 
-    @ColumnInfo(name = "daily_instruction_count")
+    var postCount: Int = 0,
+
     var instructionCount: Int = 0,
 
-    @ColumnInfo(name = "daily_ways_to_post")
     var waytoPost: Int= 0,
 
-    @ColumnInfo(name = "daily_image")
     var image: Bitmap? = null,
 
-    @ColumnInfo(name = "daily_guide_image")
     var guideImage: Bitmap? = null,
 
-    @ColumnInfo(name = "update_badge_code")
     var updateBadgeCode: Int = 0
 )
 
@@ -51,28 +46,24 @@ data class ActivitiesSustainable (
     @PrimaryKey
     var sustId: Int = 0,
 
-    @ColumnInfo(name = "sust_title")
     var title: String = "",
 
-    @ColumnInfo(name = "sust_co2")
+    var filter: String = "",
+
     var co2: Float = 0f,
 
-    @ColumnInfo(name = "sust_limit")
     var limit: Int = 0,
 
-    @ColumnInfo(name = "sust_instruction")
-    var instructionCount: String = "",
+    var postCount: Int = 0,
 
-    @ColumnInfo(name = "sust_ways_to_post")
+    var instruction: String = "",
+
     var waytoPost: Int= 0,
 
-    @ColumnInfo(name = "sust_image")
     var image: Bitmap? = null,
 
-    @ColumnInfo(name = "sust_guide_image")
     var guideImage: Bitmap? = null,
 
-    @ColumnInfo(name = "update_badge_code")
     var updateBadgeCode: Int = 0
 )
 
@@ -86,9 +77,13 @@ data class ActivitiesExtra (
 
     var title: String = "",
 
+    var filter: String = "",
+
     val co2: Float = 0f,
 
     var limit: Int = 0,
+
+    var postCount: Int = 0,
 
     var instruction: String = "",
 

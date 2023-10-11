@@ -58,6 +58,12 @@ class OggRepository(private val database: OggDatabase) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun updateCar(data: Int) {
+        database.dailyDatabaseDao.updateMobility(data)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun resetFreq() {
         database.dailyDatabaseDao.resetFreq()
     }
