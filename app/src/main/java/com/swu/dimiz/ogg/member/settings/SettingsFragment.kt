@@ -43,9 +43,31 @@ class SettingsFragment : Fragment() {
         val mainActivity = activity as MainActivity
         auth = Firebase.auth
 
+        //signout_btn
         binding.logoutBtn.setOnClickListener {
             auth.signOut()
             MainActivity.mainActivity!!.finish()
+        }
+
+        binding.changeNicknameBtn.setOnClickListener {
+
+            it?.let {
+                navController.navigate(R.id.destination_setting_nickname)
+            }
+        }
+
+        binding.changePasswordBtn.setOnClickListener {
+
+            it?.let {
+                navController.navigate(R.id.destination_setting_password)
+            }
+        }
+
+        binding.mycarBtn.setOnClickListener {
+
+            it?.let {
+                navController.navigate(R.id.destination_setting_car)
+            }
         }
 
         return binding.root

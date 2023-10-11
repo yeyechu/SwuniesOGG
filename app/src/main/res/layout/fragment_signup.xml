@@ -167,9 +167,7 @@
                 android:id="@+id/textView5"
                 style="@style/StyleText.title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/common_button_tooltip"
-                android:gravity="center"
+                android:layout_height="wrap_content" android:gravity="center"
 
                 android:text="@string/signup_text_agree_info"
                 android:textColor="@color/primary_blue"

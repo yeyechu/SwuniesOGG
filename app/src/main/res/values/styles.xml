@@ -182,6 +182,26 @@
     </style>
 
 
+    <!-- 원 : 파란색 -->
+    <style name="StyleCircle">
+        <item name="android:background">@drawable/common_button_skyblue</item>
+        <item name="paddingEnd">@dimen/spacing_big</item>
+
+        <item name="fontFamily">@font/nanumsquare_b</item>
+        <item name="android:fontFamily">@font/nanumsquare_b</item>
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:minHeight">@dimen/dimension_40</item>
+        <item name="android:minWidth">?attr/minTouchTargetSize</item>
+    </style>
+
+    <!-- 원 : 파란색 -->
+    <style name="StyleCircle.ckecked" parent="StyleCircle">
+        <item name="android:background">@drawable/check</item>
+
+    </style>
+
+
 
 
 </resources>

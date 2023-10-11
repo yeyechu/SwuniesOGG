@@ -96,6 +96,8 @@
             app:destination="@id/destination_settings"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+
+
     </fragment>
 
     <fragment
@@ -146,7 +148,16 @@
             app:exitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_destination_settings_to_destination_setting_car"
-            app:destination="@id/destination_setting_car" />
+            app:destination="@id/destination_setting_car"
+            />
+
+        <action
+            android:id="@+id/action_destination_settings_to_setting_nickname"
+            app:destination="@id/destination_setting_nickname" />
+        <action
+            android:id="@+id/action_destination_settings_to_setting_password"
+            app:destination="@id/destination_setting_password" />
+
     </fragment>
 
 
@@ -167,5 +178,13 @@
         android:id="@+id/destination_setting_car"
         android:name="com.swu.dimiz.ogg.member.settings.SettingCarFragment"
         tools:layout="@layout/fragment_setting_car"/>
+    <fragment
+        android:id="@+id/destination_setting_nickname"
+        android:name="com.swu.dimiz.ogg.member.settings.SettingNickNameFragment"
+       />
+    <fragment
+        android:id="@+id/destination_setting_password"
+        android:name="com.swu.dimiz.ogg.member.settings.SettingPasswordFragment"
+        />
 
 </navigation>

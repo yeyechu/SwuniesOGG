@@ -268,6 +268,27 @@
     <string name="setting_text_subtitle_other_logout">로그아웃</string>
     <string name="setting_text_subtitle_other_signout">회원탈퇴</string>
 
+    <!-- ──────────────────────────────────────   환경설정 내부 페이지    ────────────────────────────────────── -->
+
+    <!-- 닉네임 변경 -->
+    <string name="nickname_change_inputtext_new_nickname">새로운 닉네임</string>
+
+    <!-- 비밀번호 변경 -->
+    <string name="password_change_inputtext_new_password">새로운 비밀번호</string>
+
+
+    <!-- 자차유무 확인 -->
+    <string name="mycar_text_info_title">본인 소유의 차량을 가지고 계신가요?</string>
+    <string name="mycar_text_info_subtitle">자동차를 소유하고 있는지에 대한 확인을 통해, \n더 많은 교통 콘텐츠를 제공받을 수 있어요!</string>
+    <string name="mycar_have_yes_button">네, 있습니다</string>
+    <string name="mycar_have_no_button">아니요, 없습니다</string>
+    <string name="mycar_input_text_car_num">차량 번호를 입력해주세요</string>
+    <string name="mycar_input_text_car_num_hint">12가3456</string>
+    <string name="mycar_text_car_done">완료</string>
+
+
+
+
     <!-- ──────────────────────────────────────   마이페이지 페이지   ────────────────────────────────────── -->
     <string name="member_text_title_myfeed">나의 피드</string>
 

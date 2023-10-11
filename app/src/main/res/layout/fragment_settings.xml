@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:title="">
+           >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             >
 
             <TextView
-                android:id="@+id/most_reduce_co2_act_title"
+                android:id="@+id/setting_subtitle"
                 style="@style/StyleText.header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,20 +42,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/change_nickname_icon"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+
+                android:layout_marginTop="@dimen/spacing_big"
+                android:background="@drawable/settings_button_to_des_nickname"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/setting_subtitle" />
+
 
             <TextView
                 android:id="@+id/change_nickname_text"
                 style="@style/StyleText.subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/settings_button_to_des_nickname"
+
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_account_chage_nickname"
-                android:layout_marginTop="@dimen/spacing_big"
+                app:layout_constraintBottom_toBottomOf="@+id/change_nickname_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/most_reduce_co2_act_title" />
+                app:layout_constraintStart_toEndOf="@+id/change_nickname_icon"
+                app:layout_constraintTop_toTopOf="@+id/change_nickname_icon" />
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -69,6 +79,15 @@
                 app:layout_constraintStart_toEndOf="@+id/change_nickname_text"
                 app:layout_constraintTop_toTopOf="@+id/change_nickname_text" />
 
+            <ImageView
+                android:id="@+id/change_password_icon"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:background="@drawable/settings_button_to_des_password"
+                android:layout_marginTop="@dimen/spacing_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/change_nickname_icon" />
+
 
             <TextView
                 android:id="@+id/change_password_text"
@@ -77,12 +96,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_account_chage_pssword"
-                android:drawableLeft="@drawable/settings_button_to_des_password"
-                android:layout_marginTop="@dimen/spacing_regular"
+                app:layout_constraintBottom_toBottomOf="@+id/change_password_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/change_nickname_text" />
+                app:layout_constraintStart_toEndOf="@+id/change_password_icon"
+                app:layout_constraintTop_toTopOf="@+id/change_password_icon" />
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -96,19 +114,29 @@
                 app:layout_constraintStart_toEndOf="@+id/change_password_text"
                 app:layout_constraintTop_toTopOf="@+id/change_password_text" />
 
+
+            <ImageView
+                android:id="@+id/mycar_check_icon"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:background="@drawable/settings_button_to_des_car"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/change_password_icon" />
+
+
             <TextView
                 android:id="@+id/mycar_text"
                 style="@style/StyleText.subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/setting_text_subtitle_account_chage_pssword"
-                android:drawableLeft="@drawable/settings_button_to_des_car"
-                android:layout_marginTop="@dimen/spacing_regular"
+                android:text="@string/setting_text_subtitle_account_check_my_car"
+                app:layout_constraintBottom_toBottomOf="@+id/mycar_check_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/change_password_text" />
+                app:layout_constraintStart_toEndOf="@+id/mycar_check_icon"
+                app:layout_constraintTop_toTopOf="@+id/mycar_check_icon" />
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -124,6 +152,8 @@
 
 
             <!--기타-->
+
+
             <TextView
                 android:id="@+id/other_setting"
                 style="@style/StyleText.header"
@@ -136,20 +166,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mycar_text" />
 
+            <ImageView
+                android:id="@+id/logout_icon"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:layout_marginTop="@dimen/spacing_big"
+                android:background="@drawable/settings_button_to_des_logout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/other_setting" />
+
 
             <TextView
                 android:id="@+id/logout_text"
                 style="@style/StyleText.subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/settings_button_to_des_logout"
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_other_logout"
-                android:layout_marginTop="@dimen/spacing_big"
+                app:layout_constraintBottom_toBottomOf="@+id/logout_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/other_setting" />
+                app:layout_constraintStart_toEndOf="@+id/logout_icon"
+                app:layout_constraintTop_toTopOf="@+id/logout_icon" />
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -163,19 +201,28 @@
                 app:layout_constraintStart_toEndOf="@+id/logout_text"
                 app:layout_constraintTop_toTopOf="@+id/logout_text" />
 
+            <ImageView
+                android:id="@+id/signout_icon"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:background="@drawable/settings_button_to_des_memberout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logout_icon" />
+
+
             <TextView
                 android:id="@+id/signout_text"
                 style="@style/StyleText.subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/settings_button_to_des_memberout"
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_other_signout"
-                android:layout_marginTop="@dimen/spacing_big"
+                app:layout_constraintBottom_toBottomOf="@+id/signout_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/logout_text" />
+                app:layout_constraintStart_toEndOf="@+id/signout_icon"
+                app:layout_constraintTop_toTopOf="@+id/signout_icon" />
 
 
             <androidx.appcompat.widget.AppCompatButton
