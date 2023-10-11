@@ -64,7 +64,7 @@ class FeedDetailFragment : Fragment() {
 
     }
 
-    private fun addWindow(id: Long) {
+    private fun addWindow(id: String) {
         fragmentManager.beginTransaction()
             .add(R.id.frame_layout_feed, FeedReportDialog(id))
             .setReorderingAllowed(true)

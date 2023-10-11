@@ -154,6 +154,10 @@ class EnvViewModel : ViewModel() {
                 Timber.i(exception.toString())
             }
     }
+
+    fun fireGetStamp(){
+
+    }
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                     룸데이터 함수
 

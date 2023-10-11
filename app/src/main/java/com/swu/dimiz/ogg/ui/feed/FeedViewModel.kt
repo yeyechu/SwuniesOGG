@@ -1,11 +1,14 @@
 package com.swu.dimiz.ogg.ui.feed
 
 import android.content.ClipData
+import android.provider.SyncStateContract.Helpers.update
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -22,6 +25,10 @@ import java.io.IOException
 class FeedViewModel : ViewModel()  {
 
     private var currentJob: Job? = null
+
+    private val fireDB = Firebase.firestore
+    private val fireUser = Firebase.auth.currentUser
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
     private val category = mutableListOf(TOGETHER, ENERGY, CONSUME, TRANSPORT, RECYCLE)
@@ -64,9 +71,18 @@ class FeedViewModel : ViewModel()  {
 
     fun onreactionClicked(item: Int) {
         when(item) {
-         1 -> Timber.i("눌린 버튼 $item")
-            2 -> Timber.i("눌린 버튼 $item")
-            3 -> Timber.i("눌린 버튼 $item")
+            1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                .update("reactionLike", FieldValue.increment(1))
+                .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+            2 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                .update("reactionFun", FieldValue.increment(1))
+                .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+            3 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                .update("reactionGreat", FieldValue.increment(1))
+                .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
         }
     }
 
@@ -127,32 +143,25 @@ class FeedViewModel : ViewModel()  {
     // 이렇게 총 6가지이고
     // 필터링만 바꿔서 나의 피드로 들어감
 
+    fun fireGetFeed() {
+        var gotFeedList = arrayListOf<Feed>()
 
-    //firestore에서 이미지 url을 받아옴
-    private val fireDB = Firebase.firestore
-    var gotFeed = Feed()
-    var gotFeedList = arrayListOf<Feed>()
-    fun fireGetFeed(){
-        fireDB.collection("Feed").addSnapshotListener {   //실시간 업데이트 가져오기
-                querySnapshot, FirebaseFirestoreException ->
-            if(querySnapshot!=null){
-                for(dc in querySnapshot.documentChanges){
-                    if(dc.type== DocumentChange.Type.ADDED){
-                        gotFeedList.clear()
-                        for (document in querySnapshot) {
-                            val feed = document.toObject<Feed>()
-                            gotFeed.id = document.id.toLong()
-                            gotFeed.imageUrl = feed.imageUrl
-                            gotFeed.actCode = feed.actCode
-                            gotFeed.actId = feed.actId
-                            // Timber.i(feed.imageUrl)
-                            gotFeedList.add(gotFeed)
-                        }
-                        _feedList.value = gotFeedList
-                        Timber.i(_feedList.value.toString())
-                    }
+        fireDB.collection("Feed")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    var gotFeed = Feed()
+                    val feed = document.toObject<Feed>()
+                    gotFeed.id = document.id
+                    gotFeed.imageUrl = feed.imageUrl
+                    gotFeed.actCode = feed.actCode
+                    gotFeed.actId = feed.actId
+                    gotFeedList.add(gotFeed)
                 }
+                Timber.i(gotFeedList.toString())
+                _feedList.value = gotFeedList
+            }.addOnFailureListener { exception ->
+                Timber.i(exception.toString())
             }
-        }
     }
 }

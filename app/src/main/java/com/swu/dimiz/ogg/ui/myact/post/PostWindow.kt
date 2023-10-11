@@ -142,13 +142,6 @@ class PostWindow : AppCompatActivity() {
                             }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
                     }
                 }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
-            // ─────────────────────────────────────────────────────────────────────────────────
-            //                              스탬프 수치 업로드
-            fireDB.collection("User").document(fireUser?.email.toString())
-                .collection("Stamp").document(today.toString())
-                .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
-                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i( e ) }
 
             // ─────────────────────────────────────────────────────────────────────────────────
             //                           세가지 활동 분리해서 업로드
@@ -165,6 +158,13 @@ class PostWindow : AppCompatActivity() {
                     .set(daily)
                     .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
+                //스탬프
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Stamp").document(today.toString())
+                    .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
+                    .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+
             }else if( CameraActivity.id.toInt() < 30000){
                 //Sustainable
                 val sust = MySustainable(
@@ -178,6 +178,14 @@ class PostWindow : AppCompatActivity() {
                     .set(sust)
                     .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
+                //스탬프
+                for( i in today..21){
+                    fireDB.collection("User").document(fireUser?.email.toString())
+                        .collection("Stamp").document(i.toString())
+                        .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
+                        .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                        .addOnFailureListener { e -> Timber.i( e ) }
+                }
             }else{
                 //Extra
                 val extra = MyExtra(
@@ -191,6 +199,14 @@ class PostWindow : AppCompatActivity() {
                     .set(extra)
                     .addOnSuccessListener { Timber.i("Extra firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
+                //스탬프
+                for( i in today..21){
+                    fireDB.collection("User").document(fireUser?.email.toString())
+                        .collection("Stamp").document(i.toString())
+                        .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
+                        .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                        .addOnFailureListener { e -> Timber.i( e ) }
+                }
             }
             // ─────────────────────────────────────────────────────────────────────────────────
             //                              활동 전체 상황 업로드

@@ -411,7 +411,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("AllAct").document(i.toString())
                 .set(daily)
-                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnSuccessListener { }
                 .addOnFailureListener { e -> Timber.i(e) }
         }
         for(i in 20001 .. 20008){
@@ -420,7 +420,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("AllAct").document(i.toString())
                 .set(sust)
-                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnSuccessListener { }
                 .addOnFailureListener { e -> Timber.i(e) }
         }
         for(i in 30001 .. 30007){
@@ -429,7 +429,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("AllAct").document(i.toString())
                 .set(extra)
-                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnSuccessListener { }
                 .addOnFailureListener { e -> Timber.i(e) }
         }
     }
@@ -440,7 +440,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Stamp").document(i.toString())
                 .set(stamp)
-                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnSuccessListener { }
                 .addOnFailureListener { e -> Timber.i(e) }
         }
     }

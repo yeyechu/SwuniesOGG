@@ -11,7 +11,7 @@ Feed/사용자 이메일
  */
 
 data class Feed(
-    var id : Long = 0L,
+    var id : String = "",
 
     var actTitle : String = "",
 
