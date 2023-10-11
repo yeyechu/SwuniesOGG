@@ -22,7 +22,7 @@ class SystemWindow(
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-        _binding = DataBindingUtil.inflate( inflater, R.layout.window_popup_system, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.window_popup_system, container, false)
 
         binding.textPopupTitle.text = title
         binding.textPopupBody.text = body

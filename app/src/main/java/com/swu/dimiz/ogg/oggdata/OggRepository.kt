@@ -31,7 +31,6 @@ class OggRepository(private val database: OggDatabase) {
         return database.sustDatabaseDao.getCo2(id)
     }
 
-
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getFilter(): List<String>? {
@@ -80,5 +79,11 @@ class OggRepository(private val database: OggDatabase) {
 
     fun getInventory(): LiveData<List<Badges>> {
         return database.badgesDatabaseDao.getBadgeInventory()
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getBadge(id: Int): Badges {
+        return database.badgesDatabaseDao.getItem(id)
     }
 }

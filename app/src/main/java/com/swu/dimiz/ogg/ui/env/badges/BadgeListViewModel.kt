@@ -31,30 +31,29 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     val navigateToSelected: LiveData<Badges?>
         get() = _navigateToSelected
 
-    private val _sustId = MutableLiveData<Badges?>()
-    val sustId: LiveData<Badges?>
-        get() = _sustId
+    private val _badgeId = MutableLiveData<Badges?>()
+    val badgeId: LiveData<Badges?>
+        get() = _badgeId
 
     private val _badgeFilter = MutableLiveData<List<String>>()
     val badgeFilter: LiveData<List<String>>
         get() = _badgeFilter
 
     private val _badgeFilteredList = MutableLiveData<List<String>>()
-    val badgeFilteredList: LiveData<List<String>>
-        get() = _badgeFilteredList
-
-    private val _badgeFilteredListTitle = MutableLiveData<List<List<String>>>()
-    val badgeFilteredListTitle: LiveData<List<List<String>>>
-        get() = _badgeFilteredListTitle
 
     init {
         Timber.i("created")
         getFilters()
     }
 
-    fun showPopup(badge: Badges) {
+    private fun showPopup(badge: Badges) {
         _navigateToSelected.value = badge
-        _sustId.value = badge
+        _badgeId.value = badge
+    }
+
+    fun showBadgeDetail(badge: Int) = viewModelScope.launch {
+        val badgeItem: Badges = repository.getBadge(badge)
+        showPopup(badgeItem)
     }
 
     fun completedPopup() {
@@ -74,18 +73,6 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-//    private fun onFilterUpdated(filter: String) {
-//        currentJob?.cancel()
-//
-//        currentJob = viewModelScope.launch {
-//
-//            try {
-//                _badgeFilteredList.value = repository.getFilteredList(filter)
-//            } catch (e: IOException) {
-//                _badgeFilteredList.value = listOf()
-//            }
-//        }
-//    }
 private fun onFilterUpdated() {
     currentJob?.cancel()
 

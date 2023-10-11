@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
-
     <data>
         <import type="android.view.View" />
 
@@ -34,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/StyleText.title"
-                android:text="@{viewModel.sustId.title}"
+                android:text="@{viewModel.badgeId.title}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:lineSpacingExtra="@dimen/text_size_body_small"
-                android:text="@{viewModel.sustId.instruction}"
+                android:text="@{viewModel.badgeId.instruction}"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +60,7 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 android:src="@drawable/common_image_placeholder"
                 android:background="@drawable/badgelist_shape_badge_background"
-                app:badgeDetailImage="@{viewModel.sustId}"
+                app:badgeDetailImage="@{viewModel.badgeId}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_body" />
@@ -77,8 +76,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -20,7 +20,7 @@ interface BadgeDatabaseDao {
     fun getAllItem() : Flow<List<Badges>>
 
     @Query("SELECT * FROM badges WHERE badgeId = :id")
-    fun getItem(id: Int) : Badges
+    suspend fun getItem(id: Int) : Badges
 
     @Query("SELECT * FROM badges WHERE filter = :data")
     suspend fun getFilteredList(data: String): List<Badges>?

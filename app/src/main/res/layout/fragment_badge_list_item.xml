@@ -5,20 +5,24 @@
 
     <data>
         <variable
+            name="badgeId"
+            type="Integer" />
+
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel" />
+
+        <variable
             name="badge"
             type="com.swu.dimiz.ogg.oggdata.localdatabase.Badges" />
 
         <variable
             name="clickListener"
             type="com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeListAdapter.BadgeClickListener" />
-
-        <variable
-            name="clickListener2"
-            type="com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeAdapter.BadgeClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/image_size_big"
+        android:layout_width="@dimen/image_size_aim_face"
         android:layout_height="wrap_content"
         android:id="@+id/badge_container"
         android:onClick="@{() -> clickListener.onClick(badge)}"
@@ -28,9 +32,10 @@
             android:id="@+id/image_badge_icon"
             android:layout_width="@dimen/image_size_stamp_face_big"
             android:layout_height="@dimen/image_size_stamp_face_big"
-            android:background="@drawable/badgelist_shape_badge_background"
+            android:background="@drawable/badgelist_shape_badge_background_sealed"
             android:contentDescription="@string/description_badgelist_image_badges"
             android:adjustViewBounds="true"
+            android:onClick="@{() -> viewModel.showBadgeDetail(badgeId)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -44,6 +44,12 @@ fun ImageView.setImage(item: Badges?) {
 
 //@BindingAdapter("badgeListData")
 //fun bindRecyclerBadge(recyclerView: RecyclerView, data: List<Badges>?) {
+//    val adapter = recyclerView.adapter as BadgeAdapter
+//    adapter.submitList(data)
+//}
+
+//@BindingAdapter("badgeListData")
+//fun bindRecyclerBadge(recyclerView: RecyclerView, data: List<Badges>?) {
 //    val adapter = recyclerView.adapter as BadgeListAdapter
 //    adapter.submitList(data)
 //}

@@ -3,26 +3,32 @@ package com.swu.dimiz.ogg.ui.env.badges.badgeadapters
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentBadgeListFilterBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
+import com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel
 
-class BadgeHeaderAdapter: RecyclerView.Adapter<BadgeHeaderAdapter.TitleViewHolder>() {
+class BadgeHeaderAdapter(private val viewModel: BadgeListViewModel,
+                         private val badges: List<List<Int>>)
+    : RecyclerView.Adapter<BadgeHeaderAdapter.TitleViewHolder>() {
 
     var data = listOf<String>()
 
     inner class TitleViewHolder(private var binding: FragmentBadgeListFilterBinding)
         : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(position: Int) {
 
             val res = itemView.context.resources
 
             binding.textBadgeTitle.text = translateFilter(data.elementAt(position), res)
             binding.filterList.apply {
-                adapter = BadgeAdapter(badgeList.elementAt(position), position)
+
+                adapter = BadgeAdapter(badgeList.elementAt(position), viewModel, position, badges)
+
                 layoutManager = LinearLayoutManager(binding.filterList.context, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
             }

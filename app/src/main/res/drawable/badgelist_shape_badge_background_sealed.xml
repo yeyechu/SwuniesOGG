@@ -4,7 +4,7 @@
 
     <!-- 배지리스트 배지 배경 -->
     <size android:width="?attr/minTouchTargetSize" android:height="?attr/minTouchTargetSize" />
-    <solid android:color="@color/secondary_light_gray" />
+    <solid android:color="@color/secondary_baby_gray" />
 <!--    <stroke android:width="@dimen/stroke_shape_bold" android:color="@color/primary_gray"/>-->
     <padding android:bottom="@dimen/stroke_shape_light" android:top="@dimen/stroke_shape_light" android:left="@dimen/stroke_shape_light" android:right="@dimen/stroke_shape_light" />
 

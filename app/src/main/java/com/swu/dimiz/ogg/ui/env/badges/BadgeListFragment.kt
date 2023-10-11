@@ -1,13 +1,11 @@
 package com.swu.dimiz.ogg.ui.env.badges
 
 import android.graphics.Typeface
-import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,12 +19,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentBadgeListBinding
+import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeHeaderAdapter
-import com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeListAdapter
 import timber.log.Timber
 
 class BadgeListFragment : Fragment() {
@@ -38,6 +35,15 @@ class BadgeListFragment : Fragment() {
     private val viewModel: BadgeListViewModel by activityViewModels { BadgeListViewModel.Factory }
     private lateinit var navController: NavController
 
+    var badges = listOf(
+        listOf(40001, 40002, 40003),
+        listOf(40004, 40005, 40006),
+        listOf(40007, 40008, 40009, 40010),
+        listOf(40011, 40012, 40013),
+        listOf(40014, 40015, 40016, 40017, 40018, 40019, 40020, 40021),
+        listOf(40022, 40023, 40024),
+        listOf(40025, 40026, 40027, 40028, 40029, 40030, 40031)
+        )
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,10 +79,7 @@ class BadgeListFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
-
-        //val headerAdapter = HeaderAdapter()
-
-        val headerAdapter = BadgeHeaderAdapter()
+        val headerAdapter = BadgeHeaderAdapter(viewModel, badges)
 
         binding.badgeHeader.apply {
 
@@ -105,21 +108,8 @@ class BadgeListFragment : Fragment() {
 //            viewModel.showPopup(id)
 //        })
 //        binding.badgeList.adapter = badgeAdapter
-
-        viewModel.badgeFilteredListTitle.observe(viewLifecycleOwner) {
-            it?.let {
-                //headerAdapter.filtered = it
-            }
-        }
-//        viewModel.getAllData.observe(viewLifecycleOwner) {
-//            it?.let {
-//                badgeAdapter.submitList(it)
-//            }
-//        }
-
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      이동 정의
-
         viewModel.navigateToSelected.observe(viewLifecycleOwner) {
             it?.let {
                 addWindow()
@@ -139,10 +129,6 @@ class BadgeListFragment : Fragment() {
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
         fragmentManager = childFragmentManager
-
-        //val application = requireNotNull(this.activity).application
-        //val viewModelFactory = BadgeListViewModelFactory((application as OggApplication).repository)
-        //viewModel = ViewModelProvider(this, viewModelFactory).get(BadgeListViewModel::class.java)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
