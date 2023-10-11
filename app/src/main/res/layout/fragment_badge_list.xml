@@ -10,9 +10,6 @@
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel" />
-
-
-
     </data>
 
     <FrameLayout
@@ -72,11 +69,11 @@
                 <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
                 <!--                tools:listitem="@layout/fragment_badge_list_item"/>-->
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/badge_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:listitem="@layout/fragment_badge_list_item"/>
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/badge_list"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    tools:listitem="@layout/fragment_badge_list_item"/>-->
 
 <!--                <androidx.recyclerview.widget.RecyclerView-->
 <!--                    android:id="@+id/overlap_list"-->

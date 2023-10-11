@@ -45,13 +45,25 @@ class BadgeListFragment : Fragment() {
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                  화면 및 뷰모델 초기화
         _binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_badge_list, container, false)
-        val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
+            inflater, R.layout.fragment_badge_list, container, false
+        )
+        val typeface = Typeface.create(
+            ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m),
+            Typeface.BOLD
+        )
 
         viewModel.inventorySize.observe(viewLifecycleOwner) {
-            val textDecorator = SpannableStringBuilder.valueOf(getString(R.string.badgelist_text_badge_count, it))
+            val textDecorator =
+                SpannableStringBuilder.valueOf(getString(R.string.badgelist_text_badge_count, it))
             binding.textBadgeCount.text = textDecorator.apply {
-                setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.primary_blue)), 7, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                setSpan(
+                    ForegroundColorSpan(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.primary_blue
+                        )
+                    ), 7, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                )
                 setSpan(StyleSpan(Typeface.BOLD), 7, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
 //                    setSpan(TypefaceSpan(typeface), 7, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -66,8 +78,8 @@ class BadgeListFragment : Fragment() {
 
         val headerAdapter = BadgeHeaderAdapter()
 
-            binding.badgeHeader.apply {
-            //adapter = headerAdapter
+        binding.badgeHeader.apply {
+
             adapter = headerAdapter
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
@@ -76,34 +88,34 @@ class BadgeListFragment : Fragment() {
         viewModel.badgeFilter.observe(viewLifecycleOwner) {
             it?.let {
                 Timber.i("$it")
-                //headerAdapter.data = it
+                headerAdapter.data = it
             }
         }
 
-        val manager = GridLayoutManager(activity, 3)
-        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int = when(position) {
-                0 -> 1
-                else -> 1
-            }
-        }
-        binding.badgeList.layoutManager = manager
-
-        val badgeAdapter = BadgeListAdapter(BadgeListAdapter.BadgeClickListener { id ->
-            viewModel.showPopup(id)
-        })
-        binding.badgeList.adapter = badgeAdapter
+//        val manager = GridLayoutManager(activity, 3)
+//        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+//            override fun getSpanSize(position: Int): Int = when(position) {
+//                0 -> 1
+//                else -> 1
+//            }
+//        }
+//        binding.badgeList.layoutManager = manager
+//
+//        val badgeAdapter = BadgeListAdapter(BadgeListAdapter.BadgeClickListener { id ->
+//            viewModel.showPopup(id)
+//        })
+//        binding.badgeList.adapter = badgeAdapter
 
         viewModel.badgeFilteredListTitle.observe(viewLifecycleOwner) {
             it?.let {
                 //headerAdapter.filtered = it
             }
         }
-        viewModel.getAllData.observe(viewLifecycleOwner) {
-            it?.let {
-                badgeAdapter.submitList(it)
-            }
-        }
+//        viewModel.getAllData.observe(viewLifecycleOwner) {
+//            it?.let {
+//                badgeAdapter.submitList(it)
+//            }
+//        }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      이동 정의

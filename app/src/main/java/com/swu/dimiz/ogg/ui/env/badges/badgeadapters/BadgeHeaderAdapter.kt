@@ -12,8 +12,6 @@ import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 class BadgeHeaderAdapter: RecyclerView.Adapter<BadgeHeaderAdapter.TitleViewHolder>() {
 
     var data = listOf<String>()
-    var filtered = listOf<Badges>()
-    //var filtered = listOf<List<String>>()
 
     inner class TitleViewHolder(private var binding: FragmentBadgeListFilterBinding)
         : RecyclerView.ViewHolder(binding.root) {

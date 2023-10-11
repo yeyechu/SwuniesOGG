@@ -53,7 +53,7 @@
                 android:layout_marginStart="@dimen/spacing_regular"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="@{String.valueOf(viewModel.feedId.actId)}"
+                android:text="@{viewModel.feedId.actTitle}"
                 style="@style/StyleText.header"
                 tools:text="활동 제목" />
 

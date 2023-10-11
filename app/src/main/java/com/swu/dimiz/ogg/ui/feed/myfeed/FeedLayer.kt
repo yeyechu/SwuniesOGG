@@ -28,7 +28,6 @@ class FeedLayer : Fragment() {
             viewModel.onFeedDetailClicked(it)
         })
 
-
         return binding.root
     }
 

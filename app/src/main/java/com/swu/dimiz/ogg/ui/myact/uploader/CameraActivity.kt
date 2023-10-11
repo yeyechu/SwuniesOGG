@@ -34,6 +34,7 @@ class CameraActivity : AppCompatActivity() {
 
         binding.textTitle.text = title
         binding.textCo2.text = getString(R.string.post_text_co2, co2.toFloat())
+        string = title.toString()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -53,6 +54,7 @@ class CameraActivity : AppCompatActivity() {
         var cameraActivity: CameraActivity? = null
         var id: String = ""
         var title: String = ""
+        var string: String = ""
         var co2: String = ""
         var filter: String = ""
     }

@@ -1,7 +1,6 @@
 package com.swu.dimiz.ogg.ui.feed
 
 import android.content.ClipData
-import android.provider.SyncStateContract.Helpers.update
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
@@ -22,7 +21,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
 
-class FeedViewModel : ViewModel()  {
+class FeedViewModel : ViewModel() {
 
     private var currentJob: Job? = null
 
@@ -70,19 +69,19 @@ class FeedViewModel : ViewModel()  {
     }
 
     fun onreactionClicked(item: Int) {
-        when(item) {
+        when (item) {
             1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
                 .update("reactionLike", FieldValue.increment(1))
                 .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i( e ) }
+                .addOnFailureListener { e -> Timber.i(e) }
             2 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
                 .update("reactionFun", FieldValue.increment(1))
                 .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i( e ) }
+                .addOnFailureListener { e -> Timber.i(e) }
             3 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
                 .update("reactionGreat", FieldValue.increment(1))
                 .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i( e ) }
+                .addOnFailureListener { e -> Timber.i(e) }
         }
     }
 
@@ -104,6 +103,7 @@ class FeedViewModel : ViewModel()  {
     fun onReportCompleted() {
         _navigateToReport.value = null
     }
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                          필터
     private fun getFilters() {
@@ -125,6 +125,7 @@ class FeedViewModel : ViewModel()  {
             }
         }
     }
+
     fun onFilterChanged(filter: String, isChecked: Boolean) {
         if (isChecked) {
             onFilterUpdated(filter)
@@ -143,6 +144,8 @@ class FeedViewModel : ViewModel()  {
     // 이렇게 총 6가지이고
     // 필터링만 바꿔서 나의 피드로 들어감
 
+
+    //firestore에서 이미지 url을 받아옴
     fun fireGetFeed() {
         var gotFeedList = arrayListOf<Feed>()
 
@@ -156,10 +159,12 @@ class FeedViewModel : ViewModel()  {
                     gotFeed.actTitle = feed.actTitle
                     gotFeed.imageUrl = feed.imageUrl
                     gotFeed.actCode = feed.actCode
+                    gotFeed.actTitle = feed.actTitle
                     gotFeed.actId = feed.actId
                     gotFeedList.add(gotFeed)
                 }
                 Timber.i(gotFeedList.toString())
+
                 _feedList.value = gotFeedList
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())

@@ -115,12 +115,13 @@ class CameraFragment : Fragment() {
                     .addOnSuccessListener {
                             taskSnapshot -> // 업로드 정보를 담는다
                         Timber.i("feed storage 올리기 완료")
+
                         taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
                                 it->
                             val imageUrl=it.toString()
                             val post = Feed(
                                 email = fireUser?.email.toString(),
-                                actTitle =  CameraActivity.title,
+                                actTitle = CameraActivity.string,
                                 postTime = feedDay.toLong(),
                                 actId = CameraActivity.id.toInt(),
                                 actCode = CameraActivity.filter,

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
@@ -18,15 +17,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.ListDetailWindow
-import com.swu.dimiz.ogg.contents.listset.ListsetViewModel
 import com.swu.dimiz.ogg.databinding.LayerDailyBinding
-import com.swu.dimiz.ogg.ui.env.EnvFragmentDirections
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import com.swu.dimiz.ogg.ui.myact.MyActFragmentDirections
 import com.swu.dimiz.ogg.ui.myact.myactcard.TodayCardItemAdapter
@@ -39,7 +35,7 @@ class DailyLayer : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: EnvViewModel by activityViewModels()
-    private val listViewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
+    //private val listViewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
 
     private lateinit var navController: NavController
     private lateinit var fragmentManager: FragmentManager
