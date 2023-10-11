@@ -202,12 +202,12 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Sustainable")
             .get()
             .addOnSuccessListener { result  ->
+                mySustList.clear()
                 for (document in result ) {
-                    mySustList.clear()
                     val mysust = document.toObject<MySustainable>()
                     mySustList.add(mysust.sustID!!)
-                    Timber.i( "Sust result: $mySustList")
                 }
+                Timber.i( "Sust result: $mySustList")
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }
@@ -220,12 +220,12 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Extra")
             .get()
             .addOnSuccessListener { result  ->
+                myExtraList.clear()
                 for (document in result ) {
-                    myExtraList.clear()
                     val myextra = document.toObject<MyExtra>()
                     myExtraList.add(myextra.extraID!!)
-                    Timber.i( "Extra result: $myExtraList")
                 }
+                Timber.i( "Extra result: $myExtraList")
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }

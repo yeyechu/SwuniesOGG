@@ -1,10 +1,8 @@
 package com.swu.dimiz.ogg
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
 import android.icu.text.SimpleDateFormat
-import android.text.Spanned
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -38,6 +36,7 @@ fun convertDurationToFormatted(startTimeMilli: Long): Int {
 fun convertDurationToInt(startTime: Long): Int {
     val current = java.text.SimpleDateFormat("yyyyMMddHHmmss").format(Date()).toLong()
     val duration = (current - startTime)/1000_000
-    return duration.toInt()
+    Timber.i(duration.toString())
+    return duration.toInt() + 1 //당일에 시작했어도 1일로 표시됨
 }
 

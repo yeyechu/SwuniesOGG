@@ -11,6 +11,7 @@ import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
+import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
@@ -470,7 +471,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                             fireAllReset()
                             fireStampReset()
                         } else {
-                            today =convertDurationToFormatted(appUser.startDate)
+                            today = convertDurationToInt(appUser.startDate)
                         }
                     }
                 } else {
@@ -534,15 +535,13 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Sustainable")
             .get()
             .addOnSuccessListener { result ->
+                mySustList.clear()
                 for (document in result) {
-                    mySustList.clear()
                     val mysust = document.toObject<MySustainable>()
                     mySustList.add(mysust.sustID!!)
-
                     addCo2HolderFromFirebase(mysust.sustID!!)
-
-                    Timber.i("Sust result: $mySustList")
                 }
+                Timber.i("Sust result: $mySustList")
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }

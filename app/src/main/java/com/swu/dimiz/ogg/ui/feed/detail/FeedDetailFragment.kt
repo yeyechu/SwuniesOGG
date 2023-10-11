@@ -12,11 +12,15 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentFeedDetailBinding
 import com.swu.dimiz.ogg.ui.feed.FeedViewModel
+import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
+import timber.log.Timber
 
 class FeedDetailFragment : Fragment() {
 
@@ -28,11 +32,30 @@ class FeedDetailFragment : Fragment() {
 
     private lateinit var fragmentManager: FragmentManager
 
+    private val fireDB = Firebase.firestore
+    private val fireUser = Firebase.auth.currentUser
+    private val fireStorage = Firebase.storage
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_feed_detail, container, false)
+
+        //이미지 url 받아오기
+
+       binding.imageFeedReactionLike.setOnClickListener(){
+
+        }
+        binding.imageFeedReactionFun.setOnClickListener(){
+
+        }
+        binding.imageFeedReactionGreat.setOnClickListener(){
+
+        }
+
+
 
         return binding.root
     }
@@ -55,6 +78,8 @@ class FeedDetailFragment : Fragment() {
                 viewModel.onReportCompleted()
             }
         }
+
+
     }
 
     private fun addWindow() {

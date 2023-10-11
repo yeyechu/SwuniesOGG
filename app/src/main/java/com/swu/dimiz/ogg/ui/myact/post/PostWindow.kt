@@ -16,7 +16,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.swu.dimiz.ogg.convertDurationToFormatted
+import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.databinding.WindowPostBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
@@ -110,7 +110,7 @@ class PostWindow : AppCompatActivity() {
                     val gotUser = document.toObject<MyCondition>()
                     gotUser?.let {
                         startDate = gotUser.startDate
-                        today = convertDurationToFormatted(startDate)
+                        today = convertDurationToInt(startDate)
                     }
                 } else { Timber.i("사용자 기본정보 받아오기 실패") }
             }.addOnFailureListener { exception -> Timber.i(exception.toString()) }

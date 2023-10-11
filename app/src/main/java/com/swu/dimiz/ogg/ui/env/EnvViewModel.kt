@@ -150,6 +150,8 @@ class EnvViewModel : ViewModel() {
 
                         _userCondition.value = appUser
                     }
+                    Timber.i(_userCondition.toString())
+                    Timber.i(convertDurationToInt(appUser.startDate).toString())
                 } else {
                     Timber.i("사용자 기본정보 받아오기 실패")
                 }
@@ -168,6 +170,7 @@ class EnvViewModel : ViewModel() {
 
     val date = userCondition.map {
         convertDurationToInt(it.startDate)
+
     }
 
     fun leftCo2() {

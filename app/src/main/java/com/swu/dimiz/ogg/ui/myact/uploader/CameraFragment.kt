@@ -12,8 +12,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.Telephony.Mms.Part.FILENAME
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +20,6 @@ import androidx.annotation.RequiresApi
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.concurrent.futures.await
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -30,21 +27,16 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import com.swu.dimiz.ogg.OggApplication.Companion.auth
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.convertDurationToFormatted
+import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
-import com.swu.dimiz.ogg.ui.myact.post.PostWindow
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_FAST_MILLIS
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_SLOW_MILLIS
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.simulateClick
@@ -89,8 +81,8 @@ class CameraFragment : Fragment() {
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
         Timber.i("카메라 onCreateView()")
 
-        var startDate : Long = 0L
-        var today :Int = 0
+        var startDate = 0L
+        var today = 0
 
         fireDB.collection("User").document(fireUser?.email.toString())
             .get().addOnSuccessListener { document ->
@@ -98,8 +90,7 @@ class CameraFragment : Fragment() {
                     val gotUser = document.toObject<MyCondition>()
                     gotUser?.let {
                         startDate = gotUser.startDate
-                        today = convertDurationToFormatted(startDate)
-                        Timber.i("오늘 $today 일")
+                        today = convertDurationToInt(startDate)
                     }
                 } else { Timber.i("사용자 기본정보 받아오기 실패") }
             }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
