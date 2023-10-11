@@ -17,11 +17,9 @@ import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
 import com.swu.dimiz.ogg.ui.myact.extra.ExtraAdapter
 import com.swu.dimiz.ogg.ui.myact.extra.PostExtraWindow
-import com.swu.dimiz.ogg.ui.myact.myactcard.*
 import com.swu.dimiz.ogg.ui.myact.sust.PostSustWindow
 import com.swu.dimiz.ogg.ui.myact.sust.SustCardItemAdapter
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
-import timber.log.Timber
 
 class MyActFragment : Fragment() {
 
@@ -54,13 +52,12 @@ class MyActFragment : Fragment() {
         //firebase
         //viewModel.fireInfo()
         //viewModel.fireGetDaily()
-        viewModel.fireGetSust()
         viewModel.fireGetExtra()
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
 
-        binding.sustainableActList.adapter = SustCardItemAdapter(SustCardItemAdapter.OnClickListener {
+        binding.sustainableActList.adapter = SustCardItemAdapter(viewModel, SustCardItemAdapter.OnClickListener {
             viewModel.showSust(it)
         })
 
@@ -74,7 +71,7 @@ class MyActFragment : Fragment() {
             }
         }
 
-        binding.extraActList.adapter = ExtraAdapter(ExtraAdapter.OnClickListener {
+        binding.extraActList.adapter = ExtraAdapter(viewModel, ExtraAdapter.OnClickListener {
             viewModel.showExtra(it)
         })
 
@@ -155,6 +152,8 @@ class MyActFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        viewModel.fireGetSust()
 
         viewModel.navigateToToCamera.observe(viewLifecycleOwner) {
             if(it) {

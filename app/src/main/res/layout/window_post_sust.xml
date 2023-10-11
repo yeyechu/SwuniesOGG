@@ -136,19 +136,20 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_post"
-                    style="@style/StyleButtonOgg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/post_button_take_photo"
-                    app:buttonText="@{viewModel.sustId}"
                     android:onClick="@{() -> viewModel.onSustButtonClicked(viewModel.sustId)}"
+                    android:enabled="@{!viewModel.setSustDone(viewModel.sustId)}"
+                    app:buttonText="@{viewModel.sustId}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_list"
+                    style="@style/StyleButtonOgg"
                     tools:text="카메라 촬영" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

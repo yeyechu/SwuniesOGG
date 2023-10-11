@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.myact.MyActViewModel" />
+
         <variable
             name="activity"
             type="com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable" />
@@ -20,7 +26,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_small"
         app:cardCornerRadius="@dimen/radius_card"
-        app:contentPadding="@dimen/spacing_extra_small"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true">
 
@@ -61,7 +66,7 @@
                     app:activityCo2="@{activity}"
                     app:layout_constraintStart_toStartOf="@id/big_card_text_title"
                     app:layout_constraintTop_toBottomOf="@id/big_card_text_title"
-                    tools:text="여기는 코드로 설정해요"/>
+                    tools:text="탄소감축량 : 0.000kg"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_myact"
@@ -83,5 +88,27 @@
                 app:srcCompat="@drawable/common_image_placeholder" />
 
         </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_done_sust"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.setSustDone(activity)? View.VISIBLE : View.GONE }"
+            app:cardCornerRadius="@dimen/radius_component"
+            app:contentPadding="@dimen/spacing_text"
+            app:cardBackgroundColor="@color/transparency_done_black">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="@string/myact_text_title_done"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_size_subtitle"
+                android:fontFamily="@font/nanumsquare_r" />
+
+        </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 </layout>

@@ -95,6 +95,7 @@ fun setCardBackground(view: CardView, item: ActivitiesDaily, bool: Boolean) {
         View.GONE
     }
 }
+
 @BindingAdapter("checkBox", "automobile")
 fun setCheckBox(view: CheckBox, item: ActivitiesDaily, bool: Boolean) {
     if(bool) {

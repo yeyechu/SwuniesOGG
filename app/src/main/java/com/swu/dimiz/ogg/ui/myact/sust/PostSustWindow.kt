@@ -41,10 +41,21 @@ class PostSustWindow : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        //viewModel.fireGetSust()
     }
 
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart()")
+        viewModel.fireGetSust()
+    }
+    override fun onResume() {
+        super.onResume()
+        Timber.i("onResume()")
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        Timber.i("onDestroyView()")
     }
 }

@@ -7,14 +7,18 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.databinding.FragmentMyActCardItemBigBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
+import com.swu.dimiz.ogg.ui.myact.MyActViewModel
 
-class SustCardItemAdapter(private val onClickListener: OnClickListener)
+class SustCardItemAdapter(
+    private val viewModel: MyActViewModel,
+    private val onClickListener: OnClickListener)
     : ListAdapter<ActivitiesSustainable, SustCardItemAdapter.SustViewHolder>(SustDiffCallback) {
 
     class SustViewHolder(private var binding: FragmentMyActCardItemBigBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(sust: ActivitiesSustainable, clickListener: OnClickListener) {
+        fun bind(sust: ActivitiesSustainable, viewModel: MyActViewModel, clickListener: OnClickListener) {
             binding.activity = sust
+            binding.viewModel = viewModel
             binding.clickListner = clickListener
             binding.executePendingBindings()
         }
@@ -30,7 +34,7 @@ class SustCardItemAdapter(private val onClickListener: OnClickListener)
 
     override fun onBindViewHolder(holder: SustViewHolder, position: Int) {
         val sust = getItem(position)
-        holder.bind(sust, onClickListener)
+        holder.bind(sust, viewModel, onClickListener)
     }
 
     companion object SustDiffCallback : DiffUtil.ItemCallback<ActivitiesSustainable>() {

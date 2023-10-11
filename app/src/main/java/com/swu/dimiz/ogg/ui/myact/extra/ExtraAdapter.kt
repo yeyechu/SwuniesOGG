@@ -7,14 +7,18 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.databinding.FragmentMyActCardItemBigExtraBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
+import com.swu.dimiz.ogg.ui.myact.MyActViewModel
 
-class ExtraAdapter(private val onClickListener: OnClickListener)
+class ExtraAdapter(
+    private val viewModel: MyActViewModel,
+    private val onClickListener: OnClickListener)
     : ListAdapter<ActivitiesExtra, ExtraAdapter.ExtraViewHolder>(SustDiffCallback) {
 
     class ExtraViewHolder(private var binding: FragmentMyActCardItemBigExtraBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(extra: ActivitiesExtra, clickListener: OnClickListener) {
+        fun bind(extra: ActivitiesExtra, viewModel: MyActViewModel, clickListener: OnClickListener) {
             binding.activity = extra
+            binding.viewModel = viewModel
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
@@ -30,7 +34,7 @@ class ExtraAdapter(private val onClickListener: OnClickListener)
 
     override fun onBindViewHolder(holder: ExtraViewHolder, position: Int) {
         val sust = getItem(position)
-        holder.bind(sust, onClickListener)
+        holder.bind(sust, viewModel, onClickListener)
     }
 
     companion object SustDiffCallback : DiffUtil.ItemCallback<ActivitiesExtra>() {

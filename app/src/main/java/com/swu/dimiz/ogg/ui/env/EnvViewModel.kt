@@ -2,7 +2,6 @@ package com.swu.dimiz.ogg.ui.env
 
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -10,14 +9,10 @@ import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class EnvViewModel : ViewModel() {
@@ -162,15 +157,12 @@ class EnvViewModel : ViewModel() {
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                     룸데이터 함수
 
-    // 여기 fakeDate 아니고 userCondition.startDate으로 갈아끼워야 함
     val layerVisible = userCondition.map {
-        it.startDate == 0L //0이면 참 초기화면
-        //it == INTEGER_ZERO
+        it.startDate == 0L
     }
 
     val date = userCondition.map {
         convertDurationToInt(it.startDate)
-
     }
 
     fun leftCo2() {

@@ -84,60 +84,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/today_card_text_co2" />
 
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- 인증 완료 시에 표시되는 레이아웃 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_done_daily"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/today_act_after"
-            android:padding="@dimen/spacing_extra_medium"
-            android:background="@color/transparency_dimmed"
-            android:visibility="gone">
+            android:layout_height="match_parent"
+            app:cardCornerRadius="@dimen/radius_component"
+            app:contentPadding="@dimen/spacing_text"
+            app:cardBackgroundColor="@color/transparency_done_black">
 
-            <!-- 인증 완료 이미지 뷰 -->
-            <ImageView
-                android:id="@+id/today_card_image_done"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/description_myact_card_image"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/common_image_placeholder" />
-
-            <!-- 인증 완료 제목 텍스트뷰 -->
             <TextView
-                android:id="@+id/today_card_text_title_done"
-                style="@style/StyleText.cardtitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="@string/myact_card_text_title_done"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="@string/myact_text_title_done"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/today_card_image_done" />
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_size_subtitle"
+                android:fontFamily="@font/nanumsquare_r" />
 
-            <!-- 인증 완료 부제목 텍스트뷰 -->
-            <TextView
-                style="@style/StyleText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="@string/myact_card_text_subtitle_done"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/today_card_text_title_done" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 
 </layout>

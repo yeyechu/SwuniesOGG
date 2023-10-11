@@ -37,7 +37,6 @@ class ListFragment : Fragment() {
         }
         viewModel.userCondition.observe(viewLifecycleOwner) {
             automobile = it.car
-            Timber.i("automobile초기화 : @{automobile}")
         }
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력

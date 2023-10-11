@@ -27,6 +27,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     val sustId: LiveData<ActivitiesSustainable?>
         get() = _sustId
 
+    private val _sustDone = MutableLiveData<List<Int>>()
+    val sustDone: LiveData<List<Int>>
+        get() = _sustDone
+
     private val _navigateToCamera = MutableLiveData<Boolean>()
     val navigateToToCamera: LiveData<Boolean>
         get() = _navigateToCamera
@@ -48,6 +52,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     val extraId: LiveData<ActivitiesExtra?>
         get() = _extraId
 
+    private val _extraDone = MutableLiveData<List<Int>>()
+    val extraDone: LiveData<List<Int>>
+        get() = _extraDone
+
     private val _navigateToLink = MutableLiveData<Boolean>()
     val navigateToToLink: LiveData<Boolean>
         get() = _navigateToLink
@@ -59,6 +67,26 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     init {
         Timber.i("created")
+        _sustDone.value = listOf()
+        _extraDone.value = listOf()
+    }
+
+    fun setSustDone(item: ActivitiesSustainable) : Boolean {
+        for(i in sustDone.value!!) {
+            if(i == item.sustId) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun setExtraDone(item: ActivitiesExtra) : Boolean {
+        for(i in extraDone.value!!) {
+            if(i == item.extraId) {
+                return true
+            }
+        }
+        return false
     }
 
     fun showSust(sust: ActivitiesSustainable) {
@@ -206,8 +234,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (document in result ) {
                     val mysust = document.toObject<MySustainable>()
                     mySustList.add(mysust.sustID!!)
+
+                    _sustDone.value = mySustList
+                    Timber.i( "Sust result: $mySustList")
                 }
-                Timber.i( "Sust result: $mySustList")
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }
@@ -220,12 +250,14 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Extra")
             .get()
             .addOnSuccessListener { result  ->
-                myExtraList.clear()
                 for (document in result ) {
+                    myExtraList.clear()
                     val myextra = document.toObject<MyExtra>()
                     myExtraList.add(myextra.extraID!!)
+
+                    _extraDone.value = myExtraList
+                    Timber.i( "Extra result: $myExtraList")
                 }
-                Timber.i( "Extra result: $myExtraList")
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }

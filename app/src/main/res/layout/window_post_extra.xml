@@ -144,6 +144,7 @@
                     android:text="@string/post_button_take_photo"
                     app:buttonText="@{viewModel.extraId}"
                     android:onClick="@{() -> viewModel.onExtraButtonClicked(viewModel.extraId)}"
+                    android:enabled="@{!viewModel.setExtraDone(viewModel.extraId)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"

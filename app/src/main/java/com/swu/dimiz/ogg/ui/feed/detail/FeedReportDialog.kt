@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.swu.dimiz.ogg.databinding.DialogFeedReportBinding
 
-class FeedReportDialog : DialogFragment() {
+class FeedReportDialog(private val feedId: Long) : DialogFragment() {
 
     private var _binding : DialogFeedReportBinding? = null
     private val binding get() = _binding!!

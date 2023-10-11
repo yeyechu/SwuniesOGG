@@ -1,7 +1,9 @@
 package com.swu.dimiz.ogg.ui.myact.myactcard
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -68,6 +70,20 @@ fun TextView.setButtonText(item: ActivitiesSustainable?) {
         }
     }
 }
+
+@BindingAdapter("setDone", "limitation")
+fun setBackground(view: CardView, item: ActivitiesSustainable, bool: Boolean) {
+//    view.visibility = if(bool) {
+//        when(item.dailyId) {
+//            10010 -> View.VISIBLE
+//            10011 -> View.VISIBLE
+//            else -> View.GONE
+//        }
+//    } else {
+//        View.GONE
+//    }
+}
+
 @BindingAdapter("listDataSust")
 fun bindRecyclerSust(recyclerView: RecyclerView, data: List<ActivitiesSustainable>?) {
     val adapter = recyclerView.adapter as SustCardItemAdapter

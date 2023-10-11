@@ -2,15 +2,11 @@ package com.swu.dimiz.ogg.ui.feed.myfeed
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentFeedItemBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
-import timber.log.Timber
 
 class FeedGridAdapter(private val onFeedClickListener: OnFeedClickListener):
     ListAdapter<Feed, FeedGridAdapter.FeedViewHolder>(FeedDiffCallback) {
@@ -41,7 +37,7 @@ class FeedGridAdapter(private val onFeedClickListener: OnFeedClickListener):
         }
 
         override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.actTitle == newItem.actTitle
         }
     }
     class OnFeedClickListener(val clickListener: (feed: Feed) -> Unit) {

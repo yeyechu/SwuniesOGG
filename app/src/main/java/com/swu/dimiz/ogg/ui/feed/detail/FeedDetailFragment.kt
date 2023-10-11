@@ -56,7 +56,7 @@ class FeedDetailFragment : Fragment() {
 
         viewModel.navigateToReport.observe(viewLifecycleOwner) {
             it?.let {
-                addWindow()
+                addWindow(it.id)
                 viewModel.onReportCompleted()
             }
         }
@@ -64,9 +64,9 @@ class FeedDetailFragment : Fragment() {
 
     }
 
-    private fun addWindow() {
+    private fun addWindow(id: Long) {
         fragmentManager.beginTransaction()
-            .add(R.id.frame_layout_feed, FeedReportDialog())
+            .add(R.id.frame_layout_feed, FeedReportDialog(id))
             .setReorderingAllowed(true)
             .addToBackStack(null)
             .commit()
