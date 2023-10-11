@@ -141,6 +141,7 @@ class EnvViewModel : ViewModel() {
                     val gotUser = document.toObject<MyCondition>()
                     gotUser?.let {
                         appUser.nickName = gotUser.nickName
+                        appUser.email = gotUser.email
                         appUser.aim = gotUser.aim
                         appUser.car = gotUser.car
                         appUser.startDate = gotUser.startDate
@@ -148,7 +149,6 @@ class EnvViewModel : ViewModel() {
                         appUser.projectCount = gotUser.projectCount
 
                         _userCondition.value = appUser
-                        Timber.i("유저 컨디션 초기화: ${_userCondition.value}")
                     }
                 } else {
                     Timber.i("사용자 기본정보 받아오기 실패")

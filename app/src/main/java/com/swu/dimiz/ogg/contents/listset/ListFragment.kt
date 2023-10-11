@@ -22,7 +22,7 @@ class ListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
-
+    private var automobile: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -34,6 +34,10 @@ class ListFragment : Fragment() {
                 Toast.makeText(activity, getString(R.string.listset_text_toast), Toast.LENGTH_SHORT).show()
                 viewModel.toastInvisible()
             }
+        }
+        viewModel.userCondition.observe(viewLifecycleOwner) {
+            automobile = it.car
+            Timber.i("automobile초기화 : @{automobile}")
         }
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력
@@ -70,9 +74,19 @@ class ListFragment : Fragment() {
             }
         }
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
         val adapter = ListsetAdapter(
+            automobile = automobile,
             viewModel = viewModel,
             ListsetAdapter.ListClickListener {
 
@@ -93,15 +107,6 @@ class ListFragment : Fragment() {
         viewModel.filteredList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
     }
 
     override fun onDestroyView() {

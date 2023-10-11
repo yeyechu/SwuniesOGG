@@ -32,7 +32,7 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/common_button_exit" />
+            app:srcCompat="@drawable/common_button_exit_svg" />
 
         <TextView
             android:id="@+id/text_title"

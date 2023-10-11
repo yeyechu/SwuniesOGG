@@ -8,6 +8,10 @@
         <import type="android.widget.CompoundButton" />
 
         <variable
+            name="automobile"
+            type="Integer" />
+
+        <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
 
@@ -100,7 +104,7 @@
                 android:layout_height="@dimen/icon_size_button"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginStart="@dimen/spacing_medium"
-                android:padding="@dimen/spacing_medium"
+                android:padding="@dimen/spacing_text"
                 android:contentDescription="@string/description_common_button_arrow_right"
                 android:onClick="@{() -> detailListener.onClick(activity)}"
                 android:src="@drawable/common_button_arrow_right"
@@ -116,7 +120,7 @@
             app:contentPadding="@dimen/spacing_text"
             app:cardBackgroundColor="@color/transparency_done_black"
             app:setCardBackground="@{activity}"
-            app:automobileData="@{viewModel.userCondition.car == 0}">
+            app:automobileData="@{automobile == 0}">
 
             <TextView
                 android:layout_width="match_parent"

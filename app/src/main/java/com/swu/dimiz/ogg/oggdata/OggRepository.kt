@@ -25,6 +25,11 @@ class OggRepository(private val database: OggDatabase) {
         return database.dailyDatabaseDao.getFilteredList(filter)
     }
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun sustCo2(id: Int): Float {
+        return database.sustDatabaseDao.getCo2(id)
+    }
 
 
     @Suppress("RedundantSuspendModifier")

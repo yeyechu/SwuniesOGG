@@ -35,6 +35,7 @@ class ChecklistFragment : Fragment() {
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
     }
 
     override fun onDestroyView() {

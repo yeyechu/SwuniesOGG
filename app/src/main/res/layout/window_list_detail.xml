@@ -35,12 +35,13 @@
                 style="@style/StyleImageButton"
                 android:layout_width="@dimen/icon_extra_small"
                 android:layout_height="@dimen/icon_extra_small"
+                android:padding="@dimen/stroke_shape_light"
                 android:contentDescription="@string/description_common_button_exit"
+                android:src="@drawable/common_button_exit_svg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/common_button_exit" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_title"
@@ -59,6 +60,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:textColor="@color/primary_blue"
+                android:textStyle="bold"
                 style="@style/StyleText"
                 app:layout_constraintTop_toBottomOf="@id/text_title"
                 app:layout_constraintEnd_toEndOf="parent"

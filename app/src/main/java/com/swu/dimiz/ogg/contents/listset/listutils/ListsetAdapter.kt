@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 class ListsetAdapter(
+    private val automobile: Int,
     private val viewModel: ListsetViewModel,
     private val checkListener: ListClickListener,
     private val detailListener: ListClickListener
@@ -23,13 +24,16 @@ class ListsetAdapter(
     class ListsetViewHolder(private var binding: FragmentListsetListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        val layout = binding.cardViewCar
         fun bind(
             activity: ActivitiesDaily,
             viewModel: ListsetViewModel,
+            automobile: Int,
             checkListener: ListClickListener,
             detailListener: ListClickListener
         ) {
             binding.activity = activity
+            binding.automobile = automobile
             binding.viewModel = viewModel
             binding.checkListener = checkListener
             binding.detailListener = detailListener
@@ -53,7 +57,16 @@ class ListsetAdapter(
         val activity = getItem(position)
         holder.apply {
 
-            bind(activity, viewModel, checkListener, detailListener)
+            if(automobile == 0) {
+                when(activity.dailyId) {
+                    100010 -> layout.visibility = View.VISIBLE
+                    100011 -> layout.visibility = View.VISIBLE
+                    else -> layout.visibility = View.GONE
+                }
+            } else {
+                layout.visibility = View.GONE
+            }
+            bind(activity, viewModel, automobile, checkListener, detailListener)
         }
     }
 

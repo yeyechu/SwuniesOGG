@@ -39,7 +39,7 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/common_button_exit" />
+                app:srcCompat="@drawable/common_button_exit_svg" />
 
             <TextView
                 android:id="@+id/text_title"
@@ -59,6 +59,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:textColor="@color/primary_blue"
+                android:textStyle="bold"
                 app:activityCo2="@{viewModel.extraId}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

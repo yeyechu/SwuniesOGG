@@ -86,26 +86,26 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/spacing_large"
                     android:text="@{viewModel.saveButtonEnabled ? @string/listset_text_title_instruction_allset : @string/listset_text_title_instruction }"
+                    android:textAlignment="center"
                     android:textColor="@color/primary_gray"
                     android:textStyle="bold"
-                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@id/list_holder"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/list_holder"
                     app:layout_constraintTop_toBottomOf="@id/text_garbage_one" />
 
                 <GridView
                     android:id="@+id/list_holder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginStart="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:layout_marginBottom="@dimen/spacing_medium"
                     android:numColumns="5"
-                    app:layout_constraintTop_toBottomOf="@id/text_listset_instruction"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:listitem="@layout/fragment_listset_list_holder"/>
+                    app:layout_constraintTop_toBottomOf="@id/text_listset_instruction"
+                    tools:listitem="@layout/fragment_listset_list_holder" />
 
                 <ProgressBar
                     android:id="@+id/progress_bar"
@@ -115,10 +115,9 @@
                     android:layout_marginStart="@dimen/spacing_big"
                     android:layout_marginTop="@dimen/spacing_big"
                     android:layout_marginEnd="@dimen/spacing_big"
-                    android:layout_marginBottom="@dimen/text_line_spacing"
-                    android:paddingBottom="@dimen/spacing_extra_small"
                     android:indeterminate="false"
                     android:max="100"
+                    android:paddingBottom="@dimen/spacing_extra_small"
                     android:progress="0"
                     android:progressDrawable="@drawable/common_progressbar_drawable"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -127,29 +126,49 @@
 
                 <TextView
                     android:id="@+id/text_garbage_two"
+                    style="@style/StyleText.gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_big"
                     android:paddingStart="@dimen/text_line_spacing"
                     android:text="@string/co2_default_zero"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/text_sust"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/progress_bar"
-                    style="@style/StyleText.gray"/>
+                    app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
 
                 <TextView
                     android:id="@+id/text_aim"
+                    style="@style/StyleText.gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_big"
                     android:text="@{String.valueOf(viewModel.aimCo2)}"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/text_sust"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/progress_bar"
-                    tools:text="1.4"
-                    style="@style/StyleText.gray"/>
+                    tools:text="1.4" />
+
+                <TextView
+                    android:id="@+id/text_sust"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_regular"
+                    android:background="@color/secondary_baby_blue"
+                    android:drawableStart="@drawable/baseline_announcement_24"
+                    android:drawableTint="@color/primary_blue"
+                    android:padding="@dimen/stroke_shape_regular"
+                    android:text="@string/listset_text_sust"
+                    android:textColor="@color/primary_blue"
+                    android:textStyle="bold"
+                    android:visibility="@{viewModel.userSustainable ? View.VISIBLE : View.GONE }"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_aim" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <fragment

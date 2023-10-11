@@ -96,9 +96,10 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/dimension_150"
-                    android:layout_height="@dimen/dimension_150"
+                    android:layout_width="@dimen/image_size_big"
+                    android:layout_height="@dimen/image_size_big"
                     android:layout_gravity="center"
+                    android:padding="@dimen/spacing_medium"
                     android:layout_marginTop="@dimen/spacing_large"
                     android:layout_marginBottom="@dimen/spacing_extra_small"
                     android:contentDescription="@string/description_badgelist_image_placeholder"

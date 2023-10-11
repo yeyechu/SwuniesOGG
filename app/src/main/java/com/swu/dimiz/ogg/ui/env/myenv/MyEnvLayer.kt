@@ -88,6 +88,7 @@ class MyEnvLayer : Fragment() {
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar.setNavigationIcon(R.drawable.myenv_button_badge_out)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

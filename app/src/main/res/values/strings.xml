@@ -114,7 +114,7 @@
     <string name="listset_text_toast">최대 5개를 선택할 수 있습니다</string>
 
     <string name="listset_text_nocar">차량 정보 등록 후 활동 가능합니다</string>
-    <string name="listset_text_sust">이전에 등록한 \'지속가능한 활동\'에 </string>
+    <string name="listset_text_sust">이전에 등록한 \'지속가능한 활동\'이 포함되었어요!</string>
 
 
     <!--                                         배지 리스트                                       -->
@@ -156,7 +156,7 @@
     <string name="myact_tooltip_extra">줄인 탄소 감축량을 바로 확인할 수는 없지만,\n미래의 환경에 큰 도움이 될 수 있어요.</string>
 
     <!-- 인증 팝업 -->
-    <string name="post_text_co2">탄소 감축량 %.3f kg</string>
+    <string name="post_text_co2">탄소감축량 %.3f kg</string>
     <string name="post_text_available">인증 가능 횟수</string>
     <string name="post_text_available_body">하루 %d번</string>
     <string name="post_text_available_body_sust">%d일에 한 번</string>

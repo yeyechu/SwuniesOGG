@@ -52,6 +52,9 @@ interface ActivitiesSustDatabaseDao {
 
     @Query("SELECT * FROM sust WHERE sustId = :id")
     fun getItem(id: Int) : LiveData<ActivitiesSustainable>
+
+    @Query("SELECT sust_co2 FROM sust WHERE sustId = :id")
+    suspend fun getCo2(id: Int) : Float
 }
 
 @Dao

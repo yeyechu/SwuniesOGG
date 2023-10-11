@@ -92,12 +92,17 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         get() = _listHolder
 
     private val _co2Holder = MutableLiveData<Float>()
-    private val co2Holder: LiveData<Float>
+    val co2Holder: LiveData<Float>
         get() = _co2Holder
 
     private val _userCondition = MutableLiveData<MyCondition>()
     val userCondition: LiveData<MyCondition>
         get() = _userCondition
+
+    private val _userSustainable = MutableLiveData<Boolean>()
+    val userSustainable: LiveData<Boolean>
+        get() = _userSustainable
+
 
     private val _userMobility = MutableLiveData<Boolean>()
     val userMobility: LiveData<Boolean>
@@ -125,9 +130,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
         // 활동 선택 페이지
         _co2Holder.value = FLOAT_ZERO
-
         initListHolder()
-        //initCo2Holder()
 
         getFilters()
         onFilterChanged(ENERGY, true)
@@ -228,21 +231,19 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _listHolder.postValue(data)
     }
 
-    private fun initCo2Holder(/*data: List<ListData>*/) = viewModelScope.launch {
-
-//        for(i in activityList.value!!) {
-//
-//            if(i.dailyId > 0) {
-//                //activity.addSource(repository.getActivity(i.aId), activity::setValue)
-//                //Timber.i("initCo2Holder activity 초기화 : ${activity.value}")
-//                plusCo2(i.co2)
-//                Timber.i("initCo2Holder co2Holder 초기화 : ${_co2Holder.value}")
-//
-//                //i.freq++
-//                //update(i)
-//            }
-//        }
+    fun initCo2Holder() = viewModelScope.launch {
+        _co2Holder.value = FLOAT_ZERO
     }
+
+    private fun addCo2HolderFromFirebase(id: Int) = viewModelScope.launch {
+        val sustCo2 : Float = repository.sustCo2(id)
+
+        _co2Holder.value = _co2Holder.value!!.plus(sustCo2)
+        _userSustainable.value = true
+
+        Timber.i("${_co2Holder.value}")
+    }
+
 
     fun addListHolder(act: ActivitiesDaily, isChecked: Boolean) {
 
@@ -538,6 +539,9 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     mySustList.clear()
                     val mysust = document.toObject<MySustainable>()
                     mySustList.add(mysust.sustID!!)
+
+                    addCo2HolderFromFirebase(mysust.sustID!!)
+
                     Timber.i("Sust result: $mySustList")
                 }
             }.addOnFailureListener { exception ->

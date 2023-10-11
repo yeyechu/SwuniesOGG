@@ -2,6 +2,7 @@ package com.swu.dimiz.ogg.ui.myact.myactcard
 
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
@@ -22,7 +23,8 @@ fun TextView.setTitle(item: ActivitiesSustainable?) {
 @BindingAdapter("activityCo2")
 fun TextView.setCo2(item: ActivitiesSustainable?) {
     item?.let {
-        text = "탄소감축량"+ item.co2.toString() + "kg"
+        text = resources.getString(R.string.post_text_co2, item.co2)
+        //setTextColor(resources.getColor(R.color.primary_blue, resources.newTheme()))
     }
 }
 

@@ -34,15 +34,14 @@ class ListsetFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listset, container, false)
 
-        val listView: GridView = binding.listHolder
-
         //사용자 정보 가져오기
         //viewModel.fireInfo()
         //지속활동 진행중 리스트
+        viewModel.initCo2Holder()
         viewModel.fireGetSust()
         //viewModel.fireGetExtra()
         //viewModel.fireGetDaily()
-
+        Timber.i("ListsetFragment onCreateView() 생성")
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      버튼 인터랙션
 
@@ -54,13 +53,6 @@ class ListsetFragment : Fragment() {
             it?.let {
                 addWindow()
                 viewModel.completedPopup()
-            }
-        }
-
-        viewModel.listHolder.observe(viewLifecycleOwner) {
-            it?.let {
-                listHolderAdapter = ListHolderAdapter(requireContext(), it)
-                listView.adapter = listHolderAdapter
             }
         }
 
@@ -88,10 +80,23 @@ class ListsetFragment : Fragment() {
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-        //binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left)
+        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        val listView: GridView = binding.listHolder
+
+        viewModel.listHolder.observe(viewLifecycleOwner) {
+            it?.let {
+                listHolderAdapter = ListHolderAdapter(requireContext(), it)
+                listView.adapter = listHolderAdapter
+            }
+        }
+
+//        viewModel.userSustainable.observe(viewLifecycleOwner) {
+//            viewModel.initCo2Holder()
+//        }
     }
 
     private fun addWindow() {

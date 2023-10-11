@@ -36,13 +36,14 @@
                 android:textAppearance="@style/StyleText.subtitle"
                 android:textColor="@color/transparency_dimmed"
                 android:textStyle="bold"
-                android:text=""
+                android:text="필터자리"
                 app:chipBackgroundColor="@color/selected_highlight"
                 app:chipEndPadding="@dimen/spacing_small"
                 app:chipStartPadding="@dimen/spacing_small"
                 app:chipStrokeColor="@color/secondary_light_gray"
                 app:chipStrokeWidth="@dimen/stroke_shape_light"
                 app:chipSurfaceColor="@color/white"
+                android:clickable="false"
                 tools:text="에너지"/>
 
             <TextView
@@ -67,7 +68,8 @@
                 android:layout_marginEnd="@dimen/spacing_extra_small"
                 android:layout_gravity="end"
                 android:contentDescription="@string/description_common_button_exit"
-                android:src="@drawable/common_button_exit" />
+                android:src="@drawable/common_button_exit_svg"
+                app:tint="@color/white" />
 
             <ImageButton
                 android:id="@+id/button_report"
@@ -76,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:padding="@dimen/spacing_medium"
+                android:padding="@dimen/spacing_extra_small"
                 android:layout_gravity="end"
                 android:contentDescription="@string/description_button_report"
                 android:onClick="@{() -> viewModel.onReportClicked(viewModel.feedId)}"

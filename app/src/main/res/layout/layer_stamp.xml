@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/spacing_small"
                 android:paddingBottom="@dimen/spacing_small"
-                android:text="@{@string/stamplayout_text_title(condition.date)}"
+                android:text="@{@string/stamplayout_text_title(condition.fakeDate)}"
                 app:layout_constraintBottom_toTopOf="@id/text_co2_left"
                 app:layout_constraintStart_toEndOf="@id/image_stamp_today"
                 app:layout_constraintTop_toTopOf="parent"
