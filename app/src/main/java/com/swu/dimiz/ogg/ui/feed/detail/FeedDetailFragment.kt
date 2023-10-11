@@ -32,30 +32,12 @@ class FeedDetailFragment : Fragment() {
 
     private lateinit var fragmentManager: FragmentManager
 
-    private val fireDB = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
-    private val fireStorage = Firebase.storage
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_feed_detail, container, false)
-
-        //이미지 url 받아오기
-
-       binding.imageFeedReactionLike.setOnClickListener(){
-
-        }
-        binding.imageFeedReactionFun.setOnClickListener(){
-
-        }
-        binding.imageFeedReactionGreat.setOnClickListener(){
-
-        }
-
-
 
         return binding.root
     }

@@ -11,8 +11,9 @@ Feed/사용자 이메일
  */
 
 data class Feed(
+    var id : Long = 0L,
+
     var actTitle : String = "",
-    //var id : Long = 0L,
 
     var email: String ="",     //업로드한 사용자 (통계, 나의피드에서 이메일 검색으로 가져옴)
 
@@ -24,10 +25,9 @@ data class Feed(
 
     var imageUrl: String = "",  //인증 사진
 
-    var report: Int = 0,
-
     var reactionLike: Int = 0,
     var reactionFun: Int = 0,
     var reactionGreat: Int = 0,
+
     var reactionReport: Int = 0
 )
