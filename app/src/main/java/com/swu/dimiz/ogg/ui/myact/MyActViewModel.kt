@@ -1,9 +1,11 @@
 package com.swu.dimiz.ogg.ui.myact
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -228,19 +230,35 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     fun fireGetSust(){
         //지속 가능한 활동 받아오기
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Sustainable")
-            .get()
-            .addOnSuccessListener { result  ->
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error", e)
+                    return@addSnapshotListener
+                }
                 mySustList.clear()
-                for (document in result ) {
-                    val mysust = document.toObject<MySustainable>()
-                    mySustList.add(mysust.sustID!!)
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val mysust = dc.document.toObject<MySustainable>()
+                        mySustList.add(mysust.sustID!!)
 
-                    _sustDone.value = mySustList
+                        _sustDone.value = mySustList
+                    }
                     Timber.i( "Sust result: $mySustList")
                 }
-            }.addOnFailureListener { exception ->
-                Timber.i(exception.toString())
             }
+//            .get()
+//            .addOnSuccessListener { result  ->
+//                mySustList.clear()
+//                for (document in result ) {
+//                    val mysust = document.toObject<MySustainable>()
+//                    mySustList.add(mysust.sustID!!)
+//
+//                    _sustDone.value = mySustList
+//                    Timber.i( "Sust result: $mySustList")
+//                }
+//            }.addOnFailureListener { exception ->
+//                Timber.i(exception.toString())
+//            }
     }
 
     //이미 한 extra
