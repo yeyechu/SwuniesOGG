@@ -120,6 +120,7 @@ class CameraFragment : Fragment() {
                             val imageUrl=it.toString()
                             val post = Feed(
                                 email = fireUser?.email.toString(),
+                                actTitle =  CameraActivity.title,
                                 postTime = feedDay.toLong(),
                                 actId = CameraActivity.id.toInt(),
                                 actCode = CameraActivity.filter,
@@ -208,6 +209,10 @@ class CameraFragment : Fragment() {
                     .addOnFailureListener { e -> Timber.i( e ) }
                 washingtonRef
                     .update("allC02", FieldValue.increment(CameraActivity.co2.toDouble()))
+                    .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+                washingtonRef
+                    .update("actCode", CameraActivity.filter)
                     .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
             }

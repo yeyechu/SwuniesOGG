@@ -153,6 +153,7 @@ class FeedViewModel : ViewModel()  {
                     var gotFeed = Feed()
                     val feed = document.toObject<Feed>()
                     gotFeed.id = document.id
+                    gotFeed.actTitle = feed.actTitle
                     gotFeed.imageUrl = feed.imageUrl
                     gotFeed.actCode = feed.actCode
                     gotFeed.actId = feed.actId

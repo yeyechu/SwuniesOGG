@@ -131,9 +131,10 @@ class PostWindow : AppCompatActivity() {
                         val imageUrl=it.toString()
                         val post = Feed(
                             email = fireUser?.email.toString(),
+                            actTitle =  CameraActivity.title,
                             postTime = feedDay.toLong(),
                             actId = CameraActivity.id.toInt(),
-                            //활동코드 추가
+                            actCode = CameraActivity.filter,
                             imageUrl = imageUrl)
 
                         fireDB.collection("Feed").document(feedDay)
@@ -221,7 +222,10 @@ class PostWindow : AppCompatActivity() {
                 .update("allC02", FieldValue.increment(CameraActivity.co2.toDouble()))
                 .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
-
+            washingtonRef
+                .update("actCode", CameraActivity.filter)
+                .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
             finish()
         }
     }

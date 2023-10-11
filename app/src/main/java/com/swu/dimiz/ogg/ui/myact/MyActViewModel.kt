@@ -243,22 +243,9 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
                         _sustDone.value = mySustList
                     }
-                    Timber.i( "Sust result: $mySustList")
                 }
+                Timber.i( "Sust result: ${_sustDone.value}")
             }
-//            .get()
-//            .addOnSuccessListener { result  ->
-//                mySustList.clear()
-//                for (document in result ) {
-//                    val mysust = document.toObject<MySustainable>()
-//                    mySustList.add(mysust.sustID!!)
-//
-//                    _sustDone.value = mySustList
-//                    Timber.i( "Sust result: $mySustList")
-//                }
-//            }.addOnFailureListener { exception ->
-//                Timber.i(exception.toString())
-//            }
     }
 
     //이미 한 extra
@@ -266,18 +253,21 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     fun fireGetExtra(){
         //지속 가능한 활동 받아오기
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Extra")
-            .get()
-            .addOnSuccessListener { result  ->
-                for (document in result ) {
-                    myExtraList.clear()
-                    val myextra = document.toObject<MyExtra>()
-                    myExtraList.add(myextra.extraID!!)
-
-                    _extraDone.value = myExtraList
-                    Timber.i( "Extra result: $myExtraList")
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error", e)
+                    return@addSnapshotListener
                 }
-            }.addOnFailureListener { exception ->
-                Timber.i(exception.toString())
+                myExtraList.clear()
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val myextra = dc.document.toObject<MyExtra>()
+                        myExtraList.add(myextra.extraID!!)
+
+                        _extraDone.value = myExtraList
+                        Timber.i( "Extra result: $myExtraList")
+                    }
+                }
             }
     }
 

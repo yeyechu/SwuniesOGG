@@ -1,10 +1,12 @@
 package com.swu.dimiz.ogg.contents.listset
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -486,11 +488,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun fireGetDaily() = viewModelScope.launch {
         val myDailyList = ArrayList<ListData>()
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
-            .get()
-            .addOnSuccessListener { result  ->
-                if(result != null && result.size() != 0){
-                    for (document in result ) {
-                        val mylist = document.toObject<MyList>()
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error", e)
+                    return@addSnapshotListener
+                }
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val mylist = dc.document.toObject<MyList>()
                         when (today) {
                             1 -> myDailyList.add(mylist.day1act)
                             2 -> myDailyList.add(mylist.day2act)
@@ -519,31 +524,28 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                         listArray[i] = myDailyList[i]
                     }
                     setListHolder(listArray)
-
-                }else{
-                    Timber.i("비어있음")
                 }
-            }.addOnFailureListener { exception ->
-                Timber.i(exception.toString())
             }
     }
+
 
     //이미 한 sust
     private var mySustList = ArrayList<Int>()
     fun fireGetSust() = viewModelScope.launch {
         //지속 가능한 활동 받아오기
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Sustainable")
-            .get()
-            .addOnSuccessListener { result ->
-                mySustList.clear()
-                for (document in result) {
-                    val mysust = document.toObject<MySustainable>()
-                    mySustList.add(mysust.sustID!!)
-                    addCo2HolderFromFirebase(mysust.sustID!!)
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error", e)
+                    return@addSnapshotListener
                 }
-                Timber.i("Sust result: $mySustList")
-            }.addOnFailureListener { exception ->
-                Timber.i(exception.toString())
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val mysust = dc.document.toObject<MySustainable>()
+                        mySustList.add(mysust.sustID!!)
+                        addCo2HolderFromFirebase(mysust.sustID!!)
+                    }
+                }
             }
     }
 
