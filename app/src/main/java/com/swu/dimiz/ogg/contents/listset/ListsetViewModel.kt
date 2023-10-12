@@ -89,6 +89,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     //                                        활동 선택
     private var listArray = ArrayList<ListData>()
+    private var listArrayInt = ArrayList<Int>()
 
     private val _listHolder = MutableLiveData<List<ListData>?>()
     val listHolder: LiveData<List<ListData>?>

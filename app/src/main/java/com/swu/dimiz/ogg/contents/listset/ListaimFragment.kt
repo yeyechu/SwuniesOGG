@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -44,15 +43,14 @@ class ListaimFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                          선택 버튼을 누르면 화면을 이동시키는 관찰자
-        viewModel.navigateToSelection.observe(viewLifecycleOwner, Observer<Boolean> { shouldNavigate ->
-            if(shouldNavigate) {
+        viewModel.navigateToSelection.observe(viewLifecycleOwner) {
+            if(it) {
                 navController.navigate(
                     ListaimFragmentDirections.actionDestinationListaimToDestinationListset()
                 )
                 viewModel.onNavigatedToSelection()
-                // 메모리 누수 확인 필요
             }
-        })
+        }
 
         return binding.root
     }

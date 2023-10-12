@@ -29,6 +29,7 @@ class FeedFragment : Fragment(){
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_feed, container, false)
 
+        viewModel.fireGetFeed()
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력
         viewModel.activityFilter.observe(viewLifecycleOwner) { value ->
@@ -42,6 +43,7 @@ class FeedFragment : Fragment(){
                 if (category == TOGETHER) {
                     chip.isChecked = true
                     chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    viewModel.onFilterChanged(TOGETHER, true)
                 }
                 chip.setOnCheckedChangeListener { button, isChecked ->
 
@@ -58,9 +60,6 @@ class FeedFragment : Fragment(){
             for (chip in children) {
                 chipGroup.addView(chip)
             }
-            // ──────────────────────────────────────────────────────────────────────────────────────
-            //                                  피드 리스트 출력
-            viewModel.fireGetFeed()
         }
         return binding.root
     }

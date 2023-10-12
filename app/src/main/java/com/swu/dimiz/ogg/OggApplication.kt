@@ -11,7 +11,7 @@ import timber.log.Timber
 class OggApplication: MultiDexApplication() {
 
     //private val applicationScope = CoroutineScope(SupervisorJob())
-    val database by lazy { OggDatabase.getInstance(this) }
+    private val database by lazy { OggDatabase.getInstance(this) }
     val repository by lazy { OggRepository(database)}
 
     companion object {

@@ -40,12 +40,8 @@ class GraphMyActLayer: Fragment() {
         _binding =
             DataBindingUtil.inflate(inflater, R.layout.layer_graph_myact_group, container, false)
 
-
-
         return binding.root
     }
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
@@ -209,11 +205,11 @@ class GraphMyActLayer: Fragment() {
 
 
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.i("onDestroyView()")
+    }
 }
 
 
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        Timber.i("onDestroyView()")
-//    }
-//}
+

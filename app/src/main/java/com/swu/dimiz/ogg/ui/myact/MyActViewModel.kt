@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.ui.myact
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory

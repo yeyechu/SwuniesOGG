@@ -98,6 +98,7 @@
     <dimen name="image_size_list_holder">62dp</dimen>
 
     <dimen name="image_size_aim_face">100dp</dimen>
+    <dimen name="image_size_badge">120dp</dimen>
     <dimen name="image_size_big">150dp</dimen>
 
 

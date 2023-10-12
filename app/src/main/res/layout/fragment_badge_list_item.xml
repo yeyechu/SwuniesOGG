@@ -22,7 +22,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/image_size_aim_face"
+        android:layout_width="@dimen/image_size_badge"
         android:layout_height="wrap_content"
         android:id="@+id/badge_container"
         android:onClick="@{() -> clickListener.onClick(badge)}"

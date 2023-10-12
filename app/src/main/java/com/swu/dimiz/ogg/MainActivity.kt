@@ -14,7 +14,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.swu.dimiz.ogg.databinding.ActivityMainBinding
 import com.swu.dimiz.ogg.member.login.SignInActivity
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {

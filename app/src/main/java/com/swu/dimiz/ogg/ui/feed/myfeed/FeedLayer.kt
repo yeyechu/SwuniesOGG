@@ -24,16 +24,16 @@ class FeedLayer : Fragment() {
         _binding =
             DataBindingUtil.inflate(inflater, R.layout.layer_feed, container, false)
 
-        binding.feedListGrid.adapter = FeedGridAdapter(FeedGridAdapter.OnFeedClickListener {
-            viewModel.onFeedDetailClicked(it)
-        })
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.feedListGrid.adapter = FeedGridAdapter(FeedGridAdapter.OnFeedClickListener {
+            viewModel.onFeedDetailClicked(it)
+        })
     }
 
     override fun onDestroyView() {

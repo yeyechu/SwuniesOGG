@@ -1,21 +1,13 @@
 package com.swu.dimiz.ogg.ui.feed
 
-import android.content.ClipData
-import android.util.Log
 import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
-import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
-import com.swu.dimiz.ogg.ui.feed.myfeed.bindImage
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -33,17 +25,13 @@ class FeedViewModel : ViewModel() {
     private val category = mutableListOf(TOGETHER, ENERGY, CONSUME, TRANSPORT, RECYCLE)
 
     // 전체 피드리스트
-    private val _feedList = MutableLiveData<List<Feed>>()
-    val feedList: LiveData<List<Feed>>
+    private val _feedList = MutableLiveData<List<Feed>?>()
+    val feedList: LiveData<List<Feed>?>
         get() = _feedList
 
     private val _feedId = MutableLiveData<Feed?>()
     val feedId: LiveData<Feed?>
         get() = _feedId
-
-    val layoutVisible = feedList.map {
-        it.isNotEmpty()
-    }
 
     // 필터링된 피드리스트
     private val _filteredList = MutableLiveData<List<Feed>>()
@@ -64,8 +52,11 @@ class FeedViewModel : ViewModel() {
 
     init {
         getFilters()
-        onFilterChanged(TOGETHER, true)
         Timber.i("created")
+    }
+
+    val layoutVisible = filteredList.map {
+        it.isNotEmpty()
     }
 
     fun onreactionClicked(item: Int) {
@@ -118,10 +109,13 @@ class FeedViewModel : ViewModel() {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
 
-            try {
-                //_feedList.value = repository.getFiltered(filter)
-            } catch (e: IOException) {
-                _feedList.value = listOf()
+            if(_feedList.value != null) {
+                when(filter) {
+                    TOGETHER -> _filteredList.value = _feedList.value
+                    else -> _filteredList.value = _feedList.value!!.filter { it.actCode == filter }
+                }
+            } else {
+                _filteredList.value = listOf()
             }
         }
     }
@@ -144,16 +138,15 @@ class FeedViewModel : ViewModel() {
     // 이렇게 총 6가지이고
     // 필터링만 바꿔서 나의 피드로 들어감
 
-
     //firestore에서 이미지 url을 받아옴
     fun fireGetFeed() {
-        var gotFeedList = arrayListOf<Feed>()
+        val gotFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    var gotFeed = Feed()
+                    val gotFeed = Feed()
                     val feed = document.toObject<Feed>()
                     gotFeed.id = document.id
                     gotFeed.actTitle = feed.actTitle
@@ -166,6 +159,7 @@ class FeedViewModel : ViewModel() {
                 Timber.i(gotFeedList.toString())
 
                 _feedList.value = gotFeedList
+                _filteredList.value = gotFeedList
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }
