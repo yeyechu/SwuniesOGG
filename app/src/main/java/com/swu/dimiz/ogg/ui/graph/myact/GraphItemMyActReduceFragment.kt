@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.ui.graph
+package com.swu.dimiz.ogg.ui.graph.myact
 
 import android.graphics.Color
 import android.os.Bundle

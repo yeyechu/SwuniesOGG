@@ -4,10 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.graph.GraphViewModel" />
 
     </data>
+
     <!-- CardView 레이아웃 -->
     <androidx.cardview.widget.CardView
         android:id="@+id/seachar_card"

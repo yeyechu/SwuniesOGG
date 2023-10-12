@@ -5,6 +5,9 @@
    >
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.graph.GraphViewModel" />
 
     </data>
 

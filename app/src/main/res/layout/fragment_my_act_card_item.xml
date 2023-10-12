@@ -108,6 +108,62 @@
                 android:fontFamily="@font/nanumsquare_r" />
 
         </androidx.cardview.widget.CardView>
+
+
+
     </androidx.cardview.widget.CardView>
 
 </layout>
+
+
+<!--    &lt;!&ndash; 인증 완료 시에 표시되는 레이아웃 &ndash;&gt;-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:id="@+id/today_act_after"-->
+<!--android:padding="@dimen/spacing_extra_medium"-->
+<!--android:background="@color/transparency_dimmed"-->
+<!--android:visibility="gone">-->
+
+<!--&lt;!&ndash; 인증 완료 이미지 뷰 &ndash;&gt;-->
+<!--<ImageView-->
+<!--    android:id="@+id/today_card_image_done"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:contentDescription="@string/description_myact_card_image"-->
+<!--    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    app:layout_constraintEnd_toEndOf="parent"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toTopOf="parent"-->
+<!--    app:layout_constraintVertical_bias="0.0"-->
+<!--    app:srcCompat="@drawable/common_image_placeholder" />-->
+
+<!--&lt;!&ndash; 인증 완료 제목 텍스트뷰 &ndash;&gt;-->
+<!--<TextView-->
+<!--    android:id="@+id/today_card_text_title_done"-->
+<!--    style="@style/StyleText.cardtitle"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:layout_marginTop="16dp"-->
+<!--    android:gravity="center"-->
+<!--    android:text="@string/myact_card_text_title_done"-->
+<!--    android:textColor="@color/white"-->
+<!--    app:layout_constraintEnd_toEndOf="parent"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toBottomOf="@+id/today_card_image_done" />-->
+
+<!--&lt;!&ndash; 인증 완료 부제목 텍스트뷰 &ndash;&gt;-->
+<!--<TextView-->
+<!--    style="@style/StyleText"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:layout_marginTop="8dp"-->
+<!--    android:gravity="center"-->
+<!--    android:text="@string/myact_card_text_subtitle_done"-->
+<!--    android:textColor="@color/white"-->
+<!--    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    app:layout_constraintEnd_toEndOf="parent"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toBottomOf="@+id/today_card_text_title_done" />-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

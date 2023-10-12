@@ -1,11 +1,10 @@
-package com.swu.dimiz.ogg.ui.graph
+package com.swu.dimiz.ogg.ui.graph.special
 
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.BarChart
@@ -16,14 +15,15 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.databinding.LayerGraphMyactGroupBinding
+import com.swu.dimiz.ogg.databinding.LayerGraphSpecialCardBinding
 
-class GraphItemMyActCategoryFragment : Fragment() {
+class GraphItemSpecialCardFragment : Fragment() {
 
-    private lateinit var binding: LayerGraphMyactGroupBinding
+    private lateinit var binding: LayerGraphSpecialCardBinding
     private lateinit var barChart2: BarChart
 
     // 상수 정의
+    // (여기)
     private val MAX_X_VALUE = 4
     private val MIN_Y_VALUE = 0f
     private val MAX_Y_VALUE = 50f
@@ -33,14 +33,14 @@ class GraphItemMyActCategoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.layer_graph_myact_group, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.layer_graph_special_card, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        barChart2 = binding.categotyChart // 바인딩을 통해 바 차트 참조
+        barChart2 = binding.specialChart // 바인딩을 통해 바 차트 참조
 
         configureChartAppearance() // 바 차트 설정
         val data = createChartData() // 데이터 생성
@@ -57,10 +57,9 @@ class GraphItemMyActCategoryFragment : Fragment() {
         // ----- XAxis  - 선 유무, 사이즈, 색상, 축 위치 설정
         val xAxis: XAxis = barChart2.xAxis
         val labels = listOf(
-            "에너지",
-            "소비",
-            "자원순환",
-            "이동수단"
+            "나",
+            "다른회원"
+
         ) // XAxis 레이블로 사용할 문자열 리스트
         xAxis.setDrawAxisLine(false)
         xAxis.granularity = 1f
@@ -99,6 +98,9 @@ class GraphItemMyActCategoryFragment : Fragment() {
 
     // 차트 데이터 생성
     private fun createChartData(): BarData {
+
+        // (여기)
+
         // 1. [BarEntry] BarChart에 표시될 데이터 값 생성
         val values: ArrayList<BarEntry> = ArrayList()
         val random = java.util.Random()
@@ -120,14 +122,14 @@ class GraphItemMyActCategoryFragment : Fragment() {
 
         // 바 색상 설정
         dataSet.setColors(
-            Color.parseColor("#FFCE6E"), Color.parseColor("#FFE2A8"), Color.parseColor("#FEF5E2"),
+            Color.parseColor("#FFCE6E"),
             Color.parseColor("#F5F5F5"))
 
 
 
         // 3. [BarData] 보여질 데이터 구성
         val data = BarData(dataSet)
-        data.barWidth = 0.9f
+        data.barWidth = 1f
         return data
     }
 
@@ -141,4 +143,3 @@ class GraphItemMyActCategoryFragment : Fragment() {
 
 
 }
-

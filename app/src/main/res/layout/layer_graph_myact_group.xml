@@ -2,11 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--통계 뷰모델 연결-->
     <data>
-
-
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.graph.GraphViewModel" />
 
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
