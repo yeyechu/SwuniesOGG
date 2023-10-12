@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -51,6 +52,13 @@ class FeedDetailFragment : Fragment() {
             it?.let {
                 addWindow(it.id)
                 viewModel.onReportCompleted()
+            }
+        }
+
+        viewModel.makeToast.observe(viewLifecycleOwner) {
+            if(it) {
+                Toast.makeText(context, "휴먼, 너의 피드를 좋아요 할 수 없다", Toast.LENGTH_SHORT).show()
+                viewModel.onYourFeedCompleted()
             }
         }
     }

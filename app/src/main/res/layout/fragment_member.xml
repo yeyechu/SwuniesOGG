@@ -104,15 +104,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_member"/>
 
-        <!--        <fragment-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:name="com.swu.dimiz.ogg.ui.feed.myfeed.FeedLayer"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintHorizontal_bias="0.0"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/text_title_myfeed"-->
-        <!--            tools:layout="@layout/layer_feed"/>-->
+                <fragment
+                    android:id="@+id/my_feed_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:name="com.swu.dimiz.ogg.ui.feed.myfeed.MyFeedLayer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_title_myfeed"
+                    tools:layout="@layout/layer_my_feed"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

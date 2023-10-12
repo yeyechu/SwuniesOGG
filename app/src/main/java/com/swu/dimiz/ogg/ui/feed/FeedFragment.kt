@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,7 +15,6 @@ import com.google.android.material.chip.Chip
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.TOGETHER
 import com.swu.dimiz.ogg.databinding.FragmentFeedBinding
-
 class FeedFragment : Fragment(){
 
     private var _binding: FragmentFeedBinding? = null
@@ -82,6 +82,4 @@ class FeedFragment : Fragment(){
         super.onDestroyView()
         _binding = null
     }
-
-
 }

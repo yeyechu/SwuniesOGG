@@ -6,41 +6,44 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.IOException
 
 class FeedViewModel : ViewModel() {
 
     private var currentJob: Job? = null
-
     private val fireDB = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
     private val category = mutableListOf(TOGETHER, ENERGY, CONSUME, TRANSPORT, RECYCLE)
 
-    // 전체 피드리스트
     private val _feedList = MutableLiveData<List<Feed>?>()
     val feedList: LiveData<List<Feed>?>
         get() = _feedList
 
-    private val _feedId = MutableLiveData<Feed?>()
-    val feedId: LiveData<Feed?>
-        get() = _feedId
-
-    // 필터링된 피드리스트
     private val _filteredList = MutableLiveData<List<Feed>>()
     val filteredList: LiveData<List<Feed>>
         get() = _filteredList
 
+    private val _myList = MutableLiveData<List<Feed>>()
+    val myList: LiveData<List<Feed>>
+        get() = _myList
+
     private val _activityFilter = MutableLiveData<List<String>>()
     val activityFilter: LiveData<List<String>>
         get() = _activityFilter
+
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                                        피드 디테일
+
+    private val _feedId = MutableLiveData<Feed?>()
+    val feedId: LiveData<Feed?>
+        get() = _feedId
 
     private val _navigateToSelectedItem = MutableLiveData<Feed?>()
     val navigateToSelectedItem: LiveData<Feed?>
@@ -50,8 +53,13 @@ class FeedViewModel : ViewModel() {
     val navigateToReport: LiveData<Feed?>
         get() = _navigateToReport
 
+    private val _makeToast = MutableLiveData<Boolean>()
+    val makeToast: LiveData<Boolean>
+        get() = _makeToast
+
     init {
         getFilters()
+        onFilterChanged(TOGETHER, true)
         Timber.i("created")
     }
 
@@ -60,19 +68,23 @@ class FeedViewModel : ViewModel() {
     }
 
     fun onreactionClicked(item: Int) {
-        when (item) {
-            1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                .update("reactionLike", FieldValue.increment(1))
-                .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i(e) }
-            2 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                .update("reactionFun", FieldValue.increment(1))
-                .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i(e) }
-            3 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                .update("reactionGreat", FieldValue.increment(1))
-                .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i(e) }
+        if(_feedId.value!!.email != OggApplication.auth.currentUser!!.email) {
+            when (item) {
+                1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                    .update("reactionLike", FieldValue.increment(1))
+                    .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i(e) }
+                2 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                    .update("reactionFun", FieldValue.increment(1))
+                    .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i(e) }
+                3 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                    .update("reactionGreat", FieldValue.increment(1))
+                    .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i(e) }
+            }
+        } else {
+            onYourFeed()
         }
     }
 
@@ -93,6 +105,14 @@ class FeedViewModel : ViewModel() {
 
     fun onReportCompleted() {
         _navigateToReport.value = null
+    }
+
+    private fun onYourFeed() {
+        _makeToast.value = true
+    }
+
+    fun onYourFeedCompleted() {
+        _makeToast.value = false
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
@@ -126,6 +146,14 @@ class FeedViewModel : ViewModel() {
         }
     }
 
+    fun setMyFeedList() = viewModelScope.launch {
+        try {
+            _myList.value = _feedList.value!!.filter { it.email == OggApplication.auth.currentUser!!.email }
+        } catch (e: Exception) {
+            _myList.value = listOf()
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         Timber.i("destroyed")
@@ -134,11 +162,6 @@ class FeedViewModel : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                             firebase 피드리스트 받기
-    // 필터링은 전체/에너지/소비/이동수단/자원순환 + 내가 올린 글
-    // 이렇게 총 6가지이고
-    // 필터링만 바꿔서 나의 피드로 들어감
-
-    //firestore에서 이미지 url을 받아옴
     fun fireGetFeed() {
         val gotFeedList = arrayListOf<Feed>()
 
@@ -149,6 +172,7 @@ class FeedViewModel : ViewModel() {
                     val gotFeed = Feed()
                     val feed = document.toObject<Feed>()
                     gotFeed.id = document.id
+                    gotFeed.email = feed.email
                     gotFeed.actTitle = feed.actTitle
                     gotFeed.imageUrl = feed.imageUrl
                     gotFeed.actCode = feed.actCode
@@ -160,6 +184,7 @@ class FeedViewModel : ViewModel() {
 
                 _feedList.value = gotFeedList
                 _filteredList.value = gotFeedList
+
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }

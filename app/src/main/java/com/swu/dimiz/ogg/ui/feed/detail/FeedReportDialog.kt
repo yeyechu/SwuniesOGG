@@ -52,7 +52,6 @@ class FeedReportDialog(private val feedId: String) : DialogFragment() {
             .addOnFailureListener { e -> Timber.i( e ) }
 
         //Toast.makeText(context, "신고 되브렀어", Toast.LENGTH_SHORT).show()
-
     }
 
     override fun onDestroyView() {
