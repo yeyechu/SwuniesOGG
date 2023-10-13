@@ -180,7 +180,9 @@ class FeedViewModel : ViewModel() {
                     }
                 }
                 Timber.i(gotFeedList.toString())
+
                 _feedList.value = gotFeedList
+                _filteredList.value = gotFeedList
             }
     }
 }

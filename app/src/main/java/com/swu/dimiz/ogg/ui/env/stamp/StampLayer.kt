@@ -29,6 +29,7 @@ class StampLayer : Fragment() {
     private val viewModel: EnvViewModel by activityViewModels()
 
     private lateinit var stampHolderAdapter: StampAdapter
+    private var aim = 0f
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -36,7 +37,6 @@ class StampLayer : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.layer_stamp, container, false)
 
-        val stampView: GridView = binding.stampGrid
         //val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
 
         viewModel.leftHolder.observe(viewLifecycleOwner) {
@@ -51,11 +51,25 @@ class StampLayer : Fragment() {
             }
         }
 
+        viewModel.userCondition.observe(viewLifecycleOwner) {
+            aim = it.aim
+        }
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.condition = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        val stampView: GridView = binding.stampGrid
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                    스탬프
+
         viewModel.stampHolder.observe(viewLifecycleOwner) {
             it?.let {
-                stampHolderAdapter = StampAdapter(requireContext(), it)
+                stampHolderAdapter = StampAdapter(aim, it)
                 stampView.adapter = stampHolderAdapter
             }
         }
@@ -69,18 +83,12 @@ class StampLayer : Fragment() {
         }
 
         viewModel.fakeToday.observe(viewLifecycleOwner) {
-            when(it) {
+            when(it / aim * 100) {
                 0f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_000)
-                1f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_100)
-                else -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_050)
+                in 1f..99f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_050)
+                else -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_100)
             }
         }
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.condition = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
     }
     override fun onDestroyView() {
         super.onDestroyView()

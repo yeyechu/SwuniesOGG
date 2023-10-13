@@ -12,7 +12,7 @@ import android.widget.TextView
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.StampData
 
-class StampAdapter(val context: Context,
+class StampAdapter(private val aim: Float,
                    private val stampHolder: List<StampData>)
     : BaseAdapter() {
 
@@ -43,9 +43,9 @@ class StampAdapter(val context: Context,
             }
             2 -> {
                 text.setBackgroundResource(R.color.transparency_transparent)
-                when (item.sNumber) {
+                when (item.sNumber / aim * 100) {
                     0f -> image.setImageResource(R.drawable.env_image_stamp_000)
-                    in 0.001f..0.99f -> image.setImageResource(R.drawable.env_image_stamp_050)
+                    in 1f..99f -> image.setImageResource(R.drawable.env_image_stamp_050)
                     else -> image.setImageResource(R.drawable.env_image_stamp_100)
                 }
             }

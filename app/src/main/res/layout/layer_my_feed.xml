@@ -14,7 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="@dimen/bottom_nav_size"
+        android:paddingBottom="@dimen/bottom_nav_size">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/feed_my_list_grid"
