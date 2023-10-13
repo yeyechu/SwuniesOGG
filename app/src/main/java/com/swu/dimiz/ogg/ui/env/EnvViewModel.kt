@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.env
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
@@ -104,30 +105,22 @@ class EnvViewModel : ViewModel() {
     //                                   파이어베이스 함수
 
     fun userInit() = viewModelScope.launch {
-        val appUser = MyCondition()
+        var appUser = MyCondition()
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
-            .get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val gotUser = document.toObject<MyCondition>()
-                    gotUser?.let {
-                        appUser.nickName = gotUser.nickName
-                        appUser.email = gotUser.email
-                        appUser.aim = gotUser.aim
-                        appUser.car = gotUser.car
-                        appUser.startDate = gotUser.startDate
-                        appUser.report = gotUser.report
-                        appUser.projectCount = gotUser.projectCount
-
-                        _userCondition.value = appUser
-                    }
-                    Timber.i(_userCondition.toString())
-                    Timber.i(convertDurationToInt(appUser.startDate).toString())
-                } else {
-                    Timber.i("사용자 기본정보 받아오기 실패")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Timber.i( e)
+                    return@addSnapshotListener
                 }
-            }.addOnFailureListener { exception ->
-                Timber.i(exception.toString())
+                if (snapshot != null && snapshot.exists()) {
+                    appUser = snapshot.toObject<MyCondition>()!!
+                    _userCondition.value = appUser
+
+                    Timber.i(_userCondition.toString())
+                } else {
+                    Timber.i("Current data: null")
+                }
             }
     }
 

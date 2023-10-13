@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.member.settings
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.swu.dimiz.ogg.R

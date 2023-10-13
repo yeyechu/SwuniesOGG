@@ -28,7 +28,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/car_number_input"
+            android:id="@+id/new_nickname_et"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,15 +46,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/car_page_done"
+            android:id="@+id/change_nickname_btn"
             style="@style/StyleButtonOgg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_big"
             android:text="@string/setting_text_subtitle_account_chage_nickname"
-            app:layout_constraintEnd_toEndOf="@+id/car_number_input"
-            app:layout_constraintStart_toStartOf="@+id/car_number_input"
-            app:layout_constraintTop_toBottomOf="@+id/car_number_input" />
+            app:layout_constraintEnd_toEndOf="@+id/new_nickname_et"
+            app:layout_constraintStart_toStartOf="@+id/new_nickname_et"
+            app:layout_constraintTop_toBottomOf="@+id/new_nickname_et" />
 
 
 

@@ -181,10 +181,18 @@
     <fragment
         android:id="@+id/destination_setting_nickname"
         android:name="com.swu.dimiz.ogg.member.settings.SettingNickNameFragment"
-       />
+       >
+        <action
+            android:id="@+id/action_destination_setting_nickname_to_destination_settings"
+            app:destination="@id/destination_settings" />
+    </fragment>
     <fragment
         android:id="@+id/destination_setting_password"
         android:name="com.swu.dimiz.ogg.member.settings.SettingPasswordFragment"
-        />
+        >
+        <action
+            android:id="@+id/action_destination_setting_password_to_destination_settings"
+            app:destination="@id/destination_settings" />
+    </fragment>
 
 </navigation>

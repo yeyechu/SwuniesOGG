@@ -1,11 +1,9 @@
 package com.swu.dimiz.ogg.contents.listset
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.google.android.play.integrity.internal.l
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
@@ -13,7 +11,6 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
-import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
@@ -419,7 +416,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
         for(i in 20001 .. 20008){
             var sust = MyAllAct()
-            sust = MyAllAct(ID = i, actCode = "", upCount = 0, allC02 = 0.0)
             when (i) {
                 in 20001..20006 -> { sust = MyAllAct(ID = i, actCode = "에너지", upCount = 0, allC02 = 0.0) }
                 in 20007..20008 -> { sust = MyAllAct(ID = i, actCode = "이동수단", upCount = 0, allC02 = 0.0) }
@@ -447,8 +443,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
     private fun fireStampReset() = viewModelScope.launch {
         for(i in 1..21){
-            var stamp = MyStamp()
-            stamp = MyStamp(day = i, dayCo2 = 0.0)
+            val stamp = MyStamp(day = i, dayCo2 = 0.0)
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Stamp").document(i.toString())
                 .set(stamp)
@@ -556,32 +551,40 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 리스트 저장
     fun fireSave() = viewModelScope.launch {
-        //몇번째 프로젝트 초기화
+        //프로젝트 시작하기로 들어온 경우
         if(appUser.aim == 0f && appUser.startDate == 0L ){
+            //몇번째 프로젝트 초기화
             appUser.projectCount = +1
-        } else {  } //수정하기로 들어온 경우
 
-        for (i in 0 until LIST_SIZE) {
-            val actList = MyList()
-            actList.setFirstList(listArray[i].aId, listArray[i].aNumber)
-            fireDB.collection("User").document(fireUser?.email.toString())
-                .collection("Project${appUser.projectCount}").document(i.toString())
-                .set(actList)
-                .addOnCompleteListener { Timber.i("DocumentSnapshot1 successfully written!")
-                }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
+            //전체 리스트 편집
+            for (i in 0 until LIST_SIZE) {
+                val actList = MyList()
+                actList.setFirstList(listArray[i].aId, listArray[i].aNumber)
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Project${appUser.projectCount}").document(i.toString())
+                    .set(actList)
+                    .addOnCompleteListener { Timber.i("DocumentSnapshot1 successfully written!")
+                    }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
+            }
+            //프로젝트 상태 변경
+            if (today == 1) {
+                val toStartDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+
+                val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
+                washingtonRef.update("startDate", toStartDay.toLong())
+                    .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+
+                washingtonRef.update("aim", _aimCo2.value)
+                    .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+            }
         }
-        if (today == 1) {
-            val toStartDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+        //수정하기로 들어온 경우
+        else {
 
-            val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
-            washingtonRef.update("startDate", toStartDay.toLong())
-                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
-                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
-
-            washingtonRef.update("aim", _aimCo2.value)
-                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
-                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
         }
+
     }
 
     override fun onCleared() {
