@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.ui.env
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
@@ -10,8 +9,8 @@ import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.convertDurationToInt
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
@@ -103,6 +102,8 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
+    var today : Int = 0
+    var projectCount : Int = 0
 
     fun userInit() = viewModelScope.launch {
         var appUser = MyCondition()
@@ -115,6 +116,9 @@ class EnvViewModel : ViewModel() {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     appUser = snapshot.toObject<MyCondition>()!!
+                    today = convertDurationToInt(appUser.startDate)
+                    projectCount = appUser.projectCount
+
                     _userCondition.value = appUser
 
                     Timber.i(_userCondition.toString())
@@ -141,6 +145,49 @@ class EnvViewModel : ViewModel() {
                     }
                 }
                 Timber.i("스탬프 $stampList")
+            }
+    }
+
+    fun fireGetDaily() = viewModelScope.launch {
+        val myDailyList = ArrayList<ListData>()
+        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${projectCount}")
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error", e)
+                    return@addSnapshotListener
+                }
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val mylist = dc.document.toObject<MyList>()
+                        when (today) {
+                            1 -> myDailyList.add(mylist.day1act)
+                            2 -> myDailyList.add(mylist.day2act)
+                            3 -> myDailyList.add(mylist.day3act)
+                            4 -> myDailyList.add(mylist.day4act)
+                            5 -> myDailyList.add(mylist.day5act)
+                            6 -> myDailyList.add(mylist.day6act)
+                            7 -> myDailyList.add(mylist.day7act)
+                            8 -> myDailyList.add(mylist.day8act)
+                            9 -> myDailyList.add(mylist.day9act)
+                            10 -> myDailyList.add(mylist.day10act)
+                            11 -> myDailyList.add(mylist.day11act)
+                            12 -> myDailyList.add(mylist.day12act)
+                            13 -> myDailyList.add(mylist.day13act)
+                            14 -> myDailyList.add(mylist.day14act)
+                            15 -> myDailyList.add(mylist.day15act)
+                            16 -> myDailyList.add(mylist.day16act)
+                            17 -> myDailyList.add(mylist.day17act)
+                            18 -> myDailyList.add(mylist.day18act)
+                            19 -> myDailyList.add(mylist.day19act)
+                            20 -> myDailyList.add(mylist.day20act)
+                            21 -> myDailyList.add(mylist.day21act)
+                        }
+                    }
+                }
+                /*for(i in 0 until LIST_SIZE){
+                       listArray[i] = myDailyList[i]
+                   }*/
+                //setListHolder(listArray)
             }
     }
     //──────────────────────────────────────────────────────────────────────────────────────

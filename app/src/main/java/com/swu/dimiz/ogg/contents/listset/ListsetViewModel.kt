@@ -519,11 +519,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                             21 -> myDailyList.add(mylist.day21act)
                         }
                     }
-                    for(i in 0 until LIST_SIZE){
-                        listArray[i] = myDailyList[i]
-                    }
-                    setListHolder(listArray)
                 }
+                for(i in 0 until LIST_SIZE){
+                    listArray[i] = myDailyList[i]
+                }
+                setListHolder(listArray)
             }
     }
 

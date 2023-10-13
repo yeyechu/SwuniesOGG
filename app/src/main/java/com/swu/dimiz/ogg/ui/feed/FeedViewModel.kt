@@ -179,7 +179,6 @@ class FeedViewModel : ViewModel() {
                         gotFeedList.add(feed)
                     }
                 }
-                Timber.i(gotFeedList.toString())
 
                 _feedList.value = gotFeedList
                 _filteredList.value = gotFeedList
