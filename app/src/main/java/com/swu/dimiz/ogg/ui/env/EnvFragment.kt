@@ -29,6 +29,8 @@ class EnvFragment : Fragment() {
             inflater, R.layout.fragment_env, container, false)
 
         viewModel.userInit()
+        //스탬프 가져오기
+        viewModel.fireGetStamp()
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                               환경 수정 플로팅 버튼 정의
 

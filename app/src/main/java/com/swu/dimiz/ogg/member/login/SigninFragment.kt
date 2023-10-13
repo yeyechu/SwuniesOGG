@@ -122,6 +122,7 @@ class SigninFragment: Fragment() {
                     //로그인 완료 화면 이동
                     val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)
+                    SignInActivity.signInActivity!!.finish()
                 } else {
                     //todo 팝업
                     Timber.i("이메일 인증이 안되어있습니다")

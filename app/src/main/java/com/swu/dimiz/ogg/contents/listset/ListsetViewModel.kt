@@ -439,7 +439,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun fireStampReset() = viewModelScope.launch {
         for(i in 1..21){
             var stamp = MyStamp()
-            stamp = MyStamp(dayCo2 = 0.0)
+            stamp = MyStamp(day = i, dayCo2 = 0.0)
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Stamp").document(i.toString())
                 .set(stamp)

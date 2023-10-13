@@ -9,11 +9,11 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
-       // signInActivity = this
+        signInActivity = this
     }
 
-    /*companion object{
+    companion object{
         var signInActivity: SignInActivity?=null
-    }*/
+    }
 
 }

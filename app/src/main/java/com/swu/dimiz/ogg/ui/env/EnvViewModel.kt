@@ -2,6 +2,7 @@ package com.swu.dimiz.ogg.ui.env
 
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -10,6 +11,7 @@ import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -156,7 +158,23 @@ class EnvViewModel : ViewModel() {
     }
 
     fun fireGetStamp(){
+        var stampList = arrayListOf<MyStamp>()
 
+        fireDB.collection("User").document(fireUser?.email.toString()).collection("Stamp")
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error $e")
+                    return@addSnapshotListener
+                }
+                stampList.clear()
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        var stamp = dc.document.toObject<MyStamp>()
+                        stampList.add(stamp)
+                    }
+                }
+                Timber.i("스탬프 $stampList")
+            }
     }
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                     룸데이터 함수

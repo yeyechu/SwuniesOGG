@@ -2,6 +2,7 @@ package com.swu.dimiz.ogg.ui.feed
 
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -166,27 +167,20 @@ class FeedViewModel : ViewModel() {
         val gotFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val gotFeed = Feed()
-                    val feed = document.toObject<Feed>()
-                    gotFeed.id = document.id
-                    gotFeed.email = feed.email
-                    gotFeed.actTitle = feed.actTitle
-                    gotFeed.imageUrl = feed.imageUrl
-                    gotFeed.actCode = feed.actCode
-                    gotFeed.actTitle = feed.actTitle
-                    gotFeed.actId = feed.actId
-                    gotFeedList.add(gotFeed)
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error $e")
+                    return@addSnapshotListener
+                }
+                gotFeedList.clear()
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        var feed = dc.document.toObject<Feed>()
+                        gotFeedList.add(feed)
+                    }
                 }
                 Timber.i(gotFeedList.toString())
-
                 _feedList.value = gotFeedList
-                _filteredList.value = gotFeedList
-
-            }.addOnFailureListener { exception ->
-                Timber.i(exception.toString())
             }
     }
 }
