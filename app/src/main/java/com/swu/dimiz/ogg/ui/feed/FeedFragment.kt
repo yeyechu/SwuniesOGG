@@ -28,6 +28,10 @@ class FeedFragment : Fragment(){
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_feed, container, false)
 
+        // 피드 디테일 갔다가
+        // 다시 돌아오면
+        // 원래대로 돌아가 있음
+        // 초기화 다른데서 시키기
         viewModel.fireGetFeed()
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력

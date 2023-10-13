@@ -26,7 +26,6 @@ class FeedDetailFragment : Fragment() {
 
     private lateinit var fragmentManager: FragmentManager
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 

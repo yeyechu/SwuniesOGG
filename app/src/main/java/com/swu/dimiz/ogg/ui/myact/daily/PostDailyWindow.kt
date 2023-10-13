@@ -52,7 +52,7 @@ class PostDailyWindow  : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.window_post_daily, container, false)
 
@@ -169,7 +169,6 @@ class PostDailyWindow  : Fragment() {
 
         // ─────────────────────────────────────────────────────────────────────────────────
         //                              활동 전체 상황 업로드
-        //AllAct
         val washingtonRef = fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
             .collection("AllAct").document(viewModel.todailyId.value!!.dailyId.toString())
         washingtonRef
