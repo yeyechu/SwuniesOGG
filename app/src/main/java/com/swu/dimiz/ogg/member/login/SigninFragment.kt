@@ -3,6 +3,7 @@ package com.swu.dimiz.ogg.member.login
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,8 +64,9 @@ class SigninFragment: Fragment() {
             if (task.isSuccessful) {
                 //auth에 저장해둔 정보 가져오기
                 var appUser = MyCondition()     //사용자 기본 정보 저장
-                val gotuser = Firebase.auth.currentUser
-                gotuser?.let {
+
+                val fireUser = Firebase.auth.currentUser
+                fireUser?.let {
                     for (profile in it.providerData) {
                         appUser.nickName = profile.displayName.toString()
                         appUser.profileUrl = profile.photoUrl.toString()
@@ -81,58 +83,48 @@ class SigninFragment: Fragment() {
                         )
                     }
 
-                    //사용자 정보 저장 (firestore)
                     fireDB.collection("User")
                         .whereEqualTo("email", email)
-                        .get()
-                        .addOnSuccessListener { documents ->
-                            for (document in documents) { //사용자 있는지 탐색
-                                Timber.i("${document.id} => ${document.data}")
+                        .addSnapshotListener { value, e ->
+                            if (e != null) {
+                                Timber.i(e)
+                                return@addSnapshotListener
                             }
-                            if (documents.isEmpty) {
-                                // 없으면 새로 저장
+                            for (doc in value!!) {
+                                Timber.i("사용자 이미 존재 ${doc.data}")
+                            }
+                            if (value.isEmpty) {
                                 if (saveUser != null) {
                                     fireDB.collection("User").document(email).set(saveUser)
                                     Timber.i("유저 정보 firestore 저장 완료")
+                                    /* ──────────────────────────────────────────────────────────────────────────────────────
+                                                                     기본 프로필 상태 저장(storage)
+                                    프로필 변경할때 필요할 예정
+                                                                            val storageRef = fireStorage.reference
 
-                                    // ──────────────────────────────────────────────────────────────────────────────────────
-                                    //                                 기본 프로필 상태 저장(storage)
-                                    //프로필 변경할때 필요할 예정
-    //                                        val storageRef = fireStorage.reference
-    //
-    //                                        var fileName = email + "/" + SimpleDateFormat("yyyyMMddHHmmss").format(Date()) // 파일명이 겹치면 안되기 떄문에 시년월일분초 지정
-    //
-    //                                        val riversRef = storageRef.child("profile").child(fileName)
-    //                                        var  uploadTask = riversRef.putFile(profileImage)
-    //
-    //                                        // Register observers to listen for when the download is done or if it fails
-    //                                        uploadTask.addOnFailureListener {
-    //                                            // Handle unsuccessful uploads
-    //                                            Timber.i("strage 실패")
-    //                                        }.addOnSuccessListener { taskSnapshot ->
-    //                                            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-    //                                            Timber.i("strage 성공")
-    //                                        }
+                                                                            var fileName = email + "/" + SimpleDateFormat("yyyyMMddHHmmss").format(Date()) // 파일명이 겹치면 안되기 떄문에 시년월일분초 지정
+
+                                                                            val riversRef = storageRef.child("profile").child(fileName)
+                                                                            var  uploadTask = riversRef.putFile(profileImage)
+
+                                                                            // Register observers to listen for when the download is done or if it fails
+                                                                            uploadTask.addOnFailureListener {
+                                                                                // Handle unsuccessful uploads
+                                                                                Timber.i("strage 실패")
+                                                                            }.addOnSuccessListener { taskSnapshot ->
+                                                                                // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+                                                                                Timber.i("strage 성공")
+                                                                            }*/
                                 }
                             }
-                        }
-                        .addOnFailureListener {
-                            Timber.i(task.exception.toString())
                         }
                     //로그인 완료 화면 이동
                     val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)
                     SignInActivity.signInActivity!!.finish()
-                } else {
-                    //todo 팝업
-                    Timber.i("이메일 인증이 안되어있습니다")
                 }
-            }else {
-                Timber.i("로그인 실패")
-                Timber.i(task.exception.toString())
             }
         }
-
     }
 
     override fun onDestroyView() {

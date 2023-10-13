@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.google.android.play.integrity.internal.l
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
@@ -402,14 +403,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private fun fireAllReset()= viewModelScope.launch {
         for (i in 10001..10020) {
             var daily = MyAllAct()
-            if (i in 10001..10008) {
-                daily = MyAllAct(ID = i, actCode = "에너지", upCount = 0, allC02 = 0.0)
-            } else if (i == 9) {
-                daily = MyAllAct(ID = i, actCode = "소비", upCount = 0, allC02 = 0.0)
-            } else if (i in 10010..10012) {
-                daily = MyAllAct(ID = i, actCode = "이동수단", upCount = 0, allC02 = 0.0)
-            } else if (i in 10013..10020) {
-                daily = MyAllAct(ID = i, actCode = "자원순환", upCount = 0, allC02 = 0.0)
+            when (i) {
+                in 10001..10008 -> { daily = MyAllAct(ID = i, actCode = "에너지", upCount = 0, allC02 = 0.0) }
+                10009 -> { daily = MyAllAct(ID = i, actCode = "소비", upCount = 0, allC02 = 0.0) }
+                in 10010..10012 -> { daily = MyAllAct(ID = i, actCode = "이동수단", upCount = 0, allC02 = 0.0) }
+                in 10013..10020 -> { daily = MyAllAct(ID = i, actCode = "자원순환", upCount = 0, allC02 = 0.0) }
             }
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("AllAct").document(i.toString())
@@ -420,6 +418,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         for(i in 20001 .. 20008){
             var sust = MyAllAct()
             sust = MyAllAct(ID = i, actCode = "", upCount = 0, allC02 = 0.0)
+            when (i) {
+                in 20001..20006 -> { sust = MyAllAct(ID = i, actCode = "에너지", upCount = 0, allC02 = 0.0) }
+                in 20007..20008 -> { sust = MyAllAct(ID = i, actCode = "이동수단", upCount = 0, allC02 = 0.0) }
+            }
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("AllAct").document(i.toString())
                 .set(sust)
@@ -428,7 +430,12 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
         for(i in 30001 .. 30007){
             var extra = MyAllAct()
-            extra = MyAllAct(ID = i, actCode = "", upCount = 0, allC02 = 0.0)
+            when (i) {
+                in 30001..30003 -> { extra = MyAllAct(ID = i, actCode = "자원순환", upCount = 0, allC02 = 0.0) }
+                in 30004..30005 -> { extra = MyAllAct(ID = i, actCode = "에너지", upCount = 0, allC02 = 0.0) }
+                30006 -> { extra = MyAllAct(ID = i, actCode = "자원순환", upCount = 0, allC02 = 0.0) }
+                30007 -> { extra = MyAllAct(ID = i, actCode = "소비", upCount = 0, allC02 = 0.0) }
+            }
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("AllAct").document(i.toString())
                 .set(extra)
@@ -436,7 +443,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 .addOnFailureListener { e -> Timber.i(e) }
         }
     }
-    fun fireStampReset() = viewModelScope.launch {
+    private fun fireStampReset() = viewModelScope.launch {
         for(i in 1..21){
             var stamp = MyStamp()
             stamp = MyStamp(day = i, dayCo2 = 0.0)
@@ -452,36 +459,30 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     //                             기본 정보 가져오기
     private var appUser = MyCondition()   //사용자 기본 정보 저장
     private var today = 0
+    //todo 프로젝트 카운트 0으로 돌아가는거 확인
     fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
-            .get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val gotUser = document.toObject<MyCondition>()
-                    gotUser?.let {
-                        appUser.nickName = gotUser.nickName
-                        appUser.aim = gotUser.aim
-                        appUser.car = gotUser.car
-                        appUser.startDate = gotUser.startDate
-                        appUser.report = gotUser.report
-                        appUser.projectCount = gotUser.projectCount
-
-                        _userCondition.value = appUser
-                        Timber.i("유저 컨디션 초기화: ${_userCondition.value}")
-                        //today 초기화
-                        if (appUser.startDate == today.toLong()) {
-                            today =  1
-                            fireAllReset()
-                            fireStampReset()
-                        } else {
-                            today = convertDurationToInt(appUser.startDate)
-                        }
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Timber.i( e)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    appUser = snapshot.toObject<MyCondition>()!!
+                    _userCondition.value = appUser
+                    Timber.i("유저 컨디션 초기화: ${_userCondition.value}")
+                    //today 초기화
+                    if (appUser.startDate == today.toLong()) {  //처음 시작한다면
+                        today =  1
+                        fireAllReset()
+                        fireStampReset()
+                    } else {
+                        today = convertDurationToInt(appUser.startDate)
                     }
                 } else {
-                    Timber.i("사용자 기본정보 받아오기 실패")
+                    Timber.i("Current data: null")
                 }
-            }.addOnFailureListener { exception ->
-                Timber.i(exception.toString())
             }
     }
 
@@ -564,21 +565,18 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Project${appUser.projectCount}").document(i.toString())
                 .set(actList)
-                .addOnCompleteListener {
-                    Timber.i("DocumentSnapshot1 successfully written!")
+                .addOnCompleteListener { Timber.i("DocumentSnapshot1 successfully written!")
                 }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
         }
         if (today == 1) {
-            val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
-
             val toStartDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
-            washingtonRef
-                .update("startDate", toStartDay.toLong())
+
+            val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
+            washingtonRef.update("startDate", toStartDay.toLong())
                 .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 
-            washingtonRef
-                .update("aim", _aimCo2.value)
+            washingtonRef.update("aim", _aimCo2.value)
                 .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
         }

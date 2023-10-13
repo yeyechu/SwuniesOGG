@@ -166,7 +166,7 @@ class FeedViewModel : ViewModel() {
     fun fireGetFeed() {
         val gotFeedList = arrayListOf<Feed>()
 
-        fireDB.collection("Feed")
+        fireDB.collection("Feed").orderBy("postTime")
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i("listen:error $e")

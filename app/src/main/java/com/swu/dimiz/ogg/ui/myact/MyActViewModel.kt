@@ -150,80 +150,6 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
-    //todo 오늘 며칠째인지 받아오기
-    private var today = 0
-    private var appUser = MyCondition()   //사용자 기본 정보 저장
-
-    //사용자 기본 정보
-//    fun fireInfo(){
-//        fireDB.collection("User").document(fireUser?.email.toString())
-//            .get().addOnSuccessListener { document ->
-//                if (document != null) {
-//                    val gotUser = document.toObject<MyCondition>()
-//                    gotUser?.let {
-//                        appUser.nickName = gotUser.nickName
-//                        appUser.aim = gotUser.aim
-//                        appUser.car = gotUser.car
-//                        appUser.startDate = gotUser.startDate
-//                        appUser.report = gotUser.report
-//                        appUser.projectCount = gotUser.projectCount
-//                    }
-//                } else {
-//                    Timber.i("사용자 기본정보 받아오기 실패")
-//                }
-//            }.addOnFailureListener { exception ->
-//                Timber.i(exception.toString())
-//            }
-//        //날짜 초기화
-//        today = convertDurationToFormatted(appUser.startDate!!)
-//    }
-
-
-//    //오늘 활동 리스트 가져오기
-//    fun fireGetDaily() {
-//        val myDailyList = ArrayList<ListData>()
-//
-//        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
-//            .get()
-//            .addOnSuccessListener { result  ->
-//                if(result != null && result.size() != 0){
-//                    for (document in result ) {
-//                        val mylist = document.toObject<MyList>()
-//                        when (today) {
-//                            1 -> myDailyList.add(mylist.day1act)
-//                            2 -> myDailyList.add(mylist.day2act)
-//                            3 -> myDailyList.add(mylist.day3act)
-//                            4 -> myDailyList.add(mylist.day4act)
-//                            5 -> myDailyList.add(mylist.day5act)
-//                            6 -> myDailyList.add(mylist.day6act)
-//                            7 -> myDailyList.add(mylist.day7act)
-//                            8 -> myDailyList.add(mylist.day8act)
-//                            9 -> myDailyList.add(mylist.day9act)
-//                            10 -> myDailyList.add(mylist.day10act)
-//                            11 -> myDailyList.add(mylist.day11act)
-//                            12 -> myDailyList.add(mylist.day12act)
-//                            13 -> myDailyList.add(mylist.day13act)
-//                            14 -> myDailyList.add(mylist.day14act)
-//                            15 -> myDailyList.add(mylist.day15act)
-//                            16 -> myDailyList.add(mylist.day16act)
-//                            17 -> myDailyList.add(mylist.day17act)
-//                            18 -> myDailyList.add(mylist.day18act)
-//                            19 -> myDailyList.add(mylist.day19act)
-//                            20 -> myDailyList.add(mylist.day20act)
-//                            21 -> myDailyList.add(mylist.day21act)
-//                        }
-//                    }
-//                    for(i in 0 until 5){
-//                        listArray[i] = myDailyList[i]
-//                    }
-//                    setListHolder(listArray)
-//                }else{
-//                    Timber.i("비어있음")
-//                }
-//            }.addOnFailureListener { exception ->
-//                Timber.i(exception.toString())
-//            }
-//    }
     //이미 한 sust
     private var mySustList = ArrayList<Int>()
     fun fireGetSust(){
@@ -264,9 +190,9 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                         myExtraList.add(myextra.extraID!!)
 
                         _extraDone.value = myExtraList
-                        Timber.i( "Extra result: $myExtraList")
                     }
                 }
+                Timber.i( "Extra result: $myExtraList")
             }
     }
 
