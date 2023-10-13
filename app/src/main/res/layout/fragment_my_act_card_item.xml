@@ -6,10 +6,16 @@
         <variable
             name="activity"
             type="com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily" />
+
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
+
+        <variable
+            name="detailListener"
+            type="com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter.ListClickListener" />
     </data>
 
-    <!-- CardView 레이아웃 -->
-    <!--텍스트의 다양한 길이로 인해 width 고정값 부여-->
     <androidx.cardview.widget.CardView
         android:id="@+id/category_reduce_card"
         android:layout_width="@dimen/myact_today_card_width"
@@ -68,7 +74,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/today_card_text_title"
-                tools:text="여기는 코드로 넣어요" />
+                tools:text="탄소감축량: 0.000kg" />
 
             <!-- 버튼 -->
             <androidx.appcompat.widget.AppCompatButton
@@ -78,13 +84,11 @@
                 android:layout_height="@dimen/bottom_sheet_peek_height"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="@string/myact_button"
-
+                android:onClick="@{() -> detailListener.onClick(activity)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/today_card_text_co2" />
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -92,6 +96,7 @@
             android:id="@+id/card_view_done_daily"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             app:cardCornerRadius="@dimen/radius_component"
             app:contentPadding="@dimen/spacing_text"
             app:cardBackgroundColor="@color/transparency_done_black">
@@ -108,13 +113,8 @@
                 android:fontFamily="@font/nanumsquare_r" />
 
         </androidx.cardview.widget.CardView>
-
-
-
     </androidx.cardview.widget.CardView>
-
 </layout>
-
 
 <!--    &lt;!&ndash; 인증 완료 시에 표시되는 레이아웃 &ndash;&gt;-->
 <!--<androidx.constraintlayout.widget.ConstraintLayout-->

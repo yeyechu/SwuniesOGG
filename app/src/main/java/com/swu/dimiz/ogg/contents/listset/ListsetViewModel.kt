@@ -31,6 +31,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     private var currentJob: Job? = null
     private val disposable: Disposable? = null
+
+    val getActivities: LiveData<List<ActivitiesDaily>> = repository.getAlldata.asLiveData()
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                        클릭 핸들러
 

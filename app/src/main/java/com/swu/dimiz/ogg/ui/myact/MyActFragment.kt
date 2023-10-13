@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -15,6 +17,7 @@ import com.skydoves.balloon.*
 import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
+import com.swu.dimiz.ogg.ui.myact.daily.PostDailyWindow
 import com.swu.dimiz.ogg.ui.myact.extra.ExtraAdapter
 import com.swu.dimiz.ogg.ui.myact.extra.PostExtraWindow
 import com.swu.dimiz.ogg.ui.myact.sust.PostSustWindow
@@ -27,6 +30,7 @@ class MyActFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: MyActViewModel by activityViewModels { MyActViewModel.Factory }
+
     private lateinit var navController: NavController
     private lateinit var fragmentManager: FragmentManager
 
@@ -56,6 +60,24 @@ class MyActFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
+
+        viewModel.navigateToDaily.observe(viewLifecycleOwner) {
+            if (it == null) {
+                mainActivity.hideBottomNavView(false)
+            } else {
+                mainActivity.hideBottomNavView(true)
+                addDailyWindow()
+            }
+        }
+
+        viewModel.todailyId.observe(viewLifecycleOwner) {
+            it?.let {
+                cameraTitle = it.title
+                cameraCo2 = it.co2.toString()
+                cameraId = it.dailyId.toString()
+                cameraFilter = it.filter
+            }
+        }
 
         binding.sustainableActList.adapter = SustCardItemAdapter(viewModel, SustCardItemAdapter.OnClickListener {
             viewModel.showSust(it)
@@ -167,6 +189,13 @@ class MyActFragment : Fragment() {
             }
         }
 
+        viewModel.navigateToToGallery.observe(viewLifecycleOwner) {
+            if(it) {
+                startGallery()
+                viewModel.onGalleryCompleted()
+            }
+        }
+
         viewModel.navigateToToChecklist.observe(viewLifecycleOwner) {
             if(it) {
                 navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationChecklist())
@@ -192,6 +221,27 @@ class MyActFragment : Fragment() {
                 fragmentManager.popBackStack()
             }
         }
+    }
+
+    private fun startGallery() {
+        getPicture.launch(
+            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    }
+
+    private val getPicture = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) {
+        if(it != null) {
+            viewModel.setUri(it)
+        }
+    }
+
+    private fun addDailyWindow() {
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout_myact, PostDailyWindow())
+            .setReorderingAllowed(true)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun addSustWindow() {

@@ -9,6 +9,10 @@
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
+
+        <variable
+            name="listViewModel"
+            type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -207,7 +211,7 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/spacing_extra_small"
                 android:paddingTop="@dimen/spacing_regular"
-                android:visibility="@{viewModel.layerVisible ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.layerVisible ? View.GONE : View.VISIBLE}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

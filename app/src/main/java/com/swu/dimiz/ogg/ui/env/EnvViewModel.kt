@@ -72,32 +72,6 @@ class EnvViewModel : ViewModel() {
         get() = _expandLayout
 
     //──────────────────────────────────────────────────────────────────────────────────────
-    //                                       오늘의 활동
-    private val _todayList = MutableLiveData<List<ActivitiesDaily>>()
-    val todayList: LiveData<List<ActivitiesDaily>>
-        get() = _todayList
-
-    private val _navigateToDaily = MutableLiveData<ActivitiesDaily?>()
-    val navigateToDaily: LiveData<ActivitiesDaily?>
-        get() = _navigateToDaily
-
-    private val _dailyId = MutableLiveData<ActivitiesDaily?>()
-    val dailyId: LiveData<ActivitiesDaily?>
-        get() = _dailyId
-
-    private val _navigateToCamera = MutableLiveData<Boolean>()
-    val navigateToToCamera: LiveData<Boolean>
-        get() = _navigateToCamera
-
-    private val _navigateToGallery = MutableLiveData<Boolean>()
-    val navigateToToGallery: LiveData<Boolean>
-        get() = _navigateToGallery
-
-    private val _navigateToChecklist = MutableLiveData<Boolean>()
-    val navigateToToChecklist: LiveData<Boolean>
-        get() = _navigateToChecklist
-
-    //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 변수
 
     private val fireDB = Firebase.firestore
@@ -291,37 +265,7 @@ class EnvViewModel : ViewModel() {
     private fun resetToday() {
         _fakeToday.value = FLOAT_ZERO
     }
-    //──────────────────────────────────────────────────────────────────────────────────────
-    //                                       오늘의 활동
 
-    fun showDaily(daily: ActivitiesDaily) {
-        _navigateToDaily.value = daily
-        _dailyId.value = daily
-    }
-
-    fun completedDaily() {
-        _navigateToDaily.value = null
-    }
-
-    fun onDailyButtonClicked(daily: ActivitiesDaily) {
-        when(daily.waytoPost) {
-            0 -> _navigateToCamera.value = true
-            1 -> _navigateToGallery.value = true
-            3 -> _navigateToChecklist.value = true
-        }
-    }
-
-    fun onCameraCompleted() {
-        _navigateToCamera.value = false
-    }
-
-    fun onGalleryCompleted() {
-        _navigateToGallery.value = false
-    }
-
-    fun onChecklistCompleted() {
-        _navigateToChecklist.value = false
-    }
 
 //    fun getDailyFromFirebase() = viewModelScope.launch {
 //        val todayList = ArrayList<ListData>()

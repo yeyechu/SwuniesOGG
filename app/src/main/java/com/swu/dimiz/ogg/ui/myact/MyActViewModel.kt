@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.myact
 
+import android.net.Uri
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -10,15 +11,46 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.oggdata.OggRepository
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
+import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyExtra
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
 import timber.log.Timber
 
 class MyActViewModel (private val repository: OggRepository) : ViewModel() {
-    // ───────────────────────────────────────────────────────────────────────────────────
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                       오늘의 활동
+    private val _todayList = MutableLiveData<List<ActivitiesDaily>>()
+    val todayList: LiveData<List<ActivitiesDaily>>
+        get() = _todayList
+
+    private val _todailyId = MutableLiveData<ActivitiesDaily?>()
+    val todailyId: LiveData<ActivitiesDaily?>
+        get() = _todailyId
+
+    private val _navigateToDaily = MutableLiveData<ActivitiesDaily?>()
+    val navigateToDaily: LiveData<ActivitiesDaily?>
+        get() = _navigateToDaily
+
+    private val _navigateToGallery = MutableLiveData<Boolean>()
+    val navigateToToGallery: LiveData<Boolean>
+        get() = _navigateToGallery
+
+    private val _passUri = MutableLiveData<Uri?>()
+    val passUri: LiveData<Uri?>
+        get() = _passUri
+
+    //                                       활동 디테일
+    val details = MediatorLiveData<List<Instruction>>()
+
+    val textVisible = details.map {
+        it.isNotEmpty()
+    }
+
     //                                        지속가능
     private val _navigateToSust = MutableLiveData<ActivitiesSustainable?>()
     val navigateToSust: LiveData<ActivitiesSustainable?>
@@ -72,6 +104,13 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         _extraDone.value = listOf()
     }
 
+    fun setUri(data: Uri) {
+        _passUri.value = data
+    }
+
+    fun resetUri() {
+        _passUri.value = null
+    }
     fun setSustDone(item: ActivitiesSustainable) : Boolean {
         for(i in sustDone.value!!) {
             if(i == item.sustId) {
@@ -88,6 +127,22 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
         }
         return false
+    }
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                      디테일 팝업
+
+    fun showDaily(daily: ActivitiesDaily) {
+        _navigateToDaily.value = daily
+        _todailyId.value = daily
+        details.addSource(
+            repository.getInstructions(daily.dailyId, daily.instructionCount),
+            details::setValue
+        )
+    }
+
+    fun completedDaily() {
+        _navigateToDaily.value = null
     }
 
     fun showSust(sust: ActivitiesSustainable) {
@@ -108,6 +163,18 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         _navigateToExtra.value = null
     }
 
+    fun onGalleryButtonClicked() {
+        _navigateToGallery.value = true
+    }
+
+    fun onDailyButtonClicked(daily: ActivitiesDaily) {
+        when(daily.waytoPost) {
+            0 -> _navigateToCamera.value = true
+            1 -> _navigateToCamera.value = true
+            3 -> _navigateToChecklist.value = true
+        }
+    }
+
     fun onSustButtonClicked(sust: ActivitiesSustainable) {
         when(sust.waytoPost) {
             0 -> _navigateToCamera.value = true
@@ -125,6 +192,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
     fun onCameraCompleted() {
         _navigateToCamera.value = false
+    }
+
+    fun onGalleryCompleted() {
+        _navigateToGallery.value = false
     }
 
     fun onChecklistCompleted() {

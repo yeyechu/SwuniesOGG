@@ -1,19 +1,15 @@
 package com.swu.dimiz.ogg.ui.myact.myactcard
 
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 import com.swu.dimiz.ogg.ui.myact.extra.ExtraAdapter
 import com.swu.dimiz.ogg.ui.myact.sust.SustCardItemAdapter
-
 
 @BindingAdapter("actitityTitle")
 fun TextView.setTitle(item: ActivitiesSustainable?) {

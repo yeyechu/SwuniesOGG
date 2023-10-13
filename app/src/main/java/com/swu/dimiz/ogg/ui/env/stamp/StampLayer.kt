@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.GridView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -38,7 +37,7 @@ class StampLayer : Fragment() {
             inflater, R.layout.layer_stamp, container, false)
 
         val stampView: GridView = binding.stampGrid
-        val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
+        //val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
 
         viewModel.leftHolder.observe(viewLifecycleOwner) {
             val textDecorator = SpannableStringBuilder.valueOf(getString(R.string.stamplayout_text_body, it))
@@ -72,8 +71,8 @@ class StampLayer : Fragment() {
         viewModel.fakeToday.observe(viewLifecycleOwner) {
             when(it) {
                 0f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_000)
-                in 0.001f..0.99f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_050)
-                else -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_100)
+                1f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_100)
+                else -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_050)
             }
         }
         return binding.root
@@ -82,7 +81,6 @@ class StampLayer : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.condition = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
     }
     override fun onDestroyView() {
         super.onDestroyView()

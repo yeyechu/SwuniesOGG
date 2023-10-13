@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.ui.env.badges.badgeadapters
 
-import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.databinding.FragmentBadgeListItemBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
-
 
 class BadgeListAdapter(private val onClickListener: BadgeClickListener) :
     ListAdapter<Badges, BadgeListAdapter.BadgesViewHolder>(BadgesDiffCallback) {

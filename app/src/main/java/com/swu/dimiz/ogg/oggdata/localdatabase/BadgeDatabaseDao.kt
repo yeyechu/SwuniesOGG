@@ -22,11 +22,8 @@ interface BadgeDatabaseDao {
     @Query("SELECT * FROM badges WHERE badgeId = :id")
     suspend fun getItem(id: Int) : Badges
 
-    @Query("SELECT * FROM badges WHERE filter = :data")
-    suspend fun getFilteredList(data: String): List<Badges>?
-
-    @Query("SELECT title FROM badges WHERE filter = :data")
-    suspend fun getFilteredListTitle(data: String): List<String>?
+    @Query("SELECT getDate FROM badges WHERE filter = :data")
+    suspend fun getFilteredList(data: String): List<Long>?
 
     @Query("SELECT DISTINCT filter FROM badges")
     suspend fun getFilter(): List<String>?

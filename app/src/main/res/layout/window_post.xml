@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -14,15 +15,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/spacing_regular"
-        android:background="@color/transparency_dimmed">
+        android:background="@color/transparency_dimmed"
+        android:padding="@dimen/spacing_regular">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_big"
             android:layout_margin="@dimen/spacing_big"
             android:background="@drawable/common_layer_window_rounded"
+            android:padding="@dimen/spacing_big"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,51 +35,51 @@
                 android:layout_width="@dimen/icon_extra_small"
                 android:layout_height="@dimen/icon_extra_small"
                 android:contentDescription="@string/description_common_button_exit"
+                android:src="@drawable/common_button_exit_svg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/common_button_exit_svg" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_title"
+                style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/StyleText.title"
                 android:text=""
-                app:layout_constraintTop_toBottomOf="@id/button_exit"
+                app:actitityTitle="@{viewModel.activity}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:actitityTitle="@{viewModel.activity}"
+                app:layout_constraintTop_toBottomOf="@id/button_exit"
                 tools:text="가까운 거리는 걷기" />
 
             <TextView
                 android:id="@+id/text_co2"
+                style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                style="@style/StyleText"
-                app:layout_constraintTop_toBottomOf="@id/text_title"
+                app:activityCo2="@{viewModel.activity}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:activityCo2="@{viewModel.activity}"/>
+                app:layout_constraintTop_toBottomOf="@id/text_title" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/explain_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@+id/text_co2"
-                tools:layout_editor_absoluteX="20dp"
-                android:visibility="visible">
+                tools:layout_editor_absoluteX="20dp">
 
                 <ImageView
                     android:id="@+id/image_example"
                     android:layout_width="@dimen/image_size_big"
                     android:layout_height="@dimen/image_size_big"
+                    android:layout_margin="@dimen/spacing_regular"
                     android:contentDescription="@string/description_myact_card_image"
                     android:src="@drawable/common_image_placeholder"
-                    android:layout_margin="@dimen/spacing_regular"
                     app:activityExampleImage="@{viewModel.activity}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -16,7 +16,6 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     private var currentJob: Job? = null
 
-    val getAllData: LiveData<List<Badges>> = repository.getAllBadges.asLiveData()
     val inventory: LiveData<List<Badges>> = repository.getInventory()
 
     val inventorySize = inventory.map {
@@ -38,8 +37,6 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     private val _badgeFilter = MutableLiveData<List<String>>()
     val badgeFilter: LiveData<List<String>>
         get() = _badgeFilter
-
-    private val _badgeFilteredList = MutableLiveData<List<String>>()
 
     init {
         Timber.i("created")
@@ -66,27 +63,11 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         currentJob = viewModelScope.launch {
             try {
                 _badgeFilter.value = repository.getFilter()
-                onFilterUpdated()
             } catch (e: IOException) {
                 _badgeFilter.value = listOf()
             }
         }
     }
-
-private fun onFilterUpdated() {
-    currentJob?.cancel()
-
-    currentJob = viewModelScope.launch {
-
-        try {
-            _badgeFilter.value!!.forEach {
-                _badgeFilteredList.value = repository.getFilteredListTitle(it)
-            }
-        } catch (e: IOException) {
-            _badgeFilteredList.value = listOf()
-        }
-    }
-}
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {

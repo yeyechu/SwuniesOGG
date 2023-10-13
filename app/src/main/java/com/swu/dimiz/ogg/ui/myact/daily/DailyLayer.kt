@@ -22,10 +22,12 @@ import androidx.navigation.fragment.findNavController
 import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.ListDetailWindow
+import com.swu.dimiz.ogg.contents.listset.ListsetViewModel
+import com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter
 import com.swu.dimiz.ogg.databinding.LayerDailyBinding
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import com.swu.dimiz.ogg.ui.myact.MyActFragmentDirections
-import com.swu.dimiz.ogg.ui.myact.myactcard.TodayCardItemAdapter
+import com.swu.dimiz.ogg.ui.myact.MyActViewModel
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
@@ -35,15 +37,11 @@ class DailyLayer : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: EnvViewModel by activityViewModels()
-    //private val listViewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
+    private val myActiViewModel: MyActViewModel by activityViewModels { MyActViewModel.Factory }
+    private val listViewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
 
     private lateinit var navController: NavController
     private lateinit var fragmentManager: FragmentManager
-
-    private lateinit var cameraTitle: String
-    private lateinit var cameraCo2: String
-    private lateinit var cameraId: String
-    private lateinit var cameraFilter: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -51,7 +49,6 @@ class DailyLayer : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.layer_daily, container, false)
 
-        val mainActivity = activity as MainActivity
         val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
 
         viewModel.fakeToday.observe(viewLifecycleOwner) {
@@ -79,6 +76,7 @@ class DailyLayer : Fragment() {
                 viewModel.onNavigatedToListset()
             }
         }
+
         viewModel.progressDaily.observe(viewLifecycleOwner) {
             binding.progressDaily.progress = it
         }
@@ -86,32 +84,15 @@ class DailyLayer : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
-
-        val adapter = TodayCardItemAdapter(requireContext())
+        val adapter = DailyCardAdapter(listViewModel, ListsetAdapter.ListClickListener {
+            myActiViewModel.showDaily(it)
+        })
         binding.todayCardList.adapter = adapter
 
-//        viewModel.getAllData.observe(viewLifecycleOwner) {
-//            it?.let {
-//                adapter.submitList(it)
-//            }
-//        }
-        viewModel.navigateToDaily.observe(viewLifecycleOwner) {
-            if (it == null) {
-                mainActivity.hideBottomNavView(false)
-            } else {
-                mainActivity.hideBottomNavView(true)
-                addWindow()
-            }
+        listViewModel.getActivities.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
 
-        viewModel.dailyId.observe(viewLifecycleOwner) {
-            it?.let {
-                cameraTitle = it.title
-                cameraCo2 = it.co2.toString()
-                cameraId = it.dailyId.toString()
-                cameraFilter = it.filter
-            }
-        }
         return binding.root
     }
 
@@ -122,41 +103,6 @@ class DailyLayer : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
-        viewModel.navigateToToCamera.observe(viewLifecycleOwner) {
-            if(it) {
-                val intent = Intent(context, CameraActivity::class.java)
-                intent.putExtra("title", cameraTitle)
-                intent.putExtra("co2", cameraCo2)
-                intent.putExtra("id", cameraId)
-                intent.putExtra("filter", cameraFilter)
-                requireContext().startActivity(intent)
-                viewModel.onCameraCompleted()
-            }
-        }
-
-        viewModel.navigateToToChecklist.observe(viewLifecycleOwner) {
-            if(it) {
-                navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationChecklist())
-                viewModel.onChecklistCompleted()
-                fragmentManager.popBackStack()
-            }
-        }
-
-        viewModel.navigateToToGallery.observe(viewLifecycleOwner) {
-            if(it) {
-                viewModel.onGalleryCompleted()
-                fragmentManager.popBackStack()
-            }
-        }
-    }
-
-    private fun addWindow() {
-        fragmentManager.beginTransaction()
-            .add(R.id.frame_layout_myact, ListDetailWindow())
-            .setReorderingAllowed(true)
-            .addToBackStack(null)
-            .commit()
     }
 
     override fun onDestroyView() {

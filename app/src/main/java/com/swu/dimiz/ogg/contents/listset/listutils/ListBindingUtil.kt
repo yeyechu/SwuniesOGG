@@ -2,16 +2,15 @@ package com.swu.dimiz.ogg.contents.listset.listutils
 
 import android.view.View
 import android.widget.CheckBox
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
+import com.swu.dimiz.ogg.ui.myact.daily.DailyCardAdapter
 import com.swu.dimiz.ogg.ui.myact.post.TextAdapter
 
 @BindingAdapter("actitityTitle")
@@ -121,4 +120,10 @@ fun bindRecyclerInstruction(recyclerView: RecyclerView, data: List<Instruction>?
         val adapter = recyclerView.adapter as TextAdapter
         adapter.data = data
     }
+}
+
+@BindingAdapter("listDataDaily")
+fun bindRecyclerDaily(recyclerView: RecyclerView, data: List<ActivitiesDaily>?) {
+    val adapter = recyclerView.adapter as DailyCardAdapter
+    adapter.submitList(data)
 }

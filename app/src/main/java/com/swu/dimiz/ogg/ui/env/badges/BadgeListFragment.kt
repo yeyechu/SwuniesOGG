@@ -22,7 +22,6 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentBadgeListBinding
-import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeHeaderAdapter
 import timber.log.Timber
 
@@ -116,7 +115,6 @@ class BadgeListFragment : Fragment() {
                 viewModel.completedPopup()
             }
         }
-
         return binding.root
     }
 

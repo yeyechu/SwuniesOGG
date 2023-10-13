@@ -38,7 +38,7 @@ class PostExtraWindow : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fragmentManager = childFragmentManager
-        Timber.i("지속 가능한 post")
+        Timber.i("특별 post")
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

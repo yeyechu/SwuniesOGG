@@ -32,7 +32,6 @@ class ListDetailWindow : Fragment() {
         val adapter = TextAdapter()
         binding.textList.adapter = adapter
 
-
         binding.buttonExit.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
