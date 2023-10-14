@@ -24,9 +24,11 @@ class FeedReportDialog(private val feedId: String) : DialogFragment() {
 
         binding.buttonLeft.setOnClickListener {
             dismiss()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         binding.buttonRight.setOnClickListener {
             onSubmitClicked()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
         return binding.root
@@ -46,6 +48,7 @@ class FeedReportDialog(private val feedId: String) : DialogFragment() {
             .update("reactionReport", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("신고 반응 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
+
         fireDB.collection("User").document(fireUser?.email.toString())
             .update("report", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("유저 신고 올리기 완료") }

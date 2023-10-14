@@ -12,10 +12,10 @@
             type="com.swu.dimiz.ogg.ui.feed.FeedViewModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/frame_layout_feed"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <HorizontalScrollView
             android:id="@+id/chips"
@@ -37,6 +37,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
             android:layout_marginBottom="@dimen/spacing_scroll"
             android:background="@color/secondary_baby_gray">
 
@@ -67,5 +68,5 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </FrameLayout>
-    </LinearLayout>
+    </FrameLayout>
 </layout>

@@ -75,10 +75,12 @@ class FeedViewModel : ViewModel() {
                     .update("reactionLike", FieldValue.increment(1))
                     .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i(e) }
+
                 2 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
                     .update("reactionFun", FieldValue.increment(1))
                     .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i(e) }
+
                 3 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
                     .update("reactionGreat", FieldValue.increment(1))
                     .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
@@ -182,6 +184,7 @@ class FeedViewModel : ViewModel() {
 
                 _feedList.value = gotFeedList
                 _filteredList.value = gotFeedList
+                Timber.i("Feed 초기화")
             }
     }
 }

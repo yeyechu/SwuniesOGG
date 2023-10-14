@@ -21,9 +21,9 @@ class FeedDetailFragment : Fragment() {
     private var _binding: FragmentFeedDetailBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var navController: NavController
     private val viewModel: FeedViewModel by activityViewModels()
 
+    private lateinit var navController: NavController
     private lateinit var fragmentManager: FragmentManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -43,15 +43,10 @@ class FeedDetailFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.buttonExit.setOnClickListener { item: View ->
-            item.findNavController().navigateUp()
-        }
-
-        viewModel.navigateToReport.observe(viewLifecycleOwner) {
-            it?.let {
-                addWindow(it.id)
-                viewModel.onReportCompleted()
-            }
+        binding.buttonExit.setOnClickListener {
+            //it.findNavController().navigateUp()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+            viewModel.onFeedDetailCompleted()
         }
 
         viewModel.makeToast.observe(viewLifecycleOwner) {
@@ -60,14 +55,6 @@ class FeedDetailFragment : Fragment() {
                 viewModel.onYourFeedCompleted()
             }
         }
-    }
-
-    private fun addWindow(id: String) {
-        fragmentManager.beginTransaction()
-            .add(R.id.frame_layout_feed, FeedReportDialog(id))
-            .setReorderingAllowed(true)
-            .addToBackStack(null)
-            .commit()
     }
 
     override fun onDestroyView() {

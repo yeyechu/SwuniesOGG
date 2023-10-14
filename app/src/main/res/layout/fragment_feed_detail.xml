@@ -12,10 +12,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frame_layout_feed"
+        android:id="@+id/frame_layout_feed_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparency_dimmed">
+        android:background="@color/black">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

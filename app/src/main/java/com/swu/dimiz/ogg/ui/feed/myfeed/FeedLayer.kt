@@ -24,6 +24,7 @@ class FeedLayer : Fragment() {
         _binding =
             DataBindingUtil.inflate(inflater, R.layout.layer_feed, container, false)
 
+        Timber.i("onCreateView()")
         return binding.root
     }
 

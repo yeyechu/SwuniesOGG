@@ -7,20 +7,28 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.TOGETHER
 import com.swu.dimiz.ogg.databinding.FragmentFeedBinding
+import com.swu.dimiz.ogg.ui.feed.detail.FeedDetailFragment
+import com.swu.dimiz.ogg.ui.feed.detail.FeedReportDialog
+import timber.log.Timber
+
 class FeedFragment : Fragment(){
 
     private var _binding: FragmentFeedBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: FeedViewModel by activityViewModels()
+
     private lateinit var navController: NavController
+    private lateinit var fragmentManager: FragmentManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -28,10 +36,8 @@ class FeedFragment : Fragment(){
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_feed, container, false)
 
-        // 피드 디테일 갔다가
-        // 다시 돌아오면
-        // 원래대로 돌아가 있음
-        // 초기화 다른데서 시키기
+        Timber.i("onCreateView()")
+
         viewModel.fireGetFeed()
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력
@@ -68,21 +74,51 @@ class FeedFragment : Fragment(){
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val mainActivity = activity as MainActivity
+
         navController = findNavController()
+        fragmentManager = childFragmentManager
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.navigateToSelectedItem.observe(viewLifecycleOwner) {
-            it?.let {
-                navController.navigate(FeedFragmentDirections.actionNavigationFeedToDestinationFeedDetail())
-                viewModel.onFeedDetailCompleted()
+            if (it == null) {
+                mainActivity.hideBottomNavView(false)
+            } else {
+                mainActivity.hideBottomNavView(true)
+                addDetailFragment()
             }
         }
+
+        viewModel.navigateToReport.observe(viewLifecycleOwner) {
+            it?.let {
+                addReportWindow(it.id)
+                viewModel.onReportCompleted()
+            }
+        }
+    }
+
+    private fun addDetailFragment() {
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout_feed, FeedDetailFragment())
+            .setReorderingAllowed(true)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun addReportWindow(id: String) {
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout_feed, FeedReportDialog(id))
+            .setReorderingAllowed(true)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        Timber.i("onDestroyView()")
     }
 }
