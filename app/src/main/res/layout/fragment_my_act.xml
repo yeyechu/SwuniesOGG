@@ -46,7 +46,7 @@
                     android:layout_marginStart="@dimen/spacing_regular"
                     android:layout_marginEnd="@dimen/spacing_regular"
                     android:text="@string/myact_text_title_sustainable"
-                    app:layout_constraintBottom_toTopOf="@id/sustainable_act_list"
+                    app:layout_constraintBottom_toTopOf="@id/pager_sust"
                     app:layout_constraintEnd_toStartOf="@id/button_tooltip_sust"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/included_daily_layout" />
@@ -61,31 +61,34 @@
                     app:layout_constraintStart_toEndOf="@id/text_title_sust"
                     app:layout_constraintTop_toTopOf="@id/text_title_sust" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/sustainable_act_list"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_regular"
-                    android:layout_marginBottom="@dimen/spacing_regular"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toTopOf="@id/text_title_extra"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_title_sust"
-                    app:listDataSust="@{viewModel.getSustData}"
-                    tools:listitem="@layout/fragment_my_act_card_item_big" />
-
-                <GridView
-                    android:id="@+id/indicator_sust"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/pager_sust"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:numColumns="9"
-                    app:layout_constraintTop_toBottomOf="@id/sustainable_act_list"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/spacing_text"
+                    android:layout_marginStart="@dimen/spacing_extra_medium"
+                    android:layout_marginEnd="@dimen/spacing_extra_medium"
+                    android:layout_marginBottom="@dimen/spacing_extra_small"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/text_title_extra"
-                    tools:listitem="@layout/item_indicator"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_title_sust"
+                    app:layout_constraintBottom_toTopOf="@id/pager_indicator_sust"/>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/pager_indicator_sust"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:contentDescription="@string/description_pager_indicator"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabIndicatorGravity="center"
+                    app:tabBackground="@drawable/common_indicator_selector"
+                    app:layout_constraintTop_toBottomOf="@id/pager_sust"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/text_title_extra"/>
 
                 <!-- 특별 활동  -->
 
@@ -96,10 +99,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_regular"
                     android:text="@string/myact_text_title_extra"
-                    app:layout_constraintBottom_toTopOf="@id/extra_act_list"
+                    app:layout_constraintBottom_toTopOf="@id/pager_extra"
                     app:layout_constraintEnd_toStartOf="@id/button_tooltip_extra"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sustainable_act_list" />
+                    app:layout_constraintTop_toBottomOf="@id/pager_indicator_sust" />
 
                 <ImageView
                     android:id="@+id/button_tooltip_extra"
@@ -111,20 +114,35 @@
                     app:layout_constraintTop_toTopOf="@id/text_title_extra"
                     app:srcCompat="@drawable/common_button_tooltip" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/extra_act_list"
-                    android:layout_width="0dp"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/pager_extra"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_regular"
-                    android:layout_marginBottom="@dimen/spacing_regular"
+                    android:layout_marginTop="@dimen/spacing_text"
+                    android:layout_marginStart="@dimen/spacing_extra_medium"
+                    android:layout_marginEnd="@dimen/spacing_extra_medium"
+                    android:layout_marginBottom="@dimen/spacing_extra_small"
                     android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_title_extra"
-                    app:listDataExtra="@{viewModel.getExtraData}"
-                    tools:listitem="@layout/fragment_my_act_card_item_big_extra" />
+                    app:layout_constraintBottom_toTopOf="@id/pager_indicator_extra"/>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/pager_indicator_extra"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:contentDescription="@string/description_pager_indicator"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabIndicatorGravity="center"
+                    app:tabBackground="@drawable/common_indicator_selector"
+                    app:layout_constraintTop_toBottomOf="@id/pager_extra"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

@@ -64,8 +64,6 @@ class ListsetFragment : Fragment() {
             if(it) {
                 navController.navigate(R.id.navigation_env)
                 viewModel.onNavigatedToSave()
-                Timber.i("완료 버튼 클릭")
-                // 메모리 누수 확인 필요
 
                 viewModel.fireSave()
 

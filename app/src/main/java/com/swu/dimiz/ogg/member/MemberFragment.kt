@@ -14,7 +14,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMemberBinding
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
-import com.swu.dimiz.ogg.ui.feed.FeedViewModel
 import timber.log.Timber
 
 class MemberFragment : Fragment() {

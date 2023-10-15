@@ -1,15 +1,12 @@
-package com.swu.dimiz.ogg.ui.myact.myactcard
+package com.swu.dimiz.ogg.ui.myact.cardutils
 
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
-import com.swu.dimiz.ogg.ui.myact.extra.ExtraAdapter
-import com.swu.dimiz.ogg.ui.myact.sust.SustCardItemAdapter
 
 @BindingAdapter("actitityTitle")
 fun TextView.setTitle(item: ActivitiesSustainable?) {
@@ -67,25 +64,6 @@ fun TextView.setButtonText(item: ActivitiesSustainable?) {
     }
 }
 
-@BindingAdapter("setDone", "limitation")
-fun setBackground(view: CardView, item: ActivitiesSustainable, bool: Boolean) {
-//    view.visibility = if(bool) {
-//        when(item.dailyId) {
-//            10010 -> View.VISIBLE
-//            10011 -> View.VISIBLE
-//            else -> View.GONE
-//        }
-//    } else {
-//        View.GONE
-//    }
-}
-
-@BindingAdapter("listDataSust")
-fun bindRecyclerSust(recyclerView: RecyclerView, data: List<ActivitiesSustainable>?) {
-    val adapter = recyclerView.adapter as SustCardItemAdapter
-    adapter.submitList(data)
-}
-
 //-------------Extra--------------
 
 @BindingAdapter("actitityTitle")
@@ -98,7 +76,7 @@ fun TextView.setTitle(item: ActivitiesExtra?) {
 @BindingAdapter("activityCo2")
 fun TextView.setCo2(item: ActivitiesExtra?) {
     item?.let {
-        text = "탄소감축량"+ item.co2.toString() + "kg"
+        text = resources.getString(R.string.post_text_co2, item.co2)
     }
 }
 
@@ -125,12 +103,6 @@ fun TextView.setFreq(item: ActivitiesExtra?) {
             "무제한"
         }
     }
-}
-
-@BindingAdapter("listDataExtra")
-fun bindRecyclerExtra(recyclerView: RecyclerView, data: List<ActivitiesExtra>?) {
-    val adapter = recyclerView.adapter as ExtraAdapter
-    adapter.submitList(data)
 }
 
 @BindingAdapter("actitityInstruction")

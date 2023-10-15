@@ -1,7 +1,5 @@
 package com.swu.dimiz.ogg.contents.listset.listutils
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.contents.listset.ListsetViewModel
 import com.swu.dimiz.ogg.databinding.FragmentListsetListItemBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 class ListsetAdapter(
     private val automobile: Int,

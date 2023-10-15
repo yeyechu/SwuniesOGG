@@ -19,13 +19,13 @@ class ListDetailWindow : Fragment() {
     private var _binding: WindowListDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ListsetViewModel by activityViewModels() { ListsetViewModel.Factory }
+    private val viewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
 
     private lateinit var fragmentManager: FragmentManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.window_list_detail, container, false)
 

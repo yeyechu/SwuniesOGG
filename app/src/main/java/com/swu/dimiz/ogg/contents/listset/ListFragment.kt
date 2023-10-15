@@ -16,6 +16,7 @@ import com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter
 import com.swu.dimiz.ogg.databinding.FragmentListBinding
 import timber.log.Timber
 
+
 class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
@@ -104,6 +105,11 @@ class ListFragment : Fragment() {
         binding.activityList.adapter = adapter
         binding.activityList.addItemDecoration(ListsetAdapter.ListsetAdapterDecoration())
 
+//        val animator: ItemAnimator = binding.activityList.itemAnimator!!
+//        if (animator is SimpleItemAnimator) {
+//            (animator as SimpleItemAnimator).supportsChangeAnimations = false
+//        }
+        // 리사이클러뷰 갱신 시 깜빡이는 현상 없애기
         viewModel.filteredList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }

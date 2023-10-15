@@ -53,6 +53,8 @@ class StampLayer : Fragment() {
 
         viewModel.userCondition.observe(viewLifecycleOwner) {
             aim = it.aim
+            viewModel.setCo2(it.aim)
+            Timber.i("${it.aim}")
         }
 
         return binding.root

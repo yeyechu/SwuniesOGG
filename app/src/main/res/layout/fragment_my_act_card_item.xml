@@ -18,17 +18,18 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/category_reduce_card"
-        android:layout_width="@dimen/myact_today_card_width"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_small"
-        android:padding="@dimen/spacing_regular"
-        app:cardCornerRadius="@dimen/radius_card">
+        app:cardCornerRadius="@dimen/radius_card"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
         <!-- ConstraintLayout -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/today_act_before"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/myact_today_card_width"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="@dimen/spacing_extra_medium">
 
             <!-- 이미지 뷰 -->
@@ -36,6 +37,7 @@
                 android:id="@+id/today_card_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:contentDescription="@string/description_myact_card_image"
                 app:activityImage="@{activity}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -50,6 +52,7 @@
                 android:id="@+id/today_card_text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 style="@style/StyleText"
                 app:actitityTitle="@{activity}"
                 android:maxLines="1"
@@ -80,8 +83,9 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_myact"
                 style="@style/StyleButtonOgg.smaller"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/bottom_sheet_peek_height"
+                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="@string/myact_button"
                 android:onClick="@{() -> detailListener.onClick(activity)}"
@@ -90,7 +94,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/today_card_text_co2" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view_done_daily"

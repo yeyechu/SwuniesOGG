@@ -171,7 +171,7 @@
 
     <fragment
         android:id="@+id/destination_checklist"
-        android:name="com.swu.dimiz.ogg.ui.myact.myactcard.ChecklistFragment"
+        android:name="com.swu.dimiz.ogg.ui.myact.cardutils.ChecklistFragment"
         tools:layout="@layout/fragment_checklist"/>
 
     <fragment

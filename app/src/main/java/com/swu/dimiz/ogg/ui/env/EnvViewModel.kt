@@ -12,32 +12,25 @@ import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
-import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.collections.ArrayList
 
 class EnvViewModel : ViewModel() {
 
-    private val disposable: Disposable? = null
-    //private var currentJob: Job? = null
-    // SavedStateHandle 알아보기
-
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      회원 정보 저장
     private val _fakeDate = MutableLiveData<Int>()
-    val fakeDate: LiveData<Int>
-        get() = _fakeDate
 
     private val _fakeToday = MutableLiveData<Float>()
     val fakeToday: LiveData<Float>
         get() = _fakeToday
 
+    private var stampList = ArrayList<StampData>()
+
     private val _stampHolder = MutableLiveData<List<StampData>?>()
     val stampHolder: LiveData<List<StampData>?>
         get() = _stampHolder
-
-    private var stampList = ArrayList<StampData>()
 
     private val _co2Holder = MutableLiveData<Float>()
     val co2Holder: LiveData<Float>
@@ -47,7 +40,7 @@ class EnvViewModel : ViewModel() {
     val leftHolder: LiveData<Float>
         get() = _leftHolder
 
-    private val _aimCo2 = MutableLiveData<Float>()
+    private val _aimWholeCo2 = MutableLiveData<Float>()
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      인터랙션 감지
 
@@ -101,96 +94,6 @@ class EnvViewModel : ViewModel() {
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
-    //                                   파이어베이스 함수
-    var today : Int = 0
-    var projectCount : Int = 0
-
-    fun userInit() = viewModelScope.launch {
-        var appUser = MyCondition()
-        //사용자 기본 정보
-        fireDB.collection("User").document(fireUser?.email.toString())
-            .addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    Timber.i( e)
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    appUser = snapshot.toObject<MyCondition>()!!
-                    today = convertDurationToInt(appUser.startDate)
-                    projectCount = appUser.projectCount
-
-                    _userCondition.value = appUser
-
-                    Timber.i(_userCondition.toString())
-                } else {
-                    Timber.i("Current data: null")
-                }
-            }
-    }
-
-    fun fireGetStamp(){
-        var stampList = arrayListOf<MyStamp>()
-
-        fireDB.collection("User").document(fireUser?.email.toString()).collection("Stamp")
-            .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Timber.i("listen:error $e")
-                    return@addSnapshotListener
-                }
-                stampList.clear()
-                for (dc in snapshots!!.documentChanges) {
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        var stamp = dc.document.toObject<MyStamp>()
-                        stampList.add(stamp)
-                    }
-                }
-                Timber.i("스탬프 $stampList")
-            }
-    }
-
-    fun fireGetDaily() = viewModelScope.launch {
-        val myDailyList = ArrayList<ListData>()
-        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${projectCount}")
-            .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Timber.i("listen:error", e)
-                    return@addSnapshotListener
-                }
-                for (dc in snapshots!!.documentChanges) {
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        val mylist = dc.document.toObject<MyList>()
-                        when (today) {
-                            1 -> myDailyList.add(mylist.day1act)
-                            2 -> myDailyList.add(mylist.day2act)
-                            3 -> myDailyList.add(mylist.day3act)
-                            4 -> myDailyList.add(mylist.day4act)
-                            5 -> myDailyList.add(mylist.day5act)
-                            6 -> myDailyList.add(mylist.day6act)
-                            7 -> myDailyList.add(mylist.day7act)
-                            8 -> myDailyList.add(mylist.day8act)
-                            9 -> myDailyList.add(mylist.day9act)
-                            10 -> myDailyList.add(mylist.day10act)
-                            11 -> myDailyList.add(mylist.day11act)
-                            12 -> myDailyList.add(mylist.day12act)
-                            13 -> myDailyList.add(mylist.day13act)
-                            14 -> myDailyList.add(mylist.day14act)
-                            15 -> myDailyList.add(mylist.day15act)
-                            16 -> myDailyList.add(mylist.day16act)
-                            17 -> myDailyList.add(mylist.day17act)
-                            18 -> myDailyList.add(mylist.day18act)
-                            19 -> myDailyList.add(mylist.day19act)
-                            20 -> myDailyList.add(mylist.day20act)
-                            21 -> myDailyList.add(mylist.day21act)
-                        }
-                    }
-                }
-                /*for(i in 0 until LIST_SIZE){
-                       listArray[i] = myDailyList[i]
-                   }*/
-                //setListHolder(listArray)
-            }
-    }
-    //──────────────────────────────────────────────────────────────────────────────────────
     //                                     룸데이터 함수
 
     val layerVisible = userCondition.map {
@@ -202,17 +105,20 @@ class EnvViewModel : ViewModel() {
     }
 
     fun leftCo2() {
-        if(_co2Holder.value!! < _aimCo2.value!!) {
-           _leftHolder.value = _aimCo2.value!!.minus(_co2Holder.value!!)
+        if(_co2Holder.value!! < _aimWholeCo2.value!!) {
+           _leftHolder.value = _aimWholeCo2.value!!.minus(_co2Holder.value!!)
+        } else {
+            // 목표 탄소량을 모두 채웠을 때
+            // 내용 추가
         }
     }
 
     fun setCo2(co2: Float) {
-        _aimCo2.value = co2 * CO2_WHOLE
+        _aimWholeCo2.value = co2 * CO2_WHOLE
     }
 
     val progressWhole = co2Holder.map {
-        it.div(_aimCo2.value!!).times(100).toInt()
+        it.div(_aimWholeCo2.value!!).times(100).toInt()
     }
 
     val progressDaily = fakeToday.map {
@@ -306,22 +212,8 @@ class EnvViewModel : ViewModel() {
         _fakeToday.value = FLOAT_ZERO
     }
 
-
-//    fun getDailyFromFirebase() = viewModelScope.launch {
-//        val todayList = ArrayList<ListData>()
-//
-//        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${_userCondition.value!!.projectCount}")
-//            .get()
-//            .addOnSuccessListener {
-//                if(it != null && it.size() != 0) {
-//                    for (i in it) {
-//                        val tempList = i.toObject<MyList>()
-//
-//                    }
-//                }
-//            }
-//
-//    }
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                   파이어베이스 함수
 
     private fun resetCondition() = viewModelScope.launch {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
@@ -335,10 +227,97 @@ class EnvViewModel : ViewModel() {
             .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Timber.i("Error updating document", e) }
     }
+
+    private var today : Int = 0
+    private var projectCount : Int = 0
+
+    fun userInit() = viewModelScope.launch {
+        var appUser: MyCondition
+        //사용자 기본 정보
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Timber.i( e)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    appUser = snapshot.toObject<MyCondition>()!!
+                    today = convertDurationToInt(appUser.startDate)
+                    projectCount = appUser.projectCount
+
+                    _userCondition.value = appUser
+
+                    Timber.i(_userCondition.toString())
+                } else {
+                    Timber.i("Current data: null")
+                }
+            }
+    }
+
+    fun fireGetStamp(){
+        val stampList = arrayListOf<MyStamp>()
+
+        fireDB.collection("User").document(fireUser?.email.toString()).collection("Stamp")
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error $e")
+                    return@addSnapshotListener
+                }
+                stampList.clear()
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val stamp = dc.document.toObject<MyStamp>()
+                        stampList.add(stamp)
+                    }
+                }
+                Timber.i("스탬프 $stampList")
+            }
+    }
+
+    fun fireGetDaily() = viewModelScope.launch {
+        val myDailyList = ArrayList<ListData>()
+        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${projectCount}")
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error", e)
+                    return@addSnapshotListener
+                }
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val mylist = dc.document.toObject<MyList>()
+                        when (today) {
+                            1 -> myDailyList.add(mylist.day1act)
+                            2 -> myDailyList.add(mylist.day2act)
+                            3 -> myDailyList.add(mylist.day3act)
+                            4 -> myDailyList.add(mylist.day4act)
+                            5 -> myDailyList.add(mylist.day5act)
+                            6 -> myDailyList.add(mylist.day6act)
+                            7 -> myDailyList.add(mylist.day7act)
+                            8 -> myDailyList.add(mylist.day8act)
+                            9 -> myDailyList.add(mylist.day9act)
+                            10 -> myDailyList.add(mylist.day10act)
+                            11 -> myDailyList.add(mylist.day11act)
+                            12 -> myDailyList.add(mylist.day12act)
+                            13 -> myDailyList.add(mylist.day13act)
+                            14 -> myDailyList.add(mylist.day14act)
+                            15 -> myDailyList.add(mylist.day15act)
+                            16 -> myDailyList.add(mylist.day16act)
+                            17 -> myDailyList.add(mylist.day17act)
+                            18 -> myDailyList.add(mylist.day18act)
+                            19 -> myDailyList.add(mylist.day19act)
+                            20 -> myDailyList.add(mylist.day20act)
+                            21 -> myDailyList.add(mylist.day21act)
+                        }
+                    }
+                }
+                /*for(i in 0 until LIST_SIZE){
+                       listArray[i] = myDailyList[i]
+                   }*/
+                //setListHolder(listArray)
+            }
+    }
+
     override fun onCleared() {
-        if(disposable?.isDisposed == false) {
-            disposable.dispose()
-        }
         super.onCleared()
         Timber.i("ViewModel destroyed")
     }

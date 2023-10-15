@@ -13,15 +13,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.skydoves.balloon.*
 import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
+import com.swu.dimiz.ogg.ui.myact.sust.PagerSustAdapter
 import com.swu.dimiz.ogg.ui.myact.daily.PostDailyWindow
-import com.swu.dimiz.ogg.ui.myact.extra.ExtraAdapter
+import com.swu.dimiz.ogg.ui.myact.extra.PagerExtraAdapter
 import com.swu.dimiz.ogg.ui.myact.extra.PostExtraWindow
 import com.swu.dimiz.ogg.ui.myact.sust.PostSustWindow
-import com.swu.dimiz.ogg.ui.myact.sust.SustCardItemAdapter
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 
 class MyActFragment : Fragment() {
@@ -33,6 +35,12 @@ class MyActFragment : Fragment() {
 
     private lateinit var navController: NavController
     private lateinit var fragmentManager: FragmentManager
+
+    private lateinit var sustAdapter: PagerSustAdapter
+    private lateinit var sustPager: ViewPager2
+
+    private lateinit var extraAdapter: PagerExtraAdapter
+    private lateinit var extraPager: ViewPager2
 
     private var balloonSus: Balloon? = null // Balloon 변수 추가
     private var balloonExtra: Balloon? = null
@@ -51,80 +59,9 @@ class MyActFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_my_act, container, false)
 
-        val mainActivity = activity as MainActivity
-
         //firebase
         //viewModel.fireInfo()
         //viewModel.fireGetDaily()
-        viewModel.fireGetExtra()
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                       어댑터
-
-        viewModel.navigateToDaily.observe(viewLifecycleOwner) {
-            if (it == null) {
-                mainActivity.hideBottomNavView(false)
-            } else {
-                mainActivity.hideBottomNavView(true)
-                addDailyWindow()
-            }
-        }
-
-        viewModel.todailyId.observe(viewLifecycleOwner) {
-            it?.let {
-                cameraTitle = it.title
-                cameraCo2 = it.co2.toString()
-                cameraId = it.dailyId.toString()
-                cameraFilter = it.filter
-            }
-        }
-
-        binding.sustainableActList.adapter = SustCardItemAdapter(viewModel, SustCardItemAdapter.OnClickListener {
-            viewModel.showSust(it)
-        })
-
-        viewModel.navigateToSust.observe(viewLifecycleOwner) {
-
-            if (it == null) {
-                mainActivity.hideBottomNavView(false)
-            } else {
-                mainActivity.hideBottomNavView(true)
-                addSustWindow()
-            }
-        }
-
-        binding.extraActList.adapter = ExtraAdapter(viewModel, ExtraAdapter.OnClickListener {
-            viewModel.showExtra(it)
-        })
-
-        viewModel.navigateToExtra.observe(viewLifecycleOwner) {
-
-            if (it == null) {
-                mainActivity.hideBottomNavView(false)
-            } else {
-                mainActivity.hideBottomNavView(true)
-                addExtraWindow()
-            }
-        }
-
-        viewModel.sustId.observe(viewLifecycleOwner) {
-            it?.let {
-                cameraTitle = it.title
-                cameraCo2 = it.co2.toString()
-                cameraId = it.sustId.toString()
-                cameraFilter = it.filter
-            }
-        }
-
-        viewModel.extraId.observe(viewLifecycleOwner) {
-            it?.let {
-                cameraTitle = it.title
-                cameraCo2 = it.co2.toString()
-                cameraId = it.extraId.toString()
-                cameraFilter = it.filter
-            }
-        }
-
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                   tooltip
         binding.buttonTooltipSust.setOnClickListener {
@@ -169,6 +106,8 @@ class MyActFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        val mainActivity = activity as MainActivity
+
         navController = findNavController()
         fragmentManager = childFragmentManager
 
@@ -176,7 +115,105 @@ class MyActFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.fireGetSust()
+        viewModel.fireGetExtra()
 
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                      지속가능한 어댑터
+
+        sustAdapter = PagerSustAdapter(viewModel, PagerSustAdapter.OnClickListener{
+            viewModel.showSust(it)
+        })
+        viewModel.getSustData.observe(viewLifecycleOwner) {
+            sustAdapter.submitList(it)
+        }
+        sustPager = binding.pagerSust
+        sustPager.adapter = sustAdapter
+
+        TabLayoutMediator(binding.pagerIndicatorSust, sustPager) { tab, _->
+            tab.text = ""
+        }.attach()
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                       특별 활동 어댑터
+
+        extraAdapter = PagerExtraAdapter(viewModel, PagerExtraAdapter.OnClickListener {
+            viewModel.showExtra(it)
+        })
+
+        viewModel.getExtraData.observe(viewLifecycleOwner) {
+            extraAdapter.submitList(it)
+        }
+        extraPager = binding.pagerExtra
+        extraPager.adapter = extraAdapter
+
+        TabLayoutMediator(binding.pagerIndicatorExtra, extraPager) { tab, _->
+            tab.text = ""
+        }.attach()
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                      오늘의 활동 이동
+        viewModel.navigateToDaily.observe(viewLifecycleOwner) {
+            if (it == null) {
+                mainActivity.hideBottomNavView(false)
+            } else {
+                mainActivity.hideBottomNavView(true)
+                addDailyWindow()
+            }
+        }
+
+        viewModel.todailyId.observe(viewLifecycleOwner) {
+            it?.let {
+                cameraTitle = it.title
+                cameraCo2 = it.co2.toString()
+                cameraId = it.dailyId.toString()
+                cameraFilter = it.filter
+            }
+        }
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                       지속 활동 이동
+        viewModel.navigateToSust.observe(viewLifecycleOwner) {
+
+            if (it == null) {
+                mainActivity.hideBottomNavView(false)
+            } else {
+                mainActivity.hideBottomNavView(true)
+                addSustWindow()
+            }
+        }
+
+        viewModel.sustId.observe(viewLifecycleOwner) {
+            it?.let {
+                cameraTitle = it.title
+                cameraCo2 = it.co2.toString()
+                cameraId = it.sustId.toString()
+                cameraFilter = it.filter
+            }
+        }
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                       특별 활동 이동
+        viewModel.navigateToExtra.observe(viewLifecycleOwner) {
+
+            if (it == null) {
+                mainActivity.hideBottomNavView(false)
+            } else {
+                mainActivity.hideBottomNavView(true)
+                addExtraWindow()
+            }
+        }
+
+        viewModel.extraId.observe(viewLifecycleOwner) {
+            it?.let {
+                cameraTitle = it.title
+                cameraCo2 = it.co2.toString()
+                cameraId = it.extraId.toString()
+                cameraFilter = it.filter
+            }
+        }
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                       인증 버튼 이동
         viewModel.navigateToToCamera.observe(viewLifecycleOwner) {
             if(it) {
                 val intent = Intent(context, CameraActivity::class.java)

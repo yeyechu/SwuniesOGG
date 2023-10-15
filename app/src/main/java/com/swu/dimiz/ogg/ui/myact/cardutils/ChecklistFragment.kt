@@ -1,4 +1,4 @@
-package com.swu.dimiz.ogg.ui.myact.myactcard
+package com.swu.dimiz.ogg.ui.myact.cardutils
 
 import android.os.Bundle
 import android.view.LayoutInflater

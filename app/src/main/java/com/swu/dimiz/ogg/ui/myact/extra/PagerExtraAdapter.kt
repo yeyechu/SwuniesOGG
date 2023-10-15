@@ -9,12 +9,12 @@ import com.swu.dimiz.ogg.databinding.FragmentMyActCardItemBigExtraBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
 
-class ExtraAdapter(
+class PagerExtraAdapter(
     private val viewModel: MyActViewModel,
     private val onClickListener: OnClickListener)
-    : ListAdapter<ActivitiesExtra, ExtraAdapter.ExtraViewHolder>(SustDiffCallback) {
+    : ListAdapter<ActivitiesExtra, PagerExtraAdapter.ExtraViewHolder>(ExtraDiffCallback) {
 
-    class ExtraViewHolder(private var binding: FragmentMyActCardItemBigExtraBinding) :
+    inner class ExtraViewHolder(private var binding: FragmentMyActCardItemBigExtraBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(extra: ActivitiesExtra, viewModel: MyActViewModel, clickListener: OnClickListener) {
             binding.activity = extra
@@ -27,17 +27,17 @@ class ExtraAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExtraViewHolder {
         return ExtraViewHolder(
             FragmentMyActCardItemBigExtraBinding.inflate(
-                LayoutInflater.from(parent.context)
+                LayoutInflater.from(parent.context), parent, false
             )
         )
     }
 
     override fun onBindViewHolder(holder: ExtraViewHolder, position: Int) {
-        val sust = getItem(position)
-        holder.bind(sust, viewModel, onClickListener)
+        val extra = getItem(position)
+        holder.bind(extra, viewModel, onClickListener)
     }
 
-    companion object SustDiffCallback : DiffUtil.ItemCallback<ActivitiesExtra>() {
+    companion object ExtraDiffCallback : DiffUtil.ItemCallback<ActivitiesExtra>() {
         override fun areItemsTheSame(oldItem: ActivitiesExtra, newItem: ActivitiesExtra): Boolean {
             return oldItem == newItem
         }

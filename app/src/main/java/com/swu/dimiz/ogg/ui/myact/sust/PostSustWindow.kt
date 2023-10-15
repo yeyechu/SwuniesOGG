@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.ui.myact.sust
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.WindowPostSustBinding
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
 class PostSustWindow : Fragment() {
@@ -57,5 +55,10 @@ class PostSustWindow : Fragment() {
         super.onDestroyView()
         _binding = null
         Timber.i("onDestroyView()")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Timber.i("onDetach()")
     }
 }
