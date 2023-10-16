@@ -1,8 +1,10 @@
 package com.swu.dimiz.ogg.ui.env
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -12,6 +14,7 @@ import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
+import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.collections.ArrayList
@@ -220,13 +223,33 @@ class EnvViewModel : ViewModel() {
         // 업데이트 할 곳
         // 오늘 co2는
         // _todayCo2.value에서 가져가면 됩니다
-
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Stamp").document(today.toString())
+            .update("dayCo2", FieldValue.increment(_todayCo2.value!!.toDouble()))
+            .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
     }
 
     private fun getTodayStampFromFirebase() = viewModelScope.launch {
         // 오늘 스탬프만
         // 내려받을 곳
         // _todayCo2.value에 저장
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Stamp")
+            .whereEqualTo("day", today)
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+                for (doc in value!!) {
+                    doc.getString("dayCo2")?.let {
+                        _todayCo2.value = it.toFloat()
+                    }
+                }
+                Timber.i("오늘 스탬프 가져온 값 ${_todayCo2.value}")
+            }
+
     }
 
     private fun resetCondition() = viewModelScope.launch {

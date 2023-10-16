@@ -204,7 +204,7 @@ class FeedViewModel : ViewModel() {
                 gotMyFeedList.clear()
                 for (doc in value!!) {
                     val feed = doc.toObject<Feed>()
-                    //아이디 따로 추가하기
+                    feed.id = doc.id
                     gotMyFeedList.add(feed)
                 }
                 _myList.value = gotMyFeedList
