@@ -224,10 +224,7 @@ class EnvViewModel : ViewModel() {
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
     fun updateTodayStampToFirebase(){
-        // 오늘 스탬프
-        // 업데이트 할 곳
-        // 오늘 co2는
-        // _todayCo2.value에서 가져가면 됩니다
+        // 오늘 스탬프 업데이트 할 곳
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Stamp").document(today.toString())
             .update("dayCo2", _todayCo2.value!!.toDouble())
@@ -237,9 +234,7 @@ class EnvViewModel : ViewModel() {
     }
 
     private fun getTodayStampFromFirebase() = viewModelScope.launch {
-        // 오늘 스탬프만
-        // 내려받을 곳
-        // _todayCo2.value에 저장
+        // 오늘 스탬프만 내려받을 곳
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Stamp").document(today.toString())
             .addSnapshotListener { snapshot, e ->
@@ -254,7 +249,7 @@ class EnvViewModel : ViewModel() {
                     Timber.i("Current data: null")
                 }
             }
-        Timber.i(_todayCo2.value.toString())
+        Timber.i("getTodayStampFromFirebase ${_todayCo2.value.toString()}")
         Timber.i("오늘 getToday $today")
     }
 

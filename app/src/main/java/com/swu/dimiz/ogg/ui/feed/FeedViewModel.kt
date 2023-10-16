@@ -170,6 +170,7 @@ class FeedViewModel : ViewModel() {
         val gotFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed").orderBy("postTime")
+            .orderBy("postTime")
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i("listen:error $e")
@@ -179,6 +180,7 @@ class FeedViewModel : ViewModel() {
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val feed = dc.document.toObject<Feed>()
+                        feed.id = dc.document.id
                         gotFeedList.add(feed)
                     }
                 }
