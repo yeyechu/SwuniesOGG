@@ -72,6 +72,10 @@ class EnvViewModel : ViewModel() {
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
+    private var today : Int = 0
+    private var projectCount : Int = 0
+    private var appUser = MyCondition()
+
     private val _userCondition = MutableLiveData<MyCondition>()
     val userCondition: LiveData<MyCondition>
         get() = _userCondition
@@ -219,16 +223,17 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
-    fun updateTodayStampToFirebase() = viewModelScope.launch {
+    fun updateTodayStampToFirebase(){
         // 오늘 스탬프
         // 업데이트 할 곳
         // 오늘 co2는
         // _todayCo2.value에서 가져가면 됩니다
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Stamp").document(today.toString())
-            .update("dayCo2", FieldValue.increment(_todayCo2.value!!.toDouble()))
+            .update("dayCo2", _todayCo2.value!!.toDouble())
             .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
+        Timber.i("오늘 updateToday $today")
     }
 
     private fun getTodayStampFromFirebase() = viewModelScope.launch {
@@ -236,21 +241,21 @@ class EnvViewModel : ViewModel() {
         // 내려받을 곳
         // _todayCo2.value에 저장
         fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Stamp")
-            .whereEqualTo("day", today)
-            .addSnapshotListener { value, e ->
+            .collection("Stamp").document(today.toString())
+            .addSnapshotListener { snapshot, e ->
                 if (e != null) {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
-                for (doc in value!!) {
-                    doc.getString("dayCo2")?.let {
-                        _todayCo2.value = it.toFloat()
-                    }
+                if (snapshot != null && snapshot.exists()) {
+                    val stamp = snapshot.toObject<MyStamp>()
+                    _todayCo2.value = stamp?.dayCo2?.toFloat()
+                } else {
+                    Timber.i("Current data: null")
                 }
-                Timber.i("오늘 스탬프 가져온 값 ${_todayCo2.value}")
             }
-
+        Timber.i(_todayCo2.value.toString())
+        Timber.i("오늘 getToday $today")
     }
 
     private fun resetCondition() = viewModelScope.launch {
@@ -266,11 +271,10 @@ class EnvViewModel : ViewModel() {
             .addOnFailureListener { e -> Timber.i("Error updating document", e) }
     }
 
-    private var today : Int = 0
-    private var projectCount : Int = 0
+
 
     private fun userInit() = viewModelScope.launch {
-        var appUser: MyCondition
+
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
             .addSnapshotListener { snapshot, e ->
@@ -283,6 +287,7 @@ class EnvViewModel : ViewModel() {
                     today = convertDurationToInt(appUser.startDate)
                     projectCount = appUser.projectCount
 
+                    Timber.i("오늘 $today")
                     _userCondition.value = appUser
 
                     Timber.i("${_userCondition.value}")
