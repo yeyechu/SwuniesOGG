@@ -1,6 +1,8 @@
 package com.swu.dimiz.ogg.ui.feed
 
+import android.util.Log
 import androidx.lifecycle.*
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -150,7 +152,8 @@ class FeedViewModel : ViewModel() {
 
     fun setMyFeedList() = viewModelScope.launch {
         try {
-            _myList.value = _feedList.value!!.filter { it.email == OggApplication.auth.currentUser!!.email }
+            fireGetMyFeed()
+            //_myList.value = _feedList.value!!.filter { it.email == OggApplication.auth.currentUser!!.email }
         } catch (e: Exception) {
             _myList.value = listOf()
         }
@@ -185,4 +188,25 @@ class FeedViewModel : ViewModel() {
                 Timber.i("Feed 초기화")
             }
     }
+
+    private fun fireGetMyFeed(){
+        val fireUser = Firebase.auth.currentUser
+        val gotMyFeedList = arrayListOf<Feed>()
+
+        fireDB.collection("Feed")
+            .whereEqualTo("email", fireUser?.email.toString())
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+                gotMyFeedList.clear()
+                for (doc in value!!) {
+                    val feed = doc.toObject<Feed>()
+                    gotMyFeedList.add(feed)
+                }
+                _myList.value = gotMyFeedList
+            }
+    }
+
 }

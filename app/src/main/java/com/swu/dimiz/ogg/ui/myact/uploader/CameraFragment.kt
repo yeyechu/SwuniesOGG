@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.concurrent.futures.await
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -70,7 +71,11 @@ class CameraFragment : Fragment() {
     private val fireUser = Firebase.auth.currentUser
     private val fireStorage = Firebase.storage
 
+    private var startDate = 0L
+    var today = 0
 
+    private var feedDay = ""
+    var stampDay = ""
     // ─────────────────────────────────────────────────────────────────────────────────
     //                                      기타
     //var bitmap : Bitmap? = null
@@ -81,8 +86,7 @@ class CameraFragment : Fragment() {
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
         Timber.i("카메라 onCreateView()")
 
-        var startDate = 0L
-        var today = 0
+
 
         fireDB.collection("User").document(fireUser?.email.toString())
             .get().addOnSuccessListener { document ->
@@ -104,122 +108,129 @@ class CameraFragment : Fragment() {
             //PostWindow.postWindow!!.finish()
             CameraActivity.cameraActivity!!.finish()
 
-            val feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
-            val stampDay = SimpleDateFormat("yyyyMMdd").format(Date())
+            feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+            stampDay = SimpleDateFormat("yyyyMMdd").format(Date())
 
             // ─────────────────────────────────────────────────────────────────────────────────
-            //                               인증사진 피드 업로드
-            if(savedUri!=null) {
-                fireStorage.reference.child("Feed").child(feedDay)
-                    .putFile(savedUri!!)          //uri를 여기서 받기때문에 여기에 위치함
-                    .addOnSuccessListener {
-                            taskSnapshot -> // 업로드 정보를 담는다
-                        Timber.i("feed storage 올리기 완료")
-
-                        taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
-                                it->
-                            val imageUrl=it.toString()
-                            val post = Feed(
-                                email = fireUser?.email.toString(),
-                                actTitle = CameraActivity.string,
-                                postTime = feedDay.toLong(),
-                                actId = CameraActivity.id.toInt(),
-                                actCode = CameraActivity.filter,
-                                imageUrl = imageUrl)
-
-                            fireDB.collection("Feed").document()
-                                .set(post)
-                                .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
-                                }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
-                        }
-                    }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
-
-                // ─────────────────────────────────────────────────────────────────────────────────
-                //                           세가지 활동 분리해서 업로드
-                if(CameraActivity.id.toInt() < 20000){
-                    //Daily
-                    val daily = MyDaily(
-                        dailyID = CameraActivity.id.toInt(),
-                        upDate = feedDay.toLong(),
-                        Limit =0,
-                        doLeft = 0
-                    )
-                    fireDB.collection("User").document(fireUser?.email.toString())
-                        .collection("Daily").document(stampDay)
-                        .set(daily)
-                        .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
-                        .addOnFailureListener { e -> Timber.i( e ) }
-                    //스탬프
-                    fireDB.collection("User").document(fireUser?.email.toString())
-                        .collection("Stamp").document(today.toString())
-                        .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
-                        .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
-                        .addOnFailureListener { e -> Timber.i( e ) }
-
-                }else if( CameraActivity.id.toInt() < 30000){
-                    //Sustainable
-                    val sust = MySustainable(
-                        sustID = CameraActivity.id.toInt(),
-                        strDay = feedDay.toLong(),
-                        Limit =0,
-                        dayLeft = 0
-                    )
-                    fireDB.collection("User").document(fireUser?.email.toString())
-                        .collection("Sustainable").document(CameraActivity.id)
-                        .set(sust)
-                        .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
-                        .addOnFailureListener { e -> Timber.i( e ) }
-                    //스탬프
-                    for( i in today..21){
-                        fireDB.collection("User").document(fireUser?.email.toString())
-                            .collection("Stamp").document(i.toString())
-                            .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
-                            .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
-                            .addOnFailureListener { e -> Timber.i( e ) }
-                    }
-                }else{
-                    //Extra
-                    val extra = MyExtra(
-                        extraID = CameraActivity.id.toInt(),
-                        strDay = feedDay.toLong(),
-                        Limit =0,
-                        dayLeft = 0
-                    )
-                    fireDB.collection("User").document(fireUser?.email.toString())
-                        .collection("Extra").document(CameraActivity.id)
-                        .set(extra)
-                        .addOnSuccessListener { Timber.i("Extra firestore 올리기 완료") }
-                        .addOnFailureListener { e -> Timber.i( e ) }
-                    //스탬프
-                    for( i in today..21){
-                        fireDB.collection("User").document(fireUser?.email.toString())
-                            .collection("Stamp").document(i.toString())
-                            .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
-                            .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
-                            .addOnFailureListener { e -> Timber.i( e ) }
-                    }
-                }
-                // ─────────────────────────────────────────────────────────────────────────────────
-                //                              활동 전체 상황 업로드
-                //AllAct
-                val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("AllAct").document(CameraActivity.id)
-                washingtonRef
-                    .update("upCount", FieldValue.increment(1))
-                    .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+            //                           세가지 활동 분리해서 업로드
+            if(CameraActivity.id.toInt() < 20000){
+                //Daily
+                val daily = MyDaily(
+                    dailyID = CameraActivity.id.toInt(),
+                    upDate = feedDay.toLong(),
+                    Limit =0,
+                    doLeft = 0
+                )
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Daily").document(stampDay)
+                    .set(daily)
+                    .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
-                washingtonRef
-                    .update("allC02", FieldValue.increment(CameraActivity.co2.toDouble()))
-                    .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+            }else if(CameraActivity.id.toInt() < 30000){
+                //Sustainable
+                val sust = MySustainable(
+                    sustID = CameraActivity.id.toInt(),
+                    strDay = feedDay.toLong(),
+                    Limit =0,
+                    dayLeft = 0
+                )
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Sustainable").document(CameraActivity.id)
+                    .set(sust)
+                    .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
-                washingtonRef
-                    .update("actCode", CameraActivity.filter)
-                    .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+            }else{
+                //Extra
+                val extra = MyExtra(
+                    extraID = CameraActivity.id.toInt(),
+                    strDay = feedDay.toLong(),
+                    Limit =0,
+                    dayLeft = 0
+                )
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Extra").document(CameraActivity.id)
+                    .set(extra)
+                    .addOnSuccessListener { Timber.i("Extra firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
+            feedUpload()
+            updateAllAct()
+            updateStamp()
         }
         return binding.root
     }
+    // ─────────────────────────────────────────────────────────────────────────────────
+    //                               인증사진 피드 업로드
+    private fun feedUpload(){
+        if(savedUri!=null) {
+            fireStorage.reference.child("Feed").child(feedDay)
+                .putFile(savedUri!!)          //uri를 여기서 받기때문에 여기에 위치함
+                .addOnSuccessListener {
+                        taskSnapshot -> // 업로드 정보를 담는다
+                    Timber.i("feed storage 올리기 완료")
+
+                    taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
+                            it->
+                        val imageUrl=it.toString()
+                        val post = Feed(
+                            email = fireUser?.email.toString(),
+                            actTitle = CameraActivity.string,
+                            postTime = feedDay.toLong(),
+                            actId = CameraActivity.id.toInt(),
+                            actCode = CameraActivity.filter,
+                            imageUrl = imageUrl)
+
+                        fireDB.collection("Feed").document()
+                            .set(post)
+                            .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
+                            }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}
+                    }
+                }.addOnFailureListener {  e -> Timber.i("feed storage 올리기 오류", e)}
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────────
+    //                              활동 전체 상황 업로드
+    private fun updateAllAct(){
+        //AllAct
+        val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("AllAct").document(CameraActivity.id)
+        washingtonRef
+            .update("upCount", FieldValue.increment(1))
+            .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+        washingtonRef
+            .update("allC02", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+        washingtonRef
+            .update("actCode", CameraActivity.filter)
+            .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────────
+    //                              스탬프 업데이트
+    private fun updateStamp(){
+        if(CameraActivity.id.toInt() < 20000){
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Stamp").document(today.toString())
+                .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
+                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+
+        }else{
+            //todo limit가져와서 범위 변경
+            for( i in today..21){
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Stamp").document(i.toString())
+                    .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
+                    .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+            }
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("MissingPermission")

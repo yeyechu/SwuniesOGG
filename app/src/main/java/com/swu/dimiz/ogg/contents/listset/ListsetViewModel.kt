@@ -454,7 +454,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     //                             기본 정보 가져오기
     private var appUser = MyCondition()   //사용자 기본 정보 저장
     private var today = 0
-    //todo 프로젝트 카운트 0으로 돌아가는거 확인
+
     fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
@@ -576,11 +576,25 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 washingtonRef.update("aim", _aimCo2.value)
                     .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                     .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+
+                washingtonRef.update("projectCount", appUser.projectCount)
+                    .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Timber.i("Error updating document", e) }
             }
         }
         //수정하기로 들어온 경우
         else {
-
+            //남은활동 모두 변경하기 클릭시
+            //todo 처음에 들어오자마자 이전데이터 저장해야함
+            for(i in 1..LIST_SIZE){
+                val actList = MyList()
+                actList.setLeftdayList(today, listArray[i].aId, listArray[i].aNumber)
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Project${appUser.projectCount}").document(i.toString())
+                    .set(actList)
+                    .addOnCompleteListener { Timber.i("DocumentSnapshot1 successfully written!")
+                    }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
+            }
         }
 
     }

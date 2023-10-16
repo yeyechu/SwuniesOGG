@@ -246,8 +246,6 @@ class EnvViewModel : ViewModel() {
                     projectCount = appUser.projectCount
 
                     _userCondition.value = appUser
-
-                    Timber.i(_userCondition.toString())
                 } else {
                     Timber.i("Current data: null")
                 }
@@ -310,6 +308,7 @@ class EnvViewModel : ViewModel() {
                         }
                     }
                 }
+                Timber.i(myDailyList.toString())
                 /*for(i in 0 until LIST_SIZE){
                        listArray[i] = myDailyList[i]
                    }*/

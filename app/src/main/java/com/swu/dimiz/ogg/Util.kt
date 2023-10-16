@@ -36,7 +36,7 @@ fun convertDurationToFormatted(startTimeMilli: Long): Int {
 fun convertDurationToInt(startTime: Long): Int {
     val current = java.text.SimpleDateFormat("yyyyMMddHHmmss").format(Date()).toLong()
     val duration = (current - startTime)/1000_000
-    Timber.i(duration.toString())
+
     return duration.toInt() + 1 //당일에 시작했어도 1일로 표시됨
 }
 
