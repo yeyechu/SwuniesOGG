@@ -37,7 +37,6 @@ class StampLayer : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.layer_stamp, container, false)
 
-        viewModel.fireGetStamp()
         //val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
 
         viewModel.leftHolder.observe(viewLifecycleOwner) {
@@ -80,21 +79,7 @@ class StampLayer : Fragment() {
             binding.progressEnv.progress = it
         }
 
-        viewModel.co2Holder.observe(viewLifecycleOwner) {
-            viewModel.leftCo2()
-        }
-
         viewModel.todayCo2.observe(viewLifecycleOwner) {
-            when(it / aim * 100) {
-                0f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_000)
-                in 1f..99f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_050)
-                else -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_100)
-            }
-        }
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                 개발용 -> 삭제 예정
-        viewModel.fakeToday.observe(viewLifecycleOwner) {
             when(it / aim * 100) {
                 0f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_000)
                 in 1f..99f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_050)

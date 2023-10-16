@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.ui.myact.daily
 
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -19,16 +18,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.listset.ListDetailWindow
 import com.swu.dimiz.ogg.contents.listset.ListsetViewModel
 import com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter
 import com.swu.dimiz.ogg.databinding.LayerDailyBinding
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import com.swu.dimiz.ogg.ui.myact.MyActFragmentDirections
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
 class DailyLayer : Fragment() {
@@ -49,9 +45,22 @@ class DailyLayer : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.layer_daily, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+        fragmentManager = childFragmentManager
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        viewModel.fireGetDaily()
+
         val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
 
-        viewModel.fakeToday.observe(viewLifecycleOwner) {
+        viewModel.todayCo2.observe(viewLifecycleOwner) {
             val textDecorator = SpannableStringBuilder.valueOf(getString(R.string.myact_text_reduced_co2, it))
 
             binding.textCo2Zero.text = textDecorator.apply {
@@ -61,6 +70,17 @@ class DailyLayer : Fragment() {
                     setSpan(TypefaceSpan(typeface), 0, 6, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 }
             }
+        }
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                       어댑터
+        val adapter = DailyCardAdapter(listViewModel, ListsetAdapter.ListClickListener {
+            myActiViewModel.showDaily(it)
+        })
+        binding.todayCardList.adapter = adapter
+
+        listViewModel.getActivities.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
 
         viewModel.navigateToStartFromMyAct.observe(viewLifecycleOwner) {
@@ -80,29 +100,6 @@ class DailyLayer : Fragment() {
         viewModel.progressDaily.observe(viewLifecycleOwner) {
             binding.progressDaily.progress = it
         }
-
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                       어댑터
-        val adapter = DailyCardAdapter(listViewModel, ListsetAdapter.ListClickListener {
-            myActiViewModel.showDaily(it)
-        })
-        binding.todayCardList.adapter = adapter
-
-        listViewModel.getActivities.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        navController = findNavController()
-        fragmentManager = childFragmentManager
-
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
     }
 
     override fun onDestroyView() {

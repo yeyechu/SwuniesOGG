@@ -56,24 +56,5 @@
             android:contentDescription="@string/destination_title_listset"
             android:onClick="@{() -> viewModel.onFabClicked()}"
             tools:src="@drawable/env_button_edit_badge_floating" />
-
-        <Button
-            android:id="@+id/button_co2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.onCo2ButtonClicked()}"
-            android:layout_marginBottom="@dimen/dimension_80"
-            android:layout_gravity="bottom|center"
-            android:text="Co2 추가"/>
-
-        <Button
-            android:id="@+id/button_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.onDateButtonClicked()}"
-            android:layout_marginBottom="@dimen/dimension_150"
-            android:layout_gravity="bottom|center"
-            android:text="날짜 변경"/>
-
     </FrameLayout>
 </layout>

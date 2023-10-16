@@ -72,11 +72,6 @@
                 android:src="@drawable/env_image_stamp_000"
                 app:todayStamp="@{condition.todayCo2}"/>
 
-            <!-- 실제 오늘 Co2 스티커 적용
-            app:todayStamp="@{condition.todayCo2}"
-            app:todayStamp="@{condition.fakeToday}"
-             -->
-
             <TextView
                 android:id="@+id/text_date_of_21"
                 style="@style/StyleText.name"

@@ -33,7 +33,7 @@ class EnvFragment : Fragment() {
         navController = findNavController()
 
         binding.viewModel = viewModel
-        viewModel.userInit()
+        binding.lifecycleOwner = viewLifecycleOwner
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                               환경 수정 플로팅 버튼 정의
@@ -64,6 +64,10 @@ class EnvFragment : Fragment() {
         //                            오늘 날짜, 스탬프 정보 업데이트
         viewModel.todayCo2.observe(viewLifecycleOwner) {
             viewModel.updateTodayStampToFirebase()
+        }
+
+        viewModel.co2Holder.observe(viewLifecycleOwner) {
+            viewModel.leftCo2()
         }
 
         // ──────────────────────────────────────────────────────────────────────────────────────

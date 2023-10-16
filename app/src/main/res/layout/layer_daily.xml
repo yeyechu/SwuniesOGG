@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_regular"
             android:layout_marginTop="@dimen/spacing_extra_small"
-            android:text="@{@string/myact_text_reduced_co2(viewModel.fakeToday)}"
+            android:text="@{@string/myact_text_reduced_co2(viewModel.todayCo2)}"
             android:visibility="@{viewModel.layerVisible ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toStartOf="@id/text_co2_daily"
             app:layout_constraintHorizontal_chainStyle="spread_inside"

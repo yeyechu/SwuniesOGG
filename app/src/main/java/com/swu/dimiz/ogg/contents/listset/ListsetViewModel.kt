@@ -105,10 +105,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val userSustainable: LiveData<Boolean>
         get() = _userSustainable
 
-
     private val _userMobility = MutableLiveData<Boolean>()
-    val userMobility: LiveData<Boolean>
-        get() = _userMobility
 
     private val _toastVisibility = MutableLiveData<Boolean>()
     val toastVisibility: LiveData<Boolean>
@@ -197,14 +194,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 선택 내용 결정자
     private fun initCo2() {
-        Timber.i("유저 컨디션 에임 : ${_userCondition.value!!.aim}")
-
         if(_userCondition.value!!.aim == 0f) {
             setCo2(_aimCo2.value!!)
         } else {
             _aimCo2.value = _userCondition.value!!.aim
         }
-        Timber.i("에임Co2 : ${_aimCo2.value}")
     }
 
     private fun plusCo2(data: Float) {
@@ -232,7 +226,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _listHolder.postValue(data)
     }
 
-    fun initCo2Holder() = viewModelScope.launch {
+    fun initCo2Holder() {
         _co2Holder.value = FLOAT_ZERO
     }
 
@@ -243,6 +237,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _userSustainable.value = true
 
         Timber.i("${_co2Holder.value}")
+    }
+
+    private fun addCo2HolderFromListHolder(id: Int) = viewModelScope.launch {
+        val dailyCo2: Float = repository.dailyCo2(id)
+        _co2Holder.value = _co2Holder.value!!.plus(dailyCo2)
     }
 
     fun addListHolder(act: ActivitiesDaily, isChecked: Boolean) {
@@ -324,6 +323,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     fun update(act: ActivitiesDaily) = viewModelScope.launch {
         repository.updateFreq(act)
+    }
+
+    fun resetFrequency() = viewModelScope.launch {
+        repository.resetFreq()
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
@@ -520,6 +523,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 }
                 for(i in 0 until LIST_SIZE){
                     listArray[i] = myDailyList[i]
+                    addCo2HolderFromListHolder(listArray[i].aId)
                 }
                 setListHolder(listArray)
             }
