@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="line">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <solid android:color="@color/primary_blue"
-        />
+<item android:state_enabled="true" >
+<shape android:shape="line">
+
     <stroke
-        android:width="5dp"
+        android:width="3dp"
         android:color="@color/primary_blue"
-
         />
-
-
 </shape>
+</item>
+
+<item android:state_enabled="false" >
+    <shape android:shape="line">
+
+        <stroke
+            android:width="3dp"
+            android:color="@color/secondary_light_gray"
+            />
+    </shape>
+</item>
+
+</selector>

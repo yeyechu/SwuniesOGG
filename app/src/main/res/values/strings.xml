@@ -284,6 +284,9 @@
     <string name="mycar_input_text_car_num">차량 번호를 입력해주세요</string>
     <string name="mycar_input_text_car_num_hint">12가3456</string>
     <string name="mycar_text_car_done">완료</string>
+    <string name="mycar_electric_car">전기차</string>
+    <string name="mycar_normal_car">일반 승용</string>
+
 
 
 

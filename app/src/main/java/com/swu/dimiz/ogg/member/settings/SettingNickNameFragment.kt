@@ -23,7 +23,6 @@ class SettingNickNameFragment : Fragment() {
 
     private var _binding: FragmentSettingNicknameBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var navController: NavController
 
     val fireUser = Firebase.auth.currentUser
@@ -34,6 +33,8 @@ class SettingNickNameFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_setting_nickname, container, false)
+
+
 
         binding.changeNicknameBtn.setOnClickListener(){
             var newNickname = binding.newNicknameEt.editText?.text.toString()
@@ -67,9 +68,11 @@ class SettingNickNameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         navController = findNavController()
-
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
+
+//        binding.viewModel = viewModel
     }
 
     override fun onDestroyView() {

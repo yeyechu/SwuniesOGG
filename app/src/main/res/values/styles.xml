@@ -195,11 +195,9 @@
         <item name="android:minWidth">?attr/minTouchTargetSize</item>
     </style>
 
-    <!-- 원 : 파란색 -->
-    <style name="StyleCircle.ckecked" parent="StyleCircle">
-        <item name="android:background">@drawable/check</item>
 
-    </style>
+
+
 
 
 

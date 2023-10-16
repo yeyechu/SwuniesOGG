@@ -1,41 +1,61 @@
 package com.swu.dimiz.ogg.member.settings
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.swu.dimiz.ogg.R
 
 class SettingViewModel : ViewModel() {
 
-    //yes 버튼 클릭하면 -> 예스는 Ogg / 노는 회색처리 / 차량번호 입력 활성화 / flow1 체크됨
-    //No 버튼 클릭하면 -> ??
+//---------------자차 유무 ------------------
+
+    private val _isNoButtonClicked = MutableLiveData<Boolean>()
+    val isNoButtonClicked: LiveData<Boolean> get() = _isNoButtonClicked
+
+    private val _isElectriCarClicked = MutableLiveData<Boolean>()
+    val isElectriCarClicked: LiveData<Boolean> get() = _isElectriCarClicked
+
+    private val _isNormalCarClicked = MutableLiveData<Boolean>()
+    val isNormalCarClicked: LiveData<Boolean> get() = _isNormalCarClicked
+
+    val carNumberInputText = MutableLiveData<String>()
 
 
-    // Yes 버튼 스타일
-    val yesButtonStyle = MutableLiveData<Int>(R.style.StyleButtonOggWhite)
-
-    // No 버튼 상태
-    val noButtonEnabled = MutableLiveData<Boolean>(true)
-
-    // First 버튼 배경, 텍스트
-    val firstButtonBackground = MutableLiveData<Int>(R.style.StyleCircle)
-    val firstButtonText = MutableLiveData<String>(1.toString())
+    private val _isYesButtonClicked = MutableLiveData<Boolean>()
+    val isYesButtonClicked: LiveData<Boolean>
+        get() = _isYesButtonClicked
 
 
-    // Yes 버튼 클릭 시 호출되는 함수
-    fun onYesButtonClicked() {
-        // Yes 버튼 스타일을 변경하고 No 버튼 비활성화
-        yesButtonStyle.value = R.style.StyleButtonOgg
-        noButtonEnabled.value = false
-
-        // First 버튼 배경 변경
-        firstButtonBackground.value = R.style.StyleCircle_ckecked
-        firstButtonText.value = ""
+    init {
+        _isYesButtonClicked.value = false
+        _isNoButtonClicked.value = false
+        _isElectriCarClicked.value = false
+        _isNormalCarClicked.value = false
     }
 
-    fun onNoButtonClicked()
-    {}
+    fun onYesButtonClicked() {
+        _isYesButtonClicked.value = true
+        _isNoButtonClicked.value = false
+    }
 
+    fun onNoButtonClicked() {
+        _isNoButtonClicked.value = true
+        _isYesButtonClicked.value = false
+    }
 
+    fun onElectriCarClicked() {
+        _isElectriCarClicked.value = true
+        _isNormalCarClicked.value = false
+    }
+
+    fun onNormalCarClicked() {
+        _isNormalCarClicked.value = true
+        _isElectriCarClicked.value = false
+    }
+
+    fun setCarUserVisibility(isVisible: Boolean) {
+        _isYesButtonClicked.value = isVisible
+    }
 
 
 }

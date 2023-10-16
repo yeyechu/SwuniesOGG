@@ -3,6 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.member.settings.SettingViewModel" />
 
     </data>
     <LinearLayout
@@ -35,7 +38,7 @@
             android:background="@color/secondary_baby_gray">
 
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/flow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -47,21 +50,25 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/imageView"
+                    android:id="@+id/flow_1"
                     style="@style/StyleCircle"
                     android:layout_width="@dimen/icon_size_regular"
                     android:layout_height="@dimen/icon_size_regular"
                     android:text="1" />
 
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="@dimen/icon_size_regular"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/flow_slash"
+                    android:enabled="false"
+                    android:layout_width="@dimen/icon_extra_small"
                     android:layout_height="@dimen/icon_size_regular"
-                    android:background="@drawable/mycar_shape_line" />
+                    android:background="@drawable/mycar_shape_line"
+                    />
+
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/imageView3"
+                    android:id="@+id/flow_2"
                     style="@style/StyleCircle"
+                    android:enabled="false"
                     android:layout_width="@dimen/icon_size_regular"
                     android:layout_height="@dimen/icon_size_regular"
                     android:text="2" />
@@ -69,7 +76,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/car_setting_text"
                 style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,30 +84,31 @@
                 android:text="@string/mycar_text_info_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/linearLayout"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                app:layout_constraintStart_toStartOf="@+id/flow"
+                app:layout_constraintTop_toBottomOf="@+id/flow" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/car_setting_info"
                 style="@style/StyleText.subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:text="@string/mycar_text_info_subtitle"
-                app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintStart_toStartOf="@+id/car_setting_text"
+                app:layout_constraintTop_toBottomOf="@+id/car_setting_text" />
 
             <LinearLayout
-                android:id="@+id/linearLayout2"
+                android:id="@+id/car_having_btns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:layout_margin="@dimen/spacing_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4">
+                app:layout_constraintTop_toBottomOf="@+id/car_setting_info">
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/car_yes_btn"
                     style="@style/StyleButtonOggWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,64 +116,127 @@
                     android:text="@string/mycar_have_yes_button" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/car_no_btn"
                     style="@style/StyleButtonOggWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/mycar_have_no_button"
 
-                    />
+                    android:text="@string/mycar_have_no_button" />
 
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView7"
-                style="@style/StyleText.header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_big"
-                android:text="@string/mycar_input_text_car_num"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-
-                android:id="@+id/textInputLayout2"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/for_car_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_big"
-                android:layout_marginTop="@dimen/spacing_regular"
-                android:hint="@string/mycar_input_text_car_num_hint"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/textView7">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditText3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.appcompat.widget.AppCompatButton
-                style="@style/StyleButtonOgg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_big"
-
-                android:text="@string/mycar_text_car_done"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/car_having_btns"
+                android:layout_margin="@dimen/spacing_medium"
+
+                >
+
+                <TextView
+                    android:id="@+id/car_setting_kind_text"
+                    style="@style/StyleText.title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mycar_text_info_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/for_car_user"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/car_setting_kind_info"
+                    style="@style/StyleText.subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:text="@string/mycar_text_info_subtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/car_setting_kind_text"
+                    app:layout_constraintTop_toBottomOf="@+id/car_setting_kind_text" />
+
+                <LinearLayout
+                    android:id="@+id/car_kind_btns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:layout_constraintTop_toBottomOf="@+id/car_setting_kind_info">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/electric_car"
+                        style="@style/StyleButtonOggWhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/mycar_electric_car" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/차"
+                        style="@style/StyleButtonOggWhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/mycar_normal_car"
+
+                        />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/car_number_input_text"
+                    style="@style/StyleText.title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_big"
+                    android:text="@string/mycar_input_text_car_num"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/car_kind_btns"
+                    app:layout_constraintTop_toBottomOf="@+id/car_kind_btns" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:id="@+id/car_number_input"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_regular"
+                    android:hint="@string/mycar_input_text_car_num_hint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/car_number_input_text"
+                    app:layout_constraintTop_toBottomOf="@+id/car_number_input_text">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditText3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/car_setting_complete_btn"
+                    style="@style/StyleButtonOgg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:enabled="false"
+                    android:text="@string/mycar_text_car_done"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/car_number_input"
+                    app:layout_constraintVertical_bias="0.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
