@@ -18,13 +18,16 @@ import kotlin.collections.ArrayList
 
 class EnvViewModel : ViewModel() {
 
-    //──────────────────────────────────────────────────────────────────────────────────────
-    //                                      회원 정보 저장
     private val _fakeDate = MutableLiveData<Int>()
 
     private val _fakeToday = MutableLiveData<Float>()
     val fakeToday: LiveData<Float>
         get() = _fakeToday
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                      회원 정보 저장
+    private val _todayCo2 = MutableLiveData<Float>()
+    val todayCo2: LiveData<Float>
+        get() = _todayCo2
 
     private var stampList = ArrayList<StampData>()
 
@@ -81,6 +84,7 @@ class EnvViewModel : ViewModel() {
 
         _fakeDate.value = INTEGER_ZERO
         _fakeToday.value = FLOAT_ZERO
+        _todayCo2.value = FLOAT_ZERO
 
         _co2Holder.value = FLOAT_ZERO
         _stampHolder.value = null
@@ -137,7 +141,39 @@ class EnvViewModel : ViewModel() {
         }
     }
 
-    //──────────────────────────────────────────────────────────────────────────────────────
+    private fun setStamp() {
+        val tempDate = date.value!!
+
+        if (tempDate > 0) {
+            getTodayStampFromFirebase()
+
+            if(tempDate == 1) {
+                stampList[0] = StampData(tempDate, _todayCo2.value!!, 1)
+            } else {
+                for(i in 0..tempDate - 2) {
+                    stampList[i] = StampData(today = 2)
+                }
+                stampList[tempDate - 1] = StampData(tempDate, _todayCo2.value!!, 1)
+
+            }
+            setStampHolder(stampList)
+            Timber.i("$stampList")
+
+        } else {
+            // ───────────────────────────────────────────────────────────────────────────
+            //                                   스탬프 리셋
+            resetCondition()
+            userInit()
+
+            _todayCo2.value = FLOAT_ZERO
+            _co2Holder.value = FLOAT_ZERO
+
+            stampInitialize()
+            setStampHolder(stampList)
+        }
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────────────────
     //                                       인터랙션 메서드
 
     fun onExpandButtonClicked() {
@@ -184,7 +220,7 @@ class EnvViewModel : ViewModel() {
                 stampList[date - 1] = StampData(_fakeDate.value!!, _fakeToday.value!!, 2)
                 setStampHolder(stampList)
             }
-            Timber.i("$stampList")
+
             _fakeDate.value = _fakeDate.value?.plus(1)
             resetToday()
             stampList[date] = StampData(_fakeDate.value!!, _fakeToday.value!!, 1)
@@ -192,6 +228,8 @@ class EnvViewModel : ViewModel() {
             setStampHolder(stampList)
             Timber.i("$stampList")
         } else {
+            // ───────────────────────────────────────────────────────────────────────────
+            //                                   스탬프 리셋
             resetCondition()
             userInit()
             _fakeDate.value = INTEGER_ZERO
@@ -214,6 +252,19 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
+    fun updateTodayStampToFirebase() = viewModelScope.launch {
+        // 오늘 스탬프
+        // 업데이트 할 곳
+        // 오늘 co2는
+        // _todayCo2.value에서 가져가면 됩니다
+
+    }
+
+    private fun getTodayStampFromFirebase() = viewModelScope.launch {
+        // 오늘 스탬프만
+        // 내려받을 곳
+        // _todayCo2.value에 저장
+    }
 
     private fun resetCondition() = viewModelScope.launch {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
@@ -246,6 +297,8 @@ class EnvViewModel : ViewModel() {
                     projectCount = appUser.projectCount
 
                     _userCondition.value = appUser
+                    setStamp()
+                    Timber.i(_userCondition.toString())
                 } else {
                     Timber.i("Current data: null")
                 }
@@ -266,6 +319,10 @@ class EnvViewModel : ViewModel() {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val stamp = dc.document.toObject<MyStamp>()
                         stampList.add(stamp)
+
+                        if(stamp.day == date.value) {
+                            _todayCo2.value = stamp.dayCo2.toFloat()
+                        }
                     }
                 }
                 Timber.i("스탬프 $stampList")
@@ -308,7 +365,6 @@ class EnvViewModel : ViewModel() {
                         }
                     }
                 }
-                Timber.i(myDailyList.toString())
                 /*for(i in 0 until LIST_SIZE){
                        listArray[i] = myDailyList[i]
                    }*/

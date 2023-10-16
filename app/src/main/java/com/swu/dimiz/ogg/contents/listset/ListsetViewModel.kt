@@ -376,8 +376,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         currentJob = viewModelScope.launch {
 
             try {
-                //_filteredList.value = repository.getFiltered(filter)
-                _filteredList.value = getActivities.value!!.filter { it.filter == filter }
+                _filteredList.value = repository.getFiltered(filter)
+                //_filteredList.value = getActivities.value!!.filter { it.filter == filter }
             } catch (e: IOException) {
                 _filteredList.value = listOf()
             }

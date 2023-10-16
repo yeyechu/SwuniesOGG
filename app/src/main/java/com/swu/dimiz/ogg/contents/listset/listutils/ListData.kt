@@ -5,11 +5,10 @@ data class ListData (
     var aNumber: Int = 0
         )
 
-data class CheckStatus (
-    var position: Int = 0,
-    var ischecked: Boolean = false
-)
-
+// when(today) {
+//     0 -> 아직 안 지난 날짜
+//     1 -> 오늘
+//     2 -> 이미 지난 날짜
 data class StampData (
     var sId: Int = 0,
     var sNumber: Float = 0f,
@@ -19,11 +18,6 @@ data class StampData (
 data class TodayData (
     var tId: Int = 0,
     var tNumber: Float = 0f
-)
-
-data class BadgeStatusHolder(
-    var id: Int,
-    var visible: Boolean
 )
 
 const val AIMCO2_ONE = 1.4f

@@ -66,6 +66,11 @@ class PostDailyWindow  : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        fragmentManager = childFragmentManager
+
         val adapter = TextAdapter()
         binding.textList.adapter = adapter
 
@@ -98,12 +103,6 @@ class PostDailyWindow  : Fragment() {
             viewModel.completedDaily()
             viewModel.resetUri()
         }
-
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-
-        fragmentManager = childFragmentManager
-        Timber.i("포스트 데일리")
     }
 
     private fun userInit() {
@@ -160,6 +159,7 @@ class PostDailyWindow  : Fragment() {
             .set(daily)
             .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
+
         //스탬프
         fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
             .collection("Stamp").document(today.toString())
@@ -171,14 +171,17 @@ class PostDailyWindow  : Fragment() {
         //                              활동 전체 상황 업로드
         val washingtonRef = fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
             .collection("AllAct").document(viewModel.todailyId.value!!.dailyId.toString())
+
         washingtonRef
             .update("upCount", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
+
         washingtonRef
             .update("allC02", FieldValue.increment(viewModel.todailyId.value!!.co2.toDouble()))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
+
         washingtonRef
             .update("actCode", viewModel.todailyId.value!!.filter)
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }

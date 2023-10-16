@@ -70,7 +70,12 @@
                 app:layout_constraintBottom_toTopOf="@id/progress_env"
                 app:layout_constraintStart_toStartOf="parent"
                 android:src="@drawable/env_image_stamp_000"
-                app:todayStamp="@{condition.fakeToday}"/>
+                app:todayStamp="@{condition.todayCo2}"/>
+
+            <!-- 실제 오늘 Co2 스티커 적용
+            app:todayStamp="@{condition.todayCo2}"
+            app:todayStamp="@{condition.fakeToday}"
+             -->
 
             <TextView
                 android:id="@+id/text_date_of_21"
@@ -85,8 +90,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="21일 중 11일째" />
-            <!-- android:text="@{@string/stamplayout_text_title(condition.date)}"
-             실제 날짜 적용해보고 싶으면 갈아끼우면 됨 -->
 
             <TextView
                 android:id="@+id/text_co2_left"

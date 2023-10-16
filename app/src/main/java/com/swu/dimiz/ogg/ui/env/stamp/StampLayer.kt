@@ -68,8 +68,7 @@ class StampLayer : Fragment() {
         val stampView: GridView = binding.stampGrid
 
         // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                    스탬프
-
+        //                                     스탬프
         viewModel.stampHolder.observe(viewLifecycleOwner) {
             it?.let {
                 stampHolderAdapter = StampAdapter(aim, it)
@@ -85,6 +84,16 @@ class StampLayer : Fragment() {
             viewModel.leftCo2()
         }
 
+        viewModel.todayCo2.observe(viewLifecycleOwner) {
+            when(it / aim * 100) {
+                0f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_000)
+                in 1f..99f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_050)
+                else -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_100)
+            }
+        }
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                 개발용 -> 삭제 예정
         viewModel.fakeToday.observe(viewLifecycleOwner) {
             when(it / aim * 100) {
                 0f -> binding.imageStampToday.setImageResource(R.drawable.env_image_stamp_000)

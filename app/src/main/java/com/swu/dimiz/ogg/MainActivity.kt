@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     //                              수명 주기 체크
     override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
+        // Check if user is signed in (non-null) and update UserInterface accordingly.
         //auth.signOut() //-> 이동하는지 확인하고 싶으면 로그아웃 하면됨
 
         val currentUser = OggApplication.auth.currentUser

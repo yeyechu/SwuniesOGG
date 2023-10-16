@@ -32,15 +32,18 @@ class StampAdapter(private val aim: Float,
 
         when (item.today) {
             0 -> {
+                // 아직 안 지난 날
                 text.text = item.sId.toString()
                 image.setImageResource(R.color.transparency_transparent)
             }
             1 -> {
+                // 오늘
                 text.text = item.sId.toString()
                 text.setTextColor(Color.parseColor("#6897F3"))
                 text.setBackgroundResource(R.drawable.env_shape_stamp_circle_stroke)
             }
             2 -> {
+                // 이미 지난 날
                 text.setBackgroundResource(R.color.transparency_transparent)
                 when (item.sNumber / aim * 100) {
                     0f -> image.setImageResource(R.drawable.env_image_stamp_000)

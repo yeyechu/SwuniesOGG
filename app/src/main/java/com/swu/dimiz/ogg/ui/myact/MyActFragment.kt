@@ -54,14 +54,8 @@ class MyActFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                    기본 초기화
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_my_act, container, false)
-
-        //firebase
-        //viewModel.fireInfo()
-        //viewModel.fireGetDaily()
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                   tooltip
         binding.buttonTooltipSust.setOnClickListener {
@@ -102,6 +96,7 @@ class MyActFragment : Fragment() {
             setBalloonAnimation(BalloonAnimation.FADE)
             build()
         }
+
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

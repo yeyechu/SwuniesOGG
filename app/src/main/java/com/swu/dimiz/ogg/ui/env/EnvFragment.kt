@@ -22,12 +22,19 @@ class EnvFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                    기본 초기화
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_env, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+
+        binding.viewModel = viewModel
         viewModel.userInit()
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                               환경 수정 플로팅 버튼 정의
 
@@ -52,16 +59,15 @@ class EnvFragment : Fragment() {
                 viewModel.onNavigatedToStart()
             }
         }
-        return binding.root
-    }
 
-    // ──────────────────────────────────────────────────────────────────────────────────────
-    //                                         툴바 초기화
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                            오늘 날짜, 스탬프 정보 업데이트
+        viewModel.todayCo2.observe(viewLifecycleOwner) {
+            viewModel.updateTodayStampToFirebase()
+        }
 
-        navController = findNavController()
-        binding.viewModel = viewModel
-
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                  툴바 이동 정의
         val envToolbar = binding.envToolbar
         envToolbar.inflateMenu(R.menu.env_menu)
 

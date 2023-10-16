@@ -59,7 +59,7 @@
                 android:layout_height="@dimen/image_size_big"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:src="@drawable/common_image_placeholder"
-                android:background="@drawable/badgelist_shape_badge_background"
+                android:background="@drawable/badgelist_shape_badge_background_sealed"
                 app:badgeDetailImage="@{viewModel.badgeId}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

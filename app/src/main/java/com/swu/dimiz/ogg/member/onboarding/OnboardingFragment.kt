@@ -24,6 +24,7 @@ class OnboardingFragment : Fragment() {
         viewPager = view.findViewById<ViewPager>(R.id.viewpager)
         adapter = OnboardingAdapter(requireContext())
         viewPager!!.adapter = adapter
+
         if (isOpenAlready()) {
             val intent = Intent(requireContext(), MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
