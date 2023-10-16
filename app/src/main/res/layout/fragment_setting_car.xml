@@ -178,7 +178,7 @@
                         android:text="@string/mycar_electric_car" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/차"
+                        android:id="@+id/normal_car"
                         style="@style/StyleButtonOggWhite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
