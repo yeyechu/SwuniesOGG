@@ -7,13 +7,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentBadgeListFilterBinding
+import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel
+import timber.log.Timber
 
-class BadgeHeaderAdapter(private val viewModel: BadgeListViewModel,
-                         private val badges: List<List<Int>>)
+class BadgeHeaderAdapter(private val viewModel: BadgeListViewModel)
     : RecyclerView.Adapter<BadgeHeaderAdapter.TitleViewHolder>() {
 
     var data = listOf<String>()
+    var badges = listOf<Badges>()
 
     inner class TitleViewHolder(private var binding: FragmentBadgeListFilterBinding)
         : RecyclerView.ViewHolder(binding.root) {
@@ -24,10 +26,15 @@ class BadgeHeaderAdapter(private val viewModel: BadgeListViewModel,
             binding.textBadgeTitle.text = translateFilter(data.elementAt(position), res)
             binding.filterList.apply {
 
-                adapter = BadgeAdapter(badgeList.elementAt(position), viewModel, position, badges)
-
+                adapter = BadgeAdapter(
+                    badgeList.elementAt(position),
+                    viewModel,
+                    position,
+                    badges
+                )
                 layoutManager = LinearLayoutManager(binding.filterList.context, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
+                Timber.i("배지헤더 어댑터 $badges")
             }
         }
     }

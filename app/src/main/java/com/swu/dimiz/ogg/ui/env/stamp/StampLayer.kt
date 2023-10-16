@@ -37,6 +37,7 @@ class StampLayer : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.layer_stamp, container, false)
 
+        viewModel.fireGetStamp()
         //val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
 
         viewModel.leftHolder.observe(viewLifecycleOwner) {

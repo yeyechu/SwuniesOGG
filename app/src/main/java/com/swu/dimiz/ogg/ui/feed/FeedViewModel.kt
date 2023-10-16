@@ -1,7 +1,6 @@
 package com.swu.dimiz.ogg.ui.feed
 
 import androidx.lifecycle.*
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -162,7 +161,6 @@ class FeedViewModel : ViewModel() {
         Timber.i("destroyed")
     }
 
-
     // ───────────────────────────────────────────────────────────────────────────────────
     //                             firebase 피드리스트 받기
     fun fireGetFeed() {
@@ -177,7 +175,7 @@ class FeedViewModel : ViewModel() {
                 gotFeedList.clear()
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
-                        var feed = dc.document.toObject<Feed>()
+                        val feed = dc.document.toObject<Feed>()
                         gotFeedList.add(feed)
                     }
                 }

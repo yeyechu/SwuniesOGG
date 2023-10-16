@@ -16,7 +16,6 @@ import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
-import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
@@ -27,7 +26,6 @@ import kotlin.collections.ArrayList
 class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     private var currentJob: Job? = null
-    private val disposable: Disposable? = null
 
     val getActivities: LiveData<List<ActivitiesDaily>> = repository.getAlldata.asLiveData()
     // ───────────────────────────────────────────────────────────────────────────────────
@@ -156,6 +154,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val onClickedFaceTwo = setListaimUI.map {
         it == 2
     }
+
     val onClickedFaceThree = setListaimUI.map {
         it == 3
     }
@@ -197,7 +196,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 선택 내용 결정자
-
     private fun initCo2() {
         Timber.i("유저 컨디션 에임 : ${_userCondition.value!!.aim}")
 
@@ -247,7 +245,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         Timber.i("${_co2Holder.value}")
     }
 
-
     fun addListHolder(act: ActivitiesDaily, isChecked: Boolean) {
 
         val amount = act.co2 * act.limit
@@ -282,7 +279,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    var temp = 0
+    private var temp = 0
     private fun addItem(item: ActivitiesDaily) = viewModelScope.launch {
         var count = 0
         for (i in listArray) {
@@ -379,7 +376,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         currentJob = viewModelScope.launch {
 
             try {
-                _filteredList.value = repository.getFiltered(filter)
+                //_filteredList.value = repository.getFiltered(filter)
+                _filteredList.value = getActivities.value!!.filter { it.filter == filter }
             } catch (e: IOException) {
                 _filteredList.value = listOf()
             }
@@ -588,9 +586,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     override fun onCleared() {
-        if (disposable?.isDisposed == false) {
-            disposable.dispose()
-        }
         super.onCleared()
         Timber.i("destroyed")
     }

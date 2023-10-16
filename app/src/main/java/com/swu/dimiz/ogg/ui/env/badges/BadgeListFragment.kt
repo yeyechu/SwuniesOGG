@@ -22,6 +22,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentBadgeListBinding
+import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeHeaderAdapter
 import timber.log.Timber
 
@@ -34,15 +35,6 @@ class BadgeListFragment : Fragment() {
     private val viewModel: BadgeListViewModel by activityViewModels { BadgeListViewModel.Factory }
     private lateinit var navController: NavController
 
-    var badges = listOf(
-        listOf(40001, 40002, 40003),
-        listOf(40004, 40005, 40006),
-        listOf(40007, 40008, 40009, 40010),
-        listOf(40011, 40012, 40013),
-        listOf(40014, 40015, 40016, 40017, 40018, 40019, 40020, 40021),
-        listOf(40022, 40023, 40024),
-        listOf(40025, 40026, 40027, 40028, 40029, 40030, 40031)
-        )
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -76,45 +68,6 @@ class BadgeListFragment : Fragment() {
             }
         }
 
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                       어댑터
-        val headerAdapter = BadgeHeaderAdapter(viewModel, badges)
-
-        binding.badgeHeader.apply {
-
-            adapter = headerAdapter
-            layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
-        }
-
-        viewModel.badgeFilter.observe(viewLifecycleOwner) {
-            it?.let {
-                Timber.i("$it")
-                headerAdapter.data = it
-            }
-        }
-
-//        val manager = GridLayoutManager(activity, 3)
-//        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-//            override fun getSpanSize(position: Int): Int = when(position) {
-//                0 -> 1
-//                else -> 1
-//            }
-//        }
-//        binding.badgeList.layoutManager = manager
-//
-//        val badgeAdapter = BadgeListAdapter(BadgeListAdapter.BadgeClickListener { id ->
-//            viewModel.showPopup(id)
-//        })
-//        binding.badgeList.adapter = badgeAdapter
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                      이동 정의
-        viewModel.navigateToSelected.observe(viewLifecycleOwner) {
-            it?.let {
-                addWindow()
-                viewModel.completedPopup()
-            }
-        }
         return binding.root
     }
 
@@ -129,7 +82,39 @@ class BadgeListFragment : Fragment() {
         fragmentManager = childFragmentManager
 
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this.viewLifecycleOwner
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                       어댑터
+        val headerAdapter = BadgeHeaderAdapter(viewModel)
+
+        binding.badgeHeader.apply {
+
+            adapter = headerAdapter
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+        }
+
+        viewModel.badgeFilter.observe(viewLifecycleOwner) {
+            it?.let {
+                headerAdapter.data = it
+            }
+        }
+
+        viewModel.inventory.observe(viewLifecycleOwner) {
+            it?.let {
+                headerAdapter.badges = it
+            }
+        }
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                      이동 정의
+        viewModel.navigateToSelected.observe(viewLifecycleOwner) {
+            it?.let {
+                addWindow()
+                viewModel.completedPopup()
+            }
+        }
     }
 
     private fun addWindow() {
