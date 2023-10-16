@@ -84,6 +84,7 @@ class EnvViewModel : ViewModel() {
         _todayCo2.value = FLOAT_ZERO
         _co2Holder.value = FLOAT_ZERO
         _stampHolder.value = null
+        stampArr.clear()
 
         Timber.i("─────────── 날짜 변환 확인용 로그 ───────────")
         Timber.i("10월 11일 오전 1시 19분 이후: ${convertDurationToFormatted(1696954754160)}일 경과")
