@@ -46,6 +46,7 @@ class SettingPasswordFragment : Fragment() {
                 .getCredential( fireUser?.email.toString(), "bmbm1234") //todo 이전 비번 값받아오기
 
             fireUser?.reauthenticate(credential)?.addOnCompleteListener { Timber.i("User re-authenticated.") }
+                ?.addOnFailureListener {  } //비번 틀림
 
             //비밀번호 업데이트
             fireUser!!.updatePassword(newPassword)

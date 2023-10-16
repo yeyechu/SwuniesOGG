@@ -194,6 +194,7 @@ class FeedViewModel : ViewModel() {
         val gotMyFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed")
+            .orderBy("postTime")
             .whereEqualTo("email", fireUser?.email.toString())
             .addSnapshotListener { value, e ->
                 if (e != null) {
@@ -203,6 +204,7 @@ class FeedViewModel : ViewModel() {
                 gotMyFeedList.clear()
                 for (doc in value!!) {
                     val feed = doc.toObject<Feed>()
+                    //아이디 따로 추가하기
                     gotMyFeedList.add(feed)
                 }
                 _myList.value = gotMyFeedList

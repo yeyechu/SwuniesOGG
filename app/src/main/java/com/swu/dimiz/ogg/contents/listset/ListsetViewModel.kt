@@ -525,7 +525,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             }
     }
 
-
     //이미 한 sust
     private var mySustList = ArrayList<Int>()
     fun fireGetSust() = viewModelScope.launch {

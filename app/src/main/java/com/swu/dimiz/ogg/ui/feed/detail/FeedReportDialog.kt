@@ -31,6 +31,7 @@ class FeedReportDialog(private val feedId: String) : DialogFragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
+        Timber.i(feedId)
         return binding.root
     }
 
@@ -44,15 +45,16 @@ class FeedReportDialog(private val feedId: String) : DialogFragment() {
         val fireDB = Firebase.firestore
         val fireUser = Firebase.auth.currentUser
 
-        fireDB.collection("Feed").document(feedId)
+
+        /*fireDB.collection("Feed").document(feedId)
             .update("reactionReport", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("신고 반응 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i( e ) }*/
 
-        fireDB.collection("User").document(fireUser?.email.toString())
+       /* fireDB.collection("User").document()    이멜 검색해서
             .update("report", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("유저 신고 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i( e ) }*/
 
         //Toast.makeText(context, "신고 되브렀어", Toast.LENGTH_SHORT).show()
     }

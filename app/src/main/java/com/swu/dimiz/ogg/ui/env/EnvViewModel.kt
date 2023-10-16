@@ -309,6 +309,7 @@ class EnvViewModel : ViewModel() {
         val stampList = arrayListOf<MyStamp>()
 
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Stamp")
+            .orderBy("day")
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i("listen:error $e")
