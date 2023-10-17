@@ -120,6 +120,9 @@
     <!--                                         배지 리스트                                       -->
     <string name="badgelist_text_badge_count">보유한 배지 %d개</string>
     <string name="badgelist_button">닫기</string>
+    <string name="badgelist_detail_count">%d/%d회</string>
+    <string name="badgelist_detail_count_co2">%d/%dkg</string>
+    <string name="badgelist_detail_date">%s 획득</string>
 
     <string name="badgelist_filter_feed">피드에 반응</string>
     <string name="badgelist_filter_clear">연속 활동</string>
