@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -170,7 +171,7 @@ class FeedViewModel : ViewModel() {
         val gotFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed").orderBy("postTime")
-            .orderBy("postTime")
+            .orderBy("postTime",  Query.Direction.DESCENDING)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i("listen:error $e")
@@ -196,7 +197,7 @@ class FeedViewModel : ViewModel() {
         val gotMyFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed")
-            .orderBy("postTime")
+            .orderBy("postTime",  Query.Direction.DESCENDING)
             .whereEqualTo("email", fireUser?.email.toString())
             .addSnapshotListener { value, e ->
                 if (e != null) {

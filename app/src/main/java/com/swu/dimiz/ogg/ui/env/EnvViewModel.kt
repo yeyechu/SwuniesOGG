@@ -228,7 +228,7 @@ class EnvViewModel : ViewModel() {
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Stamp").document(today.toString())
             .update("dayCo2", _todayCo2.value!!.toDouble())
-            .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+            .addOnSuccessListener { Timber.i("updateTodayStampToFirebas 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
         Timber.i("오늘 updateToday $today")
     }
@@ -269,7 +269,6 @@ class EnvViewModel : ViewModel() {
 
 
     private fun userInit() = viewModelScope.launch {
-
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
             .addSnapshotListener { snapshot, e ->
@@ -318,7 +317,7 @@ class EnvViewModel : ViewModel() {
                 }
                 stampArr = tempList
                 Timber.i("스탬프 어레이 초기화: $stampArr")
-                setStamp()
+                //setStamp()
             }
     }
 

@@ -26,6 +26,15 @@ import kotlin.collections.ArrayList
 class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     private var currentJob: Job? = null
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                   파이어베이스 변수
+
+    private val fireDB = Firebase.firestore
+    private val fireUser = Firebase.auth.currentUser
+
+    private var today : Int = 0
+    private var appUser = MyCondition()
+
 
     val getActivities: LiveData<List<ActivitiesDaily>> = repository.getAlldata.asLiveData()
     // ───────────────────────────────────────────────────────────────────────────────────
@@ -394,11 +403,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
-    //                                    firebase
-    private val fireDB = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
-
-    // ───────────────────────────────────────────────────────────────────────────────────
     //                             전체활동 기본정보 추가
     private fun fireAllReset()= viewModelScope.launch {
         for (i in 10001..10020) {
@@ -455,9 +459,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                             기본 정보 가져오기
-    private var appUser = MyCondition()   //사용자 기본 정보 저장
-    private var today = 0
-
     fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
@@ -471,7 +472,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     _userCondition.value = appUser
                     Timber.i("유저 컨디션 초기화: ${_userCondition.value}")
                     //today 초기화
-                    if (appUser.startDate == today.toLong()) {  //처음 시작한다면
+                    if (appUser.startDate == 0L && appUser.aim == 0f) {  //처음 시작한다면
                         today =  1
                         fireAllReset()
                         fireStampReset()
@@ -482,12 +483,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i("Current data: null")
                 }
             }
+
+
     }
 
     //오늘 활동 리스트 가져오기
     fun fireGetDaily() = viewModelScope.launch {
         val myDailyList = ArrayList<ListData>()
-        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
+        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${_userCondition.value?.projectCount}")
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i("listen:error", e)
@@ -526,6 +529,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     addCo2HolderFromListHolder(listArray[i].aId)
                 }
                 setListHolder(listArray)
+                //listarray를 ActivitiesDaily로 변환해서 addlistholder에 넣어야함
             }
     }
 
@@ -551,53 +555,68 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 리스트 저장
+    //프로젝트 시작하기로 들어온 경우
     fun fireSave() = viewModelScope.launch {
-        //프로젝트 시작하기로 들어온 경우
-        if(appUser.aim == 0f && appUser.startDate == 0L ){
-            //몇번째 프로젝트 초기화
-            appUser.projectCount = +1
+        //몇번째 프로젝트 초기화
+        _userCondition.value?.projectCount = +1
 
-            //전체 리스트 편집
-            for (i in 0 until LIST_SIZE) {
-                val actList = MyList()
-                actList.setFirstList(listArray[i].aId, listArray[i].aNumber)
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Project${appUser.projectCount}").document(i.toString())
-                    .set(actList)
-                    .addOnCompleteListener { Timber.i("DocumentSnapshot1 successfully written!")
-                    }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
-            }
-            //프로젝트 상태 변경
-            if (today == 1) {
-                val toStartDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
-
-                val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
-                washingtonRef.update("startDate", toStartDay.toLong())
-                    .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
-                    .addOnFailureListener { e -> Timber.i("Error updating document", e) }
-
-                washingtonRef.update("aim", _aimCo2.value)
-                    .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
-                    .addOnFailureListener { e -> Timber.i("Error updating document", e) }
-
-                washingtonRef.update("projectCount", appUser.projectCount)
-                    .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
-                    .addOnFailureListener { e -> Timber.i("Error updating document", e) }
-            }
+        //전체 리스트 편집
+        for (i in 0 until LIST_SIZE) {
+            val actList = MyList()
+            actList.setFirstList(listArray[i].aId, listArray[i].aNumber)
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
+                .set(actList)
+                .addOnCompleteListener { Timber.i("DocumentSnapshot1 successfully written!")
+                }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
         }
-        //수정하기로 들어온 경우
-        else {
-            //남은활동 모두 변경하기 클릭시
-            //todo 처음에 들어오자마자 이전데이터 저장해야함
-            for(i in 1..LIST_SIZE){
-                val actList = MyList()
-                actList.setLeftdayList(today, listArray[i].aId, listArray[i].aNumber)
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Project${appUser.projectCount}").document(i.toString())
-                    .set(actList)
-                    .addOnCompleteListener { Timber.i("DocumentSnapshot1 successfully written!")
-                    }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
-            }
+        //프로젝트 상태 변경
+        if (today == 1) {
+            val toStartDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+
+            val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
+            washingtonRef.update("startDate", toStartDay.toLong())
+                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+
+            washingtonRef.update("aim", _aimCo2.value)
+                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+
+            washingtonRef.update("projectCount", _userCondition.value?.projectCount)
+                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+        }
+    }
+
+    //남은활동 모두 변경하기 클릭시
+    fun fireReSave() = viewModelScope.launch{
+        var mylist = MyList()
+
+        for(i in 0..LIST_SIZE){
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
+                .get()
+                .addOnSuccessListener { document ->
+                    Timber.i( "전체 리스트 ${document.id} => ${document.data}")
+                    var list = document.toObject<MyList>()
+                    if (list != null) {
+                        mylist=list
+                        Timber.i( "리스트 $mylist")
+
+                        mylist.setLeftdayList(today, listArray[i].aId, listArray[i].aNumber)
+                        Timber.i( "새로운 리스트 $mylist")
+
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Project${appUser.projectCount}").document(i.toString())
+                            .set(mylist)
+                            .addOnCompleteListener { Timber.i("DocumentSnapshot1 successfully written!")
+                            }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Timber.i( "Error getting documents: $exception")
+                }
         }
 
     }
