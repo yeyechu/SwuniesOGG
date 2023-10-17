@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.contents.listset
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -531,6 +530,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 }
                 setListHolder(listArray)
                 //listarray를 ActivitiesDaily로 변환해서 addlistholder에 넣어야함
+                //addItem쓰기
+                //getitem으로 불러오면 엑티비티 데일리로 변함
+                //update호출
+                //쿼리 새로생긴거 사용하기
+                //서버가 가져와서 룸에 다가 저장
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)

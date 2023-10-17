@@ -224,17 +224,18 @@ class EnvViewModel : ViewModel() {
     //                                   파이어베이스 함수
     fun updateTodayStampToFirebase(){
         // 오늘 스탬프 업데이트 할 곳
+        //서버랑 다를떄 업데이트 하는걸로
+        Timber.i("오늘 updateToday $today")
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Stamp").document(today.toString())
             .update("dayCo2", _todayCo2.value!!.toDouble())
             .addOnSuccessListener { Timber.i("updateTodayStampToFirebas 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
-        Timber.i("오늘 updateToday $today")
     }
 
     private fun getTodayStampFromFirebase() = viewModelScope.launch {
         // 오늘 스탬프만 내려받을 곳
-
+        Timber.i("오늘 getToday $today")
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Stamp").document(today.toString())
             .addSnapshotListener { snapshot, e ->
@@ -250,7 +251,6 @@ class EnvViewModel : ViewModel() {
                 }
             }
         Timber.i("getTodayStampFromFirebase ${_todayCo2.value.toString()}")
-        Timber.i("오늘 getToday $today")
     }
 
     private fun resetCondition() = viewModelScope.launch {
@@ -316,16 +316,14 @@ class EnvViewModel : ViewModel() {
                 }
                 stampArr = tempList
                 Timber.i("스탬프 어레이 초기화: $stampArr")
-
-                //todo 오류해결 필요
-                val currentUser = Firebase.auth.currentUser
-                if (currentUser == null) {
-                    Timber.i("로그인 안됨")
-                } else {
-                    Timber.i("이미 로그인 되어있습니다.")
-                    setStamp()
-                }
             }
+        //setStamp()
+        /*if (today > 0) {
+            Timber.i("이미 로그인 되어있습니다.")
+
+        } else {
+            Timber.i("로그인 안됨")
+        }*/
     }
 
     fun fireGetDaily() = viewModelScope.launch {

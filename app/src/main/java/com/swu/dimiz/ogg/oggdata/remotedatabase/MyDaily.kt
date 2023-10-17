@@ -12,7 +12,7 @@ data class MyDaily(
 
     var upDate: Long?=null,    //올린 시각
 
-    var Limit: Int = 0,        //기본 횟수
+    //몇번했는지
 
     var doLeft:Int = 0        //다시 할 수 횟수가 얼마나 남았는지   //할때마다 업데이트 됨
 )

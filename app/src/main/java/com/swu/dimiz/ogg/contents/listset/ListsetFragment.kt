@@ -40,8 +40,8 @@ class ListsetFragment : Fragment() {
         //지속활동 진행중 리스트
         viewModel.initCo2Holder()
         viewModel.fireGetSust()
-
         viewModel.fireGetDaily()
+
         Timber.i("ListsetFragment onCreateView() 생성")
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      버튼 인터랙션

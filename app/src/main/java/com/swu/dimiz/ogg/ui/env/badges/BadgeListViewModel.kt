@@ -77,4 +77,6 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
             }
         }
     }
+
+    //겟데이트가 있는지 카운트 업데이트
 }

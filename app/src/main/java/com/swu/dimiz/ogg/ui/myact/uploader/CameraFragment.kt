@@ -118,7 +118,7 @@ class CameraFragment : Fragment() {
                 val daily = MyDaily(
                     dailyID = CameraActivity.id.toInt(),
                     upDate = feedDay.toLong(),
-                    Limit =0,
+
                     doLeft = 0
                 )
                 fireDB.collection("User").document(fireUser?.email.toString())
