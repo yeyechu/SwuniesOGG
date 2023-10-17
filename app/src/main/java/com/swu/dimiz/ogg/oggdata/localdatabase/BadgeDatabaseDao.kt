@@ -16,6 +16,9 @@ interface BadgeDatabaseDao {
     @Update
     fun update(data: Badges)
 
+    @Query("UPDATE badges SET getDate = :date, count = :count WHERE badgeId = :id")
+    suspend fun updateBadgeFromFirebase(id: Int, date: Long, count: Int)
+
     @Query("SELECT * FROM badges")
     fun getAllItem() : Flow<List<Badges>>
 

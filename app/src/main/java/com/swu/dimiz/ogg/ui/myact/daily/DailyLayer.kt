@@ -100,6 +100,10 @@ class DailyLayer : Fragment() {
         viewModel.progressDaily.observe(viewLifecycleOwner) {
             binding.progressDaily.progress = it
         }
+
+        viewModel.userCondition.observe(viewLifecycleOwner) {
+             listViewModel.copyUserCondition(it)
+        }
     }
 
     override fun onDestroyView() {

@@ -147,6 +147,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun initCondition() {
         initCo2()
         _userMobility.value = _userCondition.value!!.car == 0
+        resetFrequency()
 
     }
 
@@ -202,6 +203,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 선택 내용 결정자
+    fun copyUserCondition(item: MyCondition) {
+        _userCondition.value = item
+    }
+
     private fun initCo2() {
         if(_userCondition.value!!.aim == 0f) {
             setCo2(_aimCo2.value!!)
@@ -405,6 +410,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
+    // 파이어베이스에서 Room 오늘 리스트 업데이트
+    private fun updateListFire(list: ListData) = viewModelScope.launch {
+        repository.updateFreq(list.aId)
+    }
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                             전체활동 기본정보 추가
     private fun fireAllReset()= viewModelScope.launch {
@@ -486,8 +496,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i("Current data: null")
                 }
             }
-
-
     }
 
     //오늘 활동 리스트 가져오기

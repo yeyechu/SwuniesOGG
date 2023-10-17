@@ -22,6 +22,9 @@ interface ActivitiesDailyDatabaseDao {
     @Query("UPDATE daily SET freq = 0")
     suspend fun resetFreq()
 
+    @Query("UPDATE daily SET freq = 1 WHERE dailyId = :id")
+    suspend fun updateFreqFromFirebase(id: Int)
+
     @Query("SELECT * FROM daily")
     fun getAllDailys() : Flow<List<ActivitiesDaily>>
 
@@ -39,6 +42,9 @@ interface ActivitiesDailyDatabaseDao {
 
     @Query("SELECT * FROM daily WHERE freq > 0 LIMIT 5")
     fun getToday(): LiveData<List<ActivitiesDaily>>
+
+    @Query("SELECT dailyId FROM daily WHERE freq > 0 LIMIT 5")
+    fun getTodayId(): LiveData<List<Int>>
 
     @Query("SELECT co2 FROM daily WHERE dailyId = :id")
     suspend fun getCo2(id: Int) : Float

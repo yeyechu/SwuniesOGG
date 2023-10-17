@@ -35,8 +35,8 @@ class ListsetFragment : Fragment() {
             inflater, R.layout.fragment_listset, container, false)
 
         //사용자 정보 가져오기
-        viewModel.fireInfo()   //수정하기로 들어왔을때 사용자 정보 필요해서 있어야함
-
+        //viewModel.fireInfo()   //수정하기로 들어왔을때 사용자 정보 필요해서 있어야함
+        Timber.i("제대로 초기화 됐으면 값이 있어야 함 : ${viewModel.userCondition.value}")
         //지속활동 진행중 리스트
         viewModel.initCo2Holder()
         viewModel.fireGetSust()

@@ -223,6 +223,7 @@ class EnvViewModel : ViewModel() {
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
     fun updateTodayStampToFirebase(){
+
         // 오늘 스탬프 업데이트 할 곳
         //서버랑 다를떄 업데이트 하는걸로
         Timber.i("오늘 updateToday $today")

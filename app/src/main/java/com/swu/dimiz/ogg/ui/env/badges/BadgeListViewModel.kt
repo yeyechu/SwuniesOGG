@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -67,6 +68,10 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
                 _badgeFilter.value = listOf()
             }
         }
+    }
+    // 파이어베이스에서 오는 배지 -> 룸으로 업데이트
+    private fun updateBadgeFire(badge: MyBadge) = viewModelScope.launch {
+        repository.updateBadge(badge.badgeID!!, badge.getDate!!, badge.count)
     }
 
     companion object {
