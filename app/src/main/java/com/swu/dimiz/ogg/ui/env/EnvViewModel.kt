@@ -1,20 +1,22 @@
 package com.swu.dimiz.ogg.ui.env
 
-import android.util.Log
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.OggApplication.Companion.auth
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.convertDurationToInt
+import com.swu.dimiz.ogg.member.login.SignInActivity
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.collections.ArrayList
@@ -73,7 +75,6 @@ class EnvViewModel : ViewModel() {
     private val fireUser = Firebase.auth.currentUser
 
     private var today : Int = 0
-    private var projectCount : Int = 0
     private var appUser = MyCondition()
 
     private val _userCondition = MutableLiveData<MyCondition>()
@@ -82,7 +83,7 @@ class EnvViewModel : ViewModel() {
 
     init {
         setCo2(AIMCO2_ONE)
-        userInit()
+        fireInfo()
         Timber.i("ViewModel created")
 
         _todayCo2.value = FLOAT_ZERO
@@ -148,7 +149,6 @@ class EnvViewModel : ViewModel() {
     }
 
     private fun setStamp() {
-
         val tempDate = date.value!!
 
         if (tempDate > 0) {
@@ -172,7 +172,6 @@ class EnvViewModel : ViewModel() {
             // ───────────────────────────────────────────────────────────────────────────
             //                                   스탬프 리셋
             resetCondition()
-            userInit()
 
             _todayCo2.value = FLOAT_ZERO
             _co2Holder.value = FLOAT_ZERO
@@ -235,6 +234,7 @@ class EnvViewModel : ViewModel() {
 
     private fun getTodayStampFromFirebase() = viewModelScope.launch {
         // 오늘 스탬프만 내려받을 곳
+
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Stamp").document(today.toString())
             .addSnapshotListener { snapshot, e ->
@@ -268,7 +268,7 @@ class EnvViewModel : ViewModel() {
 
 
 
-    private fun userInit() = viewModelScope.launch {
+    fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
             .addSnapshotListener { snapshot, e ->
@@ -279,7 +279,6 @@ class EnvViewModel : ViewModel() {
                 if (snapshot != null && snapshot.exists()) {
                     appUser = snapshot.toObject<MyCondition>()!!
                     today = convertDurationToInt(appUser.startDate)
-                    projectCount = appUser.projectCount
 
                     Timber.i("오늘 $today")
                     _userCondition.value = appUser
@@ -309,7 +308,7 @@ class EnvViewModel : ViewModel() {
                         val stamp = dc.document.toObject<MyStamp>()
                         tempList.add(stamp)
 
-                        if(stamp.day == date.value) {
+                        if (stamp.day == date.value) {
                             _todayCo2.value = stamp.dayCo2.toFloat()
                             Timber.i("fireGetStamp todayCo2 초기화 : ${_todayCo2.value}")
                         }
@@ -317,13 +316,20 @@ class EnvViewModel : ViewModel() {
                 }
                 stampArr = tempList
                 Timber.i("스탬프 어레이 초기화: $stampArr")
-                //setStamp()
+
+                val currentUser = Firebase.auth.currentUser
+                if (currentUser == null) {
+                    Timber.i("로그인 안됨")
+                } else {
+                    Timber.i("이미 로그인 되어있습니다.")
+                    setStamp()
+                }
             }
     }
 
     fun fireGetDaily() = viewModelScope.launch {
         val myDailyList = ArrayList<ListData>()
-        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${projectCount}")
+        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i("listen:error", e)

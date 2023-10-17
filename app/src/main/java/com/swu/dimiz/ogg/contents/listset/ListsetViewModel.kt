@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.contents.listset
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -249,8 +250,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     private fun addCo2HolderFromListHolder(id: Int) = viewModelScope.launch {
-        val dailyCo2: Float = repository.dailyCo2(id)
-        _co2Holder.value = _co2Holder.value!!.plus(dailyCo2)
+        Timber.i("addCo2HolderFromListHolder $id")
+        if(id != 0){
+            val dailyCo2: Float = repository.dailyCo2(id)
+            _co2Holder.value = _co2Holder.value!!.plus(dailyCo2)
+        }
     }
 
     fun addListHolder(act: ActivitiesDaily, isChecked: Boolean) {
@@ -489,47 +493,47 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     //오늘 활동 리스트 가져오기
     fun fireGetDaily() = viewModelScope.launch {
-        val myDailyList = ArrayList<ListData>()
-        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${_userCondition.value?.projectCount}")
-            .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Timber.i("listen:error", e)
-                    return@addSnapshotListener
-                }
-                for (dc in snapshots!!.documentChanges) {
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        val mylist = dc.document.toObject<MyList>()
-                        when (today) {
-                            1 -> myDailyList.add(mylist.day1act)
-                            2 -> myDailyList.add(mylist.day2act)
-                            3 -> myDailyList.add(mylist.day3act)
-                            4 -> myDailyList.add(mylist.day4act)
-                            5 -> myDailyList.add(mylist.day5act)
-                            6 -> myDailyList.add(mylist.day6act)
-                            7 -> myDailyList.add(mylist.day7act)
-                            8 -> myDailyList.add(mylist.day8act)
-                            9 -> myDailyList.add(mylist.day9act)
-                            10 -> myDailyList.add(mylist.day10act)
-                            11 -> myDailyList.add(mylist.day11act)
-                            12 -> myDailyList.add(mylist.day12act)
-                            13 -> myDailyList.add(mylist.day13act)
-                            14 -> myDailyList.add(mylist.day14act)
-                            15 -> myDailyList.add(mylist.day15act)
-                            16 -> myDailyList.add(mylist.day16act)
-                            17 -> myDailyList.add(mylist.day17act)
-                            18 -> myDailyList.add(mylist.day18act)
-                            19 -> myDailyList.add(mylist.day19act)
-                            20 -> myDailyList.add(mylist.day20act)
-                            21 -> myDailyList.add(mylist.day21act)
-                        }
+        val myDailyList = arrayListOf<ListData>()
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${_userCondition.value?.projectCount}")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val mylist = document.toObject<MyList>()
+                    when (today) {
+                        1 -> myDailyList.add(mylist.day1act)
+                        2 -> myDailyList.add(mylist.day2act)
+                        3 -> myDailyList.add(mylist.day3act)
+                        4 -> myDailyList.add(mylist.day4act)
+                        5 -> myDailyList.add(mylist.day5act)
+                        6 -> myDailyList.add(mylist.day6act)
+                        7 -> myDailyList.add(mylist.day7act)
+                        8 -> myDailyList.add(mylist.day8act)
+                        9 -> myDailyList.add(mylist.day9act)
+                        10 -> myDailyList.add(mylist.day10act)
+                        11 -> myDailyList.add(mylist.day11act)
+                        12 -> myDailyList.add(mylist.day12act)
+                        13 -> myDailyList.add(mylist.day13act)
+                        14 -> myDailyList.add(mylist.day14act)
+                        15 -> myDailyList.add(mylist.day15act)
+                        16 -> myDailyList.add(mylist.day16act)
+                        17 -> myDailyList.add(mylist.day17act)
+                        18 -> myDailyList.add(mylist.day18act)
+                        19 -> myDailyList.add(mylist.day19act)
+                        20 -> myDailyList.add(mylist.day20act)
+                        21 -> myDailyList.add(mylist.day21act)
                     }
                 }
-                for(i in 0 until LIST_SIZE){
+                for (i in 0 until myDailyList.size) {
                     listArray[i] = myDailyList[i]
+                    Timber.i("listArray $listArray")
                     addCo2HolderFromListHolder(listArray[i].aId)
                 }
                 setListHolder(listArray)
                 //listarray를 ActivitiesDaily로 변환해서 addlistholder에 넣어야함
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
             }
     }
 
@@ -618,7 +622,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i( "Error getting documents: $exception")
                 }
         }
-
     }
 
     override fun onCleared() {

@@ -25,6 +25,8 @@ class EnvFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_env, container, false)
 
+        viewModel.fireInfo()
+
         return binding.root
     }
 

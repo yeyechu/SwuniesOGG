@@ -41,8 +41,7 @@ class ListsetFragment : Fragment() {
         viewModel.initCo2Holder()
         viewModel.fireGetSust()
 
-        //viewModel.fireGetExtra()
-        //viewModel.fireGetDaily()
+        viewModel.fireGetDaily()
         Timber.i("ListsetFragment onCreateView() 생성")
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      버튼 인터랙션
