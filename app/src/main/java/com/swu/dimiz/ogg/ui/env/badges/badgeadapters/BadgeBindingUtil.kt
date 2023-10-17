@@ -6,13 +6,28 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.converLongToDateString
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.ui.env.myenv.InventoryAdapter
+import kotlin.time.Duration.Companion.days
 
 @BindingAdapter("badgeTitle")
 fun TextView.setTitle(item: Badges?) {
     item?.let{
         text = item.title
+    }
+}
+
+@BindingAdapter("badgeCount")
+fun TextView.setCount(item: Badges?) {
+    item?.let{
+        text = if(item.getDate != null) {
+            resources.getString(R.string.badgelist_detail_date, converLongToDateString(item.getDate!!))
+        } else if(item.filter == "co2") {
+            resources.getString(R.string.badgelist_detail_count_co2, item.count, item.baseValue/1000)
+        } else {
+            resources.getString(R.string.badgelist_detail_count, item.count, item.baseValue)
+        }
     }
 }
 

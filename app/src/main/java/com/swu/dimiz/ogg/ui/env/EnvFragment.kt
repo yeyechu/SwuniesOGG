@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentEnvBinding
+import timber.log.Timber
 
 class EnvFragment : Fragment() {
 
@@ -36,6 +37,7 @@ class EnvFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        Timber.i("프래그먼트 onViewCreated()")
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                               환경 수정 플로팅 버튼 정의
@@ -65,7 +67,7 @@ class EnvFragment : Fragment() {
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                            오늘 날짜, 스탬프 정보 업데이트
         viewModel.todayCo2.observe(viewLifecycleOwner) {
-            viewModel.updateTodayStampToFirebase()
+           viewModel.updateTodayStampToFirebase()
         }
 
         viewModel.co2Holder.observe(viewLifecycleOwner) {

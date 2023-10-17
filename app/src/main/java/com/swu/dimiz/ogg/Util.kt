@@ -10,12 +10,11 @@ import java.util.concurrent.TimeUnit
 @SuppressLint("SimpleDateFormat")
 fun converLongToDateString(systemTime: Long): String {
 
-    return SimpleDateFormat("yyyy-mm-dd' 'HH:mm")
+    return SimpleDateFormat("yyyy년 MM월 dd일")
         .format(systemTime).toString()
 }
 
 // 활동 등록일이 주어지면 오늘이 활동 며칠 째인지 계산해주는 메서드
-private val ONE_DAY_MILLIS = TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)
 fun convertDurationToFormatted(startTimeMilli: Long): Int {
 
     val currentTimeMilli: Long = System.currentTimeMillis()
@@ -23,12 +22,9 @@ fun convertDurationToFormatted(startTimeMilli: Long): Int {
 
     return when {
         startTimeMilli == 0L -> 0
-        durationMilli < ONE_DAY_MILLIS -> {
-            1
-        }
         else -> {
             val days = TimeUnit.DAYS.convert(durationMilli, TimeUnit.MILLISECONDS)
-            days.toInt()
+            (days + 1).toInt()
         }
     }
 }
