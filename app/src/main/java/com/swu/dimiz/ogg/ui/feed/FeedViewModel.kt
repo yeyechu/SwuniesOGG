@@ -170,7 +170,7 @@ class FeedViewModel : ViewModel() {
     fun fireGetFeed() {
         val gotFeedList = arrayListOf<Feed>()
 
-        fireDB.collection("Feed").orderBy("postTime")
+        fireDB.collection("Feed")
             .orderBy("postTime",  Query.Direction.DESCENDING)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {

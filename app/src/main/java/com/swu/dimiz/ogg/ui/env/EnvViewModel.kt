@@ -317,6 +317,7 @@ class EnvViewModel : ViewModel() {
                 stampArr = tempList
                 Timber.i("스탬프 어레이 초기화: $stampArr")
 
+                //todo 오류해결 필요
                 val currentUser = Firebase.auth.currentUser
                 if (currentUser == null) {
                     Timber.i("로그인 안됨")
