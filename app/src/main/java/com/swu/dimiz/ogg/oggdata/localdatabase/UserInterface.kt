@@ -17,8 +17,11 @@ interface UIDatabaseDao {
     fun insert(data: UserInterface)
 
     @Update
-    fun update(data: UserInterface)
+    suspend fun update(data: UserInterface)
 
-    @Query("SELECT * FROM user")
+    @Query("UPDATE user SET onboarding = 1 WHERE onboarding = 0")
+    suspend fun upBoarding()
+
+    @Query("SELECT onboarding FROM user")
     fun onBoarding(): Int
 }

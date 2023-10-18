@@ -88,6 +88,7 @@ class FeedViewModel : ViewModel() {
                     .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i(e) }
             }
+            fireGetFeed()
         } else {
             onYourFeed()
         }

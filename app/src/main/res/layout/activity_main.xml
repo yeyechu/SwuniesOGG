@@ -32,10 +32,22 @@
         android:layout_below="@id/nav_host_container"
         android:layout_gravity="bottom"
         android:background="@drawable/common_layer_background_rounded_top"
-
         android:visibility="visible"
         app:itemIconSize="@dimen/bottom_nav_icon_size"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav_menu" />
+
+    <ImageView
+        android:id="@+id/image_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/common_image_ogg_logo"
+        android:paddingStart="@dimen/dimension_60"
+        android:paddingEnd="@dimen/dimension_60"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

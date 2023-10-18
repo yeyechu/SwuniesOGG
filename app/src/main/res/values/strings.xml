@@ -252,13 +252,11 @@
     <string name="signup_text_agree_info">안전한 이용을 위해 동의해주세요</string>
     <string name="signup_text_agree_check_1">개인정보 수집 및 이용 동의 (필수)</string>
     <string name="signup_text_agree_check_2">앱 푸시 알람 동의 (선택)</string>
-    <string name="signup_text_input_email">가입 할 이메일을 입력해주세요</string>
-    <string name="signup_text_input_nickname">사용 할 닉네임을 입력해주세요</string>
+    <string name="signup_text_input_email">가입할 이메일을 입력해주세요</string>
+    <string name="signup_text_input_nickname">사용할 닉네임을 입력해주세요</string>
     <string name="signup_text_input_password">비밀번호를 8자 이상 입력해주세요</string>
-    <string name="signup_text_input_password_check">비밀번호를 한번 더 입력해주세요</string>
-    <string name="signup_button_email_check">중복확인</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signup_text_input_password_check">비밀번호를 한 번 더 입력해주세요</string>
+    <string name="signup_button_email_check">중복 확인</string>
 
     <!-- ──────────────────────────────────────   환경설정 페이지   ────────────────────────────────────── -->
     <string name="setting_text_title_about_account">계정</string>

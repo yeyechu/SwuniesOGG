@@ -55,6 +55,9 @@ class StampLayer : Fragment() {
             aim = it.aim
             viewModel.setCo2(it.aim)
             Timber.i("${it.aim}")
+            if(it.startDate != 0L) {
+                viewModel.fireGetStamp()
+            }
         }
 
         return binding.root

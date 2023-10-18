@@ -71,8 +71,8 @@
 
 
     <!--                                       내비게이션                                      -->
-    <dimen name="bottom_nav_icon_size">50dp</dimen>
-    <dimen name="bottom_nav_size">65dp</dimen>
+    <dimen name="bottom_nav_icon_size">45dp</dimen>
+    <dimen name="bottom_nav_size">60dp</dimen>
 
     <!--                                        바텀시트                                      -->
     <dimen name="bottom_sheet_peek_height">33dp</dimen>

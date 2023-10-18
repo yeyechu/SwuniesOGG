@@ -1,18 +1,15 @@
 package com.swu.dimiz.ogg.member.onboarding
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
-import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 
-class OnboardingAdapter(val ctx: Context) : PagerAdapter() {
+class OnboardingAdapter(private val ctx: Context) : PagerAdapter() {
 
     override fun getCount(): Int {
         return 4
@@ -33,30 +30,23 @@ class OnboardingAdapter(val ctx: Context) : PagerAdapter() {
         val title = view.findViewById<TextView>(R.id.title)
         val desc = view.findViewById<TextView>(R.id.desc)
 
-        val btnGetStarted = view.findViewById<Button>(R.id.btnGetStarted)
-        btnGetStarted.setOnClickListener {
-            val intent = Intent(ctx, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            ctx.startActivity(intent)
-        }
-
         when (position) {
             0 -> {
                 logo.setImageResource(R.drawable.onboarding_image_1)
-                ind1.setImageResource(R.drawable.onboarding_viewpager_seleted)
-                ind2.setImageResource(R.drawable.onboarding_viewpager_unselected)
-                ind3.setImageResource(R.drawable.onboarding_viewpager_unselected)
-                ind4.setImageResource(R.drawable.onboarding_viewpager_unselected)
+                ind1.setImageResource(R.drawable.common_indicator_selected)
+                ind2.setImageResource(R.drawable.common_indicator_default)
+                ind3.setImageResource(R.drawable.common_indicator_default)
+                ind4.setImageResource(R.drawable.common_indicator_default)
                 title.setText (R.string.onboarding_title_1)
                 desc.setText (R.string.onboarding_subtext_1)
 
             }
             1 -> {
                 logo.setImageResource(R.drawable.onboarding_image_2)
-                ind1.setImageResource(R.drawable.onboarding_viewpager_unselected)
-                ind2.setImageResource(R.drawable.onboarding_viewpager_seleted)
-                ind3.setImageResource(R.drawable.onboarding_viewpager_unselected)
-                ind4.setImageResource(R.drawable.onboarding_viewpager_unselected)
+                ind1.setImageResource(R.drawable.common_indicator_default)
+                ind2.setImageResource(R.drawable.common_indicator_selected)
+                ind3.setImageResource(R.drawable.common_indicator_default)
+                ind4.setImageResource(R.drawable.common_indicator_default)
 
                 title.setText (R.string.onboarding_title_2)
                 desc.setText (R.string.onboarding_subtext_2)
@@ -64,10 +54,10 @@ class OnboardingAdapter(val ctx: Context) : PagerAdapter() {
             }
             2 -> {
                 logo.setImageResource(R.drawable.onboarding_image_3)
-                ind1.setImageResource(R.drawable.onboarding_viewpager_unselected)
-                ind2.setImageResource(R.drawable.onboarding_viewpager_unselected)
-                ind3.setImageResource(R.drawable.onboarding_viewpager_seleted)
-                ind4.setImageResource(R.drawable.onboarding_viewpager_unselected)
+                ind1.setImageResource(R.drawable.common_indicator_default)
+                ind2.setImageResource(R.drawable.common_indicator_default)
+                ind3.setImageResource(R.drawable.common_indicator_selected)
+                ind4.setImageResource(R.drawable.common_indicator_default)
                 title.setText (R.string.onboarding_title_3)
                 desc.setText (R.string.onboarding_subtext_3)
 
@@ -75,10 +65,10 @@ class OnboardingAdapter(val ctx: Context) : PagerAdapter() {
 
             3 -> {
                 logo.setImageResource(R.drawable.onboarding_image_4)
-                ind1.setImageResource(R.drawable.onboarding_viewpager_unselected)
-                ind2.setImageResource(R.drawable.onboarding_viewpager_unselected)
-                ind3.setImageResource(R.drawable.onboarding_viewpager_unselected)
-                ind4.setImageResource(R.drawable.onboarding_viewpager_seleted)
+                ind1.setImageResource(R.drawable.common_indicator_default)
+                ind2.setImageResource(R.drawable.common_indicator_default)
+                ind3.setImageResource(R.drawable.common_indicator_default)
+                ind4.setImageResource(R.drawable.common_indicator_selected)
                 title.setText (R.string.onboarding_title_4)
                 desc.setText (R.string.onboarding_subtext_4)
 

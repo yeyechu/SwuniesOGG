@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/dimension_100"
+    android:id="@+id/view_pager_layout">
 
     <ImageView
         android:id="@+id/logo"
@@ -39,19 +40,6 @@
         app:layout_constraintStart_toStartOf="@+id/title"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
-    <Button
-        android:id="@+id/btnGetStarted"
-        style="@style/StyleButtonOgg"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/onboarding_start_btn"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ind2" />
-
     <ImageView
         android:id="@+id/ind1"
         android:layout_width="@dimen/spacing_small"
@@ -62,7 +50,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@+id/logo"
         app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:srcCompat="@drawable/onboarding_viewpager_seleted" />
+        app:srcCompat="@drawable/common_indicator_selected" />
 
     <ImageView
         android:id="@+id/ind2"
@@ -74,7 +62,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/ind1"
         app:layout_constraintTop_toTopOf="@+id/ind1"
-        app:srcCompat="@drawable/onboarding_viewpager_seleted" />
+        app:srcCompat="@drawable/common_indicator_selected" />
 
     <ImageView
         android:id="@+id/ind3"
@@ -87,7 +75,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/ind2"
         app:layout_constraintTop_toTopOf="@+id/ind2"
-        app:srcCompat="@drawable/onboarding_viewpager_seleted" />
+        app:srcCompat="@drawable/common_indicator_selected" />
 
     <ImageView
         android:id="@+id/ind4"
@@ -98,6 +86,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/ind3"
         app:layout_constraintTop_toTopOf="@+id/ind3"
-        app:srcCompat="@drawable/onboarding_viewpager_seleted" />
+        app:srcCompat="@drawable/common_indicator_selected" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

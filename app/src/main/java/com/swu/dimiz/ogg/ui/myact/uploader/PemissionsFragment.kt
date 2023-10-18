@@ -14,7 +14,7 @@ import androidx.navigation.Navigation
 import com.swu.dimiz.ogg.R
 import timber.log.Timber
 
-private var PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+private var PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA/*, Manifest.permission.READ_EXTERNAL_STORAGE*/)
 
 class PemissionsFragment : Fragment() {
 
@@ -50,7 +50,7 @@ class PemissionsFragment : Fragment() {
 
             var permissionGranted = true
             permissions.entries.forEach {
-                if (it.key in PERMISSIONS_REQUIRED && it.value == false)
+                if (it.key in PERMISSIONS_REQUIRED && !it.value)
                     permissionGranted = false
             }
             if (!permissionGranted) {

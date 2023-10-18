@@ -1,19 +1,14 @@
 package com.swu.dimiz.ogg.ui.env
 
-import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.swu.dimiz.ogg.OggApplication
-import com.swu.dimiz.ogg.OggApplication.Companion.auth
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.convertDurationToInt
-import com.swu.dimiz.ogg.member.login.SignInActivity
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
@@ -25,16 +20,21 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      회원 정보 저장
-    private val _todayCo2 = MutableLiveData<Float>()
-    val todayCo2: LiveData<Float>
-        get() = _todayCo2
 
+    // 스탬프
     private var stampList = ArrayList<StampData>()
     private var stampArr = ArrayList<MyStamp>()
 
     private val _stampHolder = MutableLiveData<List<StampData>?>()
     val stampHolder: LiveData<List<StampData>?>
         get() = _stampHolder
+
+    // Co2
+    private val _aimWholeCo2 = MutableLiveData<Float>()
+
+    private val _todayCo2 = MutableLiveData<Float>()
+    val todayCo2: LiveData<Float>
+        get() = _todayCo2
 
     private val _co2Holder = MutableLiveData<Float>()
     val co2Holder: LiveData<Float>
@@ -44,7 +44,6 @@ class EnvViewModel : ViewModel() {
     val leftHolder: LiveData<Float>
         get() = _leftHolder
 
-    private val _aimWholeCo2 = MutableLiveData<Float>()
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      인터랙션 감지
 
@@ -74,7 +73,7 @@ class EnvViewModel : ViewModel() {
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
-    private var today : Int = 0
+    private var today: Int = 0
     private var appUser = MyCondition()
 
     private val _userCondition = MutableLiveData<MyCondition>()
@@ -83,20 +82,18 @@ class EnvViewModel : ViewModel() {
 
     init {
         setCo2(AIMCO2_ONE)
-        fireInfo()
-        Timber.i("ViewModel created")
-
         _todayCo2.value = FLOAT_ZERO
         _co2Holder.value = FLOAT_ZERO
-        _stampHolder.value = null
+
+        fireInfo()
+
         stampArr.clear()
-
-        Timber.i("─────────── 날짜 변환 확인용 로그 ───────────")
-        Timber.i("10월 11일 오전 1시 19분 이후: ${convertDurationToFormatted(1696954754160)}일 경과")
-
         stampInitialize()
         setStampHolder(stampList)
-        fireGetStamp()
+
+        Timber.i("ViewModel created")
+        Timber.i("─────────── 날짜 변환 확인용 로그 ───────────")
+        Timber.i("10월 11일 오전 1시 19분 이후: ${convertDurationToFormatted(1696954754160)}일 경과")
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
@@ -110,21 +107,21 @@ class EnvViewModel : ViewModel() {
         convertDurationToInt(it.startDate)
     }
 
-    private fun setCo2Holder(data: Float) {
+    fun setCo2(co2: Float) {
+        _aimWholeCo2.value = co2 * CO2_WHOLE
+    }
+
+    private fun plusCo2All(data: Float) {
         _co2Holder.value = _co2Holder.value!!.plus(data)
     }
 
     fun leftCo2() {
-        if(_co2Holder.value!! < _aimWholeCo2.value!!) {
-           _leftHolder.value = _aimWholeCo2.value!!.minus(_co2Holder.value!!)
+        if (_co2Holder.value!! < _aimWholeCo2.value!!) {
+            _leftHolder.value = _aimWholeCo2.value!!.minus(_co2Holder.value!!)
         } else {
             // 목표 탄소량을 모두 채웠을 때
             // 내용 추가
         }
-    }
-
-    fun setCo2(co2: Float) {
-        _aimWholeCo2.value = co2 * CO2_WHOLE
     }
 
     val progressWhole = co2Holder.map {
@@ -144,27 +141,30 @@ class EnvViewModel : ViewModel() {
         stampList.clear()
 
         for (i in 1..DATE_WHOLE) {
-            stampList.add(StampData( i,0f, 0))
+            stampList.add(StampData(i, 0f, 0))
         }
     }
 
     private fun setStamp() {
         val tempDate = date.value!!
+        _co2Holder.value = FLOAT_ZERO
 
         if (tempDate > 0) {
-            getTodayStampFromFirebase()
+            //getTodayStampFromFirebase()
 
-            if(tempDate == 1) {
+            if (tempDate == 1) {
                 stampList[0] = StampData(tempDate, _todayCo2.value!!, 1)
+                plusCo2All(stampList[0].sNumber)
             } else {
-                for(i in 0..tempDate - 2) {
-                    stampList[i] = StampData(sId = i + 1, sNumber = stampArr[i].dayCo2.toFloat(), today = 2)
+                for (i in 0..tempDate - 2) {
+                    stampList[i] =
+                        StampData(sId = i + 1, sNumber = stampArr[i].dayCo2.toFloat(), today = 2)
                     Timber.i("지난 스탬프 리스트 초기화 : ${stampList[i]}")
-                    setCo2Holder(stampList[i].sNumber)
+                    plusCo2All(stampList[i].sNumber)
                 }
                 stampList[tempDate - 1] = StampData(tempDate, _todayCo2.value!!, 1)
                 Timber.i("오늘 스탬프 리스트 초기화 : ${stampList[tempDate - 1]}")
-                setCo2Holder(stampList[tempDate - 1].sNumber)
+                plusCo2All(stampList[tempDate - 1].sNumber)
             }
             setStampHolder(stampList)
 
@@ -222,7 +222,7 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
-    fun updateTodayStampToFirebase(){
+    fun updateTodayStampToFirebase() {
 
         // 오늘 스탬프 업데이트 할 곳
         //서버랑 다를떄 업데이트 하는걸로
@@ -231,7 +231,7 @@ class EnvViewModel : ViewModel() {
             .collection("Stamp").document(today.toString())
             .update("dayCo2", _todayCo2.value!!.toDouble())
             .addOnSuccessListener { Timber.i("updateTodayStampToFirebas 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
     }
 
     private fun getTodayStampFromFirebase() = viewModelScope.launch {
@@ -268,13 +268,12 @@ class EnvViewModel : ViewModel() {
     }
 
 
-
-    fun fireInfo() = viewModelScope.launch {
+    private fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())
             .addSnapshotListener { snapshot, e ->
                 if (e != null) {
-                    Timber.i( e)
+                    Timber.i(e)
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
@@ -291,34 +290,39 @@ class EnvViewModel : ViewModel() {
             }
     }
 
-    private fun fireGetStamp() = viewModelScope.launch {
-        val tempList = arrayListOf<MyStamp>()
-        tempList.clear()
+    fun fireGetStamp() = viewModelScope.launch {
+        _userCondition.value?.email?.let {
+            if(_userCondition.value?.startDate != 0L) {
+                val tempList = arrayListOf<MyStamp>()
+                tempList.clear()
 
-        fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Stamp")
-            .orderBy("day")
-            .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Timber.i("listen:error $e")
-                    return@addSnapshotListener
-                }
-
-                for (dc in snapshots!!.documentChanges) {
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        val stamp = dc.document.toObject<MyStamp>()
-                        tempList.add(stamp)
-
-                        if (stamp.day == date.value) {
-                            _todayCo2.value = stamp.dayCo2.toFloat()
-                            Timber.i("fireGetStamp todayCo2 초기화 : ${_todayCo2.value}")
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Stamp")
+                    .orderBy("day")
+                    .addSnapshotListener { snapshots, e ->
+                        if (e != null) {
+                            Timber.i("listen:error $e")
+                            return@addSnapshotListener
                         }
+
+                        for (dc in snapshots!!.documentChanges) {
+                            if (dc.type == DocumentChange.Type.ADDED) {
+                                val stamp = dc.document.toObject<MyStamp>()
+                                tempList.add(stamp)
+
+                                if (stamp.day == date.value) {
+                                    _todayCo2.value = stamp.dayCo2.toFloat()
+                                    Timber.i("fireGetStamp todayCo2 초기화 : ${_todayCo2.value}")
+                                }
+                            }
+                        }
+                        stampArr = tempList
+                        Timber.i("스탬프 어레이 초기화: $stampArr")
+                        setStamp()
                     }
-                }
-                stampArr = tempList
-                Timber.i("스탬프 어레이 초기화: $stampArr")
             }
-        //setStamp()
+
+        }
         /*if (today > 0) {
             Timber.i("이미 로그인 되어있습니다.")
 
@@ -329,7 +333,8 @@ class EnvViewModel : ViewModel() {
 
     fun fireGetDaily() = viewModelScope.launch {
         val myDailyList = ArrayList<ListData>()
-        fireDB.collection("User").document(fireUser?.email.toString()).collection("Project${appUser.projectCount}")
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${appUser.projectCount}")
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i("listen:error", e)

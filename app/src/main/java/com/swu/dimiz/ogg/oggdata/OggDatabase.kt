@@ -18,7 +18,8 @@ import timber.log.Timber
         ActivitiesSustainable::class,
         ActivitiesExtra::class,
         Badges::class,
-        Instruction::class], version = 1, exportSchema = false
+        Instruction::class,
+        UserInterface::class], version = 1, exportSchema = false
 )
 @TypeConverters(RoomTypeConverter::class)
 abstract class OggDatabase : RoomDatabase() {
@@ -28,6 +29,7 @@ abstract class OggDatabase : RoomDatabase() {
     abstract val extraDatabaseDao: ActivitiesExtraDatabaseDao
     abstract val badgesDatabaseDao: BadgeDatabaseDao
     abstract val instructionDatabaseDao : InstructionDatabaseDao
+    abstract val uiDatabaseDao: UIDatabaseDao
 
     companion object {
 
@@ -46,7 +48,7 @@ abstract class OggDatabase : RoomDatabase() {
                         OggDatabase::class.java,
                         "ogg_database"
                     )
-                        .addCallback(object : RoomDatabase.Callback() {
+                        .addCallback(object : Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 Timber.i("여기3")
                                 super.onCreate(db)
@@ -72,10 +74,3 @@ abstract class OggDatabase : RoomDatabase() {
         }
     }
 }
-
-private val S_DATA = arrayListOf(
-    ActivitiesSustainable()
-)
-private val E_DATA = arrayListOf(
-    ActivitiesExtra()
-)

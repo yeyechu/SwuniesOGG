@@ -34,7 +34,6 @@ class BadgeHeaderAdapter(private val viewModel: BadgeListViewModel)
                 )
                 layoutManager = LinearLayoutManager(binding.filterList.context, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
-                Timber.i("배지헤더 어댑터 $badges")
             }
         }
     }

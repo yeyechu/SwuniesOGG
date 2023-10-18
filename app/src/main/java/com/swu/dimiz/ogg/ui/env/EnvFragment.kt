@@ -26,8 +26,6 @@ class EnvFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_env, container, false)
 
-        viewModel.fireInfo()
-
         return binding.root
     }
 
@@ -67,7 +65,8 @@ class EnvFragment : Fragment() {
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                            오늘 날짜, 스탬프 정보 업데이트
         viewModel.todayCo2.observe(viewLifecycleOwner) {
-           viewModel.updateTodayStampToFirebase()
+           //viewModel.updateTodayStampToFirebase()
+            //viewModel.leftCo2()
         }
 
         viewModel.co2Holder.observe(viewLifecycleOwner) {
