@@ -43,7 +43,8 @@ class DailyLayer : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate(
-            inflater, R.layout.layer_daily, container, false)
+            inflater, R.layout.layer_daily, container, false
+        )
 
         return binding.root
     }
@@ -58,13 +59,24 @@ class DailyLayer : Fragment() {
 
         viewModel.fireGetDaily()
 
-        val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
+        val typeface = Typeface.create(
+            ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m),
+            Typeface.BOLD
+        )
 
         viewModel.todayCo2.observe(viewLifecycleOwner) {
-            val textDecorator = SpannableStringBuilder.valueOf(getString(R.string.myact_text_reduced_co2, it))
+            val textDecorator =
+                SpannableStringBuilder.valueOf(getString(R.string.myact_text_reduced_co2, it))
 
             binding.textCo2Zero.text = textDecorator.apply {
-                setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.primary_blue)), 0, 6, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                setSpan(
+                    ForegroundColorSpan(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.primary_blue
+                        )
+                    ), 0, 6, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                )
                 //setSpan(StyleSpan(Typeface.BOLD), 0, 6, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     setSpan(TypefaceSpan(typeface), 0, 6, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
@@ -92,7 +104,8 @@ class DailyLayer : Fragment() {
         viewModel.navigateToListset.observe(viewLifecycleOwner) {
             if (it) {
                 navController.navigate(
-                    MyActFragmentDirections.actionNavigationMyactToDestinationListset())
+                    MyActFragmentDirections.actionNavigationMyactToDestinationListset()
+                )
                 viewModel.onNavigatedToListset()
             }
         }
@@ -102,7 +115,10 @@ class DailyLayer : Fragment() {
         }
 
         viewModel.userCondition.observe(viewLifecycleOwner) {
-             listViewModel.copyUserCondition(it)
+            listViewModel.copyUserCondition(it)
+            if(it.aim > 0f) {
+                listViewModel.setCo2(it.aim)
+            }
         }
     }
 

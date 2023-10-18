@@ -54,6 +54,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val navigateToSave: LiveData<Boolean>
         get() = _navigateToSave
 
+    private val _navigateToRevise = MutableLiveData<Boolean>()
+    val navigateToRevise: LiveData<Boolean>
+        get() = _navigateToRevise
+
     private val _navigateToDetail = MutableLiveData<ActivitiesDaily?>()
     val navigateToDetail: LiveData<ActivitiesDaily?>
         get() = _navigateToDetail
@@ -258,6 +262,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         if(id != 0){
             val dailyCo2: Float = repository.dailyCo2(id)
             _co2Holder.value = _co2Holder.value!!.plus(dailyCo2)
+
+            Timber.i("${_co2Holder.value}")
         }
     }
 
@@ -346,6 +352,15 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         repository.resetFreq()
     }
 
+    fun getTodayList() = viewModelScope.launch {
+        _dailyList.value = repository.getTodayList().value
+        _dailyList.value?.forEach {
+            addItem(it)
+        }
+        Timber.i("${dailyList.value}")
+        Timber.i("${repository.getTodayList().value}")
+    }
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                        클릭 리스너
 
@@ -368,6 +383,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _navigateToSave.value = false
     }
 
+    fun onReviseButtonClicked() {
+        _navigateToRevise.value = true
+    }
+
+    fun onNavigatedToRevise() {
+        _navigateToRevise.value = false
+    }
+
     fun showPopup(act: ActivitiesDaily) {
         _navigateToDetail.value = act
         _dailyId.value = act
@@ -380,6 +403,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun completedPopup() {
         _navigateToDetail.value = null
     }
+
+    fun noClick() {}
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                          필터
@@ -530,10 +555,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                         20 -> myDailyList.add(mylist.day20act)
                         21 -> myDailyList.add(mylist.day21act)
                     }
+                    Timber.i("마이데일리 리스트: $myDailyList")
                 }
                 for (i in 0 until myDailyList.size) {
                     listArray[i] = myDailyList[i]
-                    Timber.i("listArray $listArray")
+                    Timber.i("listArray:  $listArray")
                     addCo2HolderFromListHolder(listArray[i].aId)
                 }
                 setListHolder(listArray)

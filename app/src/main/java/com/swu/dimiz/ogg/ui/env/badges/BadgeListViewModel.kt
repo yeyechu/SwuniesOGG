@@ -58,6 +58,8 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         _navigateToSelected.value = null
     }
 
+    fun noClick() {}
+
     private fun getFilters() {
         currentJob?.cancel()
 

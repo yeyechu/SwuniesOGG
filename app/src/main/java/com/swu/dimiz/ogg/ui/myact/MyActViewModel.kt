@@ -10,6 +10,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
@@ -43,6 +44,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     private val _passUri = MutableLiveData<Uri?>()
     val passUri: LiveData<Uri?>
         get() = _passUri
+
+    private val _postEventHandler = MutableLiveData<Boolean>()
+    val postEventHandler: LiveData<Boolean>
+        get() = _postEventHandler
 
     //                                       활동 디테일
     val details = MediatorLiveData<List<Instruction>>()
@@ -112,8 +117,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         _passUri.value = null
     }
     fun setSustDone(item: ActivitiesSustainable) : Boolean {
+        val duration = item.limit - convertDurationToFormatted(item.postDate)
+
         for(i in sustDone.value!!) {
-            if(i == item.sustId) {
+            if(i == item.sustId && duration > 0) {
                 return true
             }
         }
@@ -121,8 +128,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     }
 
     fun setExtraDone(item: ActivitiesExtra) : Boolean {
+        val duration = item.limit - convertDurationToFormatted(item.postDate)
+
         for(i in extraDone.value!!) {
-            if(i == item.extraId) {
+            if(i == item.extraId && duration > 0) {
                 return true
             }
         }
@@ -208,6 +217,16 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
     fun onLinkCompleted() {
         _navigateToLink.value = false
+    }
+
+    fun noClick() {}
+
+    fun onPostCongrats() {
+        _postEventHandler.value = true
+    }
+
+    fun onPostOver() {
+        _postEventHandler.value = false
     }
 
     override fun onCleared() {

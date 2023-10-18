@@ -121,6 +121,10 @@ class FeedViewModel : ViewModel() {
         _makeToast.value = false
     }
 
+    fun noClick() {
+
+    }
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                          필터
     private fun getFilters() {

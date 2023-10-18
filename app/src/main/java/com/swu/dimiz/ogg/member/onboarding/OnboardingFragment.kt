@@ -74,7 +74,7 @@ class OnboardingFragment : Fragment() {
             navigateToSignin()
             viewLifecycleOwner.lifecycleScope.launch {
                 //OggDatabase.getInstance(requireContext()).uiDatabaseDao.upBoarding()
-                Toast.makeText(context, "온보딩 봤다고 테스트 중이라서 안 저장", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "테스트중이라서 온보딩 상태 안 저장", Toast.LENGTH_SHORT).show()
             }
         }
     }

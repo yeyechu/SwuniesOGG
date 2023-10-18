@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -23,6 +24,7 @@ import com.swu.dimiz.ogg.ui.myact.sust.PagerSustAdapter
 import com.swu.dimiz.ogg.ui.myact.daily.PostDailyWindow
 import com.swu.dimiz.ogg.ui.myact.extra.PagerExtraAdapter
 import com.swu.dimiz.ogg.ui.myact.extra.PostExtraWindow
+import com.swu.dimiz.ogg.ui.myact.post.PostCompletedDialog
 import com.swu.dimiz.ogg.ui.myact.sust.PostSustWindow
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 
@@ -253,6 +255,18 @@ class MyActFragment : Fragment() {
                 fragmentManager.popBackStack()
             }
         }
+
+        viewModel.postEventHandler.observe(viewLifecycleOwner) {
+            if(it) {
+                //fragmentManager.popBackStack()
+                val frg = fragmentManager.findFragmentByTag("detail")
+                fragmentManager.commit {
+                    remove(frg!!)
+                }
+
+                viewModel.onPostOver()
+            }
+        }
     }
 
     private fun startGallery() {
@@ -270,7 +284,8 @@ class MyActFragment : Fragment() {
 
     private fun addDailyWindow() {
         fragmentManager.beginTransaction()
-            .add(R.id.frame_layout_myact, PostDailyWindow())
+            .add(R.id.frame_layout_myact, PostCompletedDialog(), "completed")
+            .add(R.id.frame_layout_myact, PostDailyWindow(), "detail")
             .setReorderingAllowed(true)
             .addToBackStack(null)
             .commit()

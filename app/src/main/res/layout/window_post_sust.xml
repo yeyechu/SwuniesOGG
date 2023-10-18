@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparency_dimmed"
+        android:onClick="@{() -> viewModel.noClick()}"
         android:padding="@dimen/spacing_regular">
 
         <androidx.constraintlayout.widget.ConstraintLayout

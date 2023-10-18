@@ -105,6 +105,20 @@
                 android:textAlignment="center"
                 android:textSize="@dimen/text_size_subtitle"
                 android:fontFamily="@font/nanumsquare_r" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:textColor="@color/white"
+                android:lineSpacingExtra="@dimen/spacing_extra_small"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_size_subtitle"
+                android:fontFamily="@font/nanumsquare_r"
+                app:postDate="@{activity}"
+                tools:text="2023년 10월 19일 등록"/>
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 </layout>

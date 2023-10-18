@@ -37,11 +37,14 @@ import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
+import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_FAST_MILLIS
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_SLOW_MILLIS
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.simulateClick
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -128,6 +131,7 @@ class CameraFragment : Fragment() {
                     .addOnFailureListener { e -> Timber.i( e ) }
             }else if(CameraActivity.id.toInt() < 30000){
                 //Sustainable
+                updateSustPostDate()
                 val sust = MySustainable(
                     sustID = CameraActivity.id.toInt(),
                     strDay = feedDay.toLong(),
@@ -141,6 +145,7 @@ class CameraFragment : Fragment() {
                     .addOnFailureListener { e -> Timber.i( e ) }
             }else{
                 //Extra
+                updateExtraPostDate()
                 val extra = MyExtra(
                     extraID = CameraActivity.id.toInt(),
                     strDay = feedDay.toLong(),
@@ -158,6 +163,28 @@ class CameraFragment : Fragment() {
             updateStamp()
         }
         return binding.root
+    }
+
+    private fun updateSustPostDate() = lifecycleScope.launch {
+        withContext(Dispatchers.IO) {
+            OggDatabase.getInstance(requireContext())
+                .sustDatabaseDao
+                .updateSustDateFromFirebase(
+                    CameraActivity.id.toInt(),
+                    System.currentTimeMillis()
+                )
+        }
+    }
+
+    private fun updateExtraPostDate() = lifecycleScope.launch {
+        withContext(Dispatchers.IO) {
+            OggDatabase.getInstance(requireContext())
+                .extraDatabaseDao
+                .updateExtraDateFromFirebase(
+                    CameraActivity.id.toInt(),
+                    System.currentTimeMillis()
+                )
+        }
     }
     // ─────────────────────────────────────────────────────────────────────────────────
     //                               인증사진 피드 업로드

@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.member.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,9 @@ import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSettingsBinding
+import com.swu.dimiz.ogg.member.login.SignInActivity
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
+import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
 class SettingsFragment : Fragment() {
@@ -35,14 +38,7 @@ class SettingsFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_settings, container, false)
 
-        val mainActivity = activity as MainActivity
         auth = Firebase.auth
-
-        //signout_btn
-        binding.logoutBtn.setOnClickListener {
-            auth.signOut()
-            MainActivity.mainActivity!!.finish()
-        }
 
         binding.changeNicknameBtn.setOnClickListener {
 
@@ -75,6 +71,13 @@ class SettingsFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
+
+        binding.logoutBtn.setOnClickListener {
+            val intent = Intent(context, SignInActivity::class.java)
+            auth.signOut()
+            requireContext().startActivity(intent)
+            MainActivity.mainActivity!!.finish()
+        }
     }
 
     override fun onDestroyView() {

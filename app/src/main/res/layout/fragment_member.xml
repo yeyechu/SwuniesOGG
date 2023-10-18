@@ -56,11 +56,13 @@
 
             <ImageView
                 android:id="@+id/image_user_face"
-                android:layout_width="@dimen/image_size_aim_face"
-                android:layout_height="@dimen/image_size_aim_face"
-                android:src="@drawable/login_image_face"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="@dimen/image_size_aim_face"
+                app:memberFace="@{viewModel.userCondition.aim}"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
+                android:padding="@dimen/spacing_small"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,11 +86,33 @@
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_small"
                 android:text="@{viewModel.userCondition.email}"
                 app:layout_constraintStart_toEndOf="@id/image_user_face"
                 app:layout_constraintTop_toBottomOf="@id/text_user_nickname"
                 tools:layout_editor_absoluteY="65dp"
                 tools:text="이메일이메일이메일" />
+
+            <TextView
+                android:id="@+id/text_aim_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:layout_gravity="center"
+                android:background="@drawable/listaim_shape_nametag"
+                android:paddingTop="@dimen/spacing_extra_small"
+                android:paddingBottom="@dimen/spacing_extra_small"
+                android:paddingStart="@dimen/spacing_regular"
+                android:paddingEnd="@dimen/spacing_regular"
+                android:fontFamily="@font/nanumsquare_r"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_subtitle"
+                app:memberAim="@{viewModel.userCondition}"
+                app:layout_constraintStart_toEndOf="@id/image_user_face"
+                app:layout_constraintTop_toBottomOf="@id/text_user_email"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="초보" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

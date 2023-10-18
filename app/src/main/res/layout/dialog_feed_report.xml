@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/spacing_regular"
+    android:id="@+id/feed_report_layout"
     android:background="@color/transparency_dimmed">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -9,7 +9,6 @@ import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.converLongToDateString
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.ui.env.myenv.InventoryAdapter
-import kotlin.time.Duration.Companion.days
 
 @BindingAdapter("badgeTitle")
 fun TextView.setTitle(item: Badges?) {

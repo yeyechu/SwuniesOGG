@@ -30,6 +30,7 @@ class FeedReportDialog(private val feedId: String) : DialogFragment() {
             onSubmitClicked()
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
+        binding.feedReportLayout.setOnClickListener {  }
 
         Timber.i(feedId)
         return binding.root

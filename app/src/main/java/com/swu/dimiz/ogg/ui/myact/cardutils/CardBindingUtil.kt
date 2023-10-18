@@ -5,6 +5,8 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.converLongToDateString
+import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 
@@ -64,6 +66,14 @@ fun TextView.setButtonText(item: ActivitiesSustainable?) {
     }
 }
 
+@BindingAdapter("postDate")
+fun TextView.setPost(item: ActivitiesSustainable?) {
+    item?.let {
+        val duration = item.limit - convertDurationToFormatted(item.postDate) + 1
+        text = resources.getString(R.string.myact_card_text_post_date, converLongToDateString(item.postDate), duration)
+    }
+}
+
 //-------------Extra--------------
 
 @BindingAdapter("actitityTitle")
@@ -102,6 +112,14 @@ fun TextView.setFreq(item: ActivitiesExtra?) {
         } else {
             "무제한"
         }
+    }
+}
+
+@BindingAdapter("postDate")
+fun TextView.setExtraPost(item: ActivitiesExtra?) {
+    item?.let {
+        val duration = item.limit - convertDurationToFormatted(item.postDate) + 1
+        text = resources.getString(R.string.myact_card_text_post_date_left, converLongToDateString(item.postDate), duration)
     }
 }
 

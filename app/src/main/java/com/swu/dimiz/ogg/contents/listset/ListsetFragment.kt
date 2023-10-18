@@ -34,9 +34,8 @@ class ListsetFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listset, container, false)
 
-        //사용자 정보 가져오기
-        //viewModel.fireInfo()   //수정하기로 들어왔을때 사용자 정보 필요해서 있어야함
-        Timber.i("제대로 초기화 됐으면 값이 있어야 함 : ${viewModel.userCondition.value}")
+        Timber.i("env에서 가져온 사용자 정보 : ${viewModel.userCondition.value}")
+
         //지속활동 진행중 리스트
         viewModel.initCo2Holder()
         viewModel.fireGetSust()
@@ -63,12 +62,14 @@ class ListsetFragment : Fragment() {
             if(it) {
                 navController.navigate(R.id.navigation_env)
                 viewModel.onNavigatedToSave()
+                viewModel.fireSave()
+            }
+        }
 
-                if(viewModel.userCondition.value?.aim == 0f && viewModel.userCondition.value?.startDate == 0L ){
-                    viewModel.fireSave()
-                }else{
-                    viewModel.fireReSave()
-                }
+        viewModel.navigateToRevise.observe(viewLifecycleOwner) {
+            if(it) {
+                addDialogWindow()
+                viewModel.onNavigatedToRevise()
             }
         }
 
@@ -95,11 +96,26 @@ class ListsetFragment : Fragment() {
                 listView.adapter = listHolderAdapter
             }
         }
+
+        viewModel.userCondition.observe(viewLifecycleOwner) {
+            if(it.startDate != 0L) {
+                viewModel.getTodayList()
+                Timber.i("데일리 리스트: ${viewModel.dailyList}")
+            }
+        }
     }
 
     private fun addWindow() {
         fragmentManager.beginTransaction()
             .add(R.id.frame_layout_listset, ListDetailWindow())
+            .setReorderingAllowed(true)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun addDialogWindow() {
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout_listset, ListDialog())
             .setReorderingAllowed(true)
             .addToBackStack(null)
             .commit()

@@ -116,12 +116,7 @@ class EnvViewModel : ViewModel() {
     }
 
     fun leftCo2() {
-        if (_co2Holder.value!! < _aimWholeCo2.value!!) {
-            _leftHolder.value = _aimWholeCo2.value!!.minus(_co2Holder.value!!)
-        } else {
-            // 목표 탄소량을 모두 채웠을 때
-            // 내용 추가
-        }
+        _leftHolder.value = _aimWholeCo2.value!!.minus(_co2Holder.value!!)
     }
 
     val progressWhole = co2Holder.map {

@@ -30,6 +30,7 @@ import com.swu.dimiz.ogg.databinding.WindowPostDailyBinding
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
+import com.swu.dimiz.ogg.ui.myact.post.PostCompletedDialog
 import com.swu.dimiz.ogg.ui.myact.post.TextAdapter
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
@@ -98,8 +99,9 @@ class PostDailyWindow  : Fragment() {
         }
 
         binding.buttonDone.setOnClickListener {
+            viewModel.onPostCongrats()
             uploadPostToFirebase()
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            //requireActivity().onBackPressedDispatcher.onBackPressed()
             viewModel.completedDaily()
             viewModel.resetUri()
         }

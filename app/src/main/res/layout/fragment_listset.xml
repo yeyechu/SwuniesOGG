@@ -45,9 +45,22 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="@string/listset_button_allset"
+                    android:visibility="@{viewModel.userCondition.startDate == 0L ? View.VISIBLE : View.GONE}"
                     android:background="@android:color/transparent"
                     android:textColor="@{viewModel.saveButtonEnabled? @color/primary_blue : @color/secondary_baby_gray}"
                     android:onClick="@{() -> viewModel.onSaveButtonClicked()}"
+                    android:clickable="@{viewModel.saveButtonEnabled}"
+                    style="@style/StyleText.title" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_revise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/listset_button_revise"
+                    android:visibility="@{viewModel.userCondition.startDate != 0L ? View.VISIBLE : View.GONE}"
+                    android:background="@android:color/transparent"
+                    android:textColor="@{viewModel.saveButtonEnabled? @color/primary_blue : @color/secondary_baby_gray}"
+                    android:onClick="@{() -> viewModel.onReviseButtonClicked()}"
                     android:clickable="@{viewModel.saveButtonEnabled}"
                     style="@style/StyleText.title" />
             </androidx.appcompat.widget.Toolbar>

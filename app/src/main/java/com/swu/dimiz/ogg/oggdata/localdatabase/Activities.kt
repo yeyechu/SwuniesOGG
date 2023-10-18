@@ -54,7 +54,7 @@ data class ActivitiesSustainable (
 
     var limit: Int = 0,
 
-    var postCount: Int = 0,
+    var postDate: Long = 0L,
 
     var instruction: String = "",
 
@@ -83,7 +83,7 @@ data class ActivitiesExtra (
 
     var limit: Int = 0,
 
-    var postCount: Int = 0,
+    var postDate: Long = 0L,
 
     var instruction: String = "",
 
