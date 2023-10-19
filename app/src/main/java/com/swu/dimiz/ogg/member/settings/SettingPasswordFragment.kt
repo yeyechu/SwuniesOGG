@@ -1,6 +1,8 @@
 package com.swu.dimiz.ogg.member.settings
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,17 +38,58 @@ class SettingPasswordFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_setting_password, container, false)
 
+        binding.presentPasswordBtn.setOnClickListener(){
+            val presentPwd = binding.presentPassword.editText?.text.toString()
+
+            //계정 삭제, 기본 이메일 주소 설정, 비밀번호 변경과 같이 보안에 민감한 작업을 하려면 사용자가 최근에 로그인한 적이 있어야 함
+            val credential = EmailAuthProvider
+                .getCredential( fireUser?.email.toString(), presentPwd)
+
+            fireUser?.reauthenticate(credential)?.addOnCompleteListener {
+                Timber.i("User re-authenticated.")
+                binding.presentPassword.helperText = "현재 비밀번호가 확인되었어요"
+            }
+                ?.addOnFailureListener {
+                    binding.presentPassword.error = "올바른 비밀 번호를 입력해주세요"
+                }
+        }
+
+        binding.newPasswordEt.editText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { } //작성 전
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 작성 중
+                val password1 = s.toString()
+                if (password1.length < 8) {
+                    binding.newPasswordEt.error = "비밀번호를 8자 이상 입력해주세요"
+                    //인증보내기 버튼 비활성화
+                } else {
+                    binding.newPasswordEt.error = null
+                }
+            }
+            override fun afterTextChanged(s: Editable?) { } //작성 후
+        })
+
+        binding.newPasswordAgainEt.editText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { } //작성 전
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 작성 중
+                val password1 = binding.newPasswordAgainEt.editText?.text.toString()
+                val password2 = s.toString()
+                if (password2 != password1) {
+                    binding.newPasswordAgainEt.error = "비밀번호가 일치하지 않아요"
+                    //인증보내기 버튼 비활성화
+                } else {
+                    binding.newPasswordAgainEt.error = null
+                }
+            }
+            override fun afterTextChanged(s: Editable?) { } //작성 후
+        })
+
+
 
 
         binding.passwordBtn.setOnClickListener(){
             var newPassword = binding.newPasswordEt.editText?.text.toString()
-
-            //계정 삭제, 기본 이메일 주소 설정, 비밀번호 변경과 같이 보안에 민감한 작업을 하려면 사용자가 최근에 로그인한 적이 있어야 함
-            val credential = EmailAuthProvider
-                .getCredential( fireUser?.email.toString(), "bmbm1234") //todo 이전 비번 값받아오기
-
-            fireUser?.reauthenticate(credential)?.addOnCompleteListener { Timber.i("User re-authenticated.") }
-                ?.addOnFailureListener {  } //비번 틀림
 
             //비밀번호 업데이트
             fireUser!!.updatePassword(newPassword)
@@ -61,7 +104,6 @@ class SettingPasswordFragment : Fragment() {
                 navController.navigate(R.id.action_destination_setting_password_to_destination_settings)
             }
             Toast.makeText(activity,"비밀번호 변경이 완료되었어요!", Toast.LENGTH_SHORT).show();
-
         }
 
 
