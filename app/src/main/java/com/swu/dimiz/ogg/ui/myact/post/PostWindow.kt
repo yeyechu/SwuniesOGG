@@ -132,7 +132,7 @@ class PostWindow : AppCompatActivity() {
                 val daily = MyDaily(
                     dailyID = CameraActivity.id.toInt(),
                     upDate = feedDay.toLong(),
-                    //수정
+                    doCount = 0
                 )
                 fireDB.collection("User").document(fireUser?.email.toString())
                     .collection("Daily").document(stampDay)
@@ -144,8 +144,6 @@ class PostWindow : AppCompatActivity() {
                 val sust = MySustainable(
                     sustID = CameraActivity.id.toInt(),
                     strDay = feedDay.toLong(),
-                    Limit =0,
-                    dayLeft = 0
                 )
                 fireDB.collection("User").document(fireUser?.email.toString())
                     .collection("Sustainable").document(CameraActivity.id)

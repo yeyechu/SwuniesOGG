@@ -27,7 +27,6 @@ class SigninFragment: Fragment() {
     private val binding get() = _binding!!
 
     private val fireDB = Firebase.firestore
-    private val fireStorage = Firebase.storage
     private val auth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
@@ -69,7 +68,6 @@ class SigninFragment: Fragment() {
                 fireUser?.let {
                     for (profile in it.providerData) {
                         appUser.nickName = profile.displayName.toString()
-                        appUser.profileUrl = profile.photoUrl.toString()
                     }
                 }
                 // ──────────────────────────────────────────────────────────────────────────────────────
@@ -79,7 +77,6 @@ class SigninFragment: Fragment() {
                         MyCondition(
                             email = email,
                             nickName = appUser.nickName,
-                            profileUrl = appUser.profileUrl
                         )
                     }
 
@@ -97,24 +94,6 @@ class SigninFragment: Fragment() {
                                 if (saveUser != null) {
                                     fireDB.collection("User").document(email).set(saveUser)
                                     Timber.i("유저 정보 firestore 저장 완료")
-                                    /* ──────────────────────────────────────────────────────────────────────────────────────
-                                                                     기본 프로필 상태 저장(storage)
-                                    프로필 변경할때 필요할 예정
-                                                                            val storageRef = fireStorage.reference
-
-                                                                            var fileName = email + "/" + SimpleDateFormat("yyyyMMddHHmmss").format(Date()) // 파일명이 겹치면 안되기 떄문에 시년월일분초 지정
-
-                                                                            val riversRef = storageRef.child("profile").child(fileName)
-                                                                            var  uploadTask = riversRef.putFile(profileImage)
-
-                                                                            // Register observers to listen for when the download is done or if it fails
-                                                                            uploadTask.addOnFailureListener {
-                                                                                // Handle unsuccessful uploads
-                                                                                Timber.i("strage 실패")
-                                                                            }.addOnSuccessListener { taskSnapshot ->
-                                                                                // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-                                                                                Timber.i("strage 성공")
-                                                                            }*/
                                 }
                             }
                         }

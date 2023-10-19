@@ -12,7 +12,5 @@ data class MyDaily(
 
     var upDate: Long?=null,    //올린 시각
 
-    //몇번했는지
-
-    var doLeft:Int = 0        //다시 할 수 횟수가 얼마나 남았는지   //할때마다 업데이트 됨
+    var doCount :Int = 0       //몇번했는지
 )

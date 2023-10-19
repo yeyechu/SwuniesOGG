@@ -121,8 +121,7 @@ class CameraFragment : Fragment() {
                 val daily = MyDaily(
                     dailyID = CameraActivity.id.toInt(),
                     upDate = feedDay.toLong(),
-
-                    doLeft = 0
+                    doCount = 0
                 )
                 fireDB.collection("User").document(fireUser?.email.toString())
                     .collection("Daily").document(stampDay)
@@ -135,8 +134,6 @@ class CameraFragment : Fragment() {
                 val sust = MySustainable(
                     sustID = CameraActivity.id.toInt(),
                     strDay = feedDay.toLong(),
-                    Limit =0,
-                    dayLeft = 0
                 )
                 fireDB.collection("User").document(fireUser?.email.toString())
                     .collection("Sustainable").document(CameraActivity.id)
@@ -149,8 +146,6 @@ class CameraFragment : Fragment() {
                 val extra = MyExtra(
                     extraID = CameraActivity.id.toInt(),
                     strDay = feedDay.toLong(),
-                    Limit =0,
-                    dayLeft = 0
                 )
                 fireDB.collection("User").document(fireUser?.email.toString())
                     .collection("Extra").document(CameraActivity.id)
@@ -247,6 +242,7 @@ class CameraFragment : Fragment() {
                 .addOnFailureListener { e -> Timber.i( e ) }
 
         }else{
+            Timber.i("오늘 $today")
             //todo limit가져와서 범위 변경
             for( i in today..21){
                 fireDB.collection("User").document(fireUser?.email.toString())

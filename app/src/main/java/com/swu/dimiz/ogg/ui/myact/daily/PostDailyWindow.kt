@@ -153,8 +153,7 @@ class PostDailyWindow  : Fragment() {
         val daily = MyDaily(
             dailyID = viewModel.todailyId.value!!.dailyId,
             upDate = feedDay.toLong(),
-
-            doLeft = 0
+            doCount = 0,
         )
         fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
             .collection("Daily").document(stampDay)

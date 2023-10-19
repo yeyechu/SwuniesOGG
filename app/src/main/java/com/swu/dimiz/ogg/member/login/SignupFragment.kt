@@ -118,14 +118,9 @@ class SignupFragment : Fragment() {
 
                     val user = FirebaseAuth.getInstance().currentUser
 
-                    //기본 프로필 사진(모두 동일하고 drawable에 있기때문에 storage 저장 불필요)
-                    val strimg = "android.resource://com.swu.dimiz.ogg/" + com.swu.dimiz.ogg.R.drawable.feed_button_reaction_great
-                    val profileImage = Uri.parse(strimg)
-
-                    // 유저 닉네임, 프로필 사진 추가하기
+                    // 유저 닉네임 추가하기
                     val profileUpdates = userProfileChangeRequest {
                         displayName = nickname
-                        photoUri =  profileImage
                     }
                     user?.updateProfile(profileUpdates)
                         ?.addOnCompleteListener { updateTask ->

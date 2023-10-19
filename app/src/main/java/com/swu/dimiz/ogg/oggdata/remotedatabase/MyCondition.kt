@@ -16,8 +16,6 @@ MyCondition(             //사용자 기본 정보
 
     var nickName: String = "",
 
-    var profileUrl:String = "",       // 사진이 저장된 경로
-
     var aim: Float = 0f,            //목표 달성량
 
     var car: Int = 0,

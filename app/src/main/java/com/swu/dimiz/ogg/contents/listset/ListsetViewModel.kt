@@ -563,7 +563,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     addCo2HolderFromListHolder(listArray[i].aId)
                 }
                 setListHolder(listArray)
-                //listarray를 ActivitiesDaily로 변환해서 addlistholder에 넣어야함
+                //
                 //addItem쓰기
                 //getitem으로 불러오면 엑티비티 데일리로 변함
                 //update호출
