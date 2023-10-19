@@ -31,6 +31,7 @@ class CameraActivity : AppCompatActivity() {
         title = intent.getStringExtra("title")!!
         co2 = intent.getStringExtra("co2")!!
         filter = intent.getStringExtra("filter")!!
+        postCount = intent.getStringExtra("postCount")!!
 
         binding.textTitle.text = title
         binding.textCo2.text = getString(R.string.post_text_co2, co2.toFloat())
@@ -57,6 +58,7 @@ class CameraActivity : AppCompatActivity() {
         var string: String = ""
         var co2: String = ""
         var filter: String = ""
+        var postCount: String = ""
     }
 }
 

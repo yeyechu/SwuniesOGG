@@ -37,6 +37,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     val navigateToDaily: LiveData<ActivitiesDaily?>
         get() = _navigateToDaily
 
+    private val _dailyDone = MutableLiveData<ActivitiesDaily>()
+    val dailyDone: LiveData<ActivitiesDaily>
+        get() = _dailyDone
+
     private val _navigateToGallery = MutableLiveData<Boolean>()
     val navigateToToGallery: LiveData<Boolean>
         get() = _navigateToGallery
@@ -116,6 +120,15 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     fun resetUri() {
         _passUri.value = null
     }
+
+    fun setDailyDone(item: ActivitiesDaily): Boolean {
+        _dailyDone.value = item
+        if(item.limit == item.postCount) {
+            return true
+        }
+        return false
+    }
+
     fun setSustDone(item: ActivitiesSustainable) : Boolean {
         val duration = item.limit - convertDurationToFormatted(item.postDate)
 

@@ -89,9 +89,9 @@ class DailyLayer : Fragment() {
         val adapter = DailyCardAdapter(listViewModel, ListsetAdapter.ListClickListener {
             myActiViewModel.showDaily(it)
         })
-        binding.todayCardList.adapter = adapter
 
-        listViewModel.getActivities.observe(viewLifecycleOwner) {
+        listViewModel.todayHolder.observe(viewLifecycleOwner) {
+            binding.todayCardList.adapter = adapter
             adapter.submitList(it)
         }
 
@@ -118,6 +118,7 @@ class DailyLayer : Fragment() {
             listViewModel.copyUserCondition(it)
             if(it.aim > 0f) {
                 listViewModel.setCo2(it.aim)
+                listViewModel.getTodayList()
             }
         }
     }

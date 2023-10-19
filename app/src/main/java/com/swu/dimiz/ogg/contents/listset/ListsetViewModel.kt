@@ -74,8 +74,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val filteredList: LiveData<List<ActivitiesDaily>>
         get() = _filteredList
 
-    private val _dailyList = MutableLiveData<List<ActivitiesDaily>>()
-    val dailyList: LiveData<List<ActivitiesDaily>>
+    private val _dailyList = MutableLiveData<List<Int>?>()
+    val dailyList: LiveData<List<Int>?>
         get() = _dailyList
 
     private val _activityFilter = MutableLiveData<List<String>>()
@@ -100,6 +100,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     //                                        활동 선택
     private var listArray = ArrayList<ListData>()
+    private var todayArray = ArrayList<ActivitiesDaily>()
     private var listArrayInt = ArrayList<Int>()
 
     private val _listHolder = MutableLiveData<List<ListData>?>()
@@ -109,6 +110,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val _co2Holder = MutableLiveData<Float>()
     val co2Holder: LiveData<Float>
         get() = _co2Holder
+
+    private val _todayHolder = MutableLiveData<List<ActivitiesDaily>?>()
+    val todayHolder: LiveData<List<ActivitiesDaily>?>
+        get() = _todayHolder
 
     private val _userCondition = MutableLiveData<MyCondition>()
     val userCondition: LiveData<MyCondition>
@@ -131,6 +136,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         it.isNotEmpty()
     }
 
+    private val _dailyDone = MutableLiveData<ActivitiesDaily?>()
+    val dailyDone: LiveData<ActivitiesDaily?>
+        get() = _dailyDone
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                      뷰모델 초기화
     init {
@@ -141,7 +150,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _setListaimUI.value = 1
 
         // 활동 선택 페이지
-        //_co2Holder.value = FLOAT_ZERO
         initListHolder()
 
         getFilters()
@@ -240,8 +248,16 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         setListHolder(listArray)
     }
 
+    fun initTodayHolder() {
+        todayArray.clear()
+    }
+
     private fun setListHolder(data: List<ListData>) {
         _listHolder.postValue(data)
+    }
+
+    private fun setTodayHolder(data: List<ActivitiesDaily>) {
+        _todayHolder.postValue(data)
     }
 
     fun initCo2Holder() {
@@ -353,12 +369,39 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     fun getTodayList() = viewModelScope.launch {
-        _dailyList.value = repository.getTodayList().value
-        _dailyList.value?.forEach {
-            addItem(it)
+        var item : ActivitiesDaily
+        initListHolder()
+        initTodayHolder()
+
+        _dailyList.value = repository.getTodayListInteger()
+        Timber.i("데일리 리스트 : ${dailyList.value}")
+
+        dailyList.value?.forEach {
+            item = repository.getActivityById(it)
+            addItem(item)
+            todayArray.add(item)
+            plusCo2(item.co2 * item.limit)
         }
-        Timber.i("${dailyList.value}")
-        Timber.i("${repository.getTodayList().value}")
+        setListHolder(listArray)
+        setTodayHolder(todayArray)
+        Timber.i("투데이 리스트 : $todayArray")
+    }
+
+    fun setDailyDone(item: ActivitiesDaily): Boolean {
+        if(item.limit == item.postCount) {
+            dailyDoneSet(item)
+            return true
+        }
+        dailyDoneCompleted()
+        return false
+    }
+
+    private fun dailyDoneSet(item: ActivitiesDaily) {
+        _dailyDone.value = item
+    }
+
+    fun dailyDoneCompleted() {
+        _dailyDone.value = null
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
