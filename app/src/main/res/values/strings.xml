@@ -267,6 +267,11 @@
     <string name="signup_text_input_password_check">비밀번호를 한 번 더 입력해주세요</string>
     <string name="signup_button_email_check">중복 확인</string>
 
+    <!-- ──────────────────────────────────────  비번찾기  ────────────────────────────────────── -->
+
+    <string name="signin_inputtext_email">가입한 이메일</string>
+    <string name="signin_button_find_password">이메일로 비밀번호 찾기</string>
+
     <!-- ──────────────────────────────────────   환경설정 페이지   ────────────────────────────────────── -->
     <string name="setting_text_title_about_account">계정</string>
     <string name="setting_text_subtitle_account_chage_nickname">닉네임 변경</string>

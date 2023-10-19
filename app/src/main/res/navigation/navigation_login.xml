@@ -18,6 +18,10 @@
         <action
             android:id="@+id/action_signinFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
+
+        <action
+            android:id="@+id/action_signupFragment_to_findPasswordFragment"
+            app:destination="@id/findPasswordFragment" />
     </fragment>
 
     <fragment
@@ -26,6 +30,15 @@
         android:label="SignupFragment" >
         <action
             android:id="@+id/action_signupFragment_to_signinFragment"
+            app:destination="@id/signinFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/findPasswordFragment"
+        android:name="com.swu.dimiz.ogg.member.login.FindPassword"
+        android:label="" >
+        <action
+            android:id="@+id/action_signupFragment_to_findPasswordFragment"
             app:destination="@id/signinFragment" />
     </fragment>
 

@@ -51,7 +51,7 @@ class SigninFragment: Fragment() {
         }
         //------------비번찾기------------//
         binding.signinToFindPasswordBtn.setOnClickListener {
-//            view?.findNavController()?.navigate(R.id.action_signinFragment_to_signupFragment)
+            view?.findNavController()?.navigate(R.id.action_signupFragment_to_findPasswordFragment)
         }
         return binding.root
     }
