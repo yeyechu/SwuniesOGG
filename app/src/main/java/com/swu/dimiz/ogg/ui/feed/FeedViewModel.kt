@@ -177,23 +177,20 @@ class FeedViewModel : ViewModel() {
 
         fireDB.collection("Feed")
             .orderBy("postTime",  Query.Direction.DESCENDING)
-            .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Timber.i("listen:error $e")
-                    return@addSnapshotListener
-                }
+            .get()
+            .addOnSuccessListener { documents ->
                 gotFeedList.clear()
-                for (dc in snapshots!!.documentChanges) {
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        val feed = dc.document.toObject<Feed>()
-                        feed.id = dc.document.id
-                        gotFeedList.add(feed)
-                    }
+                for (document in documents) {
+                    val feed = document.toObject<Feed>()
+                    feed.id = document.id
+                    gotFeedList.add(feed)
                 }
-
                 _feedList.value = gotFeedList
                 _filteredList.value = gotFeedList
                 Timber.i("Feed 초기화")
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
             }
     }
 
@@ -202,7 +199,30 @@ class FeedViewModel : ViewModel() {
         val gotMyFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed")
-            .orderBy("postTime",  Query.Direction.DESCENDING)
+
+            .whereEqualTo("email", fireUser?.email.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                gotMyFeedList.clear()
+                for (document in documents) {
+                    val feed = document.toObject<Feed>()
+                    feed.id = document.id
+                    gotMyFeedList.add(feed)
+                }
+                _myList.value = gotMyFeedList
+                Timber.i("나의 Feed 초기화")
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
+            }
+
+
+
+
+
+
+
+                /*
             .whereEqualTo("email", fireUser?.email.toString())
             .addSnapshotListener { value, e ->
                 if (e != null) {
@@ -216,7 +236,7 @@ class FeedViewModel : ViewModel() {
                     gotMyFeedList.add(feed)
                 }
                 _myList.value = gotMyFeedList
-            }
+            }*/
     }
 
 }

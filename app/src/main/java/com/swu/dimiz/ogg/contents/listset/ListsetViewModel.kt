@@ -32,7 +32,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
-    private var today : Int = 0
+    var today : Int = 0
     private var appUser = MyCondition()
 
 
@@ -575,6 +575,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             .addOnSuccessListener { result ->
                 for (document in result) {
                     val mylist = document.toObject<MyList>()
+                    Timber.i("today: $today")
                     when (today) {
                         1 -> myDailyList.add(mylist.day1act)
                         2 -> myDailyList.add(mylist.day2act)
@@ -604,14 +605,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     listArray[i] = myDailyList[i]
                     Timber.i("listArray:  $listArray")
                     addCo2HolderFromListHolder(listArray[i].aId)
+                    updateListFire(listArray[i])
                 }
-                setListHolder(listArray)
-                //
-                //addItem쓰기
-                //getitem으로 불러오면 엑티비티 데일리로 변함
-                //update호출
-                //쿼리 새로생긴거 사용하기
-                //서버가 가져와서 룸에 다가 저장
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)

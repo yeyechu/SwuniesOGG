@@ -15,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.ListHolderAdapter
+import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
 import timber.log.Timber
 
@@ -102,6 +103,7 @@ class ListsetFragment : Fragment() {
         viewModel.userCondition.observe(viewLifecycleOwner) {
             if(it.startDate != 0L) {
                 viewModel.getTodayList()
+                viewModel.today = convertDurationToInt(it.startDate)
             }
         }
     }
