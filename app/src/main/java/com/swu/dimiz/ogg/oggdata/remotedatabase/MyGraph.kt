@@ -14,14 +14,17 @@ data class MyGraph (    //통계 페이지 들어올때마다 업데이트
     //카테고리 별 줄인 탄소량
     var energy : Double = 0.0,
     var consumption : Double = 0.0,
-    var resource : Double = 0.0,
     var transport : Double = 0.0,
+    var resource : Double = 0.0,
 
     //var co2Count : Int = 0,
     //가장 많은 탄소를 줄인 활동명
-    var co21 : Int = 0,
-    var co22 : Int = 0,
-    var co23 : Int = 0,
+    var nameCo21: Int = 0,
+    var nameCo22: Int = 0,
+    var nameCo23: Int = 0,
+    var co2Sum1 : Double = 0.0,
+    var co2Sum2 : Double = 0.0,
+    var co2Sum3 : Double = 0.0,
 
     //var reactionCount : Int = 0,
     //가장 많은 반응을 받은 활동

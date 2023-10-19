@@ -12,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
+import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity.Companion.id
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -199,17 +200,20 @@ class FeedViewModel : ViewModel() {
         val gotMyFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed")
+            .orderBy("postTime",  Query.Direction.DESCENDING)
             .whereEqualTo("email", fireUser?.email.toString())
-            .addSnapshotListener { value, e ->
+            .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
                 gotMyFeedList.clear()
-                for (doc in value!!) {
-                    val feed = doc.toObject<Feed>()
-                    feed.id = doc.id
-                    gotMyFeedList.add(feed)
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val feed = dc.document.toObject<Feed>()
+                        feed.id = dc.document.id
+                        gotMyFeedList.add(feed)
+                    }
                 }
                 _myList.value = gotMyFeedList
             }
