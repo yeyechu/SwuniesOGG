@@ -38,6 +38,8 @@ class ListsetFragment : Fragment() {
 
         //지속활동 진행중 리스트
         viewModel.initCo2Holder()
+
+
         viewModel.fireGetSust()
         viewModel.fireGetDaily()
 
@@ -100,7 +102,6 @@ class ListsetFragment : Fragment() {
         viewModel.userCondition.observe(viewLifecycleOwner) {
             if(it.startDate != 0L) {
                 viewModel.getTodayList()
-                Timber.i("데일리 리스트: ${viewModel.dailyList}")
             }
         }
     }

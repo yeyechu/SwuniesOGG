@@ -35,20 +35,14 @@ class OggRepository(private val database: OggDatabase) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun updatePostCount(id: Int, data: Int) {
+        database.dailyDatabaseDao.updatePostCountFromFirebase(id, data)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun resetFreq() {
         database.dailyDatabaseDao.resetFreq()
-    }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    fun getActivity(id: Int): LiveData<ActivitiesDaily> {
-        return database.dailyDatabaseDao.getItem(id)
-    }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    fun getTodayList(): LiveData<List<ActivitiesDaily>?> {
-        return database.dailyDatabaseDao.getToday()
     }
 
     @Suppress("RedundantSuspendModifier")
@@ -61,6 +55,24 @@ class OggRepository(private val database: OggDatabase) {
     @WorkerThread
     suspend fun dailyCo2(id: Int): Float {
         return database.dailyDatabaseDao.getCo2(id)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getTodayListInteger(): List<Int>? {
+        return database.dailyDatabaseDao.getTodayIdCoroutines()
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    fun getActivity(id: Int): LiveData<ActivitiesDaily> {
+        return database.dailyDatabaseDao.getItem(id)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getActivityById(id: Int): ActivitiesDaily {
+        return database.dailyDatabaseDao.getActivity(id)
     }
 
     // ──────────────────────────────────────────────────────────────────────────

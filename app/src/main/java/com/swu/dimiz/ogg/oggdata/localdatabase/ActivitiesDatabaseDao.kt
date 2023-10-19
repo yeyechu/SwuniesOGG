@@ -27,6 +27,9 @@ interface ActivitiesDailyDatabaseDao {
     @Query("UPDATE daily SET freq = 1 WHERE dailyId = :id")
     suspend fun updateFreqFromFirebase(id: Int)
 
+    @Query("UPDATE daily SET postCount = :post WHERE dailyId = :id")
+    suspend fun updatePostCountFromFirebase(id: Int, post: Int)
+
     // ───────────────────────────────────────────────────────────────────────
     //                                라이브 데이터
     @Query("SELECT * FROM daily")
@@ -38,11 +41,8 @@ interface ActivitiesDailyDatabaseDao {
     @Query("SELECT * FROM daily WHERE filter = :data")
     fun getFilteredLiveList(data: String): LiveData<List<ActivitiesDaily>>
 
-    @Query("SELECT * FROM daily WHERE freq IN (1)")
-    fun getToday(): LiveData<List<ActivitiesDaily>?>
-
-    @Query("SELECT dailyId FROM daily WHERE freq IN (1)")
-    fun getTodayId(): LiveData<List<Int>>
+    @Query("SELECT dailyId FROM daily WHERE freq = 1")
+    suspend fun getTodayIdCoroutines(): List<Int>?
 
     // ───────────────────────────────────────────────────────────────────────
     //                                지연함수
@@ -51,6 +51,9 @@ interface ActivitiesDailyDatabaseDao {
 
     @Query("SELECT co2 FROM daily WHERE dailyId = :id")
     suspend fun getCo2(id: Int) : Float
+
+    @Query("SELECT * FROM daily WHERE dailyId = :id")
+    suspend fun getActivity(id: Int) : ActivitiesDaily
 }
 
 @Dao

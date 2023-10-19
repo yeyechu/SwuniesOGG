@@ -171,6 +171,7 @@
                         android:layout_weight="1"
                         android:text="@string/post_button_take_photo"
                         android:onClick="@{() -> viewModel.onDailyButtonClicked(viewModel.todailyId)}"
+                        android:enabled="@{!viewModel.setDailyDone(viewModel.todailyId)}"
                         app:buttonText="@{viewModel.todailyId}"
                         tools:text="카메라 촬영" />
                 </LinearLayout>

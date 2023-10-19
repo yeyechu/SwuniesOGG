@@ -118,6 +118,7 @@ class CameraFragment : Fragment() {
             //                           세가지 활동 분리해서 업로드
             if(CameraActivity.id.toInt() < 20000){
                 //Daily
+                updateDailyPostCount()
                 val daily = MyDaily(
                     dailyID = CameraActivity.id.toInt(),
                     upDate = feedDay.toLong(),
@@ -158,6 +159,19 @@ class CameraFragment : Fragment() {
             updateStamp()
         }
         return binding.root
+    }
+
+    private fun updateDailyPostCount() = lifecycleScope.launch {
+        var count = CameraActivity.postCount.toInt()
+        var id = CameraActivity.id.toInt()
+        withContext(Dispatchers.IO) {
+            OggDatabase.getInstance(requireContext())
+                .dailyDatabaseDao
+                .updatePostCountFromFirebase(
+                    id,
+                    ++count
+                )
+        }
     }
 
     private fun updateSustPostDate() = lifecycleScope.launch {
