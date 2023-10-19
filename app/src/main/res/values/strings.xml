@@ -277,6 +277,12 @@
     <string name="setting_text_subtitle_other_logout">로그아웃</string>
     <string name="setting_text_subtitle_other_signout">회원탈퇴</string>
 
+    <string name="setting_password_text_present_password">현재 비밀번호</string>
+    <string name="setting_password_text_password_checking">비밀번호 확인</string>
+    <string name="setting_password_text_new_password">새로운 비밀번호</string>
+    <string name="setting_password_text_new_password_again">새로운 비밀번호 확인</string>
+
+
     <!-- ──────────────────────────────────────   환경설정 내부 페이지    ────────────────────────────────────── -->
 
     <!-- 닉네임 변경 -->
