@@ -199,30 +199,6 @@ class FeedViewModel : ViewModel() {
         val gotMyFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed")
-
-            .whereEqualTo("email", fireUser?.email.toString())
-            .get()
-            .addOnSuccessListener { documents ->
-                gotMyFeedList.clear()
-                for (document in documents) {
-                    val feed = document.toObject<Feed>()
-                    feed.id = document.id
-                    gotMyFeedList.add(feed)
-                }
-                _myList.value = gotMyFeedList
-                Timber.i("나의 Feed 초기화")
-            }
-            .addOnFailureListener { exception ->
-                Timber.i(exception)
-            }
-
-
-
-
-
-
-
-                /*
             .whereEqualTo("email", fireUser?.email.toString())
             .addSnapshotListener { value, e ->
                 if (e != null) {
@@ -236,7 +212,6 @@ class FeedViewModel : ViewModel() {
                     gotMyFeedList.add(feed)
                 }
                 _myList.value = gotMyFeedList
-            }*/
+            }
     }
-
 }

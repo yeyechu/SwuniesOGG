@@ -39,7 +39,7 @@ class SettingPasswordFragment : Fragment() {
 
 
         binding.passwordBtn.setOnClickListener(){
-            var newPassword = binding.passwordEt.editText?.text.toString()
+            var newPassword = binding.newPasswordEt.editText?.text.toString()
 
             //계정 삭제, 기본 이메일 주소 설정, 비밀번호 변경과 같이 보안에 민감한 작업을 하려면 사용자가 최근에 로그인한 적이 있어야 함
             val credential = EmailAuthProvider
