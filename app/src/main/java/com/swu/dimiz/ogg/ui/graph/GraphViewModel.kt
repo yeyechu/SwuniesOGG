@@ -41,24 +41,32 @@ class GraphViewModel : ViewModel()
     fun getGraph() {
         //_graph.value!!.co21 =
     }
-    //
+
     fun fireInfo(){
         fireDB.collection("User").document(fireUser?.email.toString())
-            .get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val gotUser = document.toObject<MyCondition>()
-                    gotUser?.let {
-                        projectCount = gotUser.projectCount
-                    }
-                } else { Timber.i("사용자 기본정보 받아오기 실패") }
-            }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Timber.i( e)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    var gotUser = snapshot.toObject<MyCondition>()!!
+                    projectCount = gotUser.projectCount
+                    Timber.i("projectCount $projectCount")
+                    fireGetCategory()
+                    fireGetCo2()
+                } else {
+                    Timber.i("Current data: null")
+                }
+            }
     }
-
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       전체활동 가져오기
-    private val docRef = fireDB.collection("User").document(fireUser?.email.toString())
-        .collection("Project${projectCount}").document("Entire").collection("AllAct")
+    //todo projectCount 받아야함
+
     fun fireGetCategory(){
+        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project$projectCount").document("Entire").collection("AllAct")
         //에너지
         var energyCo2 = 0.0
         var consumptionCo2 = 0.0
@@ -96,6 +104,9 @@ class GraphViewModel : ViewModel()
     }
 
     fun fireGetCo2(){
+        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project$projectCount").document("Entire").collection("AllAct")
+
         var co2ActList = arrayListOf<MyAllAct>()
         docRef.orderBy("allC02",  Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { snapshots, e ->

@@ -30,8 +30,8 @@ class GraphFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_graph, container, false)
 
-        viewModel.fireGetCategory()
-        viewModel.fireGetCo2()
+        viewModel.fireInfo()
+
 
         return binding.root
     }
