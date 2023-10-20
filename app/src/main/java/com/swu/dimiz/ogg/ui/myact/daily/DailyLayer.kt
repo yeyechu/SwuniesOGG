@@ -46,6 +46,18 @@ class DailyLayer : Fragment() {
             inflater, R.layout.layer_daily, container, false
         )
 
+        viewModel.userCondition.observe(viewLifecycleOwner) {
+            listViewModel.copyUserCondition(it)
+
+            if(it.aim > 0f) {
+                listViewModel.setCo2(it.aim)
+                listViewModel.fireGetDaily()
+                Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : DailyLayer 124")
+                //listViewModel.getTodayList()
+                Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : DailyLayer 126")
+            }
+        }
+
         return binding.root
     }
 
@@ -56,8 +68,6 @@ class DailyLayer : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
-        viewModel.fireGetDaily()
 
         val typeface = Typeface.create(
             ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m),
@@ -112,15 +122,6 @@ class DailyLayer : Fragment() {
 
         viewModel.progressDaily.observe(viewLifecycleOwner) {
             binding.progressDaily.progress = it
-        }
-
-        viewModel.userCondition.observe(viewLifecycleOwner) {
-            listViewModel.copyUserCondition(it)
-            if(it.aim > 0f) {
-                listViewModel.setCo2(it.aim)
-                listViewModel.fireGetDaily()
-                listViewModel.getTodayList()
-            }
         }
     }
 

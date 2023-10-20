@@ -44,10 +44,6 @@ class BadgeListFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_badge_list, container, false
         )
-        val typeface = Typeface.create(
-            ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m),
-            Typeface.BOLD
-        )
 
         viewModel.inventorySize.observe(viewLifecycleOwner) {
             val textDecorator =
@@ -59,12 +55,9 @@ class BadgeListFragment : Fragment() {
                             requireContext(),
                             R.color.primary_blue
                         )
-                    ), 7, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    ), 7, 9, Spannable.SPAN_INCLUSIVE_INCLUSIVE
                 )
-                setSpan(StyleSpan(Typeface.BOLD), 7, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//                    setSpan(TypefaceSpan(typeface), 7, 8, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-//                }
+                setSpan(StyleSpan(Typeface.BOLD), 7, 9, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             }
         }
 

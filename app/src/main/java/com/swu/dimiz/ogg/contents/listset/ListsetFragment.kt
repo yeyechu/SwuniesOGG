@@ -35,16 +35,49 @@ class ListsetFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listset, container, false)
 
+        Timber.i("ListsetFragment onCreateView() 생성")
         Timber.i("env에서 가져온 사용자 정보 : ${viewModel.userCondition.value}")
 
         //지속활동 진행중 리스트
         viewModel.initCo2Holder()
 
-
         viewModel.fireGetSust()
-        viewModel.fireGetDaily()
+        Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : ListsetFragment 46 fireGetDaily()")
 
-        Timber.i("ListsetFragment onCreateView() 생성")
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+        fragmentManager = childFragmentManager
+
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        val listView: GridView = binding.listHolder
+
+        viewModel.listHolder.observe(viewLifecycleOwner) {
+            it?.let {
+                listHolderAdapter = ListHolderAdapter(requireContext(), it)
+                listView.adapter = listHolderAdapter
+            }
+        }
+
+        viewModel.userCondition.observe(viewLifecycleOwner) {
+            if(it.startDate != 0L) {
+                viewModel.fireGetDaily()
+                //viewModel.getTodayList()
+                Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : ListsetFragment 106 userCondition observer : getTodayList() 호출")
+                Timber.i("todayHolder: ${viewModel.todayHolder.value}")
+                viewModel.today = convertDurationToInt(it.startDate)
+            }
+        }
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      버튼 인터랙션
 
@@ -73,37 +106,6 @@ class ListsetFragment : Fragment() {
             if(it) {
                 addDialogWindow()
                 viewModel.onNavigatedToRevise()
-            }
-        }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        navController = findNavController()
-        fragmentManager = childFragmentManager
-
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
-
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-
-        val listView: GridView = binding.listHolder
-
-        viewModel.listHolder.observe(viewLifecycleOwner) {
-            it?.let {
-                listHolderAdapter = ListHolderAdapter(requireContext(), it)
-                listView.adapter = listHolderAdapter
-            }
-        }
-
-        viewModel.userCondition.observe(viewLifecycleOwner) {
-            if(it.startDate != 0L) {
-                viewModel.getTodayList()
-                viewModel.today = convertDurationToInt(it.startDate)
             }
         }
     }

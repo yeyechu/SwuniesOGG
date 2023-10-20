@@ -56,27 +56,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/fragment_badge_list_title"/>
-
-                <!--            <androidx.recyclerview.widget.RecyclerView-->
-                <!--                android:id="@+id/badge_list"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:orientation="horizontal"-->
-                <!--                app:badgeListData="@{viewModel.badgeFilteredList}"-->
-                <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-                <!--                tools:listitem="@layout/fragment_badge_list_item"/>-->
-
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/badge_list"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    tools:listitem="@layout/fragment_badge_list_item"/>-->
-
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/overlap_list"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content" />-->
+                    tools:listitem="@layout/fragment_badge_list_filter"/>
             </LinearLayout>
         </ScrollView>
     </FrameLayout>
