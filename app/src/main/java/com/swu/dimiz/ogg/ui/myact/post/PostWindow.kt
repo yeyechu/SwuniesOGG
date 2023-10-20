@@ -110,7 +110,7 @@ class PostWindow : AppCompatActivity() {
         }
 
 
-        fireDB.collection("User").document(fireUser?.email.toString())
+        /*fireDB.collection("User").document(fireUser?.email.toString())
             .get().addOnSuccessListener { document ->
                 if (document != null) {
                     val gotUser = document.toObject<MyCondition>()
@@ -119,10 +119,10 @@ class PostWindow : AppCompatActivity() {
                         today = convertDurationToInt(startDate)
                     }
                 } else { Timber.i("사용자 기본정보 받아오기 실패") }
-            }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
+            }.addOnFailureListener { exception -> Timber.i(exception.toString()) }*/
 
         binding.buttonDone.setOnClickListener {
-            feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+          /*  feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
             stampDay = SimpleDateFormat("yyyyMMdd").format(Date())
 
             // ─────────────────────────────────────────────────────────────────────────────────
@@ -164,12 +164,12 @@ class PostWindow : AppCompatActivity() {
             }
             feedUpload()
             updateAllAct()
-            updateStamp()
+            updateStamp()*/
 
             finish()
         }
     }
-
+/*
     // ─────────────────────────────────────────────────────────────────────────────────
     //                               인증사진 피드 업로드
     private fun feedUpload(){
@@ -238,7 +238,7 @@ class PostWindow : AppCompatActivity() {
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
         }
-    }
+    }*/
 
     private fun startGallery() {
         val intent = Intent(Intent.ACTION_PICK)

@@ -4,7 +4,7 @@ import java.sql.Date
 
 /*
 fireStore 위치
-User/사용자 이메일/Stamp/며칠쨰
+User/사용자 이메일/Project1/Entire/Stamp/며칠쨰
 */
 
 

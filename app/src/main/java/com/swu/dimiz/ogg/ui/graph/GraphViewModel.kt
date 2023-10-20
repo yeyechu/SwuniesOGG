@@ -104,6 +104,7 @@ class GraphViewModel : ViewModel()
     }
 
     fun fireGetReaction(){
+        //시작 날짜 전에거는 못가져오게
         // 피드에서 아이디 검색해서 리엑션 3개 더한값 가져옴
         val gotMyFeedList = arrayListOf<Feed>()
         val sumReactionList = arrayListOf<Int>()

@@ -18,13 +18,16 @@ MyCondition(             //사용자 기본 정보
 
     var aim: Float = 0f,            //목표 달성량
 
-    var car: Int = 0,
+    var car: Int = 0,               //자차 유무 0없음 1전기 2일반
 
-    var startDate: Long = 0L,     //그래프 쪽에서 같은지 판별
+    var carNumber: String = "",     //차량 번호
+
+    var startDate: Long = 0L,       //그래프 쪽에서 같은지 판별
 
     var report: Int = 0,            //신고 받은 횟수
 
-    var projectCount: Int = 0,       //프로젝트 진행 횟수
+    var projectCount: Int = 0,      //프로젝트 진행 횟수
 
-    var extraPost: Int = 0           //특별활동 올린 횟수
+    var extraPost: Int = 0          //특별활동 올린 횟수
+
 )

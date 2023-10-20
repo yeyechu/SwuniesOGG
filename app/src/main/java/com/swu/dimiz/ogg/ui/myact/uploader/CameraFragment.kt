@@ -76,9 +76,10 @@ class CameraFragment : Fragment() {
 
     private var startDate = 0L
     var today = 0
+    var projectCount = 0
 
     private var feedDay = ""
-    var stampDay = ""
+
     // ─────────────────────────────────────────────────────────────────────────────────
     //                                      기타
     //var bitmap : Bitmap? = null
@@ -98,6 +99,7 @@ class CameraFragment : Fragment() {
                     gotUser?.let {
                         startDate = gotUser.startDate
                         today = convertDurationToInt(startDate)
+                        projectCount = gotUser.projectCount
                     }
                 } else { Timber.i("사용자 기본정보 받아오기 실패") }
             }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
@@ -112,7 +114,6 @@ class CameraFragment : Fragment() {
             CameraActivity.cameraActivity!!.finish()
 
             feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
-            stampDay = SimpleDateFormat("yyyyMMdd").format(Date())
 
             // ─────────────────────────────────────────────────────────────────────────────────
             //                           세가지 활동 분리해서 업로드
@@ -121,11 +122,11 @@ class CameraFragment : Fragment() {
                 updateDailyPostCount()
                 val daily = MyDaily(
                     dailyID = CameraActivity.id.toInt(),
-                    upDate = feedDay.toLong(),
-                    doCount = 0
+                    upDate = feedDay.toLong()
                 )
                 fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Daily").document(stampDay)
+                    .collection("Project${projectCount}").document("Daily")
+                    .collection(today.toString()).document(feedDay)
                     .set(daily)
                     .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
@@ -230,6 +231,7 @@ class CameraFragment : Fragment() {
     private fun updateAllAct(){
         //AllAct
         val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${projectCount}").document("Entire")
             .collection("AllAct").document(CameraActivity.id)
         washingtonRef
             .update("upCount", FieldValue.increment(1))
@@ -249,17 +251,22 @@ class CameraFragment : Fragment() {
     //                              스탬프 업데이트
     private fun updateStamp(){
         if(CameraActivity.id.toInt() < 20000){
+            //daily
             fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${projectCount}").document("Entire")
                 .collection("Stamp").document(today.toString())
                 .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
                 .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
 
         }else{
+            //sust, extra
             Timber.i("오늘 $today")
-            //todo limit가져와서 범위 변경
+            //todo 처음 프로젝트 시작할때 sust있으면 stamp값 올리는 걸로 수정(시작일에서 얼마나 지났는지 계산하고 뺀거만큼 스탬프에 추가
+            //limit값 받기는 해야함 for문에서 21 보다 크면 21까지 작으면 limit까지 스탬프 추가
             for( i in today..21){
                 fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Project${projectCount}").document("Entire")
                     .collection("Stamp").document(i.toString())
                     .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
                     .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }

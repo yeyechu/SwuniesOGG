@@ -223,6 +223,7 @@ class EnvViewModel : ViewModel() {
         //서버랑 다를떄 업데이트 하는걸로
         Timber.i("오늘 updateToday $today")
         fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${_userCondition.value?.projectCount}").document("Entire")
             .collection("Stamp").document(today.toString())
             .update("dayCo2", _todayCo2.value!!.toDouble())
             .addOnSuccessListener { Timber.i("updateTodayStampToFirebas 완료") }
@@ -233,6 +234,7 @@ class EnvViewModel : ViewModel() {
         // 오늘 스탬프만 내려받을 곳
         Timber.i("오늘 getToday $today")
         fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${_userCondition.value?.projectCount}").document("Entire")
             .collection("Stamp").document(today.toString())
             .addSnapshotListener { snapshot, e ->
                 if (e != null) {
@@ -292,6 +294,7 @@ class EnvViewModel : ViewModel() {
                 tempList.clear()
 
                 fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Project${_userCondition.value?.projectCount}").document("Entire")
                     .collection("Stamp")
                     .orderBy("day")
                     .addSnapshotListener { snapshots, e ->

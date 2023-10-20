@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.contents.listset
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -504,6 +505,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 in 10013..10020 -> { daily = MyAllAct(ID = i, actCode = "자원순환", upCount = 0, allC02 = 0.0) }
             }
             fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${_userCondition.value?.projectCount}").document("Entire")
                 .collection("AllAct").document(i.toString())
                 .set(daily)
                 .addOnSuccessListener { }
@@ -516,6 +518,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 in 20007..20008 -> { sust = MyAllAct(ID = i, actCode = "이동수단", upCount = 0, allC02 = 0.0) }
             }
             fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${_userCondition.value?.projectCount}").document("Entire")
                 .collection("AllAct").document(i.toString())
                 .set(sust)
                 .addOnSuccessListener { }
@@ -530,6 +533,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 30007 -> { extra = MyAllAct(ID = i, actCode = "소비", upCount = 0, allC02 = 0.0) }
             }
             fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${_userCondition.value?.projectCount}").document("Entire")
                 .collection("AllAct").document(i.toString())
                 .set(extra)
                 .addOnSuccessListener { }
@@ -540,6 +544,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         for(i in 1..21){
             val stamp = MyStamp(day = i, dayCo2 = 0.0)
             fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${_userCondition.value?.projectCount}").document("Entire")
                 .collection("Stamp").document(i.toString())
                 .set(stamp)
                 .addOnSuccessListener { }
@@ -564,8 +569,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     //today 초기화
                     if (appUser.startDate == 0L && appUser.aim == 0f) {  //처음 시작한다면
                         today =  1
-                        fireAllReset()
-                        fireStampReset()
+
                     } else {
                         today = convertDurationToInt(appUser.startDate)
                     }
@@ -625,6 +629,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             .addOnFailureListener { exception ->
                 Timber.i(exception)
             }
+        //todo 이미 한 daily 개수 따지려면 today에서 dailyID 몇개있는지 판별
     }
 
     //이미 한 sust
@@ -653,6 +658,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun fireSave() = viewModelScope.launch {
         //몇번째 프로젝트 초기화
         _userCondition.value?.projectCount = +1
+        fireAllReset()
+        fireStampReset()
 
         //전체 리스트 편집
         for (i in 0 until LIST_SIZE) {

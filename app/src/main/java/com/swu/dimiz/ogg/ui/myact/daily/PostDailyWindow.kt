@@ -3,6 +3,7 @@ package com.swu.dimiz.ogg.ui.myact.daily
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.SyncStateContract.Helpers.update
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,10 +47,12 @@ class PostDailyWindow  : Fragment() {
 
     private lateinit var fragmentManager: FragmentManager
 
-    private lateinit var fireDB : FirebaseFirestore
-    private lateinit var fireStorage: FirebaseStorage
+    private val fireDB  = Firebase.firestore
+    private val fireUser = Firebase.auth.currentUser
+    private val fireStorage = Firebase.storage
     private lateinit var uri: Uri
     private var today = 0
+    var projectCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -57,8 +60,6 @@ class PostDailyWindow  : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.window_post_daily, container, false)
 
-        fireDB = Firebase.firestore
-        fireStorage = Firebase.storage
         userInit()
 
         return binding.root
@@ -117,6 +118,7 @@ class PostDailyWindow  : Fragment() {
                     gotUser?.let {
                         startDate = gotUser.startDate
                         today = convertDurationToInt(startDate)
+                        projectCount = gotUser.projectCount
                     }
                 } else { Timber.i("사용자 기본정보 받아오기 실패") }
             }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
@@ -125,7 +127,6 @@ class PostDailyWindow  : Fragment() {
     private fun uploadPostToFirebase() {
 
         val feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
-        val stampDay = SimpleDateFormat("yyyyMMdd").format(Date())
 
         fireStorage.reference.child("Feed").child(feedDay)
             .putFile(uri)              //uri를 여기서 받기때문에 여기에 위치함
@@ -153,16 +154,16 @@ class PostDailyWindow  : Fragment() {
         val daily = MyDaily(
             dailyID = viewModel.todailyId.value!!.dailyId,
             upDate = feedDay.toLong(),
-            doCount = 0,
         )
-        fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
-            .collection("Daily").document(stampDay)
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${projectCount}").document("Daily")
+            .collection(today.toString()).document(feedDay)
             .set(daily)
             .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
-
         //스탬프
         fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
+            .collection("Project${projectCount}").document("Entire")
             .collection("Stamp").document(today.toString())
             .update("dayCo2", FieldValue.increment(viewModel.todailyId.value!!.co2.toDouble()))
             .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
@@ -171,6 +172,7 @@ class PostDailyWindow  : Fragment() {
         // ─────────────────────────────────────────────────────────────────────────────────
         //                              활동 전체 상황 업로드
         val washingtonRef = fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
+            .collection("Project${projectCount}").document("Entire")
             .collection("AllAct").document(viewModel.todailyId.value!!.dailyId.toString())
 
         washingtonRef
