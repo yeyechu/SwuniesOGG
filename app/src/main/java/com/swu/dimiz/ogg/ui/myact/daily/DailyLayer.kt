@@ -118,6 +118,7 @@ class DailyLayer : Fragment() {
             listViewModel.copyUserCondition(it)
             if(it.aim > 0f) {
                 listViewModel.setCo2(it.aim)
+                listViewModel.fireGetDaily()
                 listViewModel.getTodayList()
             }
         }

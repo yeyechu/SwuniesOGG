@@ -2,11 +2,12 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/text_badge_title"
+    android:id="@+id/text_badge_subtitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/text_line_spacing"
-    android:padding="@dimen/spacing_regular"
     android:text=""
-    style="@style/StyleText.title"
+    android:fontFamily="@font/nanumsquare_r"
+    android:textStyle="bold"
+    android:textSize="@dimen/text_size_body_big"
+    android:textColor="@color/black"
     tools:text="피드 반응하기" />

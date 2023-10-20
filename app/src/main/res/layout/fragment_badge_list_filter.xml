@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/text_line_spacing"
-        android:padding="@dimen/spacing_regular"
+        android:paddingStart="@dimen/spacing_regular"
+        android:paddingTop="@dimen/spacing_small"
+        android:paddingBottom="@dimen/spacing_small"
         android:text=""
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        style="@style/StyleText.title"
+        style="@style/StyleText.subtitle"
         tools:text="피드 반응하기" />
 
     <androidx.recyclerview.widget.RecyclerView

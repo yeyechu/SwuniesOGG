@@ -29,8 +29,8 @@
 
         <ImageView
             android:id="@+id/image_badge_icon"
-            android:layout_width="@dimen/image_size_stamp_face_big"
-            android:layout_height="@dimen/image_size_stamp_face_big"
+            android:layout_width="@dimen/dimension_80"
+            android:layout_height="@dimen/dimension_80"
             android:contentDescription="@string/description_badgelist_image_badges"
             android:src="@drawable/badge_40000"
             android:adjustViewBounds="true"
@@ -45,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_medium"
             android:text=""
             android:maxLines="1"
             android:textAlignment="center"

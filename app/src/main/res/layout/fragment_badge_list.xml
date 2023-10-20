@@ -45,11 +45,9 @@
                     android:id="@+id/text_badge_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
                     android:text="@{@string/badgelist_text_badge_count(viewModel.inventorySize)}"
-                    android:background="@color/secondary_baby_gray"
                     android:padding="@dimen/spacing_regular"
-                    style="@style/StyleText.subtitle"
+                    style="@style/StyleText.title"
                     tools:text="보유한 배지 15개 " />
 
                 <androidx.recyclerview.widget.RecyclerView

@@ -20,14 +20,16 @@
         <HorizontalScrollView
             android:id="@+id/chips"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimension_70"
             android:paddingStart="@dimen/spacing_extra_small"
-            android:layout_marginTop="@dimen/spacing_small">
+            android:paddingTop="@dimen/spacing_text"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/activity_filter"
                 android:layout_width="wrap_content"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 app:chipSpacingHorizontal="@dimen/spacing_small"
                 app:singleLine="true"
                 app:singleSelection="true"
@@ -37,7 +39,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_marginTop="@dimen/dimension_60"
             android:layout_marginBottom="@dimen/spacing_scroll"
             android:background="@color/secondary_baby_gray">
 
