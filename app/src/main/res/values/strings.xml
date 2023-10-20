@@ -308,6 +308,16 @@
     <string name="mycar_electric_car">전기차</string>
     <string name="mycar_normal_car">일반 승용차</string>
 
+    <!--화원탈퇴 -->
+    <string name="signout_text1">지금 탈퇴하시면 환경을 위해 노력한 모든 활동 기록이 사라져요.</string>
+    <string name="signout_text2">지금 탈퇴하시면 꾸민 환경과 모은 뱃지도 함께 사라져요. 추후 같은 계정으로 재가입하셔도 복구할 수 없어요.</string>
+    <string name="signout_text3">탈퇴 후에는 피드를 삭제할 수 없어요. 탈퇴 신청 전에 꼭 확인해주세요.</string>
+    <string name="signout_text_checkbox">안내사항을 확인하였으며 이에 동의합니다.</string>
+    <string name="signout_btn">탈퇴하기</string>
+
+
+
+
 
 
 

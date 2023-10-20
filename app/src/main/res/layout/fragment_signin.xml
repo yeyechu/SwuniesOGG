@@ -29,9 +29,11 @@
         <!-- 로고 이미지 -->
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="@dimen/dimension_100"
-            android:layout_height="@dimen/dimension_50"
-            android:background="@drawable/common_image_ogg_logo"
+            android:layout_width="@dimen/image_size_aim_face"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_scroll"
+            android:adjustViewBounds="true"
+            android:src="@drawable/login_image_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

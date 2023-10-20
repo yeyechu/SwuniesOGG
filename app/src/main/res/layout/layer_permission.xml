@@ -58,7 +58,6 @@
         android:gravity="center_vertical"
         android:lineSpacingExtra="@dimen/spacing_extra_small"
         android:text="@string/destination_title_camera"
-        app:layout_constraintBottom_toTopOf="@id/text_garbage_gallery_body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_garbage_two" />

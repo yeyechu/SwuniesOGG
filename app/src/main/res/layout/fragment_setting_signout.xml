@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/spacing_regular"
+        android:paddingRight="@dimen/spacing_regular"
+
+        >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                style="@style/StyleText.header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/setting_text_subtitle_other_signout" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/StyleText.header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_big"
+            tools:text="오지지님"
+            android:text="@{@string/stamplayout_text_nickname(viewModel.userCondition.nickName)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <TextView
+            android:id="@+id/signout_text"
+            style="@style/StyleText.header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="정말 탈퇴하시겠어요?"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/spacing_big"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signout_text">
+
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/StyleCircle"
+                android:layout_width="@dimen/icon_size_regular"
+                android:layout_height="@dimen/icon_size_regular"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:text="1"
+
+                />
+
+            <TextView
+                style="@style/StyleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_medium"
+                android:text="@string/signout_text1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/StyleCircle"
+                android:layout_width="@dimen/icon_size_regular"
+                android:layout_height="@dimen/icon_size_regular"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:text="2"
+
+                />
+
+            <TextView
+                style="@style/StyleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_medium"
+                android:text="@string/signout_text2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/StyleCircle"
+                android:layout_width="@dimen/icon_size_regular"
+                android:layout_height="@dimen/icon_size_regular"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:text="3"
+
+                />
+
+            <TextView
+                style="@style/StyleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_medium"
+                android:text="@string/signout_text3" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_big"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"/>
+
+        <CheckedTextView
+            android:id="@+id/checkedTextView"
+            style="@style/StyleText.subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/signout_text_checkbox"
+            app:layout_constraintBottom_toBottomOf="@+id/checkBox3"
+            app:layout_constraintStart_toEndOf="@+id/checkBox3"
+            app:layout_constraintTop_toTopOf="@+id/checkBox3" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_big"
+            style="@style/StyleButtonOgg"
+            android:text="@string/signout_btn"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/checkedTextView"
+            app:layout_constraintStart_toStartOf="@+id/checkBox3"
+            app:layout_constraintTop_toBottomOf="@+id/checkedTextView"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

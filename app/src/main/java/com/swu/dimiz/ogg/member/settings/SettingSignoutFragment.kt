@@ -13,62 +13,27 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.databinding.FragmentSettingsBinding
+import com.swu.dimiz.ogg.databinding.FragmentSettingSignoutBinding
 import com.swu.dimiz.ogg.member.login.SignInActivity
-import com.swu.dimiz.ogg.ui.env.EnvViewModel
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
-class SettingsFragment : Fragment() {
 
-    private var _binding: FragmentSettingsBinding? = null
+class SettingSignoutFragment: Fragment() {
+
+    private var _binding: FragmentSettingSignoutBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
-    private val viewModel: EnvViewModel by activityViewModels()
 
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_settings, container, false)
-
-        auth = Firebase.auth
-
-        binding.changeNicknameBtn.setOnClickListener {
-
-            it?.let {
-                navController.navigate(R.id.destination_setting_nickname)
-            }
-        }
-
-        binding.changePasswordBtn.setOnClickListener {
-
-            it?.let {
-                navController.navigate(R.id.destination_setting_password)
-            }
-        }
-
-        binding.mycarBtn.setOnClickListener {
-
-            it?.let {
-                navController.navigate(R.id.destination_setting_car)
-            }
-        }
-        binding.signoutBtn.setOnClickListener {
-
-            it?.let {
-                navController.navigate(R.id.destination_setting_signout)
-            }
-        }
+            inflater, R.layout.fragment_setting_signout, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         navController = findNavController()
@@ -77,12 +42,7 @@ class SettingsFragment : Fragment() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
-        binding.logoutBtn.setOnClickListener {
-            val intent = Intent(context, SignInActivity::class.java)
-            auth.signOut()
-            requireContext().startActivity(intent)
-            MainActivity.mainActivity!!.finish()
-        }
+
     }
 
     override fun onDestroyView() {

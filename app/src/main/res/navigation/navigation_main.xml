@@ -158,6 +158,10 @@
             android:id="@+id/action_destination_settings_to_setting_password"
             app:destination="@id/destination_setting_password" />
 
+        <action
+            android:id="@+id/action_destination_settings_to_setting_signout"
+            app:destination="@id/destination_setting_signout" />
+
     </fragment>
 
 
@@ -194,5 +198,15 @@
             android:id="@+id/action_destination_setting_password_to_destination_settings"
             app:destination="@id/destination_settings" />
     </fragment>
+    <fragment
+        android:id="@+id/destination_setting_signout"
+        android:name="com.swu.dimiz.ogg.member.settings.SettingSignoutFragment"
+        >
+        <action
+            android:id="@+id/action_destination_setting_signout_to_destination_settings"
+            app:destination="@id/destination_settings" />
+    </fragment>
+
+
 
 </navigation>
