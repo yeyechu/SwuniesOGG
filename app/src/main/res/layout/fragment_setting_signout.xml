@@ -157,12 +157,13 @@
             app:layout_constraintTop_toTopOf="@+id/checkBox3" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signout_btn"
+            style="@style/StyleButtonOgg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_big"
-            style="@style/StyleButtonOgg"
-            android:text="@string/signout_btn"
 
+            android:text="@string/signout_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/checkedTextView"
             app:layout_constraintStart_toStartOf="@+id/checkBox3"

@@ -302,7 +302,6 @@ class EnvViewModel : ViewModel() {
                             Timber.i("listen:error $e")
                             return@addSnapshotListener
                         }
-
                         for (dc in snapshots!!.documentChanges) {
                             if (dc.type == DocumentChange.Type.ADDED) {
                                 val stamp = dc.document.toObject<MyStamp>()
@@ -319,59 +318,9 @@ class EnvViewModel : ViewModel() {
                         setStamp()
                     }
             }
-
         }
-        /*if (today > 0) {
-            Timber.i("이미 로그인 되어있습니다.")
-
-        } else {
-            Timber.i("로그인 안됨")
-        }*/
     }
 
-    fun fireGetDaily() = viewModelScope.launch {
-        val myDailyList = ArrayList<ListData>()
-        fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project${appUser.projectCount}")
-            .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Timber.i("listen:error", e)
-                    return@addSnapshotListener
-                }
-                for (dc in snapshots!!.documentChanges) {
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        val mylist = dc.document.toObject<MyList>()
-                        when (today) {
-                            1 -> myDailyList.add(mylist.day1act)
-                            2 -> myDailyList.add(mylist.day2act)
-                            3 -> myDailyList.add(mylist.day3act)
-                            4 -> myDailyList.add(mylist.day4act)
-                            5 -> myDailyList.add(mylist.day5act)
-                            6 -> myDailyList.add(mylist.day6act)
-                            7 -> myDailyList.add(mylist.day7act)
-                            8 -> myDailyList.add(mylist.day8act)
-                            9 -> myDailyList.add(mylist.day9act)
-                            10 -> myDailyList.add(mylist.day10act)
-                            11 -> myDailyList.add(mylist.day11act)
-                            12 -> myDailyList.add(mylist.day12act)
-                            13 -> myDailyList.add(mylist.day13act)
-                            14 -> myDailyList.add(mylist.day14act)
-                            15 -> myDailyList.add(mylist.day15act)
-                            16 -> myDailyList.add(mylist.day16act)
-                            17 -> myDailyList.add(mylist.day17act)
-                            18 -> myDailyList.add(mylist.day18act)
-                            19 -> myDailyList.add(mylist.day19act)
-                            20 -> myDailyList.add(mylist.day20act)
-                            21 -> myDailyList.add(mylist.day21act)
-                        }
-                    }
-                }
-                /*for(i in 0 until LIST_SIZE){
-                       listArray[i] = myDailyList[i]
-                   }*/
-                //setListHolder(listArray)
-            }
-    }
 
     override fun onCleared() {
         super.onCleared()

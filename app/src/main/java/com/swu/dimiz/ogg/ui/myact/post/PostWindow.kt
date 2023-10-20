@@ -229,7 +229,6 @@ class PostWindow : AppCompatActivity() {
                 .addOnFailureListener { e -> Timber.i( e ) }
 
         }else{
-            //todo limit가져와서 범위 변경
             for( i in today..21){
                 fireDB.collection("User").document(fireUser?.email.toString())
                     .collection("Stamp").document(i.toString())

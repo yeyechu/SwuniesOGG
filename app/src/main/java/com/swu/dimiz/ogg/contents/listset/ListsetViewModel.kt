@@ -629,7 +629,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             .addOnFailureListener { exception ->
                 Timber.i(exception)
             }
-        //todo 이미 한 daily 개수 따지려면 today에서 dailyID 몇개있는지 판별
+    }
+
+    //todo 이미 한 daily 개수 따지려면 today에서 dailyID 몇개있는지 판별
+    fun fireGetDailyDoneNum(){
+
     }
 
     //이미 한 sust

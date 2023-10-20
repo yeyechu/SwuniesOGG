@@ -299,7 +299,9 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    companion object {
+    //todo sust,extra 활동 기간 끝났는지 체크해서 서버에서 지우기
+
+   companion object {
 
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

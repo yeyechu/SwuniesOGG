@@ -11,8 +11,11 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyAllAct
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyGraph
 import timber.log.Timber
 
@@ -20,9 +23,10 @@ class GraphViewModel : ViewModel()
 {
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       파이어베이스 변수
-    val fireDB = Firebase.firestore
-    val fireUser = Firebase.auth.currentUser
+    private val fireDB = Firebase.firestore
+    private val fireUser = Firebase.auth.currentUser
 
+    var projectCount = 0
     //──────────────────────────────────────────────────────────────────────────────────────
     //
     //myact
@@ -37,9 +41,23 @@ class GraphViewModel : ViewModel()
     fun getGraph() {
         //_graph.value!!.co21 =
     }
+    //
+    fun fireInfo(){
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val gotUser = document.toObject<MyCondition>()
+                    gotUser?.let {
+                        projectCount = gotUser.projectCount
+                    }
+                } else { Timber.i("사용자 기본정보 받아오기 실패") }
+            }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
+    }
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       전체활동 가져오기
-    private val docRef = fireDB.collection("User").document(fireUser?.email.toString()).collection("AllAct")
+    private val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+        .collection("Project${projectCount}").document("Entire").collection("AllAct")
     fun fireGetCategory(){
         //에너지
         var energyCo2 = 0.0
