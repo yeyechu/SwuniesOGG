@@ -12,5 +12,5 @@ data class MyAllAct ( //전체활동 활동명 별 상황 저장 -> graph에서 
 
     var upCount:Int =0,
 
-    var allC02:Double =0.0  //todo 수정
+    var allCo2:Double =0.0  //todo 수정
 )

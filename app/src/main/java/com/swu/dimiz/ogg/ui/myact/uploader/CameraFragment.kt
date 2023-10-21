@@ -238,7 +238,7 @@ class CameraFragment : Fragment() {
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
         washingtonRef
-            .update("allC02", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .update("allCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
         washingtonRef

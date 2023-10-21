@@ -62,8 +62,6 @@ class GraphViewModel : ViewModel()
     }
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       전체활동 가져오기
-    //todo projectCount 받아야함
-
     fun fireGetCategory(){
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
@@ -82,16 +80,16 @@ class GraphViewModel : ViewModel()
                 if (dc.type == DocumentChange.Type.ADDED) {
                     var act = dc.document.toObject<MyAllAct>()
                     if(act.actCode == "에너지"){
-                        energyCo2 += act.allC02
+                        energyCo2 += act.allCo2
                     }
                     else if(act.actCode == "소비"){
-                        consumptionCo2 += act.allC02
+                        consumptionCo2 += act.allCo2
                     }
                     else if(act.actCode == "이동수단"){
-                        transportCo2 += act.allC02
+                        transportCo2 += act.allCo2
                     }
                     else if(act.actCode == "자원순환"){
-                        resourceCo2 += act.allC02
+                        resourceCo2 += act.allCo2
                     }
                 }
             }
@@ -126,9 +124,9 @@ class GraphViewModel : ViewModel()
                 val firstId = co2ActList[0].ID
                 val secondId = co2ActList[1].ID
                 val thirdId = co2ActList[2].ID
-                val firstCo2 = co2ActList[0].allC02
-                val secondCo2 = co2ActList[1].allC02
-                val thirdCo2 = co2ActList[2].allC02
+                val firstCo2 = co2ActList[0].allCo2
+                val secondCo2 = co2ActList[1].allCo2
+                val thirdCo2 = co2ActList[2].allCo2
             }
     }
 
