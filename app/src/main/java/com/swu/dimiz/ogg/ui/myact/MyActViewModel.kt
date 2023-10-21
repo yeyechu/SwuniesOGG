@@ -19,6 +19,7 @@ import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyExtra
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MyActViewModel (private val repository: OggRepository) : ViewModel() {
@@ -101,6 +102,11 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     private val _navigateToLink = MutableLiveData<Boolean>()
     val navigateToToLink: LiveData<Boolean>
         get() = _navigateToLink
+
+    //                                     for파이어베이스
+    private val _sustForFirebase = MutableLiveData<ActivitiesSustainable?>()
+    val sustForFirebase: LiveData<ActivitiesSustainable?>
+        get() = _sustForFirebase
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     데이터베이스 초기화
     val getSustData: LiveData<List<ActivitiesSustainable>> = repository.getAllSusts.asLiveData()
@@ -248,6 +254,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         Timber.i("destroyed")
     }
 
+    private fun getSust(id: Int) = viewModelScope.launch {
+        _sustForFirebase.value = repository.getSust(id)
+    }
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     firebase 초기화
     private val fireDB = Firebase.firestore
@@ -268,10 +278,9 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val mysust = dc.document.toObject<MySustainable>()
                         mySustList.add(mysust.sustID!!)
-
-                        _sustDone.value = mySustList
                     }
                 }
+                _sustDone.value = mySustList
                 Timber.i( "Sust result: ${_sustDone.value}")
             }
     }
@@ -291,10 +300,9 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val myextra = dc.document.toObject<MyExtra>()
                         myExtraList.add(myextra.extraID!!)
-
-                        _extraDone.value = myExtraList
                     }
                 }
+                _extraDone.value = myExtraList
                 Timber.i( "Extra result: $myExtraList")
             }
     }

@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 
 class OggRepository(private val database: OggDatabase) {
 
-    val getAlldata: Flow<List<ActivitiesDaily>> = database.dailyDatabaseDao.getAllDailys()
+    //val getAlldata: Flow<List<ActivitiesDaily>> = database.dailyDatabaseDao.getAllDailys()
     val getAllSusts: Flow<List<ActivitiesSustainable>> = database.sustDatabaseDao.getAllSusts()
     val getAllextras: Flow<List<ActivitiesExtra>> = database.extraDatabaseDao.getAllExtras()
-    val getAllBadges: Flow<List<Badges>> = database.badgesDatabaseDao.getAllItem()
+    //val getAllBadges: Flow<List<Badges>> = database.badgesDatabaseDao.getAllItem()
     //val getAllInstructions: Flow<List<Instruction>> = database.instructionDatabaseDao.getAllDirections()
 
     // ──────────────────────────────────────────────────────────────────────────
@@ -116,12 +116,6 @@ class OggRepository(private val database: OggDatabase) {
         return database.badgesDatabaseDao.getFilter()
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun getFilterDate(filter: String): List<Long>? {
-        return database.badgesDatabaseDao.getFilteredList(filter)
-    }
-
     fun getInventory(): LiveData<List<Badges>> {
         return database.badgesDatabaseDao.getBadgeInventory()
     }
@@ -136,6 +130,12 @@ class OggRepository(private val database: OggDatabase) {
     @WorkerThread
     suspend fun updateBadge(id: Int, date: Long, count: Int) {
         database.badgesDatabaseDao.updateBadgeFromFirebase(id, date, count)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateBadgeCount(id: Int, count: Int) {
+        database.badgesDatabaseDao.updateBadgeCountFromFirebase(id, count)
     }
 
     // ──────────────────────────────────────────────────────────────────────────

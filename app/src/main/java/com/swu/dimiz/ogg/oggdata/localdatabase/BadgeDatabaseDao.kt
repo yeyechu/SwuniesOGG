@@ -21,6 +21,8 @@ interface BadgeDatabaseDao {
     @Query("UPDATE badges SET getDate = :date, count = :count WHERE badgeId = :id")
     suspend fun updateBadgeFromFirebase(id: Int, date: Long, count: Int)
 
+    @Query("UPDATE badges SET count = :count WHERE badgeId = :id")
+    suspend fun updateBadgeCountFromFirebase(id: Int, count: Int)
     // ───────────────────────────────────────────────────────────────────────
     //                                라이브 데이터
     @Query("SELECT * FROM badges")
@@ -33,9 +35,6 @@ interface BadgeDatabaseDao {
     //                                지연함수
     @Query("SELECT * FROM badges WHERE badgeId = :id")
     suspend fun getItem(id: Int) : Badges
-
-    @Query("SELECT getDate FROM badges WHERE filter = :data")
-    suspend fun getFilteredList(data: String): List<Long>?
 
     @Query("SELECT DISTINCT filter FROM badges")
     suspend fun getFilter(): List<String>?

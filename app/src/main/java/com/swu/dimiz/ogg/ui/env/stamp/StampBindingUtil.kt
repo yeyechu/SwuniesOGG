@@ -62,7 +62,7 @@ fun TextView.setAimTitle(data: MyCondition?) {
             AIMCO2_ONE -> "초보"
             AIMCO2_TWO -> "중수"
             AIMCO2_THREE -> "고수"
-            else -> ""
+            else -> "비활동가"
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.contents.listset
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -27,7 +26,9 @@ import kotlin.collections.ArrayList
 
 class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
-    private var currentJob: Job? = null
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 변수
 
@@ -478,16 +479,12 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    private fun onFilterUpdated(filter: String) {
-        currentJob?.cancel()
-        currentJob = viewModelScope.launch {
-
-            try {
-                _filteredList.value = repository.getFiltered(filter)
-                //_filteredList.value = getActivities.value!!.filter { it.filter == filter }
-            } catch (e: IOException) {
-                _filteredList.value = listOf()
-            }
+    private fun onFilterUpdated(filter: String) = viewModelScope.launch {
+        try {
+            _filteredList.value = repository.getFiltered(filter)
+            //_filteredList.value = getActivities.value!!.filter { it.filter == filter }
+        } catch (e: IOException) {
+            _filteredList.value = listOf()
         }
     }
 

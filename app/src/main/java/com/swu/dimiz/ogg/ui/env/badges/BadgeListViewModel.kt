@@ -15,8 +15,6 @@ import java.io.IOException
 
 class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
-    private var currentJob: Job? = null
-
     val inventory: LiveData<List<Badges>> = repository.getInventory()
 
     val inventorySize = inventory.map {
@@ -60,15 +58,11 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     fun noClick() {}
 
-    private fun getFilters() {
-        currentJob?.cancel()
-
-        currentJob = viewModelScope.launch {
-            try {
-                _badgeFilter.value = repository.getFilter()
-            } catch (e: IOException) {
-                _badgeFilter.value = listOf()
-            }
+    private fun getFilters() = viewModelScope.launch {
+        try {
+            _badgeFilter.value = repository.getFilter()
+        } catch (e: IOException) {
+            _badgeFilter.value = listOf()
         }
     }
     // 파이어베이스에서 오는 배지 -> 룸으로 업데이트
