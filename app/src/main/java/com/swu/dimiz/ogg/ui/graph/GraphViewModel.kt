@@ -106,7 +106,7 @@ class GraphViewModel : ViewModel()
             .collection("Project$projectCount").document("Entire").collection("AllAct")
 
         var co2ActList = arrayListOf<MyAllAct>()
-        docRef.orderBy("allC02",  Query.Direction.DESCENDING).limit(3)
+        docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i(e)
