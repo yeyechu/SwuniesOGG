@@ -49,7 +49,7 @@ class EnvFragment : Fragment() {
             if(it) {
                 navController.navigate(
                     EnvFragmentDirections.actionNavigationEnvToDestinationMyenv())
-                viewModel.onNavigatedMyEnv()
+                //viewModel.onNavigatedMyEnv()
             }
         }
         // ──────────────────────────────────────────────────────────────────────────────────────

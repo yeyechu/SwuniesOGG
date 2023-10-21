@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.LayerEnvBinding
+import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeListAdapter
 import com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel
 
@@ -24,6 +25,7 @@ class MyEnvLayer : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: BadgeListViewModel by activityViewModels { BadgeListViewModel.Factory }
+    private val envViewModel: EnvViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,22 +33,6 @@ class MyEnvLayer : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate( inflater, R.layout.layer_env, container, false)
-
-        // ────────────────────────────────────────────────────────────────────────────────────────
-        //                                    어댑터 정의
-
-        val manager = GridLayoutManager(activity, 3)
-        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int = 1
-        }
-        binding.badgeList.layoutManager = manager
-
-        val badgeAdapter = InventoryAdapter(BadgeListAdapter.BadgeClickListener { id ->
-            // 클릭하면
-            // 배지 이미지 동적 생성
-            // 구현할 곳
-        })
-        binding.badgeList.adapter = badgeAdapter
 
         // ────────────────────────────────────────────────────────────────────────────────────────
         //                                    BottomSheet
@@ -91,11 +77,33 @@ class MyEnvLayer : Fragment() {
         binding.toolbar.setNavigationIcon(R.drawable.myenv_button_badge_out)
 
         binding.viewModel = viewModel
+        binding.envViewModel = envViewModel
+
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.buttonSave.setOnClickListener { item: View ->
+            envViewModel.onNavigatedMyEnv()
             item.findNavController().navigateUp()
         }
+
+        // ────────────────────────────────────────────────────────────────────────────────────────
+        //                                    어댑터 정의
+        val manager = GridLayoutManager(activity, 3)
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int = 1
+        }
+        binding.badgeList.layoutManager = manager
+
+        val badgeAdapter = InventoryAdapter(BadgeListAdapter.BadgeClickListener { id ->
+            // 클릭하면
+            // 배지 이미지 동적 생성
+            // 구현할 곳
+        })
+        binding.badgeList.adapter = badgeAdapter
+
+        // ────────────────────────────────────────────────────────────────────────────────────────
+        //                                    ㅇ
+
     }
 
     override fun onDestroyView() {

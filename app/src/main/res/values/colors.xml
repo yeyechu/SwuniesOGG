@@ -9,6 +9,7 @@
     <color name="primary_blue">#6897F3</color>
     <color name="secondary_light_blue">#A4C1F8</color>
     <color name="secondary_baby_blue">#E8EFFD</color>
+    <color name="secondary_background_blue">#F8FAFF</color>
 
     <color name="primary_gray">#757575</color>
     <color name="secondary_light_gray">#C2C2C2</color>

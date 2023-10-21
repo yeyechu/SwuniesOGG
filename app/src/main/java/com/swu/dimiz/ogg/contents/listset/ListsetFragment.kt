@@ -70,7 +70,7 @@ class ListsetFragment : Fragment() {
 
         viewModel.userCondition.observe(viewLifecycleOwner) {
             if(it.startDate != 0L) {
-                viewModel.fireGetDaily()
+                //viewModel.fireGetDaily()
                 //viewModel.getTodayList()
                 Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : ListsetFragment 106 userCondition observer : getTodayList() 호출")
                 Timber.i("todayHolder: ${viewModel.todayHolder.value}")

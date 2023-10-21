@@ -6,6 +6,9 @@
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel" />
+        <variable
+            name="envViewModel"
+            type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -30,8 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/myenv_image_dot"
-                android:visibility="gone"
-                android:adjustViewBounds="true"/>
+                android:visibility="@{envViewModel.navigateToMyEnv ? View.VISIBLE : View.GONE}"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"/>
         </FrameLayout>
 
         <!-- ─────────────────────────────────────────────────────────────────────────────────── -->

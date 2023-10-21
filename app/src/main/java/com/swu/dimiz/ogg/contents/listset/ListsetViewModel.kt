@@ -15,6 +15,7 @@ import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import kotlinx.coroutines.*
@@ -137,6 +138,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     private val _dailyDone = MutableLiveData<ActivitiesDaily?>()
     val dailyDone: LiveData<ActivitiesDaily?>
         get() = _dailyDone
+
+    //                                     for파이어베이스
+    private val _sust = MutableLiveData<ActivitiesSustainable?>()
+    val sust: LiveData<ActivitiesSustainable?>
+        get() = _sust
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                      뷰모델 초기화
@@ -286,6 +292,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         Timber.i("오늘 활동 아이디 : $id")
         Timber.i("오늘 활동 탄소량 : $dailyCo2")
         Timber.i("오늘 활동 탄소량 추가 후 co2Holder : ${_co2Holder.value}")
+    }
+
+    private fun getSust(id: Int) = viewModelScope.launch {
+        _sust.value = repository.getSust(id)
     }
 
     fun addListHolder(act: ActivitiesDaily, isChecked: Boolean) {

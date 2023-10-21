@@ -91,7 +91,7 @@ class OggRepository(private val database: OggDatabase) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getSustDate(id: Int): ActivitiesSustainable {
+    suspend fun getSust(id: Int): ActivitiesSustainable {
         return database.sustDatabaseDao.getSust(id)
     }
 
