@@ -5,23 +5,30 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
-import android.view.DragEvent
+import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
+import timber.log.Timber
 import kotlin.math.abs
 
 
-class MyEnvCanvasView(context: Context): View(context) {
+class MyEnvCanvasView(
+    context: Context,
+    attrs: AttributeSet? = null)
+    : View(context, attrs
+) {
 
     private lateinit var envCanvas: Canvas
     private lateinit var envBitmap: Bitmap
-    private lateinit var imageView: ImageView
 
-    private val drawColor = ResourcesCompat.getColor(resources, R.color.primary_blue, null)
+    private val backgroundColor = ResourcesCompat.getColor(resources, R.color.transparency_dimmed, null)
+    private val drawColor = ResourcesCompat.getColor(resources, R.color.transparency_transparent, null)
 
     private val paint = Paint().apply {
         style = Paint.Style.STROKE
@@ -43,9 +50,6 @@ class MyEnvCanvasView(context: Context): View(context) {
 
     private val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop
 
-    private var imageWidth = 40
-    private var imageHeight = 40
-
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHight: Int) {
         super.onSizeChanged(width, height, oldWidth, oldHight)
 
@@ -55,12 +59,14 @@ class MyEnvCanvasView(context: Context): View(context) {
         envBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
         envCanvas = Canvas(envBitmap)
-        imageView.setImageResource(R.drawable.login_image_face)
+        envCanvas.drawColor(backgroundColor)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
         canvas.drawBitmap(envBitmap, 0f, 0f, paintSecond)
+
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -81,6 +87,7 @@ class MyEnvCanvasView(context: Context): View(context) {
 
         currentX = motionTouchEventX
         currentY = motionTouchEventY
+        Timber.i("터치 이벤트 시작 $currentX, $currentY")
     }
 
     private fun touchMove() {
@@ -101,6 +108,7 @@ class MyEnvCanvasView(context: Context): View(context) {
             currentY = motionTouchEventY
 
             envCanvas.drawPath(path, paint)
+            Timber.i("터치 이벤트 이동중 $currentX, $currentY")
         }
         invalidate()
     }

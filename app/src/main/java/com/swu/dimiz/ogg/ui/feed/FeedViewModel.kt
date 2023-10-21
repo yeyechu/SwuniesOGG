@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.ui.feed
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
@@ -12,7 +11,6 @@ import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity.Companion.id
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber

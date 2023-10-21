@@ -38,7 +38,8 @@ class BadgeHeaderAdapter(private val viewModel: BadgeListViewModel)
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TitleViewHolder {
-        val view = FragmentBadgeListFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view = FragmentBadgeListFilterBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
         return TitleViewHolder(view)
     }
 

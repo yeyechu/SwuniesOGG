@@ -6,6 +6,7 @@
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel" />
+
         <variable
             name="envViewModel"
             type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
@@ -36,6 +37,23 @@
                 android:visibility="@{envViewModel.navigateToMyEnv ? View.VISIBLE : View.GONE}"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"/>
+
+            <com.swu.dimiz.ogg.ui.env.myenv.custom.MyEnvCanvasView
+                android:id="@+id/canvas_view"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_gravity="bottom"
+                android:visibility="@{envViewModel.navigateToMyEnv ? View.VISIBLE : View.GONE}"
+                android:layout_marginBottom="@dimen/spacing_large"/>
+
+            <FrameLayout
+                android:id="@+id/canvas_layout"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_gravity="bottom"
+
+                android:layout_marginBottom="@dimen/spacing_large"/>
+
         </FrameLayout>
 
         <!-- ─────────────────────────────────────────────────────────────────────────────────── -->
@@ -47,6 +65,14 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:title="">
+
+            <ImageButton
+                android:id="@+id/button_exit"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/icon_size_small"
+                android:src="@drawable/myenv_button_badge_out"
+                style="@style/StyleImageButton"
+                 />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_save"
@@ -87,12 +113,8 @@
                 android:id="@+id/badge_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:badgeInventory="@{viewModel.inventory}"
                 android:visibility="@{viewModel.inventoryNull ? View.GONE : View.VISIBLE}"
                 tools:listitem="@layout/fragment_badge_list_item"/>
-
-            <!-- 인벤토리에 배지 다뜨게 하고 싶으면 ↓
-            app:badgeInventory="@{viewModel.getAllData}"-->
 
             <LinearLayout
                 android:layout_width="match_parent"
