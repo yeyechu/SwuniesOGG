@@ -18,15 +18,12 @@ class BadgeInventoryAdapter(
 
             fun bind(
                 badges: Badges,
-
                 clickListener: BadgeListAdapter.BadgeClickListener
             ) {
                 binding.badge = badges
                 binding.clickListener = clickListener
                 //binding.viewModel = viewModel
-
             }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InventoryViewHolder {

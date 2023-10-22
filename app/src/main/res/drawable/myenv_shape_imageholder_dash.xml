@@ -6,5 +6,4 @@
     <stroke android:width="@dimen/stroke_shape_bold" android:color="@color/secondary_baby_gray" android:dashWidth="8dp" android:dashGap="8dp"/>
     <padding android:bottom="@dimen/spacing_extra_small" android:top="@dimen/spacing_extra_small" android:left="@dimen/spacing_extra_small" android:right="@dimen/spacing_extra_small" />
 
-
 </shape>

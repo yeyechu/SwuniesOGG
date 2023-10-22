@@ -37,9 +37,44 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     val badgeFilter: LiveData<List<String>>
         get() = _badgeFilter
 
+    private var inventoryList = ArrayList<Badges>()
+    private var displayList = ArrayList<Badges>()
+
+    private val _adapterList = MutableLiveData<List<Badges>?>()
+    val adapterList: LiveData<List<Badges>?>
+        get() = _adapterList
+
+
     init {
         Timber.i("created")
         getFilters()
+    }
+
+    fun initInventoryList() {
+        _adapterList.value = inventory.value
+        inventoryList.clear()
+        _adapterList.value?.forEach {
+            inventoryList.add(it)
+        }
+    }
+
+    fun inventoryOut(item: Badges) {
+        inventoryList.remove(item)
+        displayList.add(item)
+        setInventoryList(inventoryList)
+
+        Timber.i("inventoryOut() displayList : $displayList")
+    }
+
+    fun inventoryIn(item: Badges) {
+        inventoryList.add(item)
+        displayList.remove(item)
+        setInventoryList(inventoryList)
+
+        Timber.i("inventoryInt() displayList : $displayList")
+    }
+    private fun setInventoryList(list: List<Badges>) {
+        _adapterList.value = list
     }
 
     private fun showPopup(badge: Badges) {

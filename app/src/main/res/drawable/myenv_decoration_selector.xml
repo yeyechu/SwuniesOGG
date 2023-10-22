@@ -2,11 +2,11 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/myenv_shape_imageholder_dash"
-        android:state_window_focused="true">
+        android:state_focused="true"
+        android:drawable="@drawable/myenv_shape_imageholder_dash">
     </item>
 
-    <item android:state_window_focused="false">
-
+    <item
+        android:drawable="@color/transparency_transparent">
     </item>
 </selector>

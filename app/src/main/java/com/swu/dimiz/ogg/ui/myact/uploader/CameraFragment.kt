@@ -158,6 +158,7 @@ class CameraFragment : Fragment() {
             feedUpload()
             updateAllAct()
             updateStamp()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         return binding.root
     }
