@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -92,6 +93,8 @@ class MyEnvLayer : Fragment() {
 
         binding.buttonSave.setOnClickListener {
             envViewModel.onNavigatedMyEnv()
+            viewModel.onSaveCompleted()
+            Toast.makeText(context, getString(R.string.envlayer_button_saved), Toast.LENGTH_LONG).show()
             // 파이어베이스 저장할 곳
             it.findNavController().navigateUp()
         }
@@ -146,10 +149,11 @@ class MyEnvLayer : Fragment() {
         badge.apply {
             id = item.badgeId
             val layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
             )
             this.layoutParams = layoutParams
+
             layoutParams.setMargins(0, 29, 29, 0)
 
             setImageBitmap(item.imageDeco)
@@ -169,7 +173,7 @@ class MyEnvLayer : Fragment() {
             addView(button)
 
             setOnTouchListener { view, event ->
-
+                viewModel.onChangeDetected()
                 val viewParent = view.parent as View
 
                 val parentHeight = viewParent.height

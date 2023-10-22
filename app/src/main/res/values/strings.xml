@@ -143,6 +143,7 @@
     <string name="envlayer_text_default_title">아직 모은 배지가 없어요!</string>
     <string name="envlayer_text_default_detail">더 많은 활동 인증을 통해 배지를 얻어보세요</string>
     <string name="envlayer_button_save">저장하기</string>
+    <string name="envlayer_button_saved">꾸미기가 저장 되었어요</string>
 
     <!-- ──────────────────────────────────────   활동탭   ────────────────────────────────────── -->
 

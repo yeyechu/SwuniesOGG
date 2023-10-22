@@ -70,7 +70,8 @@
                 android:id="@+id/button_exit"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/icon_size_small"
-                android:src="@drawable/myenv_button_badge_out"
+                android:src="@drawable/myenv_button_badge_out_selector"
+                android:enabled="@{!viewModel.detector}"
                 style="@style/StyleImageButton"
                  />
 

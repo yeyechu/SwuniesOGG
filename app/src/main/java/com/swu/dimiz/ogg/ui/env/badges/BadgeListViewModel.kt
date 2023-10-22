@@ -44,10 +44,15 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     val adapterList: LiveData<List<Badges>?>
         get() = _adapterList
 
+    private val _detector = MutableLiveData<Boolean>()
+    val detector: LiveData<Boolean>
+        get() = _detector
+
 
     init {
         Timber.i("created")
         getFilters()
+        _detector.value = false
     }
 
     fun initInventoryList() {
@@ -71,10 +76,18 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         displayList.remove(item)
         setInventoryList(inventoryList)
 
-        Timber.i("inventoryInt() displayList : $displayList")
+        Timber.i("inventoryIn() displayList : $displayList")
     }
     private fun setInventoryList(list: List<Badges>) {
         _adapterList.value = list
+    }
+
+    fun onChangeDetected() {
+        _detector.value = true
+    }
+
+    fun onSaveCompleted() {
+        _detector.value = false
     }
 
     private fun showPopup(badge: Badges) {
