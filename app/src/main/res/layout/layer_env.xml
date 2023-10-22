@@ -28,7 +28,8 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/env_image_background_stage1_very_dirty" />
+                app:envImage="@{envViewModel.progressEnv}"
+                tools:src="@drawable/env_image_background_stage1_very_dirty" />
 
             <ImageView
                 android:layout_width="match_parent"

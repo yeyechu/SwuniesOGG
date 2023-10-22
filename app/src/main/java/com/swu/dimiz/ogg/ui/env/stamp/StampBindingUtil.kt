@@ -45,6 +45,17 @@ fun ImageView.setTodayImage(data: Float) {
     }
 }
 
+@BindingAdapter("envImage")
+fun ImageView.setEnvImage(data: Int) {
+    when(data) {
+        in 0..20 -> setBackgroundResource(R.drawable.env_image_background_stage1_very_dirty)
+        in 21..40 -> setBackgroundResource(R.drawable.env_image_background_stage2_dirty)
+        in 41..60 -> setBackgroundResource(R.drawable.env_image_background_stage3_usual)
+        in 61..80 -> setBackgroundResource(R.drawable.env_image_background_stage4_clean)
+        else -> setBackgroundResource(R.drawable.env_image_background_stage5_very_clean)
+    }
+}
+
 @BindingAdapter("memberFace")
 fun ImageView.setMemberImage(data: Float?) {
     when(data) {

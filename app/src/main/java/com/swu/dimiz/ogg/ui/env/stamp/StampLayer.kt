@@ -54,7 +54,7 @@ class StampLayer : Fragment() {
         viewModel.userCondition.observe(viewLifecycleOwner) {
             aim = it.aim
             viewModel.setCo2(it.aim)
-            Timber.i("${it.aim}")
+            viewModel.setUntilTodayCo2(it.aim, viewModel.date.value)
             if(it.startDate != 0L) {
                 viewModel.fireGetStamp()
             }

@@ -32,10 +32,11 @@ class MyEnvLayer : Fragment() {
     private val viewModel: BadgeListViewModel by activityViewModels { BadgeListViewModel.Factory }
     private val envViewModel: EnvViewModel by activityViewModels()
 
-    private var widgetInitialX: Float = 0f
-    private var widgetDX: Float = 0f
-    private var widgetInitialY: Float = 0f
-    private var widgetDY: Float = 0f
+    private var initX: Float = 0f
+    private var initY: Float = 0f
+
+    private var dx: Float = 0f
+    private var dy: Float = 0f
 
     private var focusedItem = 0
 
@@ -187,28 +188,28 @@ class MyEnvLayer : Fragment() {
                         focusedItem = badge.id
                         Timber.i("현재 포커스: $focusedItem")
 
-                        widgetDX = view.x - event.rawX
-                        widgetDY = view.y - event.rawY
-                        widgetInitialX = view.x
-                        widgetInitialY = view.y
+                        dx = view.x - event.rawX
+                        dy = view.y - event.rawY
+                        initX = view.x
+                        initY = view.y
                         true
                     }
                     MotionEvent.ACTION_MOVE -> {
-                        var newX = event.rawX + widgetDX
-                        newX = max(0f, newX)
-                        newX = min(xMax.toFloat(), newX)
-                        view.x = newX
+                        var motionTouchEventX = event.rawX + dx
+                        motionTouchEventX = max(0f, motionTouchEventX)
+                        motionTouchEventX = min(xMax.toFloat(), motionTouchEventX)
+                        view.x = motionTouchEventX
 
-                        var newY = event.rawY + widgetDY
-                        newY = max(0f, newY)
-                        newY = min(yMax.toFloat(), newY)
-                        view.y = newY
+                        var motionTouchEventY = event.rawY + dy
+                        motionTouchEventY = max(0f, motionTouchEventY)
+                        motionTouchEventY = min(yMax.toFloat(), motionTouchEventY)
+                        view.y = motionTouchEventY
                         true
                     }
                     MotionEvent.ACTION_UP -> {
                         Timber.i("배지 아이디 ${badge.id} 마지막 위치 : ${view.x}, ${view.y}")
 
-                        if (abs(view.x - widgetInitialX) <= 16 && abs(view.y - widgetInitialY) <= 16)
+                        if (abs(view.x - initX) <= 16 && abs(view.y - initY) <= 16)
                             view.performClick()
                         true
                     }

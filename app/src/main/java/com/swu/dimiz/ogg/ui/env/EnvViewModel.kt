@@ -36,6 +36,10 @@ class EnvViewModel : ViewModel() {
     val todayCo2: LiveData<Float>
         get() = _todayCo2
 
+    private val _untilTodayCo2 = MutableLiveData<Float>()
+    val untilTodayCo2: LiveData<Float>
+        get() = _untilTodayCo2
+
     private val _co2Holder = MutableLiveData<Float>()
     val co2Holder: LiveData<Float>
         get() = _co2Holder
@@ -84,6 +88,7 @@ class EnvViewModel : ViewModel() {
         setCo2(AIMCO2_ONE)
         _todayCo2.value = FLOAT_ZERO
         _co2Holder.value = FLOAT_ZERO
+        _untilTodayCo2.value = FLOAT_ZERO
 
         fireInfo()
 
@@ -115,6 +120,12 @@ class EnvViewModel : ViewModel() {
         _co2Holder.value = _co2Holder.value!!.plus(data)
     }
 
+    fun setUntilTodayCo2(co2: Float, date: Int?) {
+        date?.let {
+            _untilTodayCo2.value = co2 * date
+        }
+    }
+
     fun leftCo2() {
         _leftHolder.value = _aimWholeCo2.value!!.minus(_co2Holder.value!!)
     }
@@ -125,6 +136,10 @@ class EnvViewModel : ViewModel() {
 
     val progressDaily = todayCo2.map {
         it.div(_userCondition.value!!.aim).times(100).toInt()
+    }
+
+    val progressEnv = co2Holder.map {
+        it.div(_untilTodayCo2.value!!).times(100).toInt()
     }
 
     private fun setStampHolder(item: List<StampData>) {
@@ -170,6 +185,7 @@ class EnvViewModel : ViewModel() {
 
             _todayCo2.value = FLOAT_ZERO
             _co2Holder.value = FLOAT_ZERO
+            _untilTodayCo2.value = FLOAT_ZERO
 
             stampInitialize()
             setStampHolder(stampList)
