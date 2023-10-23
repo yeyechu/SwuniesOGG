@@ -228,6 +228,11 @@
     <string name="feed_text_report_body">신고가 5회 누적되면 \n더이상 피드에 보이지 않아요</string>
     <string name="feed_text_report_left_button">취소하기</string>
     <string name="feed_text_report_right_button">신고하기</string>
+
+    <string name="feed_text_reaction_title">반응 남기기</string>
+    <string name="feed_text_reaction_like">좋아요</string>
+    <string name="feed_text_reaction_fun">웃겨요</string>
+    <string name="feed_text_reaction_great">대단해요</string>
     <!--  -->
     <!-- ──────────────────────────────────────  회원메뉴  ────────────────────────────────────── -->
     <string name="settings_"> </string>

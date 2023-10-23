@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="true">
+
+        <layer-list>
+            <item>
+                <shape>
+                    <solid android:color="@color/primary_blue" />
+                    <corners android:radius="@dimen/radius_smallest" />
+                </shape>
+            </item>
+            <item android:drawable="@drawable/baseline_check_24" />
+        </layer-list>
+    </item>
+
+    <item android:state_checked="false">
+        <shape>
+            <solid android:color="@color/secondary_baby_blue" />
+            <corners android:radius="@dimen/radius_smallest" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <solid android:color="@color/secondary_baby_blue" />
+            <corners android:radius="@dimen/radius_little" />
+        </shape>
+    </item>
+</selector>

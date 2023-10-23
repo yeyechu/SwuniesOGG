@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.feed.FeedViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frame_layout_feed_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="">
+
+            <ImageButton
+                android:id="@+id/button_exit"
+                style="@style/StyleImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:padding="@dimen/spacing_regular"
+                android:contentDescription="@string/description_common_button_exit"
+                android:src="@drawable/common_button_arrow_left_svg" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/minTouchTargetSize"
+                android:padding="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:clickable="false"
+                android:textAppearance="@style/StyleText.subtitle"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:text="@{viewModel.feedId.actCode}"
+                app:chipBackgroundColor="@color/primary_blue"
+                app:chipEndPadding="@dimen/spacing_small"
+                app:chipStartPadding="@dimen/spacing_small"
+                app:chipStrokeColor="@color/primary_blue"
+                app:chipStrokeWidth="@dimen/stroke_shape_light"
+                app:chipSurfaceColor="@color/white"
+                tools:text="에너지"/>
+
+            <TextView
+                android:id="@+id/text_title_feed_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:textStyle="bold"
+                android:text="@{viewModel.feedId.actTitle}"
+                style="@style/StyleText.header"
+                tools:text="냉장고 관리하기" />
+
+            <ImageButton
+                android:id="@+id/button_report"
+                style="@style/StyleImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:padding="@dimen/spacing_small"
+                android:layout_gravity="end"
+                android:contentDescription="@string/description_button_report"
+                android:onClick="@{() -> viewModel.onReportClicked(viewModel.feedId)}"
+                android:src="@drawable/feed_button_reaction_report"
+                app:tint="@color/black"/>
+        </androidx.appcompat.widget.Toolbar>
+
+        <ImageView
+            android:id="@+id/image_feed_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:imageUrl="@{viewModel.feedId.imageUrl}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/dimension_150"-->
+<!--            android:background="@drawable/common_layer_background_rounded_top"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:padding="@dimen/spacing_regular"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/text_title_reaction"-->
+<!--                style="@style/StyleText.title"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/feed_text_reaction_title"-->
+<!--                android:textAlignment="center"-->
+<!--                app:layout_constraintBottom_toTopOf="@id/radio_group"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            <RadioGroup-->
+<!--                android:id="@+id/radio_group"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/text_title_reaction"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent">-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/image_feed_reaction_like"-->
+<!--                    android:layout_width="@dimen/dimension_80"-->
+<!--                    android:layout_height="@dimen/dimension_80"-->
+<!--                    android:onClick="@{() -> viewModel.onreactionClicked(1)}"-->
+<!--                    android:button="@drawable/feed_button_reaction_like"-->
+<!--                    android:buttonText="@string/feed_text_reaction_like"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/image_feed_reaction_fun"-->
+<!--                    app:layout_constraintHorizontal_bias="0.5"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    style="@style/StyleImageButton"/>-->
+
+<!--                <ImageButton-->
+<!--                    android:id="@+id/image_feed_reaction_fun"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="@dimen/dimension_80"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    android:onClick="@{() -> viewModel.onreactionClicked(2)}"-->
+<!--                    android:scaleType="fitCenter"-->
+<!--                    android:src="@drawable/feed_button_reaction_fun"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/image_feed_reaction_great"-->
+<!--                    app:layout_constraintHorizontal_bias="0.5"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_like"-->
+<!--                    app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_like"-->
+<!--                    style="@style/StyleImageButton"/>-->
+
+<!--                <ImageButton-->
+<!--                    android:id="@+id/image_feed_reaction_great"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="@dimen/dimension_80"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    android:onClick="@{() -> viewModel.onreactionClicked(3)}"-->
+<!--                    android:scaleType="fitCenter"-->
+<!--                    android:src="@drawable/feed_button_reaction_great"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.5"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_fun"-->
+<!--                    app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_fun"-->
+<!--                    style="@style/StyleImageButton"/>-->
+<!--            </RadioGroup>-->
+
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -26,6 +26,7 @@
     <dimen name="text_size_title">18sp</dimen>
 
     <!--                                        라운드                                        -->
+    <dimen name="radius_smallest">3dp</dimen>
     <dimen name="radius_little">6dp</dimen>
     <dimen name="radius_component">10dp</dimen>
     <dimen name="radius_card">17dp</dimen>

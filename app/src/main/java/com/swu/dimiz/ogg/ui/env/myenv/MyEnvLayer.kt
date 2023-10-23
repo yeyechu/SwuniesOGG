@@ -141,7 +141,9 @@ class MyEnvLayer : Fragment() {
             layoutParams.gravity = Gravity.END
 
             setImageResource(R.drawable.myenv_button_decoration_delete)
+            //setImageResource(R.drawable.myenv_decoration_delete_selector)
             adjustViewBounds = true
+
             setOnClickListener {
                 removeBadge(item)
             }
@@ -159,8 +161,7 @@ class MyEnvLayer : Fragment() {
 
             setImageBitmap(item.imageDeco)
             adjustViewBounds = true
-            setBackgroundResource(R.drawable.myenv_shape_imageholder_dash)
-            //setBackgroundResource(R.drawable.myenv_decoration_selector)
+            setBackgroundResource(R.drawable.myenv_decoration_selector)
 
         }
         frameLayout.apply {
@@ -175,6 +176,7 @@ class MyEnvLayer : Fragment() {
 
             setOnTouchListener { view, event ->
                 viewModel.onChangeDetected()
+
                 val viewParent = view.parent as View
 
                 val parentHeight = viewParent.height
@@ -185,8 +187,17 @@ class MyEnvLayer : Fragment() {
 
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        focusedItem = badge.id
-                        Timber.i("현재 포커스: $focusedItem")
+
+                        findFocus()?.let {
+                            Timber.i("포커스 1 : ${findFocus().id}")
+                            clearFocus()
+                        }
+
+                        badge.isFocusableInTouchMode = true
+                        badge.requestFocus()
+                        button.visibility = View.VISIBLE
+
+                        Timber.i("포커스 2 : ${findFocus().id}")
 
                         dx = view.x - event.rawX
                         dy = view.y - event.rawY
@@ -195,6 +206,7 @@ class MyEnvLayer : Fragment() {
                         true
                     }
                     MotionEvent.ACTION_MOVE -> {
+
                         var motionTouchEventX = event.rawX + dx
                         motionTouchEventX = max(0f, motionTouchEventX)
                         motionTouchEventX = min(xMax.toFloat(), motionTouchEventX)
@@ -208,16 +220,11 @@ class MyEnvLayer : Fragment() {
                     }
                     MotionEvent.ACTION_UP -> {
                         Timber.i("배지 아이디 ${badge.id} 마지막 위치 : ${view.x}, ${view.y}")
-
                         if (abs(view.x - initX) <= 16 && abs(view.y - initY) <= 16)
                             view.performClick()
                         true
                     }
-                    MotionEvent.ACTION_CANCEL -> {
-                        Timber.i("여기 오는지?")
-                        badge.setBackgroundResource(R.color.transparency_transparent)
-                        true
-                    }
+
                     else -> false
                 }
             }

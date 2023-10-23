@@ -52,8 +52,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 android:layout_gravity="bottom"
-
                 android:layout_marginBottom="@dimen/spacing_large"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                app:badgeGifimage="@{1}" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimension_100"
+                android:layout_gravity="center"
+                app:badgeGifimage="@{1}" />
 
         </FrameLayout>
 
