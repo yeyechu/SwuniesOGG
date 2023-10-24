@@ -31,6 +31,47 @@ class GraphViewModel : ViewModel()
     //──────────────────────────────────────────────────────────────────────────────────────
     //
     //myact
+    private val _energyCo2 = MutableLiveData<Float>()
+    val energyCo2: LiveData<Float>
+        get() = _energyCo2
+
+    private val _consumptionCo2 = MutableLiveData<Float>()
+    val consumptionCo2: LiveData<Float>
+        get() = _consumptionCo2
+
+    private val _transportCo2 = MutableLiveData<Float>()
+    val transportCo2: LiveData<Float>
+        get() = _transportCo2
+
+    private val _resourceCo2 = MutableLiveData<Float>()
+    val resourceCo2: LiveData<Float>
+        get() = _resourceCo2
+
+
+    private val _co2ActList = MutableLiveData<List<MyAllAct>>()
+    val co2ActList: LiveData<List<MyAllAct>>
+        get() = _co2ActList
+
+    //certify
+    private val _gotMyFeedList = MutableLiveData<List<Feed>>()
+    val gotMyFeedList: LiveData<List<Feed>>
+        get() = _gotMyFeedList
+
+    private val _sumReactionList = MutableLiveData<List<Int>>()
+    val sumReactionList: LiveData<List<Int>>
+        get() = _sumReactionList
+
+    private val _myPost = MutableLiveData<MyGraph?>()
+    val myPost: LiveData<MyGraph?>
+        get() = _myPost
+
+
+    //special
+    private val _extraRank = MutableLiveData<Float>()
+    val extraRank: LiveData<Float>
+        get() = _extraRank
+
+
 
     //certify
 
@@ -84,17 +125,14 @@ class GraphViewModel : ViewModel()
             for (dc in snapshots!!.documentChanges) {
                 if (dc.type == DocumentChange.Type.ADDED) {
                     var act = dc.document.toObject<MyAllAct>()
-                    if(act.actCode == "에너지"){
-                        energyCo2 += act.allCo2
-                    }
-                    else if(act.actCode == "소비"){
-                        consumptionCo2 += act.allCo2
-                    }
-                    else if(act.actCode == "이동수단"){
-                        transportCo2 += act.allCo2
-                    }
-                    else if(act.actCode == "자원순환"){
-                        resourceCo2 += act.allCo2
+                    if (act.actCode == "에너지") {
+                        energyCo2 += act.allCo2.toFloat() * 1000
+                    } else if (act.actCode == "소비") {
+                        consumptionCo2 += act.allCo2.toFloat() * 1000
+                    } else if (act.actCode == "이동수단") {
+                        transportCo2 += act.allCo2.toFloat() * 1000
+                    } else if (act.actCode == "자원순환") {
+                        resourceCo2 += act.allCo2.toFloat() * 1000
                     }
                 }
             }
@@ -103,6 +141,12 @@ class GraphViewModel : ViewModel()
             Timber.i("consumptionCo2 $consumptionCo2")
             Timber.i("transportCo2 $transportCo2")
             Timber.i("resourceCo2 $resourceCo2")
+
+            // LiveData를 업데이트
+            _energyCo2.value = energyCo2.toFloat()
+            _consumptionCo2.value = consumptionCo2.toFloat()
+            _transportCo2.value = transportCo2.toFloat()
+            _resourceCo2.value = resourceCo2.toFloat()
         }
     }
 
@@ -133,6 +177,9 @@ class GraphViewModel : ViewModel()
                 val thirdCo2 = co2ActList[2].allCo2
 
                 Timber.i("co2ActList $co2ActList")
+
+                _co2ActList.value = co2ActList
+
             }
     }
 
@@ -205,5 +252,27 @@ class GraphViewModel : ViewModel()
 
                 Timber.i("mostUpList $mostUpList")
             }
+    }
+
+
+    fun updateEnergyCo2(value: Float) {
+        _energyCo2.value = value
+    }
+
+    fun updateConsumptionCo2(value: Float) {
+        _consumptionCo2.value = value
+    }
+
+    fun updateTransportCo2(value: Float) {
+        _transportCo2.value = value
+    }
+
+    fun updateResourceCo2(value: Float) {
+        _resourceCo2.value = value
+    }
+
+
+    fun updateCo2ActList(data: List<MyAllAct>) {
+        _co2ActList.value = data
     }
 }
