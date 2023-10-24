@@ -36,7 +36,6 @@ class ListsetFragment : Fragment() {
             inflater, R.layout.fragment_listset, container, false)
 
         Timber.i("ListsetFragment onCreateView() 생성")
-        Timber.i("env에서 가져온 사용자 정보 : ${viewModel.userCondition.value}")
 
         //지속활동 진행중 리스트
         viewModel.initCo2Holder()

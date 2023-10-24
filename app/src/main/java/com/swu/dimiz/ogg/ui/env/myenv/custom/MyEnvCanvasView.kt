@@ -9,11 +9,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import timber.log.Timber
 import kotlin.math.abs
 

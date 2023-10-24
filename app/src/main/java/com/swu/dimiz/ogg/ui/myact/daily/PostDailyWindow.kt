@@ -1,16 +1,10 @@
 package com.swu.dimiz.ogg.ui.myact.daily
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.SyncStateContract.Helpers.update
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -18,22 +12,17 @@ import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.databinding.WindowPostDailyBinding
-import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
-import com.swu.dimiz.ogg.ui.myact.post.PostCompletedDialog
 import com.swu.dimiz.ogg.ui.myact.post.TextAdapter
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -52,7 +41,7 @@ class PostDailyWindow  : Fragment() {
     private val fireStorage = Firebase.storage
     private lateinit var uri: Uri
     private var today = 0
-    var projectCount = 0
+    private var projectCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -109,7 +98,7 @@ class PostDailyWindow  : Fragment() {
     }
 
     private fun userInit() {
-        var startDate : Long = 0L
+        var startDate : Long
 
         fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
             .get().addOnSuccessListener { document ->

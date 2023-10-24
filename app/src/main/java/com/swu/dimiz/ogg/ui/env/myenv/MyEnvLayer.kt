@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.ui.env.myenv
 
-import android.graphics.Matrix
 import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
@@ -11,8 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.LayerEnvBinding
@@ -25,7 +22,6 @@ import timber.log.Timber
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.math.roundToInt
 
 class MyEnvLayer : Fragment() {
 

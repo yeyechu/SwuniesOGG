@@ -11,18 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.databinding.WindowPostBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 
 class PostWindow : AppCompatActivity() {

@@ -28,7 +28,7 @@ class GraphMyActLayer : Fragment() {
     private lateinit var pieChart: PieChart
 
     private val binding get() = _binding!!
-    private val viewModel: GraphViewModel by activityViewModels ()
+    private val viewModel: GraphViewModel by activityViewModels { GraphViewModel.Factory }
 
     override fun onCreateView(
         inflater: LayoutInflater,

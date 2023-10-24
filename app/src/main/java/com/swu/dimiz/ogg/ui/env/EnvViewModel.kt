@@ -207,7 +207,7 @@ class EnvViewModel : ViewModel() {
     fun initLocationFromFirebase() {
         badgeList.clear()
         // ▼ 파이어베이스에서 올 데이터 저장
-//        inventoryList.forEach {
+//        badgeHolder.forEach {
 //            badgeList.add(BadgeLocation(it.badgeId, 0f, 0f))
 //        }
     }

@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.ui.myact.extra
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.WindowPostExtraBinding
-import com.swu.dimiz.ogg.databinding.WindowPostSustBinding
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
 class PostExtraWindow : Fragment() {

@@ -31,13 +31,12 @@ class GraphSpecialLayer: Fragment() {
     private val MAX_Y_VALUE = 50f
     private val SET_LABEL = "Data Set"
 
-    private val viewModel: GraphViewModel by activityViewModels()
+    private val viewModel: GraphViewModel by activityViewModels { GraphViewModel.Factory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
             : View {
         _binding =
             DataBindingUtil.inflate(inflater, R.layout.layer_graph_special_card, container, false)
-
 
         return binding.root
     }

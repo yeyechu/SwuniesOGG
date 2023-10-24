@@ -9,7 +9,6 @@ import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentBadgeListFilterBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel
-import timber.log.Timber
 
 class BadgeHeaderAdapter(private val viewModel: BadgeListViewModel)
     : RecyclerView.Adapter<BadgeHeaderAdapter.TitleViewHolder>() {

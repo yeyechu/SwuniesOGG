@@ -7,7 +7,6 @@ import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentBadgeListItemBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.ui.env.badges.BadgeListViewModel
-import timber.log.Timber
 
 class BadgeAdapter(private val data: List<String>,
                    private val viewModel: BadgeListViewModel,

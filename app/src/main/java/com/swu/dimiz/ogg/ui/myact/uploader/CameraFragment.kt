@@ -20,7 +20,6 @@ import androidx.annotation.RequiresApi
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.concurrent.futures.await
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -76,7 +75,7 @@ class CameraFragment : Fragment() {
 
     private var startDate = 0L
     var today = 0
-    var projectCount = 0
+    private var projectCount = 0
 
     private var feedDay = ""
 
@@ -165,7 +164,7 @@ class CameraFragment : Fragment() {
 
     private fun updateDailyPostCount() = lifecycleScope.launch {
         var count = CameraActivity.postCount.toInt()
-        var id = CameraActivity.id.toInt()
+        val id = CameraActivity.id.toInt()
         withContext(Dispatchers.IO) {
             OggDatabase.getInstance(requireContext())
                 .dailyDatabaseDao

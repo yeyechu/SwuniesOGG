@@ -3,13 +3,11 @@ package com.swu.dimiz.ogg.ui.myact.cardutils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.converLongToDateString
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
-import timber.log.Timber
 
 @BindingAdapter("actitityTitle")
 fun TextView.setTitle(item: ActivitiesSustainable?) {

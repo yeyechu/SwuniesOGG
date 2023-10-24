@@ -17,7 +17,7 @@ class GraphCertifyLayer : Fragment() {
     private var _binding: LayerGraphCertifyGroupBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: GraphViewModel by activityViewModels()
+    private val viewModel: GraphViewModel by activityViewModels { GraphViewModel.Factory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
             : View {

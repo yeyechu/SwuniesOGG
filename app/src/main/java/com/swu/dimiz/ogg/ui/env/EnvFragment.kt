@@ -16,7 +16,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentEnvBinding
 import timber.log.Timber
-import kotlin.math.roundToInt
 
 class EnvFragment : Fragment() {
 

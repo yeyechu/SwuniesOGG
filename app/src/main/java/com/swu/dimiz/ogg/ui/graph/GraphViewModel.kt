@@ -5,6 +5,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.Query
@@ -12,15 +16,26 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.contents.listset.listutils.ID_MODIFIER
+import com.swu.dimiz.ogg.contents.listset.listutils.NO_TITLE
 import com.swu.dimiz.ogg.convertDurationToInt
+import com.swu.dimiz.ogg.oggdata.OggRepository
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
+import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyAllAct
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyGraph
+import kotlinx.coroutines.*
 import timber.log.Timber
 
-class GraphViewModel : ViewModel()
-{
+//─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 인서님 여기 경고 뜨는 거 신경 써주세요, 하라는 대로 고치면 됩니다 ▲
+class GraphViewModel(private val repository: OggRepository) : ViewModel() {
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       파이어베이스 변수
     private val fireDB = Firebase.firestore
@@ -28,6 +43,7 @@ class GraphViewModel : ViewModel()
 
     var projectCount = 0
     var startDate = 0L
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //
     //myact
@@ -71,8 +87,6 @@ class GraphViewModel : ViewModel()
     val extraRank: LiveData<Float>
         get() = _extraRank
 
-
-
     //certify
 
     //special
@@ -80,15 +94,60 @@ class GraphViewModel : ViewModel()
     val graph: LiveData<MyGraph>
         get() = _graph
 
+    private val _title = MutableLiveData<String>()
+    val title: LiveData<String>
+        get() = _title
+
+    init {
+        Timber.i("created")
+        // 인서님,
+        // null 허용 안되는 변수들은 전부 여기서 초기화 해주셔야 합니다
+    }
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                       전체활동 가져오기
     fun getGraph() {
         //_graph.value!!.co21 =
     }
 
-    fun fireInfo(){
+    // ─────────────────────────────────────────────────────────────────────────────────────
+    //                                         활동 타이틀
+    // 기본적인 형태로 만들었고
+    // 인서님이 필요한 대로 수정해서 쓰시면 됩니다
+    private fun getTitle(id: Int) {
+        uiScope.launch {
+            _title.value = when (id / ID_MODIFIER) {
+                1 -> getDailyTitleFromRoomDatabase(id).title
+                2 -> getSustTitleFromRoomDatabase(id).title
+                3 -> getExtraTitleFromRoomDatabase(id).title
+                else -> NO_TITLE
+            }
+        }
+    }
+
+    private suspend fun getDailyTitleFromRoomDatabase(id: Int): ActivitiesDaily {
+        return withContext(Dispatchers.IO) {
+            repository.getActivityById(id)
+        }
+    }
+
+    private suspend fun getSustTitleFromRoomDatabase(id: Int): ActivitiesSustainable {
+        return withContext(Dispatchers.IO) {
+            repository.getSust(id)
+        }
+    }
+
+    private suspend fun getExtraTitleFromRoomDatabase(id: Int): ActivitiesExtra {
+        return withContext(Dispatchers.IO) {
+            repository.getExtraDate(id)
+        }
+    }
+
+    fun fireInfo() {
         fireDB.collection("User").document(fireUser?.email.toString())
             .addSnapshotListener { snapshot, e ->
                 if (e != null) {
-                    Timber.i( e)
+                    Timber.i(e)
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
@@ -105,10 +164,11 @@ class GraphViewModel : ViewModel()
                 }
             }
     }
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       전체활동 가져오기
     //todo sust 한번만 들어가는 문제
-    fun fireGetCategory(){
+    fun fireGetCategory() {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
         //에너지
@@ -126,6 +186,8 @@ class GraphViewModel : ViewModel()
                 if (dc.type == DocumentChange.Type.ADDED) {
                     var act = dc.document.toObject<MyAllAct>()
                     if (act.actCode == "에너지") {
+                        // 에너지 + 소비 + 이동수동 + 자원순환 = 전체
+                        // 에너지 / 전체 * 100
                         energyCo2 += act.allCo2.toFloat() * 1000
                     } else if (act.actCode == "소비") {
                         consumptionCo2 += act.allCo2.toFloat() * 1000
@@ -150,12 +212,12 @@ class GraphViewModel : ViewModel()
         }
     }
 
-    fun fireGetCo2(){
+    fun fireGetCo2() {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
 
         var co2ActList = arrayListOf<MyAllAct>()
-        docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
+        docRef.orderBy("allCo2", Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i(e)
@@ -168,6 +230,7 @@ class GraphViewModel : ViewModel()
                         co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
                     }
                 }
+                // 그래프 없을 때 처리
                 //분리한다면 아래 같음
                 val firstId = co2ActList[0].ID
                 val secondId = co2ActList[1].ID
@@ -183,22 +246,23 @@ class GraphViewModel : ViewModel()
             }
     }
 
-    data class feedReact(var id : String, var reactionSum : Int)
+    data class feedReact(var id: String, var reactionSum: Int)
+
     var reactionList = arrayListOf<feedReact>()
 
     var resultId = ""
-   /* var resultFun = 0
-    var resultGreat = 0
-    var resultLike = 0*/
+    /* var resultFun = 0
+     var resultGreat = 0
+     var resultLike = 0*/
 
-    fun fireGetReaction(){
+    fun fireGetReaction() {
         reactionList.clear()
-        val less =  startDate + 21000000
+        val less = startDate + 21000000
         fireDB.collection("Feed")
             .whereEqualTo("email", fireUser?.email.toString())
             .whereGreaterThan("postTime", startDate)
             .whereLessThan("postTime", less)
-            .orderBy("postTime",  Query.Direction.DESCENDING)
+            .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
@@ -221,17 +285,17 @@ class GraphViewModel : ViewModel()
                 //todo 이미지 가져오는 쪽에서 firebase 사용해서 값 가져오기
             }
             .addOnFailureListener { exception ->
-                Timber.i( exception)
+                Timber.i(exception)
             }
     }
 
-    fun fireGetMostUp(){
+    fun fireGetMostUp() {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
 
         var mostUpList = arrayListOf<Int>()
 
-        docRef.orderBy("upCount",  Query.Direction.DESCENDING).limit(3)
+        docRef.orderBy("upCount", Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i(e)
@@ -271,8 +335,22 @@ class GraphViewModel : ViewModel()
         _resourceCo2.value = value
     }
 
-
     fun updateCo2ActList(data: List<MyAllAct>) {
         _co2ActList.value = data
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+        Timber.i("destroyed")
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val repository = (this[APPLICATION_KEY] as OggApplication).repository
+                GraphViewModel(repository = repository)
+            }
+        }
     }
 }

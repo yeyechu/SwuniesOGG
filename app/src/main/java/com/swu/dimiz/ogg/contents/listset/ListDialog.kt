@@ -24,10 +24,12 @@ class ListDialog : DialogFragment() {
             onOnedayClicked()
             Timber.i("왼쪽 버튼 눌림")
         }
+
         binding.buttonRight.setOnClickListener {
             onLeftdayClicked()
             Timber.i("오른쪽 버튼 눌림")
         }
+
         binding.buttonExit.setOnClickListener {
             dismiss()
         }
@@ -45,7 +47,6 @@ class ListDialog : DialogFragment() {
         dismiss()
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -36,15 +36,16 @@ class ListFragment : Fragment() {
                 viewModel.toastInvisible()
             }
         }
+
         viewModel.userCondition.observe(viewLifecycleOwner) {
             automobile = it.car
             if(it.startDate == 0L){
                 viewModel.resetFrequency()
             }
         }
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력
-
         viewModel.activityFilter.observe(viewLifecycleOwner) { value ->
             val chipGroup = binding.activityFilter
             val chipInflater = LayoutInflater.from(chipGroup.context)

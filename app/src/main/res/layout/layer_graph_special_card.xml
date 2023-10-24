@@ -7,7 +7,6 @@
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.graph.GraphViewModel" />
-
     </data>
 
     <!-- CardView 레이아웃 -->
@@ -46,7 +45,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/special_chart"
                     android:layout_width="200dp"
@@ -71,9 +69,6 @@
                     app:layout_constraintVertical_bias="1.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-
 </layout>

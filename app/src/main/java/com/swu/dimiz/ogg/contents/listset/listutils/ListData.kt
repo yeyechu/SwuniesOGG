@@ -29,7 +29,7 @@ const val FLOAT_ZERO = 0f
 const val INTEGER_ZERO = 0
 const val CO2_WHOLE = 21f
 const val DATE_WHOLE = 21
-const val ID_MODIFIER = 10001
+const val ID_MODIFIER = 10000
 const val LIST_SIZE = 5
 
 const val ENERGY = "에너지"
@@ -37,3 +37,5 @@ const val CONSUME = "소비"
 const val TRANSPORT = "이동수단"
 const val RECYCLE = "자원순환"
 const val TOGETHER = "전체"
+
+const val NO_TITLE = "제목없음"

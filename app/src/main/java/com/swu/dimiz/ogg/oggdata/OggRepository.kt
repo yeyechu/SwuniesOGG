@@ -63,8 +63,6 @@ class OggRepository(private val database: OggDatabase) {
         return database.dailyDatabaseDao.getTodayIdCoroutines()
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
     fun getActivity(id: Int): LiveData<ActivitiesDaily> {
         return database.dailyDatabaseDao.getItem(id)
     }
