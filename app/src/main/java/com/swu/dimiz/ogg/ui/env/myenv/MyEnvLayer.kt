@@ -101,12 +101,6 @@ class MyEnvLayer : Fragment() {
             it.findNavController().navigateUp()
         }
 
-        viewModel.detector.observe(viewLifecycleOwner) {
-            if(!it) {
-                // setLocationList 실행
-            }
-        }
-
         // ────────────────────────────────────────────────────────────────────────────────────────
         //                                바텀시트 배지 출력 어댑터
         val manager = GridLayoutManager(activity, 3)
