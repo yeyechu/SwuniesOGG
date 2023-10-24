@@ -27,6 +27,7 @@ class GraphViewModel : ViewModel()
     private val fireUser = Firebase.auth.currentUser
 
     var projectCount = 0
+    var startDate = 0L
     //──────────────────────────────────────────────────────────────────────────────────────
     //
     //myact
@@ -52,9 +53,12 @@ class GraphViewModel : ViewModel()
                 if (snapshot != null && snapshot.exists()) {
                     var gotUser = snapshot.toObject<MyCondition>()!!
                     projectCount = gotUser.projectCount
+                    startDate = gotUser.startDate
                     Timber.i("projectCount $projectCount")
                     fireGetCategory()
                     fireGetCo2()
+                    fireGetReaction()
+                    fireGetMostUp()
                 } else {
                     Timber.i("Current data: null")
                 }
@@ -62,6 +66,7 @@ class GraphViewModel : ViewModel()
     }
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       전체활동 가져오기
+    //todo sust 한번만 들어가는 문제
     fun fireGetCategory(){
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
@@ -115,7 +120,6 @@ class GraphViewModel : ViewModel()
 
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
-                        Timber.i("${dc.document.id} => ${dc.document.data}")
                         var act = dc.document.toObject<MyAllAct>()
                         co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
                     }
@@ -127,33 +131,79 @@ class GraphViewModel : ViewModel()
                 val firstCo2 = co2ActList[0].allCo2
                 val secondCo2 = co2ActList[1].allCo2
                 val thirdCo2 = co2ActList[2].allCo2
+
+                Timber.i("co2ActList $co2ActList")
             }
     }
 
-    fun fireGetReaction(){
-        //시작 날짜 전에거는 못가져오게
-        // 피드에서 아이디 검색해서 리엑션 3개 더한값 가져옴
-        val gotMyFeedList = arrayListOf<Feed>()
-        val sumReactionList = arrayListOf<Int>()
+    data class feedReact(var id : String, var reactionSum : Int)
+    var reactionList = arrayListOf<feedReact>()
 
+    var resultId = ""
+   /* var resultFun = 0
+    var resultGreat = 0
+    var resultLike = 0*/
+
+    fun fireGetReaction(){
+        reactionList.clear()
+        val less =  startDate + 21000000
         fireDB.collection("Feed")
-            .orderBy("postTime",  Query.Direction.DESCENDING)
             .whereEqualTo("email", fireUser?.email.toString())
+            .whereGreaterThan("postTime", startDate)
+            .whereLessThan("postTime", less)
+            .orderBy("postTime",  Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val feed = document.toObject<Feed>()
+                    feed.id = document.id
+
+                    var reactFun = feed.reactionFun
+                    var reactGreat = feed.reactionGreat
+                    var reactLike = feed.reactionLike
+
+                    var reaccTotal = reactFun + reactGreat + reactLike
+
+                    reactionList.add(feedReact(feed.id, reaccTotal))
+                }
+                //순서대로 정렬
+                reactionList.sortByDescending { it.reactionSum }
+
+                resultId = reactionList[1].id
+                Timber.i("resultId $resultId")
+                //todo 이미지 가져오는 쪽에서 firebase 사용해서 값 가져오기
+            }
+            .addOnFailureListener { exception ->
+                Timber.i( exception)
+            }
+    }
+
+    fun fireGetMostUp(){
+        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project$projectCount").document("Entire").collection("AllAct")
+
+        var mostUpList = arrayListOf<Int>()
+
+        docRef.orderBy("upCount",  Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
-                gotMyFeedList.clear()
+
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
-                        val feed = dc.document.toObject<Feed>()
-                        feed.id = dc.document.id
-                        gotMyFeedList.add(feed)
+                        Timber.i("${dc.document.id} => ${dc.document.data}")
+                        var act = dc.document.toObject<MyAllAct>()
+                        mostUpList.add(act.ID)  //여기에 123위 순서대로 담겨있음
                     }
                 }
-            }
+                //분리한다면 아래 같음
+                val upFirstId = mostUpList[0]
+                val upSecondId = mostUpList[1]
+                val upThirdId = mostUpList[2]
 
-        // 순위비교
+                Timber.i("mostUpList $mostUpList")
+            }
     }
 }
