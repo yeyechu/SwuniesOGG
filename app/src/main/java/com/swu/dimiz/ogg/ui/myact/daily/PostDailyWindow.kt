@@ -184,11 +184,6 @@ class PostDailyWindow  : Fragment() {
             .update("allCo2", FieldValue.increment(viewModel.todailyId.value!!.co2.toDouble()))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
-
-        washingtonRef
-            .update("actCode", viewModel.todailyId.value!!.filter)
-            .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
     }
 
     override fun onDestroyView() {

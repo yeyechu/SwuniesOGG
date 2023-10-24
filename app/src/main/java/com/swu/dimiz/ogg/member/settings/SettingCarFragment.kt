@@ -18,12 +18,20 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.setBackground
+import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.databinding.FragmentSettingCarBinding
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
+import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SettingCarFragment : Fragment() {
     private val viewModel: SettingViewModel by viewModels()
@@ -39,6 +47,12 @@ class SettingCarFragment : Fragment() {
 
     var elecisChecked = false
     var nomalisChecked = false
+
+    private var startDate = 0L
+    var today = 0
+    var projectCount = 0
+
+    private var feedDay = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +77,54 @@ class SettingCarFragment : Fragment() {
                     .update("carNumber", carNumber)
                     .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                     .addOnFailureListener { e -> Timber.i(e) }
+
+                //기본 정보
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .get().addOnSuccessListener { document ->
+                        if (document != null) {
+                            val gotUser = document.toObject<MyCondition>()
+                            gotUser?.let {
+                                startDate = gotUser.startDate
+                                today = convertDurationToInt(startDate)
+                                projectCount = gotUser.projectCount
+
+                                //전기, 수소 자동차 구매 완료
+                                feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+
+                                val sust = MySustainable(
+                                    sustID = 20008,
+                                    strDay = feedDay.toLong(),
+                                )
+                                fireDB.collection("User").document(fireUser?.email.toString())
+                                    .collection("Sustainable").document("20008")
+                                    .set(sust)
+                                    .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i( e ) }
+
+                                for( i in today..21){
+                                    fireDB.collection("User").document(fireUser?.email.toString())
+                                        .collection("Project${projectCount}").document("Entire")
+                                        .collection("Stamp").document(i.toString())
+                                        .update("dayCo2", FieldValue.increment(4.027))
+                                        .addOnSuccessListener {  }
+                                        .addOnFailureListener { e -> Timber.i( e ) }
+                                }
+
+                                val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
+                                    .collection("Project${projectCount}").document("Entire")
+                                    .collection("AllAct").document("20008")
+                                washingtonRef
+                                    .update("upCount", FieldValue.increment(1))
+                                    .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                washingtonRef
+                                    .update("allCo2", FieldValue.increment(4.027))
+                                    .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i( e ) }
+                            }
+                        } else { Timber.i("사용자 기본정보 받아오기 실패") }
+                    }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
+
             }else if(nomalisChecked){
                 var car = 2
                 washingtonRef
