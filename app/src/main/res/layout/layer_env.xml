@@ -60,14 +60,6 @@
                 android:visibility="@{envViewModel.navigateToMyEnv ? View.VISIBLE : View.GONE}"
                 android:layout_marginBottom="@dimen/spacing_large"/>
 
-            <FrameLayout
-                android:id="@+id/display_layout"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:layout_gravity="bottom"
-                android:visibility="@{envViewModel.navigateToMyEnv ? View.GONE : View.VISIBLE}"
-                android:layout_marginBottom="@dimen/spacing_large"/>
-
         </FrameLayout>
 
         <!-- ─────────────────────────────────────────────────────────────────────────────────── -->

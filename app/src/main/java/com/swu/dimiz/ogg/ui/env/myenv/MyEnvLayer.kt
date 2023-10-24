@@ -96,6 +96,7 @@ class MyEnvLayer : Fragment() {
         binding.buttonSave.setOnClickListener {
             envViewModel.onNavigatedMyEnv()
             viewModel.onSaveCompleted()
+            envViewModel.setLocationList(viewModel.badgeList)
             Toast.makeText(context, getString(R.string.envlayer_button_saved), Toast.LENGTH_LONG).show()
             // 파이어베이스 저장할 곳
             it.findNavController().navigateUp()
@@ -124,8 +125,6 @@ class MyEnvLayer : Fragment() {
                 badgeInventoryAdapter.inventory = it
             }
         }
-        // ────────────────────────────────────────────────────────────────────────────────────────
-        //                                      배지 위치 저장
     }
 
     private fun addBadge(item: Badges) {
@@ -222,7 +221,8 @@ class MyEnvLayer : Fragment() {
                     }
                     MotionEvent.ACTION_UP -> {
                         Timber.i("배지 아이디 ${badge.id} 마지막 위치 : ${view.x}, ${view.y}")
-                        setMyEnv(40007, view.x, view.y)
+                        viewModel.updateLocationList(badge.id, view.x, view.y)
+
                         if (abs(view.x - initX) <= 16 && abs(view.y - initY) <= 16)
                             view.performClick()
                         true
@@ -254,50 +254,7 @@ class MyEnvLayer : Fragment() {
             removeView(frame)
         }
         viewModel.inventoryIn(item)
-    }
-
-    private fun setMyEnv(id: Int, valueX: Float, valueY: Float) {
-        val badge = ImageView(context)
-        val frameLayout = FrameLayout(requireContext())
-
-        val matrix = Matrix().apply {
-            postTranslate(valueX, valueY)
-        }
-
-        val resource = requireContext().resources.getIdentifier("badge_gif_$id", "drawable", requireContext().packageName)
-
-        badge.apply {
-            layoutParams = ViewGroup.LayoutParams(
-                300,
-                300
-            )
-
-            Glide.with(context)
-                .load(resource)
-                .apply(
-                    RequestOptions()
-                        .placeholder(R.drawable.feed_animation_loading)
-                        .error(R.drawable.myenv_image_empty)
-                ).into(this)
-            scaleType = ImageView.ScaleType.MATRIX
-            imageMatrix = matrix
-        }
-
-        frameLayout.apply {
-            layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
-        }
-
-        binding.canvasLayout.apply {
-            //addView(frameLayout)
-            addView(badge, frameLayout.layoutParams)
-        }
-    }
-
-    private fun convertToDP(value: Int): Int {
-        return (value * resources.displayMetrics.density).roundToInt()
+        viewModel.deleteLocationList(item.badgeId)
     }
 
     override fun onDestroyView() {

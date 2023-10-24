@@ -9,6 +9,7 @@ import com.swu.dimiz.ogg.converLongToDateString
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
+import timber.log.Timber
 
 @BindingAdapter("actitityTitle")
 fun TextView.setTitle(item: ActivitiesSustainable?) {
@@ -69,7 +70,7 @@ fun TextView.setButtonText(item: ActivitiesSustainable?) {
 @BindingAdapter("postDate")
 fun TextView.setPost(item: ActivitiesSustainable?) {
     item?.let {
-        val duration = item.limit - convertDurationToFormatted(item.postDate) + 1
+        val duration = item.limit - convertDurationToFormatted(item.postDate)
         text = resources.getString(R.string.myact_card_text_post_date, converLongToDateString(item.postDate), duration)
     }
 }

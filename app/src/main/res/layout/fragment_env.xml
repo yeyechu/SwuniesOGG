@@ -38,6 +38,13 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <FrameLayout
+            android:id="@+id/display_layout"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/spacing_large"/>
+
         <fragment
             android:id="@+id/include_layer_stamp"
             android:name="com.swu.dimiz.ogg.ui.env.stamp.StampLayer"

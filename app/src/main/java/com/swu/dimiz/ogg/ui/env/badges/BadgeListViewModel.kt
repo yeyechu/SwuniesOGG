@@ -46,12 +46,7 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                         배지 위치
-    private var badgeList = ArrayList<BadgeLocation>()
-
-    private val _badgeHolder = MutableLiveData<List<BadgeLocation>?>()
-    val badgeHolder: LiveData<List<BadgeLocation>?>
-        get() = _badgeHolder
-
+    var badgeList = ArrayList<BadgeLocation>()
 
     init {
         Timber.i("created")
@@ -106,10 +101,26 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         inventoryList.forEach {
             badgeList.add(BadgeLocation(it.badgeId, 0f, 0f))
         }
+        Timber.i("배지리스트 초기화: $badgeList")
     }
 
-    fun setLocationList(list: List<BadgeLocation>) {
-        _badgeHolder.value = list
+    fun updateLocationList(id: Int, x: Float, y: Float) {
+        badgeList.forEach {
+            if(it.bId == id) {
+                it.bx = x
+                it.by = y
+            }
+        }
+        Timber.i("배지리스트 업데이트: $badgeList")
+    }
+
+    fun deleteLocationList(id: Int) {
+        badgeList.forEach {
+            if(it.bId == id) {
+                it.bx = 0f
+                it.by = 0f
+            }
+        }
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────

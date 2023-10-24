@@ -1,16 +1,22 @@
 package com.swu.dimiz.ogg.ui.env
 
+import android.graphics.Matrix
 import android.os.Bundle
 import android.view.*
+import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentEnvBinding
 import timber.log.Timber
+import kotlin.math.roundToInt
 
 class EnvFragment : Fragment() {
 
@@ -36,6 +42,18 @@ class EnvFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         Timber.i("프래그먼트 onViewCreated()")
+
+        // ────────────────────────────────────────────────────────────────────────────────────────
+        //                                      배지 위치 저장
+        viewModel.badgeHolder.observe(viewLifecycleOwner) { list ->
+            list?.let { list ->
+                list.forEach {
+                    if(it.bx > 0f && it.by > 0f) {
+                        setMyEnv(it.bId, it.bx, it.by)
+                    }
+                }
+            }
+        }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                               환경 수정 플로팅 버튼 정의
@@ -94,6 +112,47 @@ class EnvFragment : Fragment() {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun setMyEnv(id: Int, valueX: Float, valueY: Float) {
+        val badge = ImageView(context)
+        val frameLayout = FrameLayout(requireContext())
+
+        val matrix = Matrix().apply {
+            postTranslate(valueX, valueY)
+        }
+
+        //val resource = requireContext().resources?.getIdentifier("badge_gif_$id", "drawable", requireContext().packageName)
+        val resource = requireContext().resources?.getIdentifier("badge_gif_40007", "drawable", requireContext().packageName)
+
+        badge.apply {
+            layoutParams = ViewGroup.LayoutParams(
+                300,
+                300
+            )
+
+            Glide.with(context)
+                .load(resource)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.feed_animation_loading)
+                        .error(R.drawable.myenv_image_empty)
+                ).into(this)
+            scaleType = ImageView.ScaleType.MATRIX
+            imageMatrix = matrix
+        }
+
+        frameLayout.apply {
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+        }
+
+        binding.displayLayout.apply {
+            //addView(frameLayout)
+            addView(badge, frameLayout.layoutParams)
         }
     }
 

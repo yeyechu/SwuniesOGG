@@ -70,6 +70,15 @@ class EnvViewModel : ViewModel() {
     val expandLayout: LiveData<Boolean>
         get() = _expandLayout
 
+    // ─────────────────────────────────────────────────────────────────────────────────────
+    //                                         배지 위치
+    private var badgeList = ArrayList<BadgeLocation>()
+
+    // 파이어베이스 배지
+    private val _badgeHolder = MutableLiveData<List<BadgeLocation>?>()
+    val badgeHolder: LiveData<List<BadgeLocation>?>
+        get() = _badgeHolder
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 변수
     private val _userCondition = MutableLiveData<MyCondition>()
@@ -191,6 +200,20 @@ class EnvViewModel : ViewModel() {
             stampInitialize()
             setStampHolder(stampList)
         }
+    }
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                      배지 위치 저장
+    fun initLocationFromFirebase() {
+        badgeList.clear()
+        // ▼ 파이어베이스에서 올 데이터 저장
+//        inventoryList.forEach {
+//            badgeList.add(BadgeLocation(it.badgeId, 0f, 0f))
+//        }
+    }
+
+    fun setLocationList(list: List<BadgeLocation>) {
+        _badgeHolder.value = list
     }
 
     // ──────────────────────────────────────────────────────────────────────────────────────

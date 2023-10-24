@@ -1,10 +1,12 @@
 package com.swu.dimiz.ogg
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 
 // 인증 등록 날짜를 문자열로 반환하는 메서드
 @SuppressLint("SimpleDateFormat")
@@ -32,5 +34,9 @@ fun convertDurationToInt(startTime: Long): Int {
     val duration = (current - startTime)/1000_000
 
     return duration.toInt() + 1 //당일에 시작했어도 1일로 표시됨
+}
+
+fun convertToDP(context: Context, value: Int): Int {
+    return (value * context.resources.displayMetrics.density).roundToInt()
 }
 
