@@ -20,12 +20,10 @@ fun convertDurationToFormatted(startTimeMilli: Long): Int {
     val currentTimeMilli: Long = System.currentTimeMillis()
     val durationMilli = currentTimeMilli - startTimeMilli
 
-    return when {
-        startTimeMilli == 0L -> 0
-        else -> {
-            val days = TimeUnit.DAYS.convert(durationMilli, TimeUnit.MILLISECONDS)
-            (days + 1).toInt()
-        }
+    return if (startTimeMilli == 0L) 0
+    else {
+        val days = TimeUnit.DAYS.convert(durationMilli, TimeUnit.MILLISECONDS)
+        (days + 1).toInt()
     }
 }
 

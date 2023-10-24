@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/description_myenv_background"
                 app:envImage="@{envViewModel.progressEnv}"
                 tools:src="@drawable/env_image_background_stage1_very_dirty" />
 
@@ -35,12 +36,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/myenv_image_dot"
+                android:contentDescription="@string/description_myenv_image_dot"
                 android:visibility="@{envViewModel.navigateToMyEnv ? View.VISIBLE : View.GONE}"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"/>
 
-            <com.swu.dimiz.ogg.ui.env.myenv.custom.MyEnvCanvasView
-                android:id="@+id/canvas_view"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_larger"
+                android:padding="@dimen/spacing_larger"
+                android:layout_gravity="bottom"
+                android:src="@drawable/login_image_face"
+                android:contentDescription="@string/description_myenv_image_ogg"
+                android:adjustViewBounds="true"
+                app:oggImage="@{envViewModel.progressEnv}" />
+
+            <FrameLayout
+                android:id="@+id/canvas_layout"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 android:layout_gravity="bottom"
@@ -48,24 +61,12 @@
                 android:layout_marginBottom="@dimen/spacing_large"/>
 
             <FrameLayout
-                android:id="@+id/canvas_layout"
+                android:id="@+id/display_layout"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 android:layout_gravity="bottom"
+                android:visibility="@{envViewModel.navigateToMyEnv ? View.GONE : View.VISIBLE}"
                 android:layout_marginBottom="@dimen/spacing_large"/>
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                app:badgeGifimage="@{1}" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimension_100"
-                android:layout_gravity="center"
-                app:badgeGifimage="@{1}" />
 
         </FrameLayout>
 
@@ -83,6 +84,7 @@
                 android:id="@+id/button_exit"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/icon_size_small"
+                android:contentDescription="@string/description_common_button_exit"
                 android:src="@drawable/myenv_button_badge_out_selector"
                 android:enabled="@{!viewModel.detector}"
                 style="@style/StyleImageButton"

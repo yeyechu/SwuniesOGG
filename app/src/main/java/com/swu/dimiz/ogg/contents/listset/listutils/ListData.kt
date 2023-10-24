@@ -15,9 +15,10 @@ data class StampData (
     var today: Int = 0
 )
 
-data class TodayData (
-    var tId: Int = 0,
-    var tNumber: Float = 0f
+data class BadgeLocation (
+    var bId: Int = 0,
+    var bx: Float = 0f,
+    var by: Float = 0f
 )
 
 const val AIMCO2_ONE = 1.4f

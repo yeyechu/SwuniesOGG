@@ -56,6 +56,12 @@
     <string name="description_common_button_arrow_down">스탬프 펼치기</string>
 
     <string name="description_env_stamp_today">오늘 스티커</string>
+
+    <string name="description_myenv_background">환경의 상태를 나타내는 이미지</string>
+    <string name="description_myenv_image_dot">스탬프에 가려져 보이지 않는 꾸미기 금지구역</string>
+    <string name="description_myenv_image_ogg">활동 상태를 대변하는 캐릭터</string>
+    <string name="description_myenv_"></string>
+
     <string name="description_listaim_image_one">바다거북 탈을 쓴 얼굴 이미지</string>
     <string name="description_listaim_image_two">물개 탈을 쓴 얼굴 이미지</string>
     <string name="description_listaim_image_three">돌고래 탈을 쓴 얼굴 이미지</string>

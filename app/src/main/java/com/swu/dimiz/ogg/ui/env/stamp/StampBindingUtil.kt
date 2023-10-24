@@ -8,6 +8,8 @@ import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import kotlin.math.abs
 
+// ──────────────────────────────────────────────────────────────────────────────────────
+//                                       스탬프 레이어
 @BindingAdapter("expandButtonImage")
 fun ImageView.setImage(boolean: Boolean) {
     boolean.let {
@@ -45,6 +47,8 @@ fun ImageView.setTodayImage(data: Float) {
     }
 }
 
+// ──────────────────────────────────────────────────────────────────────────────────────
+//                                       나의 환경
 @BindingAdapter("envImage")
 fun ImageView.setEnvImage(data: Int) {
     when(data) {
@@ -56,6 +60,19 @@ fun ImageView.setEnvImage(data: Int) {
     }
 }
 
+@BindingAdapter("oggImage")
+fun ImageView.setOGGImage(data: Int) {
+    when(data) {
+        in 0..20 -> setImageResource(R.drawable.login_image_face)
+        in 21..40 -> setImageResource(R.drawable.login_image_face)
+        in 41..60 -> setImageResource(R.drawable.login_image_face)
+        in 61..80 -> setImageResource(R.drawable.login_image_face)
+        else -> setImageResource(R.drawable.login_image_face)
+    }
+}
+
+// ──────────────────────────────────────────────────────────────────────────────────────
+//                                       회원 정보
 @BindingAdapter("memberFace")
 fun ImageView.setMemberImage(data: Float?) {
     when(data) {

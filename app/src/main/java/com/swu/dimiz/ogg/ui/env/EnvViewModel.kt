@@ -10,7 +10,6 @@ import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -49,7 +48,7 @@ class EnvViewModel : ViewModel() {
         get() = _leftHolder
 
     //──────────────────────────────────────────────────────────────────────────────────────
-    //                                      인터랙션 감지
+    //                                      이동 감지
 
     private val _navigateToMyEnv = MutableLiveData<Boolean>()
     val navigateToMyEnv: LiveData<Boolean>
@@ -73,16 +72,15 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 변수
+    private val _userCondition = MutableLiveData<MyCondition>()
+    val userCondition: LiveData<MyCondition>
+        get() = _userCondition
 
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
     private var today: Int = 0
     private var appUser = MyCondition()
-
-    private val _userCondition = MutableLiveData<MyCondition>()
-    val userCondition: LiveData<MyCondition>
-        get() = _userCondition
 
     init {
         setCo2(AIMCO2_ONE)
@@ -102,32 +100,13 @@ class EnvViewModel : ViewModel() {
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
-    //                                     룸데이터 함수
-
+    //                                        UI용 매핑
     val layerVisible = userCondition.map {
         it.startDate == 0L
     }
 
     val date = userCondition.map {
         convertDurationToInt(it.startDate)
-    }
-
-    fun setCo2(co2: Float) {
-        _aimWholeCo2.value = co2 * CO2_WHOLE
-    }
-
-    private fun plusCo2All(data: Float) {
-        _co2Holder.value = _co2Holder.value!!.plus(data)
-    }
-
-    fun setUntilTodayCo2(co2: Float, date: Int?) {
-        date?.let {
-            _untilTodayCo2.value = co2 * date
-        }
-    }
-
-    fun leftCo2() {
-        _leftHolder.value = _aimWholeCo2.value!!.minus(_co2Holder.value!!)
     }
 
     val progressWhole = co2Holder.map {
@@ -142,6 +121,28 @@ class EnvViewModel : ViewModel() {
         it.div(_untilTodayCo2.value!!).times(100).toInt()
     }
 
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                    탄소량 출력 및 계산
+    fun setCo2(co2: Float) {
+        _aimWholeCo2.value = co2 * CO2_WHOLE
+    }
+
+    fun setUntilTodayCo2(co2: Float, date: Int?) {
+        date?.let {
+            _untilTodayCo2.value = co2 * date
+        }
+    }
+
+    fun leftCo2() {
+        _leftHolder.value = _aimWholeCo2.value!!.minus(_co2Holder.value!!)
+    }
+
+    private fun plusCo2All(data: Float) {
+        _co2Holder.value = _co2Holder.value!!.plus(data)
+    }
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                      스탬프 초기화
     private fun setStampHolder(item: List<StampData>) {
         _stampHolder.postValue(item)
         Timber.i("스탬프 홀더 : ${_stampHolder.value}")
@@ -193,7 +194,7 @@ class EnvViewModel : ViewModel() {
     }
 
     // ──────────────────────────────────────────────────────────────────────────────────────
-    //                                       인터랙션 메서드
+    //                                         이동 감지
 
     fun onExpandButtonClicked() {
         _expandLayout.value = _expandLayout.value != true

@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.env.myenv
 
+import android.graphics.Matrix
 import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.LayerEnvBinding
@@ -22,7 +25,7 @@ import timber.log.Timber
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
-
+import kotlin.math.roundToInt
 
 class MyEnvLayer : Fragment() {
 
@@ -37,8 +40,6 @@ class MyEnvLayer : Fragment() {
 
     private var dx: Float = 0f
     private var dy: Float = 0f
-
-    private var focusedItem = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -100,8 +101,14 @@ class MyEnvLayer : Fragment() {
             it.findNavController().navigateUp()
         }
 
+        viewModel.detector.observe(viewLifecycleOwner) {
+            if(!it) {
+                // setLocationList 실행
+            }
+        }
+
         // ────────────────────────────────────────────────────────────────────────────────────────
-        //                                    어댑터 정의
+        //                                바텀시트 배지 출력 어댑터
         val manager = GridLayoutManager(activity, 3)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int = 1
@@ -114,6 +121,7 @@ class MyEnvLayer : Fragment() {
 
         viewModel.inventory.observe(viewLifecycleOwner) {
             viewModel.initInventoryList()
+            viewModel.initLocationList()
         }
 
         viewModel.adapterList.observe(viewLifecycleOwner) {
@@ -123,7 +131,7 @@ class MyEnvLayer : Fragment() {
             }
         }
         // ────────────────────────────────────────────────────────────────────────────────────────
-        //                                    ㅇ
+        //                                      배지 위치 저장
     }
 
     private fun addBadge(item: Badges) {
@@ -220,6 +228,7 @@ class MyEnvLayer : Fragment() {
                     }
                     MotionEvent.ACTION_UP -> {
                         Timber.i("배지 아이디 ${badge.id} 마지막 위치 : ${view.x}, ${view.y}")
+                        setMyEnv(40007, view.x, view.y)
                         if (abs(view.x - initX) <= 16 && abs(view.y - initY) <= 16)
                             view.performClick()
                         true
@@ -251,6 +260,50 @@ class MyEnvLayer : Fragment() {
             removeView(frame)
         }
         viewModel.inventoryIn(item)
+    }
+
+    private fun setMyEnv(id: Int, valueX: Float, valueY: Float) {
+        val badge = ImageView(context)
+        val frameLayout = FrameLayout(requireContext())
+
+        val matrix = Matrix().apply {
+            postTranslate(valueX, valueY)
+        }
+
+        val resource = requireContext().resources.getIdentifier("badge_gif_$id", "drawable", requireContext().packageName)
+
+        badge.apply {
+            layoutParams = ViewGroup.LayoutParams(
+                300,
+                300
+            )
+
+            Glide.with(context)
+                .load(resource)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.feed_animation_loading)
+                        .error(R.drawable.myenv_image_empty)
+                ).into(this)
+            scaleType = ImageView.ScaleType.MATRIX
+            imageMatrix = matrix
+        }
+
+        frameLayout.apply {
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+        }
+
+        binding.canvasLayout.apply {
+            //addView(frameLayout)
+            addView(badge, frameLayout.layoutParams)
+        }
+    }
+
+    private fun convertToDP(value: Int): Int {
+        return (value * resources.displayMetrics.density).roundToInt()
     }
 
     override fun onDestroyView() {
