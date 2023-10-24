@@ -11,6 +11,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSettingSignoutBinding
 import timber.log.Timber
@@ -23,11 +25,15 @@ class SettingSignoutFragment: Fragment() {
 
     private lateinit var navController: NavController
 
+    val fireUser = Firebase.auth.currentUser
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_setting_signout, container, false)
+
+        binding.textView2.text = fireUser?.email.toString() + "님"
 
         binding.signoutBtn.setOnClickListener(){
             if(binding.checkBox3.isChecked){

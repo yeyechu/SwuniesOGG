@@ -3,6 +3,7 @@ package com.swu.dimiz.ogg.member.settings
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.setBackground
 import com.swu.dimiz.ogg.databinding.FragmentSettingCarBinding
@@ -30,6 +34,12 @@ class SettingCarFragment : Fragment() {
     private lateinit var navController: NavController
     private val forCarUser: View by lazy { binding.root.findViewById(R.id.for_car_user) }
 
+    val fireDB = Firebase.firestore
+    val fireUser = Firebase.auth.currentUser
+
+    var elecisChecked = false
+    var nomalisChecked = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +48,35 @@ class SettingCarFragment : Fragment() {
             inflater, R.layout.fragment_setting_car, container, false
         )
 
+        binding.carSettingCompleteBtn.setOnClickListener {
+            val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
+
+            if(elecisChecked){
+                var car = 1
+                washingtonRef
+                    .update("car", car)
+                    .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Timber.i(e) }
+
+                var carNumber = binding.carNumberInput.editText?.text.toString()
+                washingtonRef
+                    .update("carNumber", carNumber)
+                    .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Timber.i(e) }
+            }else if(nomalisChecked){
+                var car = 2
+                washingtonRef
+                    .update("car", car)
+                    .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Timber.i(e) }
+
+                var carNumber = binding.carNumberInput.editText?.text.toString()
+                washingtonRef
+                    .update("carNumber", carNumber)
+                    .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Timber.i(e) }
+            }
+        }
         return binding.root
     }
 
@@ -107,10 +146,14 @@ class SettingCarFragment : Fragment() {
 
         binding.electricCar.setOnClickListener {
             viewModel.onElectriCarClicked()
+            elecisChecked = true
+            nomalisChecked = false
         }
 
         binding.normalCar.setOnClickListener {
             viewModel.onNormalCarClicked()
+            elecisChecked = false
+            nomalisChecked = true
         }
 
 
