@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -17,6 +19,7 @@ import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
+import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity.Companion.id
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
@@ -37,6 +40,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     var today : Int = 0
     private var appUser = MyCondition()
+
+    var dayDone : Int = 0
+    var sustCo2 : Float = 0f
+    var sustlimit : Int = 0
+
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                        클릭 핸들러
@@ -297,6 +305,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     private fun getSust(id: Int) = viewModelScope.launch {
         _sust.value = repository.getSust(id)
+        fireStampSustUp()
+        Timber.i("_sust ${_sust.value}")
     }
 
     fun addListHolder(act: ActivitiesDaily, isChecked: Boolean) {
@@ -557,8 +567,53 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 .addOnSuccessListener { }
                 .addOnFailureListener { e -> Timber.i(e) }
         }
-    }
 
+        //처음 프로젝트 시작할때 sust있으면 stamp값 올리는 걸로 수정(시작일에서 얼마나 지났는지 계산하고 뺀거만큼 스탬프에 추가)
+        fireDB.collection("User").document(fireUser?.email.toString()).collection("Sustainable")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Timber.i("${document.id} => ${document.data}")
+                    val gotSust = document.toObject<MySustainable>()
+                    dayDone = convertDurationToInt(gotSust.strDay!!)
+
+                    getSust(gotSust.sustID!!)
+                    Timber.i("gotSust.sustID ${_sust.value}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
+            }
+    }
+    private fun fireStampSustUp(){
+        if( _sust.value != null){
+            Timber.i("sustCo2 ${_sust.value!!.co2}")
+            Timber.i("sustlimit ${_sust.value!!.limit}")
+            sustCo2 = _sust.value!!.co2
+            sustlimit = _sust.value!!.limit
+
+            if(sustlimit - dayDone >21){
+                for (i in 1..21){
+                    fireDB.collection("User").document(fireUser?.email.toString())
+                        .collection("Project${_userCondition.value?.projectCount}").document("Entire")
+                        .collection("Stamp").document(i.toString())
+                        .update("dayCo2", FieldValue.increment(sustCo2.toDouble()))
+                        .addOnSuccessListener {  }
+                        .addOnFailureListener { e -> Timber.i( e ) }
+                }
+            }else{
+                for (i in 1..sustlimit - dayDone){
+                    fireDB.collection("User").document(fireUser?.email.toString())
+                        .collection("Project${_userCondition.value?.projectCount}").document("Entire")
+                        .collection("Stamp").document(i.toString())
+                        .update("dayCo2", FieldValue.increment(sustCo2.toDouble()))
+                        .addOnSuccessListener { }
+                        .addOnFailureListener { e -> Timber.i( e ) }
+                }
+            }
+        }
+
+    }
     // ───────────────────────────────────────────────────────────────────────────────────
     //                             기본 정보 가져오기
     fun fireInfo() = viewModelScope.launch {
@@ -629,6 +684,21 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     if(it.aId != 0) {
                         addCo2HolderFromListHolder(it.aId)
                         updateListFire(it)
+
+                        //이미 한 daily 개수 따지려면 today에서 dailyID 몇개있는지 판별
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Project${_userCondition.value?.projectCount}")
+                            .document("Daily").collection(today.toString())
+                            .whereEqualTo("dailyID", it.aId)
+                            .count().get(AggregateSource.SERVER).addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    // Count fetched successfully
+                                    val snapshot = task.result
+                                    Timber.i(" ${it.aId} Count: ${snapshot.count}")
+                                } else {
+                                    Timber.i("Count failed: ${task.exception}")
+                                }
+                            }
                     }
                 }
                 getTodayList()
@@ -638,10 +708,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    //todo 이미 한 daily 개수 따지려면 today에서 dailyID 몇개있는지 판별
-    fun fireGetDailyDoneNum(){
-
-    }
 
     //이미 한 sust
     private var mySustList = ArrayList<Int>()
@@ -691,7 +757,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 
-            washingtonRef.update("aim", _aimCo2.value)
+            washingtonRef.update("aim", _aimCo2.value?.toDouble())
                 .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 

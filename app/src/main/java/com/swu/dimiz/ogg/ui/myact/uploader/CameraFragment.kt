@@ -260,11 +260,8 @@ class CameraFragment : Fragment() {
                 .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
 
-        }else{
-            //sust, extra
-            Timber.i("오늘 $today")
-            //todo 처음 프로젝트 시작할때 sust있으면 stamp값 올리는 걸로 수정(시작일에서 얼마나 지났는지 계산하고 뺀거만큼 스탬프에 추가
-            //limit값 받기는 해야함 for문에서 21 보다 크면 21까지 작으면 limit까지 스탬프 추가
+        }else if(CameraActivity.id.toInt() < 30000){
+            //sust
             for( i in today..21){
                 fireDB.collection("User").document(fireUser?.email.toString())
                     .collection("Project${projectCount}").document("Entire")
@@ -274,6 +271,15 @@ class CameraFragment : Fragment() {
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
         }
+        /*else{
+            //extra
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${projectCount}").document("Entire")
+                .collection("Stamp").document(today.toString())
+                .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
+                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+        }*/
     }
 
 

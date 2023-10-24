@@ -144,7 +144,7 @@ class PostDailyWindow  : Fragment() {
                         actCode = viewModel.todailyId.value!!.filter,
                         imageUrl = imageUrl)
 
-                    fireDB.collection("Feed").document(feedDay)
+                    fireDB.collection("Feed").document()
                         .set(post)
                         .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
                         }.addOnFailureListener {  e -> Timber.i("feed firestore 올리기 오류", e)}

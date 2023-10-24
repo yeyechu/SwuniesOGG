@@ -1,6 +1,7 @@
 package com.swu.dimiz.ogg.ui.myact
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -11,12 +12,12 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.convertDurationToFormatted
+import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyExtra
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
 import kotlinx.coroutines.launch
@@ -107,6 +108,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     private val _sustForFirebase = MutableLiveData<ActivitiesSustainable?>()
     val sustForFirebase: LiveData<ActivitiesSustainable?>
         get() = _sustForFirebase
+
+    private val _extraForFirebase = MutableLiveData<ActivitiesExtra?>()
+    val extraForFirebase: LiveData<ActivitiesExtra?>
+        get() = _extraForFirebase
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     데이터베이스 초기화
     val getSustData: LiveData<List<ActivitiesSustainable>> = repository.getAllSusts.asLiveData()
@@ -256,12 +261,23 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
     private fun getSust(id: Int) = viewModelScope.launch {
         _sustForFirebase.value = repository.getSust(id)
+        fireDelSust()
+    }
+
+    private fun getExtra(id: Int) = viewModelScope.launch {
+        _extraForFirebase.value = repository.getExtraDate(id)
+        fireDelExtra()
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     firebase 초기화
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
+
+    private var dayDoneSust : Int = 0
+    private var sustlimit : Int = 0
+    private var dayDoneExtra : Int = 0
+    private var extralimit : Int = 0
 
     //이미 한 sust
     private var mySustList = ArrayList<Int>()
@@ -277,7 +293,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val mysust = dc.document.toObject<MySustainable>()
+                        dayDoneSust = convertDurationToInt(mysust.strDay!!)
                         mySustList.add(mysust.sustID!!)
+                        //날짜 체크해서 지우기
+                        getSust(mysust.sustID!!)
                     }
                 }
                 _sustDone.value = mySustList
@@ -299,7 +318,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val myextra = dc.document.toObject<MyExtra>()
+                        dayDoneExtra = convertDurationToInt(myextra.strDay!!)
                         myExtraList.add(myextra.extraID!!)
+                        //날짜 체크해서 지우기
+                        getExtra(myextra.extraID!!)
                     }
                 }
                 _extraDone.value = myExtraList
@@ -307,7 +329,36 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    //todo sust,extra 활동 기간 끝났는지 체크해서 서버에서 지우기
+    private fun fireDelSust(){
+        if( _sustForFirebase.value != null) {
+            Timber.i("sustlimit ${_sustForFirebase.value!!.limit}")
+            sustlimit = _sustForFirebase.value!!.limit
+
+            if(sustlimit - dayDoneSust <= 0){
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Sustainable").document(_sustForFirebase.value!!.sustId.toString())
+                    .delete()
+                    .addOnSuccessListener { Timber.i("Sust successfully deleted!") }
+                    .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
+            }
+        }
+    }
+
+    private fun fireDelExtra(){
+        if( _extraForFirebase.value != null) {
+            Timber.i("sustlimit ${_extraForFirebase.value!!.limit}")
+            extralimit = _extraForFirebase.value!!.limit
+
+            if(extralimit - dayDoneExtra <= 0){
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Extra").document(_extraForFirebase.value!!.extraId.toString())
+                    .delete()
+                    .addOnSuccessListener { Timber.i("Extra successfully deleted!") }
+                    .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
+            }
+        }
+    }
+
 
    companion object {
 
