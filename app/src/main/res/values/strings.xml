@@ -32,11 +32,12 @@
     <string name="destination_title_listchanger">활동 수정</string>
 
     <string name="destination_title_checklist">체크리스트</string>
+    <string name="destination_title_postlink">산림 중요성 인식하기</string>
 
     <!--                              통계페이지에서 접근하는 모든 페이지                             -->
 
     <!--                              피드페이지에서 접근하는 모든 페이지                             -->
-
+    <string name="destination_title_feed_detail">인증 상세보기</string>
 
     <!-- ──────────────────────────────────────    수치    ────────────────────────────────────── -->
     <!--                            콘텐츠와 관련된 주요한 수치들은 이곳에 명시                          -->

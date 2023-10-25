@@ -117,7 +117,6 @@ class MyActFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      지속가능한 어댑터
-
         sustAdapter = PagerSustAdapter(viewModel, PagerSustAdapter.OnClickListener{
             viewModel.showSust(it)
         })
@@ -255,9 +254,7 @@ class MyActFragment : Fragment() {
 
         viewModel.navigateToToLink.observe(viewLifecycleOwner) {
             if(it) {
-                // 와이어프레임이 아직 안나와서
-                // 이동은 안함
-                // 이동 정의 필요
+                navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationPostLink())
                 viewModel.onLinkCompleted()
                 fragmentManager.popBackStack()
             }

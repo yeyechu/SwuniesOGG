@@ -24,7 +24,7 @@
     <item>
         <shape>
             <solid android:color="@color/secondary_baby_blue" />
-            <corners android:radius="@dimen/radius_little" />
+            <corners android:radius="@dimen/radius_smallest" />
         </shape>
     </item>
 </selector>

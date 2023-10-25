@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_navigation_myact_to_destination_setting_car"
             app:destination="@id/destination_setting_car" />
+        <action
+            android:id="@+id/action_navigation_myact_to_destination_post_link"
+            app:destination="@id/destination_post_link" />
     </fragment>
 
     <fragment
@@ -58,12 +61,7 @@
     <fragment
         android:id="@+id/navigation_feed"
         android:name="com.swu.dimiz.ogg.ui.feed.FeedFragment"
-        tools:layout="@layout/fragment_feed" >
-        <action
-            android:id="@+id/action_navigation_feed_to_destination_feed_detail"
-            app:destination="@id/destination_feed_detail" />
-
-    </fragment>
+        tools:layout="@layout/fragment_feed" />
 
     <fragment
         android:id="@+id/destination_badge_list"
@@ -96,8 +94,6 @@
             app:destination="@id/destination_settings"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
-
-
     </fragment>
 
     <fragment
@@ -164,14 +160,7 @@
 
     </fragment>
 
-
     <include app:graph="@navigation/navigation_camera" />
-
-    <fragment
-        android:id="@+id/destination_feed_detail"
-        android:name="com.swu.dimiz.ogg.ui.feed.detail.FeedDetailFragment"
-        tools:layout="@layout/fragment_feed_detail" >
-    </fragment>
 
     <fragment
         android:id="@+id/destination_checklist"
@@ -182,31 +171,34 @@
         android:id="@+id/destination_setting_car"
         android:name="com.swu.dimiz.ogg.member.settings.SettingCarFragment"
         tools:layout="@layout/fragment_setting_car"/>
+
     <fragment
         android:id="@+id/destination_setting_nickname"
-        android:name="com.swu.dimiz.ogg.member.settings.SettingNickNameFragment"
-       >
+        android:name="com.swu.dimiz.ogg.member.settings.SettingNickNameFragment">
         <action
             android:id="@+id/action_destination_setting_nickname_to_destination_settings"
             app:destination="@id/destination_settings" />
     </fragment>
+
     <fragment
         android:id="@+id/destination_setting_password"
-        android:name="com.swu.dimiz.ogg.member.settings.SettingPasswordFragment"
-        >
+        android:name="com.swu.dimiz.ogg.member.settings.SettingPasswordFragment">
         <action
             android:id="@+id/action_destination_setting_password_to_destination_settings"
             app:destination="@id/destination_settings" />
     </fragment>
+
     <fragment
         android:id="@+id/destination_setting_signout"
-        android:name="com.swu.dimiz.ogg.member.settings.SettingSignoutFragment"
-        >
+        android:name="com.swu.dimiz.ogg.member.settings.SettingSignoutFragment">
         <action
             android:id="@+id/action_destination_setting_signout_to_destination_settings"
             app:destination="@id/destination_settings" />
     </fragment>
 
-
+    <fragment
+        android:id="@+id/destination_post_link"
+        android:name="com.swu.dimiz.ogg.ui.myact.post.PostLinkFragment"
+        tools:layout="@layout/fragment_post_link"/>
 
 </navigation>

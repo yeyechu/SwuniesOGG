@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:state_checked="true">
+        <layer-list>
+            <shape>
+                <solid android:color="@color/transparency_dimmed" />
+            </shape>
+            <item
+                android:drawable="@drawable/feed_button_reaction_fun"
+                android:height="@dimen/image_size_reaction" android:width="@dimen/image_size_reaction"/>
+        </layer-list>
+    </item>
+
+    <item
+        android:state_checked="false">
+        <layer-list>
+            <shape>
+                <solid android:color="@color/transparency_transparent" />
+            </shape>
+            <item
+                android:drawable="@drawable/feed_button_reaction_fun"
+                android:height="@dimen/image_size_reaction" android:width="@dimen/image_size_reaction"/>
+        </layer-list>
+    </item>
+
+    <item>
+        <layer-list>
+            <shape>
+                <solid android:color="@color/transparency_transparent" />
+            </shape>
+            <item
+                android:drawable="@drawable/feed_button_reaction_fun"
+                android:height="@dimen/image_size_reaction" android:width="@dimen/image_size_reaction"/>
+        </layer-list>
+    </item>
+</selector>

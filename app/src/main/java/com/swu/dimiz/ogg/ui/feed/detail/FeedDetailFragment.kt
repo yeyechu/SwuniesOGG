@@ -12,12 +12,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.databinding.FragmentFeedDetailBinding
+import com.swu.dimiz.ogg.databinding.FragmentFeedDetailWhiteBinding
 import com.swu.dimiz.ogg.ui.feed.FeedViewModel
 
 class FeedDetailFragment : Fragment() {
 
-    private var _binding: FragmentFeedDetailBinding? = null
+    private var _binding: FragmentFeedDetailWhiteBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: FeedViewModel by activityViewModels()
@@ -29,7 +29,7 @@ class FeedDetailFragment : Fragment() {
     ): View {
 
         _binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_feed_detail, container, false)
+            inflater, R.layout.fragment_feed_detail_white, container, false)
 
         return binding.root
     }
