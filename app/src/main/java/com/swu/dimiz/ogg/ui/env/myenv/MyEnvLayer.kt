@@ -98,6 +98,7 @@ class MyEnvLayer : Fragment() {
             Toast.makeText(context, getString(R.string.envlayer_button_saved), Toast.LENGTH_LONG).show()
             // 파이어베이스 저장할 곳
             //todo 뷰모델 함수 부르기
+
             it.findNavController().navigateUp()
         }
 
