@@ -75,6 +75,7 @@ class EnvViewModel : ViewModel() {
     private var badgeList = ArrayList<BadgeLocation>()
 
     // 파이어베이스 배지
+    //todo 서버xy값
     private val _badgeHolder = MutableLiveData<List<BadgeLocation>?>()
     val badgeHolder: LiveData<List<BadgeLocation>?>
         get() = _badgeHolder
@@ -206,11 +207,19 @@ class EnvViewModel : ViewModel() {
     //                                      배지 위치 저장
     fun initLocationFromFirebase() {
         badgeList.clear()
+        //todo 홀더에 저장해서 리스트에 저장함
+        //bageholder에 담겨있음
         // ▼ 파이어베이스에서 올 데이터 저장
 //        badgeHolder.forEach {
 //            badgeList.add(BadgeLocation(it.badgeId, 0f, 0f))
 //        }
+        _badgeHolder.value?.forEach{
+            it.bId
+        }
+
     }
+
+    //그냥 배지 받아오는 것도
 
     fun setLocationList(list: List<BadgeLocation>) {
         _badgeHolder.value = list

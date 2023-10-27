@@ -1,7 +1,5 @@
 package com.swu.dimiz.ogg.ui.graph
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.L
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,11 +13,9 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.ID_MODIFIER
 import com.swu.dimiz.ogg.contents.listset.listutils.NO_TITLE
-import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
@@ -151,14 +147,15 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
-                    var gotUser = snapshot.toObject<MyCondition>()!!
+                    val gotUser = snapshot.toObject<MyCondition>()!!
                     projectCount = gotUser.projectCount
+                    //0이면 없음 페이지
                     startDate = gotUser.startDate
-                    Timber.i("projectCount $projectCount")
                     fireGetCategory()
                     fireGetCo2()
                     fireGetReaction()
                     fireGetMostUp()
+                    fireGetExtra()
                 } else {
                     Timber.i("Current data: null")
                 }
@@ -166,9 +163,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
-    //                                       전체활동 가져오기
-    //todo sust 한번만 들어가는 문제
-    fun fireGetCategory() {
+    //                                       Daily 가져오기
+    private fun fireGetCategory(){
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
         //에너지
@@ -185,16 +181,17 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             for (dc in snapshots!!.documentChanges) {
                 if (dc.type == DocumentChange.Type.ADDED) {
                     var act = dc.document.toObject<MyAllAct>()
-                    if (act.actCode == "에너지") {
-                        // 에너지 + 소비 + 이동수동 + 자원순환 = 전체
-                        // 에너지 / 전체 * 100
-                        energyCo2 += act.allCo2.toFloat() * 1000
-                    } else if (act.actCode == "소비") {
-                        consumptionCo2 += act.allCo2.toFloat() * 1000
-                    } else if (act.actCode == "이동수단") {
-                        transportCo2 += act.allCo2.toFloat() * 1000
-                    } else if (act.actCode == "자원순환") {
-                        resourceCo2 += act.allCo2.toFloat() * 1000
+                    if(act.actCode == "에너지"){
+                        energyCo2 += act.allCo2
+                    }
+                    else if(act.actCode == "소비"){
+                        consumptionCo2 += act.allCo2
+                    }
+                    else if(act.actCode == "이동수단"){
+                        transportCo2 += act.allCo2
+                    }
+                    else if(act.actCode == "자원순환"){
+                        resourceCo2 += act.allCo2
                     }
                 }
             }
@@ -203,21 +200,15 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             Timber.i("consumptionCo2 $consumptionCo2")
             Timber.i("transportCo2 $transportCo2")
             Timber.i("resourceCo2 $resourceCo2")
-
-            // LiveData를 업데이트
-            _energyCo2.value = energyCo2.toFloat()
-            _consumptionCo2.value = consumptionCo2.toFloat()
-            _transportCo2.value = transportCo2.toFloat()
-            _resourceCo2.value = resourceCo2.toFloat()
         }
     }
 
-    fun fireGetCo2() {
+    private fun fireGetCo2(){
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
 
         var co2ActList = arrayListOf<MyAllAct>()
-        docRef.orderBy("allCo2", Query.Direction.DESCENDING).limit(3)
+        docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i(e)
@@ -230,7 +221,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                         co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
                     }
                 }
-                // 그래프 없을 때 처리
                 //분리한다면 아래 같음
                 val firstId = co2ActList[0].ID
                 val secondId = co2ActList[1].ID
@@ -240,22 +230,75 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 val thirdCo2 = co2ActList[2].allCo2
 
                 Timber.i("co2ActList $co2ActList")
-
-                _co2ActList.value = co2ActList
-
             }
     }
+    /*private fun fireGetCategoryCo2(){
+        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project$projectCount").document("Entire").collection("AllAct")
 
+        var energyCo2 = 0.0
+        var consumptionCo2 = 0.0
+        var transportCo2 = 0.0
+        var resourceCo2 = 0.0
+
+        var co2ActList = arrayListOf<Double>()
+
+        docRef.whereLessThan("ID", 20000) //daily만 가져오기
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        var act = dc.document.toObject<MyAllAct>()
+                        co2ActList.add(act.allCo2)
+
+                        if (act.actCode == "에너지") {
+                            // 에너지 + 소비 + 이동수동 + 자원순환 = 전체
+                            // 에너지 / 전체 * 100
+                            energyCo2 += act.allCo2.toFloat() * 1000
+                        } else if (act.actCode == "소비") {
+                            consumptionCo2 += act.allCo2.toFloat() * 1000
+                        } else if (act.actCode == "이동수단") {
+                            transportCo2 += act.allCo2.toFloat() * 1000
+                        } else if (act.actCode == "자원순환") {
+                            resourceCo2 += act.allCo2.toFloat() * 1000
+                        }
+                    }
+                }
+                //각 카테고리별 Co2합
+                Timber.i("energyCo2 $energyCo2")
+                Timber.i("consumptionCo2 $consumptionCo2")
+                Timber.i("transportCo2 $transportCo2")
+                Timber.i("resourceCo2 $resourceCo2")
+
+                // LiveData를 업데이트
+                _energyCo2.value = energyCo2.toFloat()
+                _consumptionCo2.value = consumptionCo2.toFloat()
+                _transportCo2.value = transportCo2.toFloat()
+                _resourceCo2.value = resourceCo2.toFloat()
+
+                // 그래프 없을 때 처리
+                //분리한다면 아래 같음
+                //가장 많은 탄소를 줄인 활동명 3
+                co2ActList.sortDescending()
+                Timber.i("co2ActList $co2ActList")
+
+                //_co2ActList.value = co2ActList
+            }
+    }*/
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                       전체활동 가져오기
     data class feedReact(var id: String, var reactionSum: Int)
 
-    var reactionList = arrayListOf<feedReact>()
+    private var reactionList = arrayListOf<feedReact>()
 
-    var resultId = ""
-    /* var resultFun = 0
-     var resultGreat = 0
-     var resultLike = 0*/
+    private var resultId = ""
 
-    fun fireGetReaction() {
+    private fun fireGetReaction() {
         reactionList.clear()
         val less = startDate + 21000000
         fireDB.collection("Feed")
@@ -280,7 +323,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
 
-                resultId = reactionList[1].id
+                resultId = reactionList[0].id
                 Timber.i("resultId $resultId")
                 //todo 이미지 가져오는 쪽에서 firebase 사용해서 값 가져오기
             }
@@ -289,7 +332,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    fun fireGetMostUp() {
+    private fun fireGetMostUp() {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
 
@@ -317,6 +360,48 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 Timber.i("mostUpList $mostUpList")
             }
     }
+
+    //특별활동 전체 순위
+    private fun fireGetExtra(){
+        val docRef = fireDB.collection("User")
+
+        var usersExtraList = arrayListOf<Int>()
+        var uExtra = 0
+
+        docRef
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        var user = dc.document.toObject<MyCondition>()
+                        if(user.email == fireUser?.email.toString()){
+                            uExtra = user.extraPost
+                        }
+                        usersExtraList.add(user.extraPost)  //전체회원 특별 올린 횟수
+                    }
+                }
+
+                usersExtraList.sortDescending()
+
+                var level = 0
+                var size = usersExtraList.size
+                for( i in 0 until size){
+                    if(uExtra == usersExtraList[i]){
+                        level = i
+                    }
+                }
+                var rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100
+                Timber.i("level $level")
+                Timber.i("size $size")
+                Timber.i("rank $rank")
+            }
+    }
+
+
 
 
     fun updateEnergyCo2(value: Float) {

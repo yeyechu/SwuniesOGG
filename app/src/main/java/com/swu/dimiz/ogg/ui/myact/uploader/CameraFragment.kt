@@ -266,15 +266,13 @@ class CameraFragment : Fragment() {
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
         }
-        /*else{
-            //extra
+        else{
+            //extra  특별활동 순위 비교 위함
             fireDB.collection("User").document(fireUser?.email.toString())
-                .collection("Project${projectCount}").document("Entire")
-                .collection("Stamp").document(today.toString())
-                .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
-                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .update("extraPost", FieldValue.increment(1))
+                .addOnSuccessListener { Timber.i("extraPost 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
-        }*/
+        }
     }
 
 

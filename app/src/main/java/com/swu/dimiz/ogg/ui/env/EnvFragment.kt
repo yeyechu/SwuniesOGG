@@ -49,6 +49,7 @@ class EnvFragment : Fragment() {
                 list.forEach {
                     if(it.bx > 0f && it.by > 0f) {
                         setMyEnv(it.bId, it.bx, it.by)
+                        //todo 배지 위치 저장
                     }
                 }
             }

@@ -13,5 +13,9 @@ data class MyBadge(
 
     var getDate: Long?=null,   //획득 날짜
 
-    var count: Int = 0         //획득 조건
+    var count: Int = 0,         //획득 조건
+
+    var valueX : Double = 0.0,
+
+    var valueY : Double = 0.0
 )

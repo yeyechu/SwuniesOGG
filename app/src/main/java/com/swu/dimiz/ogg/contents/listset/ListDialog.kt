@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.databinding.DialogListBinding
 import timber.log.Timber
 
@@ -12,6 +13,8 @@ class ListDialog : DialogFragment() {
 
     private var _binding : DialogListBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -40,11 +43,13 @@ class ListDialog : DialogFragment() {
     private fun onLeftdayClicked() {
         // 오른쪽 버튼 구현
         dismiss()
+        viewModel.fireReSave()
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
     private fun onOnedayClicked() {
         // 왼쪽 버튼 구현
         dismiss()
+        viewModel.fireOnlySave()
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 

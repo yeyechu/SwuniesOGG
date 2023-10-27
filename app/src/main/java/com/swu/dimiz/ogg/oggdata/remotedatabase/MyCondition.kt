@@ -28,6 +28,6 @@ MyCondition(             //사용자 기본 정보
 
     var projectCount: Int = 0,      //프로젝트 진행 횟수
 
-    var extraPost: Int = 0          //특별활동 올린 횟수
+    var extraPost: Int = 0          //특별활동 올린 횟수  //플젝 시작할때마다 0으로 만들어주기
 
 )

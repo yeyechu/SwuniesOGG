@@ -779,15 +779,40 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     val list = document.toObject<MyList>()
                     if (list != null) {
                         mylist=list
-                        Timber.i( "리스트 $mylist")
 
                         mylist.setLeftdayList(today, listArray[i].aId, listArray[i].aNumber)
-                        Timber.i( "새로운 리스트 $mylist")
-
                         fireDB.collection("User").document(fireUser?.email.toString())
-                            .collection("Project${appUser.projectCount}").document(i.toString())
+                            .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)
-                            .addOnCompleteListener { Timber.i("DocumentSnapshot1 successfully written!")
+                            .addOnCompleteListener { Timber.i("DocumentSnap shot1 successfully written!")
+                            }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Timber.i( "Error getting documents: $exception")
+                }
+        }
+    }
+
+    //하루만 변경하기 클릭시
+    fun fireOnlySave(){
+        var mylist : MyList
+
+        for(i in 0..LIST_SIZE){
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
+                .get()
+                .addOnSuccessListener { document ->
+                    Timber.i( "전체 리스트 ${document.id} => ${document.data}")
+                    val list = document.toObject<MyList>()
+                    if (list != null) {
+                        mylist=list
+
+                        mylist.setOnlyList(today, listArray[i].aId, listArray[i].aNumber)
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
+                            .set(mylist)
+                            .addOnCompleteListener { Timber.i("DocumentSnap shot1 successfully written!")
                             }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
                     }
                 }
