@@ -164,6 +164,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       Daily 가져오기
+
+    //todo 각 함수에 update문 넣기
     private fun fireGetCategory(){
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")

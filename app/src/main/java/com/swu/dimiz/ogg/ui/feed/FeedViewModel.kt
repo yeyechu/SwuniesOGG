@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.feed
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
@@ -11,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyReaction
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -19,6 +21,7 @@ class FeedViewModel : ViewModel() {
 
     private var currentJob: Job? = null
     private val fireDB = Firebase.firestore
+    private val fireUser = Firebase.auth.currentUser
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
@@ -71,26 +74,49 @@ class FeedViewModel : ViewModel() {
 
     fun onreactionClicked(item: Int) {
         if(_feedId.value!!.email != OggApplication.auth.currentUser!!.email) {
-            when (item) {
-                1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                    .update("reactionLike", FieldValue.increment(1))
-                    .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
-                    .addOnFailureListener { e -> Timber.i(e) }
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Reation")
+                .whereEqualTo("feedId", _feedId.value?.id.toString())
+                .addSnapshotListener { value, e ->
+                    if (e != null) {
+                        Timber.i(e)
+                        return@addSnapshotListener
+                    }
+                    for (doc in value!!) {
+                        Timber.i("이미 반응 남김")
+                        //todo 이미 남김 알려주는 처리
+                    }
+                    if (value.isEmpty) {
+                        val react = MyReaction(_feedId.value?.id.toString())
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Reation").document(_feedId.value?.id.toString())
+                            .set(react)
+                            .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
+                            .addOnFailureListener { e -> Timber.i(e) }
 
-                2 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                    .update("reactionFun", FieldValue.increment(1))
-                    .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
-                    .addOnFailureListener { e -> Timber.i(e) }
+                        when (item) {
+                            1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                                .update("reactionLike", FieldValue.increment(1))
+                                .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
+                                .addOnFailureListener { e -> Timber.i(e) }
 
-                3 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                    .update("reactionGreat", FieldValue.increment(1))
-                    .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
-                    .addOnFailureListener { e -> Timber.i(e) }
-            }
-            fireGetFeed()
+                            2 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                                .update("reactionFun", FieldValue.increment(1))
+                                .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
+                                .addOnFailureListener { e -> Timber.i(e) }
+
+                            3 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                                .update("reactionGreat", FieldValue.increment(1))
+                                .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
+                                .addOnFailureListener { e -> Timber.i(e) }
+                        }
+                        fireGetFeed()
+                    }
+                }
         } else {
             onYourFeed()
         }
+
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
@@ -216,4 +242,6 @@ class FeedViewModel : ViewModel() {
                 _myList.value = gotMyFeedList
             }
     }
+
+
 }

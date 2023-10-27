@@ -1,7 +1,10 @@
 package com.swu.dimiz.ogg.oggdata.remotedatabase
 
-data class MyReaction(
-    var feedId : String ="",
+/*
+fireStore 위치
+User/사용자 이메일/Reaction/id
+ */
 
-    var userId : String = ""
+data class MyReaction(
+    var feedId : String =""
 )
