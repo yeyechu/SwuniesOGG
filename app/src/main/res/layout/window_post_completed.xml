@@ -23,6 +23,7 @@
             style="@style/StyleImageButton"
             android:layout_width="@dimen/icon_extra_small"
             android:layout_height="@dimen/icon_extra_small"
+            android:padding="@dimen/spacing_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"

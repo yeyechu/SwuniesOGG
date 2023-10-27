@@ -1,32 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/permission_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="@dimen/spacing_scroll"
+    android:orientation="vertical"
     android:background="@color/white">
 
     <ImageView
         android:id="@+id/image_garbage_one"
         android:layout_width="@dimen/image_size_aim_face"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_scroll"
+        android:layout_marginTop="@dimen/spacing_scroll"
+        android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:src="@drawable/login_image_logo"
-        app:layout_constraintBottom_toTopOf="@id/text_garbage_one"
+        app:layout_constraintBottom_toTopOf="@id/text_title_app"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
+        android:id="@+id/text_title_app"
+        style="@style/StyleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_regular"
+        android:text="@string/app_name_korean"
+        android:textAlignment="center"
+        android:textColor="@color/primary_gray"
+        app:layout_constraintBottom_toTopOf="@id/text_garbage_one"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_garbage_one" />
+
+    <TextView
         android:id="@+id/text_garbage_one"
         style="@style/StyleText.header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_regular"
-        android:text="시작 전,"
+        android:layout_marginTop="@dimen/spacing_scroll"
+        android:layout_marginStart="@dimen/spacing_regular"
+        android:layout_marginEnd="@dimen/spacing_regular"
+        android:text="@string/permission_text_title"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@id/text_garbage_two"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_regular"
         android:lineSpacingExtra="@dimen/spacing_extra_small"
-        android:text="OGG 앱 이용 권한 안내"
+        android:text="@string/permission_text_body"
         android:textAlignment="center"
         android:textColor="@color/primary_gray"
         app:layout_constraintBottom_toTopOf="@id/text_garbage_camera"
@@ -54,6 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/icon_size_regular"
         android:layout_margin="@dimen/spacing_regular"
+        android:layout_gravity="center"
         android:drawableStart="@drawable/permission_image_to_camera"
         android:gravity="center_vertical"
         android:lineSpacingExtra="@dimen/spacing_extra_small"
@@ -69,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_regular"
         android:lineSpacingExtra="@dimen/spacing_extra_small"
-        android:text="환경 보호 활동 인증 촬영"
+        android:text="@string/permission_text_body_camera"
         android:textAlignment="center"
         android:textColor="@color/primary_gray"
         app:layout_constraintBottom_toTopOf="@id/text_garbage_gallery"
@@ -83,14 +103,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_regular"
+        android:layout_gravity="center"
         android:drawableStart="@drawable/permission_image_to_image"
         android:gravity="center_vertical"
         android:lineSpacingExtra="@dimen/spacing_extra_small"
-        android:text="갤러리"
-        app:layout_constraintBottom_toTopOf="@id/text_garbage_gallery_body"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_garbage_camera_body" />
+        android:text="@string/permission_text_subtitle_gallery" />
 
     <TextView
         android:id="@+id/text_garbage_gallery_body"
@@ -99,13 +116,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_regular"
         android:lineSpacingExtra="@dimen/spacing_extra_small"
-        android:text="환경 보호 활동 인증 사진 첨부"
+        android:text="@string/permission_text_body_gallery"
         android:textAlignment="center"
-        android:textColor="@color/primary_gray"
-        app:layout_constraintBottom_toTopOf="@id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_garbage_gallery" />
+        android:textColor="@color/primary_gray" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button"
@@ -114,9 +127,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimension_100"
         android:layout_marginBottom="@dimen/spacing_scroll"
-        android:text="확인"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_garbage_gallery_body" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="확인" />
+</LinearLayout>

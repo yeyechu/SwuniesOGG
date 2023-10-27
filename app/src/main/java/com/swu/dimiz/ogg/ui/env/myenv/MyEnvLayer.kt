@@ -1,5 +1,7 @@
 package com.swu.dimiz.ogg.ui.env.myenv
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
@@ -127,20 +129,22 @@ class MyEnvLayer : Fragment() {
     private fun addBadge(item: Badges) {
         val badge = ImageView(context)
         val button = ImageView(context)
+        val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+
         val frameLayout = FrameLayout(requireContext())
 
         button.apply {
             id = item.badgeId + 100_000
             val layoutParams = FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
             )
             this.layoutParams = layoutParams
             layoutParams.gravity = Gravity.END
 
-            setImageResource(R.drawable.myenv_button_decoration_delete)
-            //setImageResource(R.drawable.myenv_decoration_delete_selector)
+            setImageBitmap(bitmap)
             adjustViewBounds = true
+            setBackgroundResource(R.drawable.myenv_decoration_delete_selector)
 
             setOnClickListener {
                 removeBadge(item)
@@ -150,7 +154,7 @@ class MyEnvLayer : Fragment() {
         badge.apply {
             id = item.badgeId
             val layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
             )
             this.layoutParams = layoutParams
@@ -160,6 +164,7 @@ class MyEnvLayer : Fragment() {
             setImageBitmap(item.imageDeco)
             adjustViewBounds = true
             setBackgroundResource(R.drawable.myenv_decoration_selector)
+            //setBackgroundResource(R.drawable.myenv_shape_imageholder_dash)
 
         }
         frameLayout.apply {
@@ -168,7 +173,6 @@ class MyEnvLayer : Fragment() {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-
             addView(badge)
             addView(button)
 
@@ -187,15 +191,13 @@ class MyEnvLayer : Fragment() {
                     MotionEvent.ACTION_DOWN -> {
 
                         findFocus()?.let {
-                            Timber.i("포커스 1 : ${findFocus().id}")
+                            Timber.i("포커스 : ${findFocus().id}")
                             clearFocus()
                         }
 
-                        badge.isFocusableInTouchMode = true
-                        badge.requestFocus()
-                        button.visibility = View.VISIBLE
-
-                        Timber.i("포커스 2 : ${findFocus().id}")
+                        button.isFocusableInTouchMode = true
+                        button.requestFocus()
+                        badge.isPressed = true
 
                         dx = view.x - event.rawX
                         dy = view.y - event.rawY
@@ -214,10 +216,12 @@ class MyEnvLayer : Fragment() {
                         motionTouchEventY = max(0f, motionTouchEventY)
                         motionTouchEventY = min(yMax.toFloat(), motionTouchEventY)
                         view.y = motionTouchEventY
+
                         true
                     }
                     MotionEvent.ACTION_UP -> {
                         Timber.i("배지 아이디 ${badge.id} 마지막 위치 : ${view.x}, ${view.y}")
+                        //badge.isPressed = false
                         viewModel.updateLocationList(badge.id, view.x, view.y)
 
                         if (abs(view.x - initX) <= 16 && abs(view.y - initY) <= 16)
