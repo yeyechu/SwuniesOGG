@@ -3,17 +3,20 @@
 
     <item
         android:state_focused="true"
-        android:drawable="@drawable/myenv_button_decoration_delete">
+        >
+        <layer-list>
+            <item android:width="@dimen/dimension_30" android:height="@dimen/dimension_30" android:gravity="end"
+                android:left="@dimen/dimension_90" android:bottom="@dimen/dimension_90"
+                android:drawable="@drawable/myenv_button_decoration_delete">
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_focused="false"
+        android:drawable="@color/transparency_transparent">
     </item>
 
     <item
-        android:state_last="true"
-        android:drawable="@drawable/myenv_button_decoration_delete" >
-
-    </item>
-
-    <item
-        android:state_focused="false"
         android:drawable="@color/transparency_transparent">
     </item>
 </selector>

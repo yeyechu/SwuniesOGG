@@ -47,6 +47,7 @@
     <dimen name="icon_size_button">48dp</dimen>
 
     <!--                                       고정길이                                       -->
+    <dimen name="dimension_20">20dp</dimen>
     <dimen name="dimension_30">30dp</dimen>
     <dimen name="dimension_40">40dp</dimen>
     <dimen name="dimension_50">50dp</dimen>

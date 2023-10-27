@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <corners android:radius="@dimen/radius_card" />
-    <stroke android:width="@dimen/stroke_shape_bold" android:color="@color/secondary_baby_gray" android:dashWidth="8dp" android:dashGap="8dp"/>
+    <stroke android:width="@dimen/stroke_shape_regular" android:color="@color/secondary_baby_gray" android:dashWidth="@dimen/stroke_shape_bold" android:dashGap="@dimen/stroke_shape_bold"/>
     <padding android:bottom="@dimen/spacing_extra_small" android:top="@dimen/spacing_extra_small" android:left="@dimen/spacing_extra_small" android:right="@dimen/spacing_extra_small" />
 
 </shape>

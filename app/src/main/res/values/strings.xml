@@ -125,10 +125,10 @@
     <string name="listset_text_nocar">차량 정보 등록 후 활동 가능합니다</string>
     <string name="listset_text_sust">이전에 등록한 \'지속가능한 활동\'이 포함되었어요!</string>
 
-    <string name="listset_text_dialog_title">리스트 수정 제목</string>
-    <string name="listset_text_dialog_body">리스트 수정 바디</string>
-    <string name="listset_button_dialog_left">왼쪽 버튼</string>
-    <string name="listset_button_dialog_right">오른쪽 버튼</string>
+    <string name="listset_text_dialog_title">적용 기간을 선택해주세요</string>
+    <string name="listset_text_dialog_body">수정한 리스트를 적용할 범위를 지정해주세요 \n 오늘 혹은 남은 기간 전체에 적용할 수 있어요</string>
+    <string name="listset_button_dialog_left">오늘만 수정</string>
+    <string name="listset_button_dialog_right">전체 수정</string>
 
 
     <!--                                         배지 리스트                                       -->
@@ -186,9 +186,6 @@
     <string name="post_button_3">인증하기</string>
     <string name="post_button_4">차량 등록하기</string>
     <string name="post_button_5">체크리스트 작성하기</string>
-
-    <string name="post_text_titlecompleted"> </string>
-
 
     <!-- 카메라 -->
     <string name="camera_button_retake_photo">다시 촬영</string>
@@ -339,12 +336,11 @@
     <string name="signout_text_checkbox">안내사항을 확인하였으며 이에 동의합니다.</string>
     <string name="signout_btn">탈퇴하기</string>
 
-
-
-
-
-
-
+    <string name="permission_text_title">시작 전,</string>
+    <string name="permission_text_body">오늘도 지구를 지켰다(이하 오지지) 앱 \n이용을 위한 권한을 안내드립니다</string>
+    <string name="permission_text_body_camera">환경 보호 활동 인증 촬영</string>
+    <string name="permission_text_subtitle_gallery">갤러리</string>
+    <string name="permission_text_body_gallery">환경 보호 활동 인증 사진 첨부</string>
 
     <!-- ──────────────────────────────────────   마이페이지 페이지   ────────────────────────────────────── -->
     <string name="member_text_title_myfeed">나의 피드</string>
