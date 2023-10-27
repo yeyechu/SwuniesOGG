@@ -198,8 +198,19 @@
     <!-- 인증 완료 팝업 -->
     <string name="post_text_title_completed">인증이 완료되었어요!</string>
     <string name="post_text_body_completed">환경에 어떤 변화가 있는지 확인해보세요</string>
-
     <string name="post_button_completed">확인</string>
+
+    <string name="post_text_title_30002">탄소중립에서 산림의 역할을 알아보세요</string>
+    <string name="post_text_body_30002">2050 탄소중립을 위한 온실가스 흡수 목표의 93%인 \n2,360만톤을 산림이 담당할 계획이에요</string>
+    <string name="post_text_subtitle_30002_1">1. 탄소흡수원으로서 산림의 역할 인식하기</string>
+    <string name="post_text_body_30002_1">숲을 통한 탄소 중립은 어떻게 이룰 수 있을지 알아보세요</string>
+    <string name="post_text_subtitle_30002_2">2. 산림의 탄소 흡수량 알아보기</string>
+    <string name="post_text_body_30002_2">산림은 탄소를 어디에 저장하고 어떻게 흡수할까요?</string>
+    <string name="post_text_subtitle_30002_3">3. 친환경 벌채 공부하기</string>
+    <string name="post_text_body_30002_3">벌채가 꼭 나쁜 것만은 아닌 이유가 뭘까요?</string>
+    <string name="post_text_subtitle_30002_4">4. 산림청 산불예방 캠페인 확인하기</string>
+    <string name="post_text_body_30002_4">산불을 막을 방법을 알아보아요</string>
+
     <string name="myact_card_text_title_done">인증 완료</string>
     <string name="myact_card_text_subtitle_done">오늘 하루 인증 회수를\n다 채웠어요!</string>
     <string name="myact_card_text_post_date">%s 등록 \n %d일 간 지속</string>
