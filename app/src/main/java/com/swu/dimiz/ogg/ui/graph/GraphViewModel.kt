@@ -16,7 +16,6 @@ import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.ID_MODIFIER
 import com.swu.dimiz.ogg.contents.listset.listutils.NO_TITLE
-import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
@@ -160,8 +159,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       Daily 가져오기
-
-    //todo 각 함수에 update문 넣기
     private fun fireGetCategory(){
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
@@ -198,6 +195,18 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             Timber.i("consumptionCo2 $consumptionCo2")
             Timber.i("transportCo2 $transportCo2")
             Timber.i("resourceCo2 $resourceCo2")
+
+            //sever Graph 업데이트
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project$projectCount").document("Graph")
+                .update(
+                    mapOf(
+                        "energy" to energyCo2,
+                        "consumption" to consumptionCo2,
+                        "transport" to transportCo2,
+                        "resource" to resourceCo2
+                    ),
+                )
         }
     }
 
@@ -228,6 +237,20 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 val thirdCo2 = co2ActList[2].allCo2
 
                 Timber.i("co2ActList $co2ActList")
+
+                //sever Graph 업데이트
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Project$projectCount").document("Graph")
+                    .update(
+                        mapOf(
+                            "nameCo21" to firstId,
+                            "nameCo22" to secondId,
+                            "nameCo23" to thirdId,
+                            "co2Sum1" to firstCo2,
+                            "co2Sum2" to secondCo2,
+                            "co2Sum3" to thirdCo2
+                        ),
+                    )
             }
     }
 
@@ -238,6 +261,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     private var reactionList = arrayListOf<feedReact>()
 
     private var resultId = ""
+
+    var funny = 0
+    var great = 0
+    var like = 0
 
     private fun fireGetReaction() {
         reactionList.clear()
@@ -264,9 +291,39 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
 
+                //todo 플젝 시작하고 아무것도 안올렸을때 오류남
                 resultId = reactionList[0].id
                 Timber.i("resultId $resultId")
-                //todo 이미지 가져오는 쪽에서 firebase 사용해서 값 가져오기
+
+                //sever Graph 업데이트
+                fireDB.collection("Feed").document(reactionList[0].id)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        if (document != null) {
+                            var gotFeed = document.toObject<Feed>()
+
+                            funny = gotFeed!!.reactionFun
+                            great = gotFeed!!.reactionGreat
+                            like = gotFeed!!.reactionLike
+
+                            fireDB.collection("User").document(fireUser?.email.toString())
+                                .collection("Project$projectCount").document("Graph")
+                                .update(
+                                    mapOf(
+                                        "reactionURI" to reactionList[0].id,
+                                        "funny" to funny,
+                                        "great" to great,
+                                        "like" to like
+                                    ),
+                                )
+                        } else {
+                            Timber.i("No such document")
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Timber.i(exception)
+                    }
+
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)
@@ -299,6 +356,18 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 val upThirdId = mostUpList[2]
 
                 Timber.i("mostUpList $mostUpList")
+
+                //sever Graph 업데이트
+
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Project$projectCount").document("Graph")
+                    .update(
+                        mapOf(
+                            "post1" to upFirstId,
+                            "post2" to upSecondId,
+                            "post3" to upThirdId
+                        ),
+                    )
             }
     }
 
@@ -310,35 +379,44 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         var uExtra = 0
 
         docRef.addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Timber.i(e)
-                    return@addSnapshotListener
-                }
-
-                for (dc in snapshots!!.documentChanges) {
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        var user = dc.document.toObject<MyCondition>()
-                        if(user.email == fireUser?.email.toString()){
-                            uExtra = user.extraPost
-                        }
-                        usersExtraList.add(user.extraPost)  //전체회원 특별 올린 횟수
-                    }
-                }
-
-                usersExtraList.sortDescending()
-
-                var level = 0
-                var size = usersExtraList.size
-                for( i in 0 until size){
-                    if(uExtra == usersExtraList[i]){
-                        level = i
-                    }
-                }
-                var rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100
-                Timber.i("level $level")
-                Timber.i("size $size")
-                Timber.i("rank $rank")
+            if (e != null) {
+                Timber.i(e)
+                return@addSnapshotListener
             }
+
+            for (dc in snapshots!!.documentChanges) {
+                if (dc.type == DocumentChange.Type.ADDED) {
+                    var user = dc.document.toObject<MyCondition>()
+                    if(user.email == fireUser?.email.toString()){
+                        uExtra = user.extraPost
+                    }
+                    usersExtraList.add(user.extraPost)  //전체회원 특별 올린 횟수
+                }
+            }
+
+            usersExtraList.sortDescending()
+
+            var level = 0
+            var size = usersExtraList.size
+            for( i in 0 until size){
+                if(uExtra == usersExtraList[i]){
+                    level = i
+                }
+            }
+            var rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100
+            Timber.i("level $level")
+            Timber.i("size $size")
+            Timber.i("rank $rank")
+
+            //sever Graph 업데이트
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project$projectCount").document("Graph")
+                .update(
+                    mapOf(
+                        "extraRank" to rank
+                    ),
+                )
+        }
     }
 
 

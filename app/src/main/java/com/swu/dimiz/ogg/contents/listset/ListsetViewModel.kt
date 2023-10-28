@@ -609,6 +609,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             }
         }
     }
+    fun fireGreaphReset(){
+        val graph = MyGraph()
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project${_userCondition.value?.projectCount}").document("Graph")
+            .set(graph)
+            .addOnSuccessListener { }
+            .addOnFailureListener { e -> Timber.i(e) }
+    }
     // ───────────────────────────────────────────────────────────────────────────────────
     //                             기본 정보 가져오기
     fun fireInfo() = viewModelScope.launch {
@@ -678,6 +686,21 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     if(it.aId != 0) {
                         addCo2HolderFromListHolder(it.aId)
                         updateListFire(it)
+
+                        //이미 한 daily 개수 따지려면 today에서 dailyID 몇개있는지 판별
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Project${_userCondition.value?.projectCount}")
+                            .document("Daily").collection(today.toString())
+                            .whereEqualTo("dailyID", it.aId)
+                            .count().get(AggregateSource.SERVER).addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    // Count fetched successfully
+                                    val snapshot = task.result
+                                    Timber.i(" ${it.aId} Count: ${snapshot.count}")
+                                } else {
+                                    Timber.i("Count failed: ${task.exception}")
+                                }
+                            }
                     }
                 }
                 getTodayList()
@@ -715,6 +738,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _userCondition.value?.projectCount = +1
         fireAllReset()
         fireStampReset()
+        fireGreaphReset()
 
         //전체 리스트 편집
         for (i in 0 until LIST_SIZE) {
@@ -740,6 +764,12 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 
             washingtonRef.update("projectCount", _userCondition.value?.projectCount)
+                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project${_userCondition.value?.projectCount}").document("Graph")
+                .update("startDate", toStartDay.toLong())
                 .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
         }
