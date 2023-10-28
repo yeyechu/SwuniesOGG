@@ -225,9 +225,10 @@ class MyActFragment : Fragment() {
                 intent.putExtra("postCount", cameraCount)
                 requireContext().startActivity(intent)
                 viewModel.onCameraCompleted()
-            } else {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
+//            else {
+//                requireActivity().onBackPressedDispatcher.onBackPressed()
+//            }
         }
 
         viewModel.navigateToToGallery.observe(viewLifecycleOwner) {
