@@ -1,13 +1,11 @@
 package com.swu.dimiz.ogg.ui.myact
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.AggregateSource
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
