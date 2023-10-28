@@ -114,6 +114,7 @@ class MyActFragment : Fragment() {
 
         viewModel.fireGetSust()
         viewModel.fireGetExtra()
+        viewModel.fireGetDaily()
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                      지속가능한 어댑터

@@ -573,12 +573,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    Timber.i("${document.id} => ${document.data}")
                     val gotSust = document.toObject<MySustainable>()
                     dayDone = convertDurationToInt(gotSust.strDay!!)
 
                     getSust(gotSust.sustID!!)
-                    Timber.i("gotSust.sustID ${_sust.value}")
                 }
             }
             .addOnFailureListener { exception ->
@@ -587,8 +585,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
     private fun fireStampSustUp(){
         if( _sust.value != null){
-            Timber.i("sustCo2 ${_sust.value!!.co2}")
-            Timber.i("sustlimit ${_sust.value!!.limit}")
             sustCo2 = _sust.value!!.co2
             sustlimit = _sust.value!!.limit
 
@@ -612,7 +608,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 }
             }
         }
-
     }
     // ───────────────────────────────────────────────────────────────────────────────────
     //                             기본 정보 가져오기
@@ -629,11 +624,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     _userCondition.value = appUser
                     Timber.i("유저 컨디션 초기화: ${_userCondition.value}")
                     //today 초기화
-                    if (appUser.startDate == 0L && appUser.aim == 0f) {  //처음 시작한다면
-                        today =  1
-
+                    today = if (appUser.startDate == 0L && appUser.aim == 0f) {  //처음 시작한다면
+                        1
                     } else {
-                        today = convertDurationToInt(appUser.startDate)
+                        convertDurationToInt(appUser.startDate)
                     }
                 } else {
                     Timber.i("Current data: null")
@@ -684,21 +678,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     if(it.aId != 0) {
                         addCo2HolderFromListHolder(it.aId)
                         updateListFire(it)
-
-                        //이미 한 daily 개수 따지려면 today에서 dailyID 몇개있는지 판별
-                        fireDB.collection("User").document(fireUser?.email.toString())
-                            .collection("Project${_userCondition.value?.projectCount}")
-                            .document("Daily").collection(today.toString())
-                            .whereEqualTo("dailyID", it.aId)
-                            .count().get(AggregateSource.SERVER).addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    // Count fetched successfully
-                                    val snapshot = task.result
-                                    Timber.i(" ${it.aId} Count: ${snapshot.count}")
-                                } else {
-                                    Timber.i("Count failed: ${task.exception}")
-                                }
-                            }
                     }
                 }
                 getTodayList()

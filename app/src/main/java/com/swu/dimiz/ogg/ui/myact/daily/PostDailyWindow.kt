@@ -119,9 +119,7 @@ class PostDailyWindow  : Fragment() {
 
         fireStorage.reference.child("Feed").child(feedDay)
             .putFile(uri)              //uri를 여기서 받기때문에 여기에 위치함
-            .addOnSuccessListener {
-                    taskSnapshot -> // 업로드 정보를 담는다
-                Timber.i("feed storage 올리기 완료")
+            .addOnSuccessListener { taskSnapshot ->
                 taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
                         it->
                     val imageUrl=it.toString()

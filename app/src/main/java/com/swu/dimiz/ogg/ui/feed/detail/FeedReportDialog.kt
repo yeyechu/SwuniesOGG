@@ -47,19 +47,17 @@ class FeedReportDialog(private val feedId: String) : DialogFragment() {
         // 파이어베이스 함수 정의
         val fireDB = Firebase.firestore
         val fireUser = Firebase.auth.currentUser
+
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Reation")
             .whereEqualTo("feedId", feedId)
-            .addSnapshotListener { value, e ->
-                if (e != null) {
-                    Timber.i(e)
-                    return@addSnapshotListener
-                }
-                for (doc in value!!) {
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
                     Timber.i("이미 반응 남김")
                     //todo 이미 남김 알려주는 처리
                 }
-                if (value.isEmpty) {
+                if(result.isEmpty){
                     val react = MyReaction(feedId)
                     fireDB.collection("User").document(fireUser?.email.toString())
                         .collection("Reation").document(feedId)
@@ -76,9 +74,12 @@ class FeedReportDialog(private val feedId: String) : DialogFragment() {
                         .update("report", FieldValue.increment(1))
                         .addOnSuccessListener { Timber.i("유저 신고 올리기 완료") }
                         .addOnFailureListener { e -> Timber.i( e ) }
-                }
-            }
+                    }
 
+                }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
+            }
         //Toast.makeText(context, "신고 되브렀어", Toast.LENGTH_SHORT).show()
     }
 

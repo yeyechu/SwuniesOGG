@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
@@ -77,16 +78,13 @@ class FeedViewModel : ViewModel() {
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Reation")
                 .whereEqualTo("feedId", _feedId.value?.id.toString())
-                .addSnapshotListener { value, e ->
-                    if (e != null) {
-                        Timber.i(e)
-                        return@addSnapshotListener
-                    }
-                    for (doc in value!!) {
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
                         Timber.i("이미 반응 남김")
                         //todo 이미 남김 알려주는 처리
                     }
-                    if (value.isEmpty) {
+                    if(result.isEmpty){
                         val react = MyReaction(_feedId.value?.id.toString())
                         fireDB.collection("User").document(fireUser?.email.toString())
                             .collection("Reation").document(_feedId.value?.id.toString())
@@ -112,6 +110,9 @@ class FeedViewModel : ViewModel() {
                         }
                         fireGetFeed()
                     }
+                }
+                .addOnFailureListener { exception ->
+                    Timber.i(exception)
                 }
         } else {
             onYourFeed()

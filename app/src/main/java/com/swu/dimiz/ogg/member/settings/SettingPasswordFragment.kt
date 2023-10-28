@@ -85,9 +85,6 @@ class SettingPasswordFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) { } //작성 후
         })
 
-
-
-
         binding.passwordBtn.setOnClickListener(){
             var newPassword = binding.newPasswordEt.editText?.text.toString()
 

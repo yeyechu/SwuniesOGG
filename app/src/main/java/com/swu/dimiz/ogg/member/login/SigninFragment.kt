@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -19,6 +20,7 @@ import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSigninBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyReaction
 import timber.log.Timber
 
 
@@ -82,20 +84,20 @@ class SigninFragment: Fragment() {
 
                     fireDB.collection("User")
                         .whereEqualTo("email", email)
-                        .addSnapshotListener { value, e ->
-                            if (e != null) {
-                                Timber.i(e)
-                                return@addSnapshotListener
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                Timber.i("사용자 이미 존재")
                             }
-                            for (doc in value!!) {
-                                Timber.i("사용자 이미 존재 ${doc.data}")
-                            }
-                            if (value.isEmpty) {
+                            if(result.isEmpty){
                                 if (saveUser != null) {
                                     fireDB.collection("User").document(email).set(saveUser)
                                     Timber.i("유저 정보 firestore 저장 완료")
                                 }
                             }
+                        }
+                        .addOnFailureListener { exception ->
+                            Timber.i(exception)
                         }
                     //로그인 완료 화면 이동
                     val intent = Intent(context, MainActivity::class.java)
