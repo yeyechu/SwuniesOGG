@@ -3,7 +3,6 @@ package com.swu.dimiz.ogg.member.settings
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,19 +15,16 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.listset.listutils.setBackground
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.databinding.FragmentSettingCarBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -101,6 +97,7 @@ class SettingCarFragment : Fragment() {
                                     .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
 
+                                //스탭프 업
                                 for( i in today..21){
                                     fireDB.collection("User").document(fireUser?.email.toString())
                                         .collection("Project${projectCount}").document("Entire")
@@ -110,6 +107,7 @@ class SettingCarFragment : Fragment() {
                                         .addOnFailureListener { e -> Timber.i( e ) }
                                 }
 
+                                //전체 활동 상태 업
                                 val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
                                     .collection("Project${projectCount}").document("Entire")
                                     .collection("AllAct").document("20008")
@@ -120,6 +118,23 @@ class SettingCarFragment : Fragment() {
                                 washingtonRef
                                     .update("allCo2", FieldValue.increment(4.027))
                                     .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i( e ) }
+
+                                //배지 Co2 업
+                                fireDB.collection("User").document(fireUser?.email.toString())
+                                    .collection("Badge").document("40022")
+                                    .update("count", FieldValue.increment(4.027))
+                                    .addOnSuccessListener { Timber.i("40022 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                fireDB.collection("User").document(fireUser?.email.toString())
+                                    .collection("Badge").document("40023")
+                                    .update("count", FieldValue.increment(4.027))
+                                    .addOnSuccessListener { Timber.i("40023 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                fireDB.collection("User").document(fireUser?.email.toString())
+                                    .collection("Badge").document("40024")
+                                    .update("count", FieldValue.increment(4.027))
+                                    .addOnSuccessListener { Timber.i("40024 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
                             }
                         } else { Timber.i("사용자 기본정보 받아오기 실패") }

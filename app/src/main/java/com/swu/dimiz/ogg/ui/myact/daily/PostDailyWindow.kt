@@ -23,6 +23,7 @@ import com.swu.dimiz.ogg.databinding.WindowPostDailyBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
 import com.swu.dimiz.ogg.ui.myact.post.TextAdapter
+import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -129,8 +130,8 @@ class PostDailyWindow  : Fragment() {
                         postTime = feedDay.toLong(),
                         actId = viewModel.todailyId.value!!.dailyId,
                         actCode = viewModel.todailyId.value!!.filter,
-                        imageUrl = imageUrl)
-
+                        imageUrl = imageUrl
+                    )
                     fireDB.collection("Feed").document()
                         .set(post)
                         .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
@@ -170,6 +171,61 @@ class PostDailyWindow  : Fragment() {
         washingtonRef
             .update("allCo2", FieldValue.increment(viewModel.todailyId.value!!.co2.toDouble()))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+
+        // ─────────────────────────────────────────────────────────────────────────────────
+        //                              배지 카운트 업
+        when(CameraActivity.id.toInt()){
+            //에너지
+            10001,10002,10003,10004,10005,10006,10007,10008 ->{
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Badge").document("40007")
+                    .update("count", FieldValue.increment(1))
+                    .addOnSuccessListener { Timber.i("40007 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+            }
+            //소비
+            10009 ->{
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Badge").document("40008")
+                    .update("count", FieldValue.increment(1))
+                    .addOnSuccessListener { Timber.i("40008 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+            }
+            //이동수단
+            10010,10011,10012 ->{
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Badge").document("40009")
+                    .update("count", FieldValue.increment(1))
+                    .addOnSuccessListener { Timber.i("40009 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+            }
+
+            //자원순환
+            10013,10014,10015,10016,10017,10018,10019,10020 ->{
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Badge").document("40010")
+                    .update("count", FieldValue.increment(1))
+                    .addOnSuccessListener { Timber.i("40010 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+            }
+        }
+
+        //배지 Co2
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge").document("40022")
+            .update("count", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .addOnSuccessListener { Timber.i("40022 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge").document("40023")
+            .update("count", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .addOnSuccessListener { Timber.i("40023 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge").document("40024")
+            .update("count", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .addOnSuccessListener { Timber.i("40024 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
     }
 

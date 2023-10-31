@@ -6,11 +6,13 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.BadgeLocation
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
+import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -184,10 +186,11 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     //파이어베이스에 저장
     fun saveLocationToFirebase(){
-        var badgeID = 0
-        var valueX = 0.0
-        var valueY = 0.0
         badgeList.forEach{
+            var badgeID = 0
+            var valueX = 0.0
+            var valueY = 0.0
+
             badgeID = it.bId
             valueX = it.bx.toDouble()
             valueY = it.by.toDouble()
@@ -195,13 +198,60 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Badge").document(badgeID.toString())
                 .update("valueX", valueX)
-                .addOnSuccessListener { Timber.i("valueX 올리기 완료") }
+                .addOnSuccessListener { Timber.i("$badgeID valueX 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Badge").document(badgeID.toString())
                 .update("valueY", valueY)
-                .addOnSuccessListener { Timber.i("valueY 올리기 완료") }
+                .addOnSuccessListener { Timber.i("$badgeID valueY 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
         }
+    }
+
+    //마땅히 체크할 곳이 없는 배지 카운트 모아서 올리기
+    var feedfun = 0
+    var feedGreat = 0
+    var feedLike = 0
+
+    fun getCountandUp(){
+        fireDB.collection("Feed")
+            .whereEqualTo("email", fireUser?.email.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val feed = document.toObject<Feed>()
+                    feed.id = document.id
+
+                    if (feed.reactionFun >= 10) {
+                        feedfun += 1
+                    }
+                    if (feed.reactionGreat >= 10) {
+                        feedGreat += 1
+                    }
+                    if (feed.reactionLike >= 10) {
+                        feedLike += 1
+                    }
+                }
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Badge").document("40011")
+                    .update("count", feedfun)
+                    .addOnSuccessListener { Timber.i("feedfun 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Badge").document("40012")
+                    .update("count", feedGreat)
+                    .addOnSuccessListener { Timber.i("feedGreat 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Badge").document("40013")
+                    .update("count", feedLike)
+                    .addOnSuccessListener { Timber.i("feedLike 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+            }
+    }
+
+    //baseValue랑 비교해서 서버에 획득 날짜 생성
+    fun getBadgeDate(){
+
     }
 }

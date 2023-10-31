@@ -159,6 +159,7 @@ class CameraFragment : Fragment() {
             updateStamp()
             updateBageCate()
             updateBadgeAct()
+            updateBadgeCo2()
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         return binding.root
@@ -214,8 +215,8 @@ class CameraFragment : Fragment() {
                             postTime = feedDay.toLong(),
                             actId = CameraActivity.id.toInt(),
                             actCode = CameraActivity.filter,
-                            imageUrl = imageUrl)
-
+                            imageUrl = imageUrl
+                        )
                         fireDB.collection("Feed").document()
                             .set(post)
                             .addOnCompleteListener { Timber.i("feed firestore 올리기 완료")
@@ -399,6 +400,24 @@ class CameraFragment : Fragment() {
                 .addOnSuccessListener { Timber.i("40031 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
         }
+    }
+
+    private fun updateBadgeCo2(){
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge").document("40022")
+            .update("count", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .addOnSuccessListener { Timber.i("40022 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge").document("40023")
+            .update("count", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .addOnSuccessListener { Timber.i("40023 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge").document("40024")
+            .update("count", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .addOnSuccessListener { Timber.i("40024 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
     }
 
 

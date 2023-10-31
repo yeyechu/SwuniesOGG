@@ -19,7 +19,6 @@ import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity.Companion.id
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
@@ -744,10 +743,16 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun fireSave() = viewModelScope.launch {
         //몇번째 프로젝트 초기화
         _userCondition.value?.projectCount = +1
+
+        //프로젝트 내에 있는 테이블
         fireAllReset()
         fireStampReset()
         fireGreaphReset()
-        fireBadgeReset()
+
+        //밖에 있는 테이블(한번만 생성)
+        if(_userCondition.value?.projectCount == 1){
+            fireBadgeReset()
+        }
 
         //전체 리스트 편집
         for (i in 0 until LIST_SIZE) {

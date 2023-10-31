@@ -1,10 +1,8 @@
 package com.swu.dimiz.ogg.ui.env
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -206,7 +204,7 @@ class EnvViewModel : ViewModel() {
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
-    //                                      배지 위치 저장
+    //                                   배지 위치 가져오기
     fun initLocationFromFirebase() {
         badgeList.clear()
 
@@ -217,8 +215,10 @@ class EnvViewModel : ViewModel() {
                 for (document in documents) {
                     Timber.i("${document.id} => ${document.data}")
                     var gotBadge = document.toObject<MyBadge>()
-                    badgeList.add(BadgeLocation(gotBadge.badgeID!!, gotBadge.valueX.toFloat(), gotBadge.valueY.toFloat()))
-                    //_badgeHolder.value?.forEach {}
+                    if(gotBadge.getDate != null && gotBadge.valueX != 0.0 && gotBadge.valueY != 0.0){
+                        badgeList.add(BadgeLocation(gotBadge.badgeID!!, gotBadge.valueX.toFloat(), gotBadge.valueY.toFloat()))
+                        //_badgeHolder.value?.forEach {}
+                    }
                 }
             }
             .addOnFailureListener { exception ->
