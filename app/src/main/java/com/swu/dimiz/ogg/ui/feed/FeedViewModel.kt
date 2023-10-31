@@ -3,6 +3,7 @@ package com.swu.dimiz.ogg.ui.feed
 import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
@@ -17,6 +18,8 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyReaction
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FeedViewModel : ViewModel() {
 
@@ -92,6 +95,17 @@ class FeedViewModel : ViewModel() {
                             .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
                             .addOnFailureListener { e -> Timber.i(e) }
 
+                        //배지 카운트 업
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Badge").document("40001")
+                            .update("count", FieldValue.increment(1))
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Badge").document("40002")
+                            .update("count", FieldValue.increment(1))
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Badge").document("40003")
+                            .update("count", FieldValue.increment(1))
+
                         when (item) {
                             1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
                                 .update("reactionLike", FieldValue.increment(1))
@@ -117,7 +131,6 @@ class FeedViewModel : ViewModel() {
         } else {
             onYourFeed()
         }
-
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────

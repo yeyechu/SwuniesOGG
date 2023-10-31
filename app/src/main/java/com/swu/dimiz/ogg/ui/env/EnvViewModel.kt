@@ -1,14 +1,17 @@
 package com.swu.dimiz.ogg.ui.env
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToFormatted
 import com.swu.dimiz.ogg.convertDurationToInt
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
 import kotlinx.coroutines.launch
@@ -75,7 +78,6 @@ class EnvViewModel : ViewModel() {
     private var badgeList = ArrayList<BadgeLocation>()
 
     // 파이어베이스 배지
-    //todo 서버xy값
     private val _badgeHolder = MutableLiveData<List<BadgeLocation>?>()
     val badgeHolder: LiveData<List<BadgeLocation>?>
         get() = _badgeHolder
@@ -207,19 +209,22 @@ class EnvViewModel : ViewModel() {
     //                                      배지 위치 저장
     fun initLocationFromFirebase() {
         badgeList.clear()
-        //todo 홀더에 저장해서 리스트에 저장함
-        //bageholder에 담겨있음
-        // ▼ 파이어베이스에서 올 데이터 저장
-//        badgeHolder.forEach {
-//            badgeList.add(BadgeLocation(it.badgeId, 0f, 0f))
-//        }
-        _badgeHolder.value?.forEach{
-            it.bId
-        }
 
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Timber.i("${document.id} => ${document.data}")
+                    var gotBadge = document.toObject<MyBadge>()
+                    badgeList.add(BadgeLocation(gotBadge.badgeID!!, gotBadge.valueX.toFloat(), gotBadge.valueY.toFloat()))
+                    //_badgeHolder.value?.forEach {}
+                }
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
+            }
     }
-
-    //그냥 배지 받아오는 것도
 
     fun setLocationList(list: List<BadgeLocation>) {
         _badgeHolder.value = list

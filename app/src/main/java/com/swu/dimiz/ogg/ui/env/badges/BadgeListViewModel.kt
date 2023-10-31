@@ -4,6 +4,9 @@ import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.BadgeLocation
 import com.swu.dimiz.ogg.oggdata.OggRepository
@@ -14,6 +17,8 @@ import timber.log.Timber
 import java.io.IOException
 
 class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
+    val fireDB = Firebase.firestore
+    val fireUser = Firebase.auth.currentUser
 
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                        배지 리스트
@@ -174,6 +179,29 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
                 val repository = (this[APPLICATION_KEY] as OggApplication).repository
                 BadgeListViewModel(repository = repository)
             }
+        }
+    }
+
+    //파이어베이스에 저장
+    fun saveLocationToFirebase(){
+        var badgeID = 0
+        var valueX = 0.0
+        var valueY = 0.0
+        badgeList.forEach{
+            badgeID = it.bId
+            valueX = it.bx.toDouble()
+            valueY = it.by.toDouble()
+
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Badge").document(badgeID.toString())
+                .update("valueX", valueX)
+                .addOnSuccessListener { Timber.i("valueX 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Badge").document(badgeID.toString())
+                .update("valueY", valueY)
+                .addOnSuccessListener { Timber.i("valueY 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
         }
     }
 }

@@ -609,7 +609,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             }
         }
     }
-    fun fireGreaphReset(){
+    private fun fireGreaphReset(){
         val graph = MyGraph()
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project${_userCondition.value?.projectCount}").document("Graph")
@@ -617,7 +617,18 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             .addOnSuccessListener { }
             .addOnFailureListener { e -> Timber.i(e) }
     }
-    // ───────────────────────────────────────────────────────────────────────────────────
+
+    private fun fireBadgeReset() = viewModelScope.launch {
+        for (i in 1..31) {
+            val badge = MyBadge(badgeID = 40000 + i)
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Badge").document((40000 + i).toString())
+                .set(badge)
+                .addOnSuccessListener { }
+                .addOnFailureListener { e -> Timber.i(e) }
+        }
+    }
+        // ───────────────────────────────────────────────────────────────────────────────────
     //                             기본 정보 가져오기
     fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
@@ -679,9 +690,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     }
                 }
 
-                Timber.i("today: $today")
-                Timber.i("파이어베이스 myDailyList: $myDailyList")
-
                 myDailyList.forEach {
                     if(it.aId != 0) {
                         addCo2HolderFromListHolder(it.aId)
@@ -739,6 +747,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         fireAllReset()
         fireStampReset()
         fireGreaphReset()
+        fireBadgeReset()
 
         //전체 리스트 편집
         for (i in 0 until LIST_SIZE) {
