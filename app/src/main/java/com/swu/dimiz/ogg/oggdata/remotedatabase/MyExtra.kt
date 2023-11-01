@@ -8,7 +8,7 @@ User/사용자 이메일/Extra/extraID
 활동 계획 + 활동탭
  */
 data class MyExtra(
-    var extraID:Int?=null, //활동한 특별 활동이름    //필드 검색해서 존재하면 진행중으로 표시
+    var extraID: Int = 0, //활동한 특별 활동이름    //필드 검색해서 존재하면 진행중으로 표시
 
-    var strDay: Long?=null,    //등록한 날짜
+    var strDay: Long? = null,    //등록한 날짜
 )

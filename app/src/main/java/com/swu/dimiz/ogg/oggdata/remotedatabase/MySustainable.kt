@@ -11,7 +11,7 @@ User/사용자 이메일/Sustainable/sustID
  */
 
 data class  MySustainable(
-    var sustID:Int?=null,      //활동한 지속가능한 활동이름    //필드 검색해서 존재하면 진행중으로 표시
+    var sustID: Int = 0,      //활동한 지속가능한 활동이름    //필드 검색해서 존재하면 진행중으로 표시
 
-    var strDay: Long?=null,    //등록한 날짜
+    var strDay: Long? = null,    //등록한 날짜
     )

@@ -165,6 +165,20 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
+    //                             날짜 업데이트 : 파이어베이스 -> 룸
+    fun updateSustFromFirebase(item: MySustainable) = viewModelScope.launch {
+        if(item.sustID != 0 && item.strDay != null) {
+            repository.updateSustDate(item.sustID, item.strDay!!)
+        }
+    }
+
+    fun updateExtraFromFirebase(item: MyExtra) = viewModelScope.launch {
+        if(item.extraID != 0 && item.strDay != null) {
+            repository.updateExtraDate(item.extraID, item.strDay!!)
+        }
+    }
+
+    //──────────────────────────────────────────────────────────────────────────────────────
     //                                      디테일 팝업
 
     fun showDaily(daily: ActivitiesDaily) {
