@@ -133,6 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:name="com.swu.dimiz.ogg.ui.feed.myfeed.MyFeedLayer"
+                    android:layout_marginBottom="@dimen/dimension_60"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"

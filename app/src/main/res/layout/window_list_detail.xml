@@ -36,7 +36,7 @@
                 style="@style/StyleImageButton"
                 android:layout_width="@dimen/icon_extra_small"
                 android:layout_height="@dimen/icon_extra_small"
-                android:padding="@dimen/stroke_shape_light"
+                android:padding="@dimen/spacing_text"
                 android:contentDescription="@string/description_common_button_exit"
                 android:src="@drawable/common_button_exit_svg"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -49,6 +49,8 @@
                 style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/spacing_extra_medium"
+                android:paddingBottom="@dimen/spacing_extra_small"
                 android:text=""
                 app:actitityTitle="@{viewModel.dailyId}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +110,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/spacing_small"
                     android:text=""
-
                     app:activityFreq="@{viewModel.dailyId}"
                     app:layout_constraintEnd_toEndOf="@+id/text_garbage_one"
                     app:layout_constraintStart_toStartOf="@+id/text_garbage_one"
@@ -121,7 +122,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/spacing_regular"
-
                     android:text="@string/post_text_guidlines"
                     android:visibility="@{viewModel.textVisible ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="@+id/text_garbage_one"

@@ -111,7 +111,7 @@
         <LinearLayout
             android:id="@+id/imageView_balloon"
             android:layout_width="0dp"
-            android:layout_height="@dimen/dimension_150"
+            android:layout_height="@dimen/listaim_balloon_height"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/spacing_regular"
             android:layout_marginStart="@dimen/spacing_big"

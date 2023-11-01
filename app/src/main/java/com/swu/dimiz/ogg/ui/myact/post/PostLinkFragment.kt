@@ -1,5 +1,7 @@
 package com.swu.dimiz.ogg.ui.myact.post
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +39,10 @@ class PostLinkFragment : Fragment() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
+        binding.buttonPost1.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.forest.go.kr/"))
+            startActivity(intent)
+        }
         binding.buttonPostLink.setOnClickListener {
             // 파이어베이스
             it.findNavController().navigateUp()

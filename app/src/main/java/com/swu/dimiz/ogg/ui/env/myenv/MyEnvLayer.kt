@@ -130,7 +130,7 @@ class MyEnvLayer : Fragment() {
     private fun addBadge(item: Badges) {
         val badge = ImageView(context)
         val button = ImageView(context)
-        val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
 
         val frameLayout = FrameLayout(requireContext())
 

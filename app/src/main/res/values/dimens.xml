@@ -82,19 +82,22 @@
     <dimen name="bottom_sheet_button_width">100dp</dimen>
     <dimen name="bottom_sheet_scroll_height">300dp</dimen>
 
-    <!-- 고정 길이 -->
-    <dimen name="progressbar_height">3dp</dimen>
+    <!-- 레이아웃 -->
     <dimen name="progressbar_width">300dp</dimen>
-    <dimen name="bottom_sheet_feed_reaction">170dp</dimen>
+    <dimen name="progressbar_height">3dp</dimen>
+
+    <dimen name="bottom_feed_reaction_height">170dp</dimen>
+    <dimen name="listaim_balloon_height">160dp</dimen>
 
     <dimen name="myact_today_card_width">150dp</dimen>
+    <dimen name="myact_indicator_height">15dp</dimen>
 
     <dimen name="post_window_height">550dp</dimen>
 
 
     <!-- 기타 -->
 
-    <dimen name="image_size_indicator">10dp</dimen>
+    <dimen name="image_size_indicator">4dp</dimen>
     <dimen name="image_size_stamp_face">40dp</dimen>
     <dimen name="image_size_reaction">62dp</dimen>
     <dimen name="image_size_stamp_face_big">70dp</dimen>

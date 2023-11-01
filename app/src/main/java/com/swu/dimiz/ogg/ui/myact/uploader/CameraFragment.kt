@@ -109,7 +109,6 @@ class CameraFragment : Fragment() {
 
         binding.buttonDone.setOnClickListener {
 
-            //PostWindow.postWindow!!.finish()
             CameraActivity.cameraActivity!!.finish()
 
             feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())

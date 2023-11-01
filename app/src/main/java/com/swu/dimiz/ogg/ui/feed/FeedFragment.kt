@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.swu.dimiz.ogg.MainActivity
@@ -82,6 +83,11 @@ class FeedFragment : Fragment(){
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.buttonNavigateTomyAct.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+            it.findNavController().navigate(R.id.navigation_myact)
+        }
 
         viewModel.navigateToSelectedItem.observe(viewLifecycleOwner) {
             if (it == null) {

@@ -64,6 +64,18 @@
                 android:textAlignment="center"
                 android:visibility="@{viewModel.layoutVisible ? View.GONE : View.VISIBLE}" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_navigateTomyAct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="@dimen/spacing_scroll"
+                android:layout_marginStart="@dimen/spacing_larger"
+                android:layout_marginEnd="@dimen/spacing_larger"
+                android:visibility="@{viewModel.layoutVisible ? View.GONE : View.VISIBLE}"
+                android:text="활동하러 가기"
+                style="@style/StyleButtonOgg" />
+
             <fragment
                 android:id="@+id/included_feed_layer"
                 android:name="com.swu.dimiz.ogg.ui.feed.myfeed.FeedLayer"

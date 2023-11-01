@@ -114,7 +114,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_sheet_feed_reaction"
+            android:layout_height="@dimen/bottom_feed_reaction_height"
             android:background="@drawable/common_layer_background_rounded_top"
             android:orientation="horizontal"
             android:paddingTop="@dimen/spacing_medium"

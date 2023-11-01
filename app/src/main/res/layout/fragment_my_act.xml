@@ -76,18 +76,21 @@
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/pager_indicator_sust"
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myact_indicator_height"
                     android:layout_marginBottom="@dimen/spacing_medium"
                     android:contentDescription="@string/description_pager_indicator"
-                    app:tabGravity="center"
-                    app:tabIndicatorHeight="0dp"
-                    app:tabIndicatorGravity="center"
-                    app:tabBackground="@drawable/common_indicator_selector"
-                    app:layout_constraintTop_toBottomOf="@id/pager_sust"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/text_title_extra"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/text_title_extra"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pager_sust"
+                    app:tabBackground="@drawable/common_indicator_selector"
+                    app:tabMinWidth="0dp"
+                    app:tabMaxWidth="@dimen/dimension_80"
+                    app:tabMode="fixed"
+                    app:tabGravity="center"
+                    app:tabIndicatorGravity="center"
+                    app:tabIndicatorHeight="0dp" />
 
                 <!-- 특별 활동  -->
 
@@ -130,7 +133,7 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/pager_indicator_extra"
                     android:layout_width="match_parent"
-                    android:layout_height="15dp"
+                    android:layout_height="@dimen/myact_indicator_height"
                     android:layout_marginBottom="@dimen/spacing_medium"
                     android:contentDescription="@string/description_pager_indicator"
                     app:tabGravity="center"

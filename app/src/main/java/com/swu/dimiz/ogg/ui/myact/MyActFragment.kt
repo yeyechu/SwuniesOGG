@@ -289,8 +289,7 @@ class MyActFragment : Fragment() {
 
     private fun addDailyWindow() {
         fragmentManager.beginTransaction()
-            .add(R.id.frame_layout_myact, PostCompletedDialog(), "completed")
-            .add(R.id.frame_layout_myact, PostDailyWindow(), "detail")
+            .add(R.id.frame_layout_myact, PostDailyWindow())
             .setReorderingAllowed(true)
             .addToBackStack(null)
             .commit()
