@@ -84,20 +84,20 @@ class SigninFragment: Fragment() {
 
                     fireDB.collection("User")
                         .whereEqualTo("email", email)
-                        .get()
-                        .addOnSuccessListener { result ->
-                            for (document in result) {
-                                Timber.i("사용자 이미 존재")
+                        .addSnapshotListener { value, e ->
+                            if (e != null) {
+                                Timber.i(e)
+                                return@addSnapshotListener
                             }
-                            if(result.isEmpty){
+                            for (doc in value!!) {
+                                Timber.i("사용자 이미 존재 ${doc.data}")
+                            }
+                            if (value.isEmpty) {
                                 if (saveUser != null) {
                                     fireDB.collection("User").document(email).set(saveUser)
                                     Timber.i("유저 정보 firestore 저장 완료")
                                 }
                             }
-                        }
-                        .addOnFailureListener { exception ->
-                            Timber.i(exception)
                         }
                     //로그인 완료 화면 이동
                     val intent = Intent(context, MainActivity::class.java)

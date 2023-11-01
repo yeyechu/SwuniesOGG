@@ -545,8 +545,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             when (i) {
                 in 30001..30003 -> { extra = MyAllAct(ID = i, actCode = "자원순환", upCount = 0, allCo2 = 0.0) }
                 in 30004..30005 -> { extra = MyAllAct(ID = i, actCode = "에너지", upCount = 0, allCo2 = 0.0) }
-                30006 -> { extra = MyAllAct(ID = i, actCode = "자원순환", upCount = 0, allCo2 = 0.0) }
-                30007 -> { extra = MyAllAct(ID = i, actCode = "소비", upCount = 0, allCo2 = 0.0) }
+                in 30006..30007 -> { extra = MyAllAct(ID = i, actCode = "소비", upCount = 0, allCo2 = 0.0) }
             }
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Project${_userCondition.value?.projectCount}").document("Entire")

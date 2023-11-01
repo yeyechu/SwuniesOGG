@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.AggregateSource
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -377,22 +378,24 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     fun fireGetSust(){
         //지속 가능한 활동 받아오기
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Sustainable")
-            .get()
-            .addOnSuccessListener { result ->
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error", e)
+                    return@addSnapshotListener
+                }
                 mySustList.clear()
-                for (document in result) {
-                    val mysust = document.toObject<MySustainable>()
-                    dayDoneSust = convertDurationToInt(mysust.strDay!!)
-                    mySustList.add(mysust.sustID!!)
-                    updateSustFromFirebase(mysust)
-                    //날짜 체크해서 지우기
-                    getSust(mysust.sustID!!)
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val mysust = dc.document.toObject<MySustainable>()
+                        dayDoneSust = convertDurationToInt(mysust.strDay!!)
+                        mySustList.add(mysust.sustID!!)
+                        updateSustFromFirebase(mysust)
+                        //날짜 체크해서 지우기
+                        getSust(mysust.sustID!!)
+                    }
                 }
                 _sustDone.value = mySustList
                 Timber.i( "Sust result: ${_sustDone.value}")
-            }
-            .addOnFailureListener { exception ->
-                Timber.i(exception)
             }
     }
 
@@ -401,22 +404,24 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     fun fireGetExtra(){
         //지속 가능한 활동 받아오기
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Extra")
-            .get()
-            .addOnSuccessListener { result ->
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.i("listen:error", e)
+                    return@addSnapshotListener
+                }
                 myExtraList.clear()
-                for (document in result) {
-                    val myextra = document.toObject<MyExtra>()
-                    dayDoneExtra = convertDurationToInt(myextra.strDay!!)
-                    myExtraList.add(myextra.extraID!!)
-                    updateExtraFromFirebase(myextra)
-                    //날짜 체크해서 지우기
-                    getExtra(myextra.extraID!!)
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val myextra = dc.document.toObject<MyExtra>()
+                        dayDoneExtra = convertDurationToInt(myextra.strDay!!)
+                        myExtraList.add(myextra.extraID!!)
+                        updateExtraFromFirebase(myextra)
+                        //날짜 체크해서 지우기
+                        getExtra(myextra.extraID!!)
+                    }
                 }
                 _extraDone.value = myExtraList
                 Timber.i( "Extra result: $myExtraList")
-            }
-            .addOnFailureListener { exception ->
-                Timber.i(exception)
             }
     }
 

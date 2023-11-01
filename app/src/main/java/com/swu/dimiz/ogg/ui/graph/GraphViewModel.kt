@@ -141,9 +141,13 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     fun fireInfo() {
         fireDB.collection("User").document(fireUser?.email.toString())
-            .get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val gotUser = document.toObject<MyCondition>()!!
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    val gotUser = snapshot.toObject<MyCondition>()!!
                     projectCount = gotUser.projectCount
                     //0이면 없음 페이지
                     startDate = gotUser.startDate
@@ -152,9 +156,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     fireGetReaction()
                     fireGetMostUp()
                     fireGetExtra()
+                } else {
+                    Timber.i("Current data: null")
                 }
-                else { Timber.i("사용자 기본정보 받아오기 실패") }
-            }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
+            }
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────

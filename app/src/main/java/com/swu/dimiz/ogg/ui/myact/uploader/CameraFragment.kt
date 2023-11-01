@@ -36,6 +36,7 @@ import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
+import com.swu.dimiz.ogg.getMilliFromDate
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_FAST_MILLIS
@@ -112,6 +113,9 @@ class CameraFragment : Fragment() {
             CameraActivity.cameraActivity!!.finish()
 
             feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+
+            val milDay = getMilliFromDate(feedDay)
+            Timber.i("milDay $milDay")
 
             // ─────────────────────────────────────────────────────────────────────────────────
             //                           세가지 활동 분리해서 업로드
