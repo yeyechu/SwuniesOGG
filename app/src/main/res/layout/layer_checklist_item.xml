@@ -2,6 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
+    <data>
+
+
+    </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/checkBox_cardview"
@@ -23,7 +27,8 @@
                 android:id="@+id/checkBox"
                 android:layout_width="@dimen/spacing_big"
                 android:layout_height="@dimen/spacing_big"
-                android:buttonTint="@color/primary_blue"
+                android:button="@color/transparency_transparent"
+                android:background="@drawable/common_checkbox_seletor"
                 android:layout_gravity="center"
                 />
 
@@ -32,19 +37,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center"
-                android:padding="@dimen/spacing_extra_small"
+                android:padding="@dimen/spacing_small"
                 >
 
             <TextView
-                android:id="@+id/checkBox_title"
-                style="@style/StyleText.title"
+                android:id="@+id/checkBoxTitle"
+                style="@style/StyleText.subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="어쩌구 하기"
                />
 
             <TextView
-                android:id="@+id/checkBox_subtitle"
+                android:id="@+id/checkBoxSubtitle"
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

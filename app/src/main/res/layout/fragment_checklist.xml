@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
 
+
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/StyleText.header"
-                android:text=""
+                android:text="친환경 운전 습관 확인하기"
                 android:layout_gravity="center"
                 tools:text="친환경 운전 습관 확인하기"/>
 
@@ -33,33 +34,41 @@
             android:layout_height="match_parent"
             android:background="@color/secondary_baby_gray">
 
+
+
             <TextView
-                android:id="@+id/text_garbage_one"
-                style="@style/StyleText.title"
+                android:id="@+id/checklist_title"
+                style="@style/StyleText.header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_regular"
-                android:paddingTop="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_regular"
-                android:text=""
-                app:layout_constraintBottom_toTopOf="@id/text_garbage_two"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dimension_30"
+                android:text="친환경 운전 습관이란,"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/text_garbage_two"
+                android:id="@+id/checklist_text"
                 style="@style/StyleText"
+                android:padding="@dimen/spacing_big"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_large"
-                android:text=""
-                android:textColor="@color/primary_gray"
-                android:textStyle="bold"
-                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:text="연료 효율을 높이고 대기 오염을 줄이기위한 운전 습관이에요 목록을 실제로 실천하면 40그루의 나무를 살릴 수 있어요"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_garbage_one" />
+                app:layout_constraintTop_toBottomOf="@+id/checklist_title" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+
+                android:padding="@dimen/spacing_medium"
+                app:layout_constraintTop_toBottomOf="@+id/checklist_text"
+                tools:listitem="@layout/layer_checklist_item" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/env_button_start"
