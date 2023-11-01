@@ -3,6 +3,7 @@ package com.swu.dimiz.ogg
 import android.annotation.SuppressLint
 import android.content.Context
 import android.icu.text.SimpleDateFormat
+import java.text.ParseException
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
@@ -38,4 +39,17 @@ fun convertDurationToInt(startTime: Long): Int {
 fun convertToDP(context: Context, value: Int): Int {
     return (value * context.resources.displayMetrics.density).roundToInt()
 }
+
+fun getMilliFromDate(dateFormat: String): Long {
+    var date = Date()
+    val formatter = SimpleDateFormat("yyyyMMddHHmmss")
+    try {
+        date = formatter.parse(dateFormat)
+    } catch (e: ParseException) {
+        e.printStackTrace()
+    }
+    println("Today is $date")
+    return date.time
+}
+
 
