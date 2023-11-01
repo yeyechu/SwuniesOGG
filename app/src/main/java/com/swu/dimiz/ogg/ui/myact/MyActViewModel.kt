@@ -384,6 +384,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                     val mysust = document.toObject<MySustainable>()
                     dayDoneSust = convertDurationToInt(mysust.strDay!!)
                     mySustList.add(mysust.sustID!!)
+                    updateSustFromFirebase(mysust)
                     //날짜 체크해서 지우기
                     getSust(mysust.sustID!!)
                 }
@@ -407,6 +408,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                     val myextra = document.toObject<MyExtra>()
                     dayDoneExtra = convertDurationToInt(myextra.strDay!!)
                     myExtraList.add(myextra.extraID!!)
+                    updateExtraFromFirebase(myextra)
                     //날짜 체크해서 지우기
                     getExtra(myextra.extraID!!)
                 }
