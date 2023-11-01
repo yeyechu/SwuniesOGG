@@ -369,6 +369,7 @@ class EnvViewModel : ViewModel() {
                         }
                         stampArr = tempList
                         Timber.i("스탬프 어레이 초기화: $stampArr")
+                        //todo 월 바뀌면 오류남
                         setStamp()
                     }
             }

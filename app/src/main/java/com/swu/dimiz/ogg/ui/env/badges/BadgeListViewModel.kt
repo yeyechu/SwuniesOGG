@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.env.badges
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -17,6 +18,9 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     val fireDB = Firebase.firestore
@@ -251,7 +255,45 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     //baseValue랑 비교해서 서버에 획득 날짜 생성
-    fun getBadgeDate(){
+    fun setBadgeDate(){
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Timber.i("${document.id} => ${document.data}")
 
+                    var gotBadge = document.toObject<MyBadge>()
+                    //todo 룸 아이디랑 비교해서 basevalue가져오기
+                   /* if(gotBadge.count == base){
+                        var getDate = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Badge").document(gotBadge.badgeID.toString())
+                            .update("getDate", getDate)
+                            .addOnSuccessListener { Timber.i("feedLike 올리기 완료") }
+                            .addOnFailureListener { e -> Timber.i( e ) }
+                    }*/
+                }
+            }
+            .addOnFailureListener { exception -> Timber.i(exception) }
+    }
+
+    //획득한 배지 가져오기
+    private var myBadgeList = arrayListOf<MyBadge>()
+    fun getHaveBadge(){
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge")
+            .whereNotEqualTo("getDate", null)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Timber.i("${document.id} => ${document.data}")
+
+                    var gotBadge = document.toObject<MyBadge>()
+                    myBadgeList.add(gotBadge)
+                }
+            }
+            .addOnFailureListener { exception -> Timber.i(exception) }
     }
 }
