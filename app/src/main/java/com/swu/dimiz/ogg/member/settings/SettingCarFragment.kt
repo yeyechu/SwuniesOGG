@@ -22,6 +22,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertDurationToInt
+import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.FragmentSettingCarBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
@@ -81,11 +82,11 @@ class SettingCarFragment : Fragment() {
                             val gotUser = document.toObject<MyCondition>()
                             gotUser?.let {
                                 startDate = gotUser.startDate
-                                today = convertDurationToInt(startDate)
+                                today = convertToDuration(startDate)
                                 projectCount = gotUser.projectCount
 
                                 //전기, 수소 자동차 구매 완료
-                                feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+                                feedDay = System.currentTimeMillis().toString()
 
                                 val sust = MySustainable(
                                     sustID = 20008,

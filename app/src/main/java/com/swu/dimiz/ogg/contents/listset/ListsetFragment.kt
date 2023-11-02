@@ -16,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.ListHolderAdapter
 import com.swu.dimiz.ogg.convertDurationToInt
+import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.FragmentListsetBinding
 import timber.log.Timber
 
@@ -73,7 +74,7 @@ class ListsetFragment : Fragment() {
                 //viewModel.getTodayList()
                 Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : ListsetFragment 106 userCondition observer : getTodayList() 호출")
                 Timber.i("todayHolder: ${viewModel.todayHolder.value}")
-                viewModel.today = convertDurationToInt(it.startDate)
+                viewModel.today = convertToDuration(it.startDate)
             }
         }
 

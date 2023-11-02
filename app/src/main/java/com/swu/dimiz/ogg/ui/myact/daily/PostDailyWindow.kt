@@ -19,6 +19,7 @@ import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertDurationToInt
+import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.WindowPostDailyBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
@@ -107,7 +108,7 @@ class PostDailyWindow  : Fragment() {
                     val gotUser = document.toObject<MyCondition>()
                     gotUser?.let {
                         startDate = gotUser.startDate
-                        today = convertDurationToInt(startDate)
+                        today = convertToDuration(startDate)
                         projectCount = gotUser.projectCount
                     }
                 } else { Timber.i("사용자 기본정보 받아오기 실패") }
@@ -116,7 +117,7 @@ class PostDailyWindow  : Fragment() {
 
     private fun uploadPostToFirebase() {
 
-        val feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+        val feedDay = System.currentTimeMillis().toString()
 
         fireStorage.reference.child("Feed").child(feedDay)
             .putFile(uri)              //uri를 여기서 받기때문에 여기에 위치함

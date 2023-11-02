@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertDurationToInt
+import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
@@ -572,7 +573,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val gotSust = document.toObject<MySustainable>()
-                    dayDone = convertDurationToInt(gotSust.strDay!!)
+                    dayDone = convertToDuration(gotSust.strDay!!)
 
                     getSust(gotSust.sustID!!)
                 }
@@ -644,7 +645,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     today = if (appUser.startDate == 0L && appUser.aim == 0f) {  //처음 시작한다면
                         1
                     } else {
-                        convertDurationToInt(appUser.startDate)
+                        convertToDuration(appUser.startDate)
                     }
                 } else {
                     Timber.i("Current data: null")
@@ -654,7 +655,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     //오늘 활동 리스트 가져오기
     fun fireGetDaily() = viewModelScope.launch {
-        today = convertDurationToInt(_userCondition.value!!.startDate)
+        today = convertToDuration(_userCondition.value!!.startDate)
 
         val myDailyList = arrayListOf<ListData>()
         fireDB.collection("User").document(fireUser?.email.toString())
@@ -765,7 +766,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
         //프로젝트 상태 변경
         if (today == 1) {
-            val toStartDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+            val toStartDay = System.currentTimeMillis().toString()
 
             val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
             washingtonRef.update("startDate", toStartDay.toLong())

@@ -35,8 +35,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertDurationToInt
+import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
-import com.swu.dimiz.ogg.getMilliFromDate
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.uploader.utils.ANIMATION_FAST_MILLIS
@@ -98,7 +98,7 @@ class CameraFragment : Fragment() {
                     val gotUser = document.toObject<MyCondition>()
                     gotUser?.let {
                         startDate = gotUser.startDate
-                        today = convertDurationToInt(startDate)
+                        today = convertToDuration(startDate)
                         projectCount = gotUser.projectCount
                     }
                 } else { Timber.i("사용자 기본정보 받아오기 실패") }
@@ -112,10 +112,8 @@ class CameraFragment : Fragment() {
 
             CameraActivity.cameraActivity!!.finish()
 
-            feedDay = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+            feedDay = System.currentTimeMillis().toString()
 
-            val milDay = getMilliFromDate(feedDay)
-            Timber.i("milDay $milDay")
 
             // ─────────────────────────────────────────────────────────────────────────────────
             //                           세가지 활동 분리해서 업로드

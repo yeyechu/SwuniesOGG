@@ -116,7 +116,7 @@ class EnvViewModel : ViewModel() {
     }
 
     val date = userCondition.map {
-        convertDurationToInt(it.startDate)
+        convertToDuration(it.startDate)
     }
 
     val progressWhole = co2Holder.map {
@@ -329,7 +329,7 @@ class EnvViewModel : ViewModel() {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     appUser = snapshot.toObject<MyCondition>()!!
-                    today = convertDurationToInt(appUser.startDate)
+                    today = convertToDuration(appUser.startDate)
 
                     Timber.i("오늘 $today")
                     _userCondition.value = appUser

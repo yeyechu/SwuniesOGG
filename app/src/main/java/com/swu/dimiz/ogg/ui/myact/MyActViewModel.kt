@@ -306,7 +306,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     appUser = document.toObject<MyCondition>()!!
-                    today = convertDurationToInt(appUser.startDate)
+                    today = convertToDuration(appUser.startDate)
                 } else {
                     Timber.i("No such document")
                 }
@@ -387,7 +387,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val mysust = dc.document.toObject<MySustainable>()
-                        dayDoneSust = convertDurationToInt(mysust.strDay!!)
+                        dayDoneSust = convertToDuration(mysust.strDay!!)
                         mySustList.add(mysust.sustID!!)
                         updateSustFromFirebase(mysust)
                         //날짜 체크해서 지우기
@@ -413,7 +413,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val myextra = dc.document.toObject<MyExtra>()
-                        dayDoneExtra = convertDurationToInt(myextra.strDay!!)
+                        dayDoneExtra = convertToDuration(myextra.strDay!!)
                         myExtraList.add(myextra.extraID!!)
                         updateExtraFromFirebase(myextra)
                         //날짜 체크해서 지우기

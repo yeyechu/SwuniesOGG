@@ -173,6 +173,20 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     // 파이어베이스에서 오는 배지 -> 룸으로 업데이트 하는 메서드
     private fun updateBadgeFire(badge: MyBadge) = viewModelScope.launch {
         repository.updateBadge(badge.badgeID!!, badge.getDate!!, badge.count)
+
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge")
+            .whereNotEqualTo("getDate", null)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Timber.i("${document.id} => ${document.data}")
+
+                    var gotBadge = document.toObject<MyBadge>()
+                    myBadgeList.add(gotBadge)
+                }
+            }
+            .addOnFailureListener { exception -> Timber.i(exception) }
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
@@ -217,6 +231,7 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     var feedGreat = 0
     var feedLike = 0
 
+    //피드에서는 다른 사용자 배지 카운트까지 수정 가능해야함
     fun getCountandUp(){
         fireDB.collection("Feed")
             .whereEqualTo("email", fireUser?.email.toString())
@@ -265,8 +280,8 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
                     var gotBadge = document.toObject<MyBadge>()
                     //todo 룸 아이디랑 비교해서 basevalue가져오기
-                   /* if(gotBadge.count == base){
-                        var getDate = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+                    /*if(gotBadge.count == base){
+                        var getDate = System.currentTimeMillis().toString()
 
                         fireDB.collection("User").document(fireUser?.email.toString())
                             .collection("Badge").document(gotBadge.badgeID.toString())
