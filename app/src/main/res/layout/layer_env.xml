@@ -50,7 +50,8 @@
                 android:src="@drawable/login_image_face"
                 android:contentDescription="@string/description_myenv_image_ogg"
                 android:adjustViewBounds="true"
-                app:oggImage="@{envViewModel.progressEnv}" />
+                app:oggImage="@{envViewModel.progressEnv}"
+                app:oggAim="@{envViewModel.userCondition.aim}" />
 
             <FrameLayout
                 android:id="@+id/canvas_layout"

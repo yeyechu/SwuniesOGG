@@ -1,7 +1,9 @@
 package com.swu.dimiz.ogg.ui.env.stamp
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.BindingAdapter
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.*
@@ -60,14 +62,40 @@ fun ImageView.setEnvImage(data: Int) {
     }
 }
 
-@BindingAdapter("oggImage")
-fun ImageView.setOGGImage(data: Int) {
-    when(data) {
-        in 0..20 -> setImageResource(R.drawable.login_image_face)
-        in 21..40 -> setImageResource(R.drawable.login_image_face)
-        in 41..60 -> setImageResource(R.drawable.login_image_face)
-        in 61..80 -> setImageResource(R.drawable.login_image_face)
-        else -> setImageResource(R.drawable.login_image_face)
+@BindingAdapter("oggImage", "oggAim")
+fun ImageView.setOGGImage(data: Int, aim: Float?) {
+    aim?.let {
+
+        when(aim) {
+            AIMCO2_ONE -> {
+                when(data) {
+                    in 0..30 -> setImageResource(R.drawable.env_image_level1_030)
+                    in 31..90 -> setImageResource(R.drawable.env_image_level1_060)
+                    in 91..100 -> setImageResource(R.drawable.env_image_level1_090)
+                    else -> setImageResource(R.drawable.env_image_level1_090)
+                }
+            }
+            AIMCO2_TWO -> {
+                when(data) {
+                    in 0..30 -> setImageResource(R.drawable.env_image_level2_030)
+                    in 31..90 -> setImageResource(R.drawable.env_image_level2_060)
+                    in 91..100 -> setImageResource(R.drawable.env_image_level2_090)
+                    else -> setImageResource(R.drawable.env_image_level2_090)
+                }
+            }
+            AIMCO2_THREE -> {
+                when(data) {
+                    in 0..30 -> setImageResource(R.drawable.env_image_level3_030)
+                    in 31..90 -> setImageResource(R.drawable.env_image_level3_060)
+                    in 91..100 -> setImageResource(R.drawable.env_image_level3_090)
+                    else -> setImageResource(R.drawable.env_image_level3_090)
+                }
+            }
+            else -> {
+                visibility = View.GONE
+            }
+        }
+        //val resource = requireContext().resources?
     }
 }
 

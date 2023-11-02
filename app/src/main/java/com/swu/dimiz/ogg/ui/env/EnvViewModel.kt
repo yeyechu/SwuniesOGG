@@ -7,7 +7,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.contents.listset.listutils.*
-import com.swu.dimiz.ogg.convertDurationToFormatted
+import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
@@ -106,7 +106,7 @@ class EnvViewModel : ViewModel() {
 
         Timber.i("ViewModel created")
         Timber.i("─────────── 날짜 변환 확인용 로그 ───────────")
-        Timber.i("10월 11일 오전 1시 19분 이후: ${convertDurationToFormatted(1696954754160)}일 경과")
+        Timber.i("10월 11일 오전 1시 19분 이후: ${convertToDuration(1696954754160)}일 경과")
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────

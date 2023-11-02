@@ -7,7 +7,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.converLongToDateString
+import com.swu.dimiz.ogg.convertLongToDateString
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 
 @BindingAdapter("badgeTitle")
@@ -21,7 +21,7 @@ fun TextView.setTitle(item: Badges?) {
 fun TextView.setCount(item: Badges?) {
     item?.let{
         text = if(item.getDate != null) {
-            resources.getString(R.string.badgelist_detail_date, converLongToDateString(item.getDate!!))
+            resources.getString(R.string.badgelist_detail_date, convertLongToDateString(item.getDate!!))
         } else if(item.filter == "co2") {
             resources.getString(R.string.badgelist_detail_count_co2, item.count, item.baseValue/1000)
         } else {

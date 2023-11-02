@@ -122,8 +122,8 @@ class EnvFragment : Fragment() {
             postTranslate(valueX, valueY)
         }
 
-        //val resource = requireContext().resources?.getIdentifier("badge_gif_$id", "drawable", requireContext().packageName)
-        val resource = requireContext().resources?.getIdentifier("badge_gif_40007", "drawable", requireContext().packageName)
+        val resource = requireContext().resources?.getIdentifier("badge_gif_$id", "drawable", requireContext().packageName)
+        //val resource = requireContext().resources?.getIdentifier("badge_gif_40007", "drawable", requireContext().packageName)
 
         badge.apply {
             layoutParams = ViewGroup.LayoutParams(
