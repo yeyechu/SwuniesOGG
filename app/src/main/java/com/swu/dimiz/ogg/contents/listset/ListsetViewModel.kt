@@ -773,7 +773,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 
-            washingtonRef.update("aim", _aimCo2.value?.toDouble())
+            washingtonRef.update("aim", _aimCo2.value?.toFloat())
                 .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 

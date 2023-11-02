@@ -173,20 +173,6 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     // 파이어베이스에서 오는 배지 -> 룸으로 업데이트 하는 메서드
     private fun updateBadgeFire(badge: MyBadge) = viewModelScope.launch {
         repository.updateBadge(badge.badgeID!!, badge.getDate!!, badge.count)
-
-        fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Badge")
-            .whereNotEqualTo("getDate", null)
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Timber.i("${document.id} => ${document.data}")
-
-                    var gotBadge = document.toObject<MyBadge>()
-                    myBadgeList.add(gotBadge)
-                }
-            }
-            .addOnFailureListener { exception -> Timber.i(exception) }
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
@@ -295,7 +281,6 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     //획득한 배지 가져오기
-    private var myBadgeList = arrayListOf<MyBadge>()
     fun getHaveBadge(){
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Badge")
@@ -306,7 +291,7 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i("${document.id} => ${document.data}")
 
                     var gotBadge = document.toObject<MyBadge>()
-                    myBadgeList.add(gotBadge)
+                    updateBadgeFire(gotBadge)
                 }
             }
             .addOnFailureListener { exception -> Timber.i(exception) }

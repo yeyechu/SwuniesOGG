@@ -173,26 +173,24 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         var transportCo2 = 0.0
         var resourceCo2 = 0.0
 
-        docRef.addSnapshotListener { snapshots, e ->
+        docRef.addSnapshotListener { value, e ->
             if (e != null) {
                 Timber.i(e)
                 return@addSnapshotListener
             }
-            for (dc in snapshots!!.documentChanges) {
-                if (dc.type == DocumentChange.Type.ADDED) {
-                    var act = dc.document.toObject<MyAllAct>()
-                    if(act.actCode == "에너지"){
-                        energyCo2 += act.allCo2
-                    }
-                    else if(act.actCode == "소비"){
-                        consumptionCo2 += act.allCo2
-                    }
-                    else if(act.actCode == "이동수단"){
-                        transportCo2 += act.allCo2
-                    }
-                    else if(act.actCode == "자원순환"){
-                        resourceCo2 += act.allCo2
-                    }
+            for (doc in value!!) {
+                var act = doc.toObject<MyAllAct>()
+                if(act.actCode == "에너지"){
+                    energyCo2 += act.allCo2
+                }
+                else if(act.actCode == "소비"){
+                    consumptionCo2 += act.allCo2
+                }
+                else if(act.actCode == "이동수단"){
+                    transportCo2 += act.allCo2
+                }
+                else if(act.actCode == "자원순환"){
+                    resourceCo2 += act.allCo2
                 }
             }
             //각 카테고리별 Co2합
@@ -221,17 +219,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
         var co2ActList = arrayListOf<MyAllAct>()
         docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
-            .addSnapshotListener { snapshots, e ->
+            .addSnapshotListener { value, e ->
                 if (e != null) {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
-
-                for (dc in snapshots!!.documentChanges) {
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        var act = dc.document.toObject<MyAllAct>()
-                        co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
-                    }
+                for (doc in value!!) {
+                    var act = doc.toObject<MyAllAct>()
+                    co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
                 }
                 //분리한다면 아래 같음
                 val firstId = co2ActList[0].ID
@@ -342,19 +337,17 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         var mostUpList = arrayListOf<Int>()
 
         docRef.orderBy("upCount", Query.Direction.DESCENDING).limit(3)
-            .addSnapshotListener { snapshots, e ->
+            .addSnapshotListener { value, e ->
                 if (e != null) {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
-
-                for (dc in snapshots!!.documentChanges) {
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        Timber.i("${dc.document.id} => ${dc.document.data}")
-                        var act = dc.document.toObject<MyAllAct>()
-                        mostUpList.add(act.ID)  //여기에 123위 순서대로 담겨있음
-                    }
+                for (doc in value!!) {
+                    Timber.i("${doc.id} => ${doc.data}")
+                    var act = doc.toObject<MyAllAct>()
+                    mostUpList.add(act.ID)  //여기에 123위 순서대로 담겨있음
                 }
+
                 //분리한다면 아래 같음
                 val upFirstId = mostUpList[0]
                 val upSecondId = mostUpList[1]
@@ -383,20 +376,17 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         var usersExtraList = arrayListOf<Int>()
         var uExtra = 0
 
-        docRef.addSnapshotListener { snapshots, e ->
+        docRef.addSnapshotListener { value, e ->
             if (e != null) {
                 Timber.i(e)
                 return@addSnapshotListener
             }
-
-            for (dc in snapshots!!.documentChanges) {
-                if (dc.type == DocumentChange.Type.ADDED) {
-                    var user = dc.document.toObject<MyCondition>()
-                    if(user.email == fireUser?.email.toString()){
-                        uExtra = user.extraPost
-                    }
-                    usersExtraList.add(user.extraPost)  //전체회원 특별 올린 횟수
+            for (doc in value!!) {
+                var user = doc.toObject<MyCondition>()
+                if(user.email == fireUser?.email.toString()){
+                    uExtra = user.extraPost
                 }
+                usersExtraList.add(user.extraPost)  //전체회원 특별 올린 횟수
             }
 
             usersExtraList.sortDescending()

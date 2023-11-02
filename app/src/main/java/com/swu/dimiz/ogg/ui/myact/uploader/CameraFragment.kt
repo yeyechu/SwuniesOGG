@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -419,6 +420,28 @@ class CameraFragment : Fragment() {
             .update("count", FieldValue.increment(CameraActivity.co2.toDouble()))
             .addOnSuccessListener { Timber.i("40024 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────────
+    //                              배지 획득 이벤트
+    private fun updateBadgeDate(){
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Badge")
+            .orderBy("badgeID")
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+
+                val cities = ArrayList<String>()
+                for (doc in value!!) {
+                    doc.getString("name")?.let {
+                        cities.add(it)
+                    }
+                }
+            }
+
     }
 
 

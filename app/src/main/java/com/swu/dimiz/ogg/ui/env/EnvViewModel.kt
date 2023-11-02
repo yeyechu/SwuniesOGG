@@ -351,25 +351,22 @@ class EnvViewModel : ViewModel() {
                     .collection("Project${_userCondition.value?.projectCount}").document("Entire")
                     .collection("Stamp")
                     .orderBy("day")
-                    .addSnapshotListener { snapshots, e ->
+                    .addSnapshotListener { value, e ->
                         if (e != null) {
                             Timber.i("listen:error $e")
                             return@addSnapshotListener
                         }
-                        for (dc in snapshots!!.documentChanges) {
-                            if (dc.type == DocumentChange.Type.ADDED) {
-                                val stamp = dc.document.toObject<MyStamp>()
-                                tempList.add(stamp)
+                        for (doc in value!!) {
+                            val stamp = doc.toObject<MyStamp>()
+                            tempList.add(stamp)
 
-                                if (stamp.day == date.value) {
-                                    _todayCo2.value = stamp.dayCo2.toFloat()
-                                    Timber.i("fireGetStamp todayCo2 초기화 : ${_todayCo2.value}")
-                                }
+                            if (stamp.day == date.value) {
+                                _todayCo2.value = stamp.dayCo2.toFloat()
+                                Timber.i("fireGetStamp todayCo2 초기화 : ${_todayCo2.value}")
                             }
                         }
                         stampArr = tempList
                         Timber.i("스탬프 어레이 초기화: $stampArr")
-                        //todo 월 바뀌면 오류남
                         setStamp()
                     }
             }
