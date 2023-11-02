@@ -45,6 +45,7 @@ class ChecklistFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
+        //todo 체크리스트 파이어베이스 올리기
         return view
     }
 

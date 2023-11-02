@@ -51,6 +51,8 @@ class SettingCarFragment : Fragment() {
 
     private var feedDay = ""
 
+    private val userEmail = fireUser?.email.toString()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,7 +62,7 @@ class SettingCarFragment : Fragment() {
         )
 
         binding.carSettingCompleteBtn.setOnClickListener {
-            val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
+            val washingtonRef = fireDB.collection("User").document(userEmail)
 
             if(elecisChecked){
                 var car = 1
@@ -76,7 +78,7 @@ class SettingCarFragment : Fragment() {
                     .addOnFailureListener { e -> Timber.i(e) }
 
                 //기본 정보
-                fireDB.collection("User").document(fireUser?.email.toString())
+                fireDB.collection("User").document(userEmail)
                     .get().addOnSuccessListener { document ->
                         if (document != null) {
                             val gotUser = document.toObject<MyCondition>()
@@ -92,7 +94,7 @@ class SettingCarFragment : Fragment() {
                                     sustID = 20008,
                                     strDay = feedDay.toLong(),
                                 )
-                                fireDB.collection("User").document(fireUser?.email.toString())
+                                fireDB.collection("User").document(userEmail)
                                     .collection("Sustainable").document("20008")
                                     .set(sust)
                                     .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
@@ -100,7 +102,7 @@ class SettingCarFragment : Fragment() {
 
                                 //스탭프 업
                                 for( i in today..21){
-                                    fireDB.collection("User").document(fireUser?.email.toString())
+                                    fireDB.collection("User").document(userEmail)
                                         .collection("Project${projectCount}").document("Entire")
                                         .collection("Stamp").document(i.toString())
                                         .update("dayCo2", FieldValue.increment(4.027))
@@ -109,7 +111,7 @@ class SettingCarFragment : Fragment() {
                                 }
 
                                 //전체 활동 상태 업
-                                val washingtonRef = fireDB.collection("User").document(fireUser?.email.toString())
+                                val washingtonRef = fireDB.collection("User").document(userEmail)
                                     .collection("Project${projectCount}").document("Entire")
                                     .collection("AllAct").document("20008")
                                 washingtonRef
@@ -122,20 +124,28 @@ class SettingCarFragment : Fragment() {
                                     .addOnFailureListener { e -> Timber.i( e ) }
 
                                 //배지 Co2 업
-                                fireDB.collection("User").document(fireUser?.email.toString())
+                                fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40022")
                                     .update("count", FieldValue.increment(4.027))
                                     .addOnSuccessListener { Timber.i("40022 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
-                                fireDB.collection("User").document(fireUser?.email.toString())
+                                fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40023")
                                     .update("count", FieldValue.increment(4.027))
                                     .addOnSuccessListener { Timber.i("40023 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
-                                fireDB.collection("User").document(fireUser?.email.toString())
+                                fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40024")
                                     .update("count", FieldValue.increment(4.027))
                                     .addOnSuccessListener { Timber.i("40024 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i( e ) }
+
+                                //배지획득
+                                val getDate = System.currentTimeMillis()
+                                fireDB.collection("User").document(userEmail)
+                                    .collection("Badge").document("40021")
+                                    .update("getDate", getDate)
+                                    .addOnSuccessListener { Timber.i("40021 획득 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
                             }
                         } else { Timber.i("사용자 기본정보 받아오기 실패") }

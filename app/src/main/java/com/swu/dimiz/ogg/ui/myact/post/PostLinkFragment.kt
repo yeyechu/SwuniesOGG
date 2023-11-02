@@ -44,7 +44,7 @@ class PostLinkFragment : Fragment() {
             startActivity(intent)
         }
         binding.buttonPostLink.setOnClickListener {
-            // 파이어베이스
+            // todo 산림 링크 파이어베이스 올리기
             it.findNavController().navigateUp()
         }
     }

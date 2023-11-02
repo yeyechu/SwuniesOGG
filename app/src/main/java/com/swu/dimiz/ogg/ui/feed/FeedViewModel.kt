@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyReaction
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -26,6 +27,7 @@ class FeedViewModel : ViewModel() {
     private var currentJob: Job? = null
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
+    private val userEmail = fireUser?.email.toString()
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용
@@ -78,7 +80,7 @@ class FeedViewModel : ViewModel() {
 
     fun onreactionClicked(item: Int) {
         if(_feedId.value!!.email != OggApplication.auth.currentUser!!.email) {
-            fireDB.collection("User").document(fireUser?.email.toString())
+            fireDB.collection("User").document(userEmail)
                 .collection("Reation")
                 .whereEqualTo("feedId", _feedId.value?.id.toString())
                 .get()
@@ -89,22 +91,143 @@ class FeedViewModel : ViewModel() {
                     }
                     if(result.isEmpty){
                         val react = MyReaction(_feedId.value?.id.toString())
-                        fireDB.collection("User").document(fireUser?.email.toString())
+                        fireDB.collection("User").document(userEmail)
                             .collection("Reation").document(_feedId.value?.id.toString())
                             .set(react)
                             .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
                             .addOnFailureListener { e -> Timber.i(e) }
 
                         //배지 카운트 업
-                        fireDB.collection("User").document(fireUser?.email.toString())
+                        fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40001")
                             .update("count", FieldValue.increment(1))
-                        fireDB.collection("User").document(fireUser?.email.toString())
+                        fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40002")
                             .update("count", FieldValue.increment(1))
-                        fireDB.collection("User").document(fireUser?.email.toString())
+                        fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40003")
                             .update("count", FieldValue.increment(1))
+
+                        //다른 사용자 피드에 내가 몇개 반응
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40001")
+                            .addSnapshotListener { snapshot, e ->
+                                if (e != null) {
+                                    Timber.i(e)
+                                    return@addSnapshotListener
+                                }
+                                if (snapshot != null && snapshot.exists()) {
+                                    val gotBadge = snapshot.toObject<MyBadge>()
+
+                                    if(gotBadge!!.count == 10 && gotBadge.getDate == null){
+                                        val getDate = System.currentTimeMillis()
+                                        fireDB.collection("User").document(userEmail)
+                                            .collection("Badge").document("40001")
+                                            .update("getDate", getDate)
+                                            .addOnSuccessListener { Timber.i("40001 획득 완료") }
+                                            .addOnFailureListener { exeption -> Timber.i(exeption) }
+                                    }
+                                    else  if(gotBadge!!.count == 100 && gotBadge.getDate == null){
+                                        val getDate = System.currentTimeMillis()
+                                        fireDB.collection("User").document(userEmail)
+                                            .collection("Badge").document("40002")
+                                            .update("getDate", getDate)
+                                            .addOnSuccessListener { Timber.i("40002 획득 완료") }
+                                            .addOnFailureListener { exeption -> Timber.i(exeption) }
+                                    }
+                                    if(gotBadge!!.count == 500 && gotBadge.getDate == null){
+                                        val getDate = System.currentTimeMillis()
+                                        fireDB.collection("User").document(userEmail)
+                                            .collection("Badge").document("40003")
+                                            .update("getDate", getDate)
+                                            .addOnSuccessListener { Timber.i("40003 획득 완료") }
+                                            .addOnFailureListener { exeption -> Timber.i(exeption) }
+                                    }
+                                } else {
+                                    Timber.i("Current data: null")
+                                }
+                            }
+
+                        //반응 받은게 총 몇개인지
+                        //반응 버튼 눌렀을때 타사용자(게시물) 반응이 10개넘으면  개시물 주인의(이메일) 카운트 올리기
+                        fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                            .addSnapshotListener { snapshot, e ->
+                                if (e != null) {
+                                    Timber.i(e)
+                                    return@addSnapshotListener
+                                }
+
+                                if (snapshot != null && snapshot.exists()) {
+                                    val gotFeed = snapshot.toObject<Feed>()
+                                    if (gotFeed != null) {
+                                        if(gotFeed.reactionLike == 10){
+                                            fireDB.collection("User").document(gotFeed.email)
+                                                .collection("Badge").document("40013")
+                                                .update("count", FieldValue.increment(1))
+                                        }
+                                        else if(gotFeed.reactionGreat == 10){
+                                            fireDB.collection("User").document(gotFeed.email)
+                                                .collection("Badge").document("40012")
+                                                .update("count", FieldValue.increment(1))
+                                        }
+                                        else if(gotFeed.reactionFun == 10){
+                                            fireDB.collection("User").document(gotFeed.email)
+                                                .collection("Badge").document("40011")
+                                                .update("count", FieldValue.increment(1))
+                                        }
+
+                                        //카운트가 5가 된게 있으면 개시물 주인의(이메일) 배지 획득
+                                        fireDB.collection("User").document(gotFeed.email)
+                                            .collection("Badge")
+                                            .whereEqualTo("badgeID", "40011")
+                                            .whereEqualTo("badgeID", "40012")
+                                            .whereEqualTo("badgeID", "40013")
+                                            .addSnapshotListener { value, e ->
+                                                if (e != null) {
+                                                    Timber.i(e)
+                                                    return@addSnapshotListener
+                                                }
+
+                                                for (doc in value!!) {
+                                                    val gotBadge = doc.toObject<MyBadge>()
+
+                                                    if(gotBadge.badgeID == 40011 && gotBadge.getDate == null){
+                                                        if(gotBadge.count == 5){
+                                                            val getDate = System.currentTimeMillis()
+                                                            fireDB.collection("User").document(userEmail)
+                                                                .collection("Badge").document("40011")
+                                                                .update("getDate", getDate)
+                                                                .addOnSuccessListener { Timber.i("40011 획득 완료") }
+                                                                .addOnFailureListener { exeption -> Timber.i(exeption) }
+                                                        }
+                                                    }
+                                                    else if(gotBadge.badgeID == 40012 && gotBadge.getDate == null){
+                                                        if(gotBadge.count == 5){
+                                                            val getDate = System.currentTimeMillis()
+                                                            fireDB.collection("User").document(userEmail)
+                                                                .collection("Badge").document("40012")
+                                                                .update("getDate", getDate)
+                                                                .addOnSuccessListener { Timber.i("40012 획득 완료") }
+                                                                .addOnFailureListener { exeption -> Timber.i(exeption) }
+                                                        }
+                                                    }
+                                                    else if(gotBadge.badgeID == 40013 && gotBadge.getDate == null){
+                                                        if(gotBadge.count == 5){
+                                                            val getDate = System.currentTimeMillis()
+                                                            fireDB.collection("User").document(userEmail)
+                                                                .collection("Badge").document("40013")
+                                                                .update("getDate", getDate)
+                                                                .addOnSuccessListener { Timber.i("40013 획득 완료") }
+                                                                .addOnFailureListener { exeption -> Timber.i(exeption) }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                    }
+                                } else {
+                                    Timber.i("Current data: null")
+                                }
+                            }
 
                         when (item) {
                             1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
