@@ -199,6 +199,11 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             Timber.i("transportCo2 $transportCo2")
             Timber.i("resourceCo2 $resourceCo2")
 
+            _energyCo2.value = energyCo2.toFloat()
+            _consumptionCo2.value = consumptionCo2.toFloat()
+            _transportCo2.value = transportCo2.toFloat()
+            _resourceCo2.value = resourceCo2.toFloat()
+
             //sever Graph 업데이트
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Project$projectCount").document("Graph")
@@ -237,6 +242,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 val thirdCo2 = co2ActList[2].allCo2
 
                 Timber.i("co2ActList $co2ActList")
+                _co2ActList.value = co2ActList
 
                 //sever Graph 업데이트
                 fireDB.collection("User").document(fireUser?.email.toString())

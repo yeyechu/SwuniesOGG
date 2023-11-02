@@ -125,7 +125,6 @@
         style="@style/StyleButtonOgg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimension_100"
         android:layout_marginBottom="@dimen/spacing_scroll"
         android:text="확인" />
 </LinearLayout>
