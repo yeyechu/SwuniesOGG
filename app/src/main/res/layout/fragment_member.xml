@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/secondary_baby_gray">
+        android:background="@color/white">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -58,15 +58,17 @@
                 android:id="@+id/image_user_face"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxHeight="@dimen/image_size_aim_face"
-                app:memberFace="@{viewModel.userCondition.aim}"
+                android:layout_marginBottom="@dimen/spacing_extra_small"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
+                android:maxHeight="@dimen/image_size_aim_face"
                 android:padding="@dimen/spacing_small"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.17000002"
+                app:memberFace="@{viewModel.userCondition.aim}"
+                tools:src="" />
 
             <TextView
                 android:id="@+id/text_user_nickname"
@@ -93,26 +95,16 @@
                 tools:layout_editor_absoluteY="65dp"
                 tools:text="이메일이메일이메일" />
 
-            <TextView
-                android:id="@+id/text_aim_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:layout_gravity="center"
-                android:background="@drawable/listaim_shape_nametag"
-                android:paddingTop="@dimen/spacing_extra_small"
-                android:paddingBottom="@dimen/spacing_extra_small"
-                android:paddingStart="@dimen/spacing_regular"
-                android:paddingEnd="@dimen/spacing_regular"
-                android:fontFamily="@font/nanumsquare_r"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_size_subtitle"
-                app:memberAim="@{viewModel.userCondition}"
-                app:layout_constraintStart_toEndOf="@id/image_user_face"
-                app:layout_constraintTop_toBottomOf="@id/text_user_email"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/member_stroke_height"
+                android:layout_marginTop="@dimen/spacing_extra_small"
+                android:background="@color/secondary_baby_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="초보" />
+                app:layout_constraintTop_toBottomOf="@id/text_user_email"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -141,5 +133,4 @@
                     tools:layout="@layout/layer_my_feed"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

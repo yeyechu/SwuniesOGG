@@ -245,6 +245,7 @@
     <string name="feed_text_report_right_button">신고하기</string>
 
     <string name="feed_text_reaction_title">반응 남기기</string>
+    <string name="feed_text_reaction_body">반응은 한 번만 남길 수 있고 수정할 수 없어요</string>
     <string name="feed_text_reaction_like">좋아요</string>
     <string name="feed_text_reaction_fun">웃겨요</string>
     <string name="feed_text_reaction_great">대단해요</string>

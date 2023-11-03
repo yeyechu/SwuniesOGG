@@ -1,7 +1,6 @@
 package com.swu.dimiz.ogg.ui.env.myenv
 
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
@@ -143,6 +142,9 @@ class MyEnvLayer : Fragment() {
             this.layoutParams = layoutParams
             layoutParams.gravity = Gravity.END
 
+            button.isFocusableInTouchMode = true
+            button.requestFocus()
+
             setImageBitmap(bitmap)
             adjustViewBounds = true
             setBackgroundResource(R.drawable.myenv_decoration_delete_selector)
@@ -161,8 +163,9 @@ class MyEnvLayer : Fragment() {
             this.layoutParams = layoutParams
 
             layoutParams.setMargins(0, 29, 29, 0)
+            badge.isPressed = true
 
-            setImageBitmap(item.imageDeco)
+            setImageBitmap(item.image)
             adjustViewBounds = true
             setBackgroundResource(R.drawable.myenv_decoration_selector)
             //setBackgroundResource(R.drawable.myenv_shape_imageholder_dash)
@@ -237,6 +240,11 @@ class MyEnvLayer : Fragment() {
 
         binding.canvasLayout.apply {
             addView(frameLayout)
+            setOnClickListener {
+                findFocus()?.clearFocus()
+                isFocusableInTouchMode = true
+                requestFocus()
+            }
         }
         viewModel.inventoryOut(item)
     }

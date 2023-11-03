@@ -1,12 +1,14 @@
 package com.swu.dimiz.ogg.ui.myact
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -24,7 +26,6 @@ import com.swu.dimiz.ogg.ui.myact.sust.PagerSustAdapter
 import com.swu.dimiz.ogg.ui.myact.daily.PostDailyWindow
 import com.swu.dimiz.ogg.ui.myact.extra.PagerExtraAdapter
 import com.swu.dimiz.ogg.ui.myact.extra.PostExtraWindow
-import com.swu.dimiz.ogg.ui.myact.post.PostCompletedDialog
 import com.swu.dimiz.ogg.ui.myact.sust.PostSustWindow
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 
@@ -102,6 +103,7 @@ class MyActFragment : Fragment() {
 
         return binding.root
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val mainActivity = activity as MainActivity

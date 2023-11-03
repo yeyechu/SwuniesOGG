@@ -318,7 +318,6 @@ class EnvViewModel : ViewModel() {
             .addOnFailureListener { e -> Timber.i("Error updating document", e) }
     }
 
-
     private fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())

@@ -37,6 +37,7 @@ class EnvFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

@@ -36,7 +36,6 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimension_30"
                 android:layout_weight="3"
                 android:orientation="vertical">
 
@@ -46,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_text"
                     android:text=""
                     app:actitityTitle="@{activity}"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -61,16 +60,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    app:activityCo2="@{activity}"
+                    app:activityMessage="@{activity}"
                     app:layout_constraintStart_toStartOf="@id/big_card_text_title"
                     app:layout_constraintTop_toBottomOf="@id/big_card_text_title"
                     tools:text="탄소감축량 : 0.000kg" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_myact"
-                    style="@style/StyleButtonOggWhite.smaller"
+                    style="@style/StyleButtonOgg.smaller"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/bottom_sheet_peek_height"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="@dimen/spacing_extra_medium"
+                    android:layout_marginBottom="@dimen/spacing_extra_small"
                     android:text="@string/myact_button"
                     android:onClick="@{() -> clickListener.onClick(activity)}" />
             </LinearLayout>
@@ -119,6 +121,16 @@
                 android:fontFamily="@font/nanumsquare_r"
                 app:postDate="@{activity}"
                 tools:text="2023년 10월 19일 등록"/>
+
+            <ImageView
+                android:id="@+id/big_card_image2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_big"
+                android:layout_gravity="end|center_vertical"
+                android:contentDescription="@string/description_myact_card_image"
+                app:activityImage="@{activity}"
+                app:srcCompat="@drawable/common_image_placeholder" />
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 </layout>

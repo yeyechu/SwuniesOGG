@@ -32,6 +32,10 @@ class PagerExtraAdapter(
         )
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onBindViewHolder(holder: ExtraViewHolder, position: Int) {
         val extra = getItem(position)
         holder.bind(extra, viewModel, onClickListener)

@@ -8,14 +8,12 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.AggregateSource
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.ListData
 import com.swu.dimiz.ogg.convertToDuration
-import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
@@ -29,7 +27,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.Instant
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
@@ -172,13 +169,13 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                             날짜 업데이트 : 파이어베이스 -> 룸
-    fun updateSustFromFirebase(item: MySustainable) = viewModelScope.launch {
+    private fun updateSustFromFirebase(item: MySustainable) = viewModelScope.launch {
         if(item.sustID != 0 && item.strDay != null) {
             repository.updateSustDate(item.sustID, item.strDay!!)
         }
     }
 
-    fun updateExtraFromFirebase(item: MyExtra) = viewModelScope.launch {
+    private fun updateExtraFromFirebase(item: MyExtra) = viewModelScope.launch {
         if(item.extraID != 0 && item.strDay != null) {
             repository.updateExtraDate(item.extraID, item.strDay!!)
         }
@@ -303,7 +300,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
 
     //오늘 활동 리스트 가져오기
-    var appUser = MyCondition()
+    private var appUser = MyCondition()
     var today = 0
     @RequiresApi(Build.VERSION_CODES.O)
     fun fireGetDaily() = viewModelScope.launch {
@@ -396,10 +393,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (doc in value!!) {
                     val mysust = doc.toObject<MySustainable>()
                     dayDoneSust = convertToDuration(mysust.strDay!!)
-                    mySustList.add(mysust.sustID!!)
+                    mySustList.add(mysust.sustID)
                     updateSustFromFirebase(mysust)
                     //날짜 체크해서 지우기
-                    getSust(mysust.sustID!!)
+                    getSust(mysust.sustID)
                 }
                 _sustDone.value = mySustList
                 Timber.i( "Sust result: ${_sustDone.value}")
@@ -420,10 +417,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (doc in value!!) {
                     val myextra = doc.toObject<MyExtra>()
                     dayDoneExtra = convertToDuration(myextra.strDay!!)
-                    myExtraList.add(myextra.extraID!!)
+                    myExtraList.add(myextra.extraID)
                     updateExtraFromFirebase(myextra)
                     //날짜 체크해서 지우기
-                    getExtra(myextra.extraID!!)
+                    getExtra(myextra.extraID)
                 }
                 _extraDone.value = myExtraList
                 Timber.i( "Extra result: $myExtraList")
@@ -459,7 +456,6 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
         }
     }
-
 
    companion object {
 

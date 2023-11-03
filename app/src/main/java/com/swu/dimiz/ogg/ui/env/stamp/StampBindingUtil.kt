@@ -3,7 +3,6 @@ package com.swu.dimiz.ogg.ui.env.stamp
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.BindingAdapter
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.*
@@ -111,14 +110,3 @@ fun ImageView.setMemberImage(data: Float?) {
     }
 }
 
-@BindingAdapter("memberAim")
-fun TextView.setAimTitle(data: MyCondition?) {
-    data?.let {
-        text = when(data.aim) {
-            AIMCO2_ONE -> "초보"
-            AIMCO2_TWO -> "중수"
-            AIMCO2_THREE -> "고수"
-            else -> "비활동가"
-        }
-    }
-}

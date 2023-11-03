@@ -13,7 +13,6 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
-import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
@@ -23,8 +22,6 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
@@ -44,7 +41,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     var dayDone : Int = 0
     var sustCo2 : Float = 0f
     var sustlimit : Int = 0
-
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                        클릭 핸들러
@@ -173,13 +169,12 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun initCondition() {
         initCo2()
         _userMobility.value = _userCondition.value!!.car == 0
-        resetFrequency()
+        //resetFrequency()
 
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     활동 목표 내용 결정자
-
     val onClickedFaceOne = setListaimUI.map {
         it == 1
     }
@@ -249,6 +244,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _co2Holder.value = _co2Holder.value?.minus(data)
     }
 
+    fun initCo2Holder() {
+        _co2Holder.value = FLOAT_ZERO
+    }
+
     private fun initListHolder() {
 
         var count = LIST_SIZE
@@ -275,10 +274,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     private fun setTodayHolder(data: List<ActivitiesDaily>) {
         _todayHolder.postValue(data)
-    }
-
-    fun initCo2Holder() {
-        _co2Holder.value = FLOAT_ZERO
     }
 
     // 지속활동 탄소량 불러오기
@@ -447,7 +442,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     //                                        활동 리스트
-
     fun onSaveButtonClicked() {
         _navigateToSave.value = true
     }
@@ -575,7 +569,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     val gotSust = document.toObject<MySustainable>()
                     dayDone = convertToDuration(gotSust.strDay!!)
 
-                    getSust(gotSust.sustID!!)
+                    getSust(gotSust.sustID)
                 }
             }
             .addOnFailureListener { exception ->
@@ -730,8 +724,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val mysust = dc.document.toObject<MySustainable>()
-                        mySustList.add(mysust.sustID!!)
-                        addCo2HolderFromFirebase(mysust.sustID!!)
+                        mySustList.add(mysust.sustID)
+                        addCo2HolderFromFirebase(mysust.sustID)
                     }
                 }
             }

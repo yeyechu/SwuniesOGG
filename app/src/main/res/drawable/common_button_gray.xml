@@ -9,7 +9,7 @@
                 android:endColor="@color/white"
                 android:angle="270" />
 
-            <stroke android:width="@dimen/stroke_shape_regular" android:color="@color/primary_gray" />
+            <stroke android:width="@dimen/stroke_shape_button" android:color="@color/primary_gray" />
             <corners android:radius="@dimen/radius_button" />
         </shape>
     </item>
@@ -22,7 +22,7 @@
                 android:endColor="@color/white"
                 android:angle="270" />
 
-            <stroke android:width="@dimen/stroke_shape_regular" android:color="@color/primary_gray" />
+            <stroke android:width="@dimen/stroke_shape_button" android:color="@color/primary_gray" />
             <corners android:radius="@dimen/radius_button" />
         </shape>
     </item>

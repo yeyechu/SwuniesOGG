@@ -93,6 +93,8 @@ data class ActivitiesExtra (
 
     var guideImage: Bitmap? = null,
 
-    var updateBadgeCode: Int = 0
+    var updateBadgeCode: Int = 0,
+
+    var message: String = "",
 )
 

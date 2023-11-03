@@ -10,7 +10,9 @@
                     <corners android:radius="@dimen/radius_smallest" />
                 </shape>
             </item>
-            <item android:drawable="@drawable/common_image_check" />
+            <item
+                
+                android:drawable="@drawable/common_image_check"/>
         </layer-list>
     </item>
 

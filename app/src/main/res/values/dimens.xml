@@ -38,6 +38,8 @@
     <dimen name="stroke_shape_regular">2dp</dimen>
     <dimen name="stroke_shape_bold">3dp</dimen>
 
+    <dimen name="stroke_shape_button">2dp</dimen>
+
     <!--                                        아이콘                                        -->
     <dimen name="icon_extra_small">20dp</dimen>
     <dimen name="icon_size_small">30dp</dimen>
@@ -93,6 +95,7 @@
     <dimen name="myact_indicator_height">15dp</dimen>
 
     <dimen name="post_window_height">550dp</dimen>
+    <dimen name="member_stroke_height">10dp</dimen>
 
 
     <!-- 기타 -->

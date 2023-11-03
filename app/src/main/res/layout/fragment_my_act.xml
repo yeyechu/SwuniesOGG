@@ -25,7 +25,7 @@
                 android:id="@+id/card_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/secondary_background_blue">
 
                 <fragment
                     android:id="@+id/included_daily_layout"
@@ -79,6 +79,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myact_indicator_height"
                     android:layout_marginBottom="@dimen/spacing_medium"
+                    android:background="@color/secondary_background_blue"
                     android:contentDescription="@string/description_pager_indicator"
                     app:layout_constraintBottom_toTopOf="@id/text_title_extra"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -135,6 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/myact_indicator_height"
                     android:layout_marginBottom="@dimen/spacing_medium"
+                    android:background="@color/secondary_background_blue"
                     android:contentDescription="@string/description_pager_indicator"
                     app:tabGravity="center"
                     app:tabIndicatorHeight="0dp"

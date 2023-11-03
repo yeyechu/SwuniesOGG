@@ -28,6 +28,28 @@ class ListaimFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listaim, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
+
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+
+        binding.toolbar.apply {
+            setupWithNavController(navController, appBarConfiguration)
+            setNavigationIcon(R.drawable.common_button_exit_toolbar)
+            setPadding(20, 10, 20, 10)
+            setNavigationOnClickListener {
+
+            }
+        }
+
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
         viewModel.fireInfo()
         viewModel.userCondition.observe(viewLifecycleOwner) {
             it?.let {
@@ -51,20 +73,6 @@ class ListaimFragment : Fragment() {
                 viewModel.onNavigatedToSelection()
             }
         }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        navController = findNavController()
-
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-        binding.toolbar.setNavigationIcon(R.drawable.common_button_exit_toolbar)
-
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        binding.viewModel = viewModel
     }
 
     override fun onDestroyView() {

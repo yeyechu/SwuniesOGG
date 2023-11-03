@@ -89,6 +89,13 @@ fun TextView.setCo2(item: ActivitiesExtra?) {
     }
 }
 
+@BindingAdapter("activityMessage")
+fun TextView.setMessage(item: ActivitiesExtra?) {
+    item?.let {
+        text = item.message
+    }
+}
+
 @BindingAdapter("activityImage")
 fun ImageView.setImage(item: ActivitiesExtra?) {
     item?.let {

@@ -37,6 +37,10 @@ class PagerSustAdapter(
         holder.bind(sust, viewModel, onClickListener)
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     companion object SustDiffCallback : DiffUtil.ItemCallback<ActivitiesSustainable>() {
         override fun areItemsTheSame(oldItem: ActivitiesSustainable, newItem: ActivitiesSustainable): Boolean {
             return oldItem == newItem

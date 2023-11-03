@@ -169,8 +169,11 @@
             <ImageButton
                 android:id="@+id/button_expand"
                 style="@style/StyleImageButton"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/icon_size_small"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_medium"
+                android:padding="@dimen/spacing_medium"
+                android:adjustViewBounds="true"
                 android:layout_gravity="center"
                 android:contentDescription="@string/description_common_button_arrow_down"
                 android:onClick="@{() -> condition.onExpandButtonClicked()}"
