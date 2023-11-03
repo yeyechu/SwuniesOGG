@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
-import com.swu.dimiz.ogg.ui.myact.daily.DailyCardAdapter
 import com.swu.dimiz.ogg.ui.myact.post.TextAdapter
 
 @BindingAdapter("actitityTitle")
@@ -45,12 +44,6 @@ fun TextView.setFreq(item: ActivitiesDaily?) {
 fun ImageView.setExampleImage(item: ActivitiesDaily?) {
     item?.let {
         setImageBitmap(item.guideImage)
-    }
-}
-@BindingAdapter("freq")
-fun TextView.setLimit(item: ActivitiesDaily?) {
-    item?.let {
-        text = item.freq.toString()
     }
 }
 
@@ -107,11 +100,11 @@ fun setCheckBox(view: CheckBox, item: ActivitiesDaily, bool: Boolean) {
         view.isEnabled = true
     }
 }
-
-@BindingAdapter("listDataSource")
-fun bindRecyclerActivity(recyclerView: RecyclerView, data: List<ActivitiesDaily>?) {
-    val adapter = recyclerView.adapter as ListsetAdapter
-    adapter.submitList(data)
+@BindingAdapter("isEnableCheck")
+fun enableCheckBox(view: CheckBox, bool: Boolean) {
+    if (!bool && !view.isChecked) {
+       view.isEnabled = false
+    }
 }
 
 @BindingAdapter("instructionAdapter")
@@ -120,10 +113,4 @@ fun bindRecyclerInstruction(recyclerView: RecyclerView, data: List<Instruction>?
         val adapter = recyclerView.adapter as TextAdapter
         adapter.data = data
     }
-}
-
-@BindingAdapter("listDataDaily")
-fun bindRecyclerDaily(recyclerView: RecyclerView, data: List<ActivitiesDaily>?) {
-    val adapter = recyclerView.adapter as DailyCardAdapter
-    adapter.submitList(data)
 }

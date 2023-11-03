@@ -55,7 +55,8 @@
                 android:onClick="@{(view) -> viewModel.addListHolder(activity, ((CompoundButton)view).isChecked())}"
                 checkBox="@{activity}"
                 automobile="@{automobile == 0}"
-                android:checked="@{activity.freq != 0}" />
+                android:checked="@{activity.freq != 0}"
+                app:isEnableCheck="@{viewModel.isAvailable}"/>
 
             <ImageView
                 android:id="@+id/image_activity"

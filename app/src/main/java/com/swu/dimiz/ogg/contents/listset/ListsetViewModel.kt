@@ -137,6 +137,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val toastVisibility: LiveData<Boolean>
         get() = _toastVisibility
 
+    private val _isAvailable = MutableLiveData<Boolean>()
+    val isAvailable: LiveData<Boolean>
+        get() = _isAvailable
+
     //                                       활동 디테일
     val details = MediatorLiveData<List<Instruction>>()
 
@@ -165,6 +169,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         // 활동 선택 페이지
         _co2Holder.value = FLOAT_ZERO
         initListHolder()
+        _isAvailable.value = true
 
         getFilters()
         Timber.i("created")
@@ -330,8 +335,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 act.freq++
                 update(act)
             } else {
-                toastVisible()
-                plusCo2(amount)
                 act.freq = 0
             }
 
@@ -339,6 +342,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             Timber.i("활동 Id: $act")
         } else {
             deleteItem(act)
+            checkBoxEnabled()
 
             if(act.freq > 0) {
                 minusCo2(amount)
@@ -346,8 +350,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 act.freq--
                 update(act)
                 temp--
-            } else {
-                minusCo2(amount)
             }
             Timber.i("co2Holder 값 : ${_co2Holder.value}")
             Timber.i("활동 Id: $act")
@@ -368,6 +370,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         }
         if (count == LIST_SIZE) {
             toastVisible()
+            checkBoxDisabled()
             temp = LIST_SIZE
         }
     }
@@ -395,6 +398,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     fun toastInvisible() {
         _toastVisibility.value = false
+    }
+
+    private fun checkBoxEnabled() {
+        _isAvailable.value = true
+    }
+
+    fun checkBoxDisabled() {
+        _isAvailable.value = false
     }
 
     fun update(act: ActivitiesDaily) = viewModelScope.launch {

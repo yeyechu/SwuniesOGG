@@ -265,17 +265,6 @@ class MyActFragment : Fragment() {
                 fragmentManager.popBackStack()
             }
         }
-
-        viewModel.postEventHandler.observe(viewLifecycleOwner) {
-            if(it) {
-                //fragmentManager.popBackStack()
-                val frg = fragmentManager.findFragmentByTag("detail")
-                fragmentManager.commit {
-                    remove(frg!!)
-                }
-                viewModel.onPostOver()
-            }
-        }
     }
 
     private fun startGallery() {
