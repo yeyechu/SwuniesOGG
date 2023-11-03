@@ -3,7 +3,10 @@ package com.swu.dimiz.ogg.ui.env.stamp
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
@@ -64,37 +67,46 @@ fun ImageView.setEnvImage(data: Int) {
 @BindingAdapter("oggImage", "oggAim")
 fun ImageView.setOGGImage(data: Int, aim: Float?) {
     aim?.let {
+        var id = ""
 
-        when(aim) {
+         when(aim) {
             AIMCO2_ONE -> {
-                when(data) {
-                    in 0..30 -> setImageResource(R.drawable.env_image_level1_030)
-                    in 31..90 -> setImageResource(R.drawable.env_image_level1_060)
-                    in 91..100 -> setImageResource(R.drawable.env_image_level1_090)
-                    else -> setImageResource(R.drawable.env_image_level1_090)
+                id = when(data) {
+                    in 0..30 -> "1_030"
+                    in 31..90 -> "1_060"
+                    in 91..100 -> "1_090"
+                    else -> "1_090"
                 }
             }
             AIMCO2_TWO -> {
-                when(data) {
-                    in 0..30 -> setImageResource(R.drawable.env_image_level2_030)
-                    in 31..90 -> setImageResource(R.drawable.env_image_level2_060)
-                    in 91..100 -> setImageResource(R.drawable.env_image_level2_090)
-                    else -> setImageResource(R.drawable.env_image_level2_090)
+                id = when(data) {
+                    in 0..30 -> "2_030"
+                    in 31..90 -> "2_060"
+                    in 91..100 -> "2_090"
+                    else -> "2_090"
                 }
             }
             AIMCO2_THREE -> {
-                when(data) {
-                    in 0..30 -> setImageResource(R.drawable.env_image_level3_030)
-                    in 31..90 -> setImageResource(R.drawable.env_image_level3_060)
-                    in 91..100 -> setImageResource(R.drawable.env_image_level3_090)
-                    else -> setImageResource(R.drawable.env_image_level3_090)
+                id = when(data) {
+                    in 0..30 -> "3_030"
+                    in 31..90 -> "3_060"
+                    in 91..100 -> "3_090"
+                    else -> "3_090"
                 }
             }
             else -> {
                 visibility = View.GONE
             }
         }
-        //val resource = requireContext().resources?
+        val resource = context.resources?.getIdentifier("env_image_level$id", "drawable", context.packageName)
+
+        Glide.with(context)
+            .load(resource)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.feed_animation_loading)
+                    .error(R.drawable.myenv_image_empty)
+            ).into(this)
     }
 }
 

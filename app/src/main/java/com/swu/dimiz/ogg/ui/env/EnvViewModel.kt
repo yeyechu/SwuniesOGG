@@ -170,7 +170,7 @@ class EnvViewModel : ViewModel() {
         val tempDate = date.value!!
         _co2Holder.value = FLOAT_ZERO
 
-        if (tempDate > 0) {
+        if (tempDate in 1..21) {
             //getTodayStampFromFirebase()
 
             if (tempDate == 1) {

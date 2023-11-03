@@ -43,7 +43,9 @@
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/spacing_large"/>
+            android:layout_marginBottom="@dimen/spacing_large">
+
+        </FrameLayout>
 
         <fragment
             android:id="@+id/include_layer_stamp"

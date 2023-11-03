@@ -194,5 +194,16 @@
                 app:layout_constraintTop_toBottomOf="@id/instruction_layout"
                 tools:listData="@layout/fragment_listset_list_item"/>
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.navigateToRevise ? View.VISIBLE : View.GONE}">
+
+            <include
+                android:id="@+id/included_layout_dialog_list"
+                layout="@layout/dialog_list" />
+
+        </FrameLayout>
     </FrameLayout>
 </layout>

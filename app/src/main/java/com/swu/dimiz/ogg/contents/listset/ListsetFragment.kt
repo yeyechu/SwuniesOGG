@@ -68,8 +68,6 @@ class ListsetFragment : Fragment() {
             if(it.startDate != 0L) {
                 viewModel.fireGetDaily()
                 viewModel.getTodayList()
-                Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : ListsetFragment 106 userCondition observer : getTodayList() 호출")
-                Timber.i("todayHolder: ${viewModel.todayHolder.value}")
                 viewModel.today = convertToDuration(it.startDate)
             } else {
                 viewModel.getCo2Sum()
@@ -100,25 +98,29 @@ class ListsetFragment : Fragment() {
             }
         }
 
-        viewModel.navigateToRevise.observe(viewLifecycleOwner) {
-            if(it) {
-                addDialogWindow()
-                viewModel.onNavigatedToRevise()
-            }
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                     수정 다이얼로그
+        binding.includedLayoutDialogList.buttonExit.setOnClickListener {
+            viewModel.onNavigatedToRevise()
+        }
+        binding.includedLayoutDialogList.buttonTodayOnly.setOnClickListener {
+            viewModel.onNavigatedToRevise()
+            viewModel.fireReSave()
+            navController.navigateUp()
+        }
+        binding.includedLayoutDialogList.buttonAllday.setOnClickListener {
+            viewModel.onNavigatedToRevise()
+            viewModel.fireOnlySave()
+            navController.navigateUp()
+        }
+        binding.includedLayoutDialogList.dialogLayout.setOnClickListener {
+            viewModel.noClick()
         }
     }
 
     private fun addWindow() {
         fragmentManager.beginTransaction()
             .add(R.id.frame_layout_listset, ListDetailWindow())
-            .setReorderingAllowed(true)
-            .addToBackStack(null)
-            .commit()
-    }
-
-    private fun addDialogWindow() {
-        fragmentManager.beginTransaction()
-            .add(R.id.frame_layout_listset, ListDialog())
             .setReorderingAllowed(true)
             .addToBackStack(null)
             .commit()
