@@ -97,10 +97,15 @@ class PostDailyWindow  : Fragment() {
 
         binding.buttonDone.setOnClickListener {
             viewModel.onPostCongrats()
-            uploadPostToFirebase()
             requireActivity().onBackPressedDispatcher.onBackPressed()
             viewModel.completedDaily()
             viewModel.resetUri()
+            uploadPostToFirebase()
+            updateBageCate()
+            updateBadgeCo2()
+            updateBadgeDate()
+            updateBadgeDateCo2()
+
         }
     }
 
@@ -178,10 +183,12 @@ class PostDailyWindow  : Fragment() {
             .update("allCo2", FieldValue.increment(viewModel.todailyId.value!!.co2.toDouble()))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
+    }
 
-        // ─────────────────────────────────────────────────────────────────────────────────
-        //                              배지 카운트 업
-        when(CameraActivity.id.toInt()){
+    // ─────────────────────────────────────────────────────────────────────────────────
+    //                              배지 카운트 업데이트
+    private fun updateBageCate(){
+        when(viewModel.todailyId.value!!.dailyId){
             //에너지
             10001,10002,10003,10004,10005,10006,10007,10008 ->{
                 fireDB.collection("User").document(userEmail)
@@ -216,48 +223,41 @@ class PostDailyWindow  : Fragment() {
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
         }
-
-        //배지 Co2
+    }
+    private fun updateBadgeCo2(){
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40022")
-            .update("count", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .update("count", FieldValue.increment(viewModel.todailyId.value!!.co2.toDouble()))
             .addOnSuccessListener { Timber.i("40022 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40023")
-            .update("count", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .update("count", FieldValue.increment(viewModel.todailyId.value!!.co2.toDouble()))
             .addOnSuccessListener { Timber.i("40023 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40024")
-            .update("count", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .update("count", FieldValue.increment(viewModel.todailyId.value!!.co2.toDouble()))
             .addOnSuccessListener { Timber.i("40024 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
-
-        updateBadgeDate()
-        updateBadgeDateCo2()
     }
     // ─────────────────────────────────────────────────────────────────────────────────
     //                              배지 획득 이벤트
+    val counts = ArrayList<MyBadge>()
     private fun updateBadgeDate(){
         fireDB.collection("User").document(userEmail)
             .collection("Badge")
             .orderBy("badgeID")
-            .addSnapshotListener { value, e ->
-                if (e != null) {
-                    Timber.i(e)
-                    return@addSnapshotListener
-                }
-
-                val counts = ArrayList<Int>()
-                for (doc in value!!) {
-                    doc.getDouble("count")?.let {
-                        counts.add(it.toInt())
-                    }
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Timber.i("${document.id} => ${document.data}")
+                    var gotBadge = document.toObject<MyBadge>()
+                    counts.add(gotBadge)
                 }
                 for(i in 0 until counts.size){
                     //카테고리
-                    if(counts[6] == 100){
+                    if(counts[6].count == 100 && counts[6].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40007")
@@ -265,7 +265,7 @@ class PostDailyWindow  : Fragment() {
                             .addOnSuccessListener { Timber.i("40007 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[7] == 100){
+                    else if(counts[7].count == 100 && counts[7].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40008")
@@ -273,7 +273,7 @@ class PostDailyWindow  : Fragment() {
                             .addOnSuccessListener { Timber.i("40008 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[8] == 100){
+                    else if(counts[8].count == 100 && counts[8].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
@@ -281,7 +281,7 @@ class PostDailyWindow  : Fragment() {
                             .addOnSuccessListener { Timber.i("40009 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[9] == 100){
+                    else if(counts[9].count == 100 && counts[9].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40010")
@@ -290,6 +290,9 @@ class PostDailyWindow  : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                 }
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
             }
     }
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.AggregateSource
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -352,7 +353,6 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                         21 -> myDailyList.add(mylist.day21act)
                     }
                 }
-                Timber.i("today: $today")
                 Timber.i("파이어베이스 myDailyList: $myDailyList")
 
                 myDailyList.forEach {
@@ -384,19 +384,21 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     fun fireGetSust(){
         //지속 가능한 활동 받아오기
         fireDB.collection("User").document(fireUser?.email.toString()).collection("Sustainable")
-            .addSnapshotListener { value, e ->
+            .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i("listen:error", e)
                     return@addSnapshotListener
                 }
                 mySustList.clear()
-                for (doc in value!!) {
-                    val mysust = doc.toObject<MySustainable>()
-                    dayDoneSust = convertToDuration(mysust.strDay!!)
-                    mySustList.add(mysust.sustID)
-                    updateSustFromFirebase(mysust)
-                    //날짜 체크해서 지우기
-                    getSust(mysust.sustID)
+                for (dc in snapshots!!.documentChanges) {
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        val mysust = dc.document.toObject<MySustainable>()
+                        dayDoneSust = convertToDuration(mysust.strDay!!)
+                        mySustList.add(mysust.sustID!!)
+                        updateSustFromFirebase(mysust)
+                        //날짜 체크해서 지우기
+                        getSust(mysust.sustID!!)
+                    }
                 }
                 _sustDone.value = mySustList
                 Timber.i( "Sust result: ${_sustDone.value}")
@@ -417,10 +419,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (doc in value!!) {
                     val myextra = doc.toObject<MyExtra>()
                     dayDoneExtra = convertToDuration(myextra.strDay!!)
-                    myExtraList.add(myextra.extraID)
+                    myExtraList.add(myextra.extraID!!)
                     updateExtraFromFirebase(myextra)
                     //날짜 체크해서 지우기
-                    getExtra(myextra.extraID)
+                    getExtra(myextra.extraID!!)
                 }
                 _extraDone.value = myExtraList
                 Timber.i( "Extra result: $myExtraList")

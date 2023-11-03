@@ -26,6 +26,7 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyGraph
 import kotlinx.coroutines.*
 import timber.log.Timber
+import kotlin.text.Typography.less
 
 //─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 인서님 여기 경고 뜨는 거 신경 써주세요, 하라는 대로 고치면 됩니다 ▲
 class GraphViewModel(private val repository: OggRepository) : ViewModel() {
@@ -274,11 +275,11 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     private fun fireGetReaction() {
         reactionList.clear()
-        val less = startDate + 21000000
+        //val less = startDate + 21000000  //todo 날짜 변환
         fireDB.collection("Feed")
             .whereEqualTo("email", fireUser?.email.toString())
             .whereGreaterThan("postTime", startDate)
-            .whereLessThan("postTime", less)
+            //.whereLessThan("postTime", less)
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->

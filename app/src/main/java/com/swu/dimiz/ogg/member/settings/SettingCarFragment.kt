@@ -24,6 +24,7 @@ import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.FragmentSettingCarBinding
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
 import timber.log.Timber
@@ -140,13 +141,26 @@ class SettingCarFragment : Fragment() {
                                     .addOnSuccessListener { Timber.i("40024 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
 
+                                fireDB.collection("User").document(userEmail)
+                                    .collection("Badge").document("40009")
+                                    .update("count", FieldValue.increment(1))
+                                    .addOnSuccessListener { Timber.i("40009 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i( e ) }
+
                                 //배지획득
+                                fireDB.collection("User").document(userEmail)
+                                    .collection("Badge").document("40021")
+                                    .update("count", FieldValue.increment(1))
+                                    .addOnSuccessListener { Timber.i("40021 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i( e ) }
                                 val getDate = System.currentTimeMillis()
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40021")
                                     .update("getDate", getDate)
                                     .addOnSuccessListener { Timber.i("40021 획득 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
+
+                                updateBadgeDateCo2()
                             }
                         } else { Timber.i("사용자 기본정보 받아오기 실패") }
                     }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
@@ -166,6 +180,53 @@ class SettingCarFragment : Fragment() {
             }
         }
         return binding.root
+    }
+
+    private fun updateBadgeDateCo2() {
+        fireDB.collection("User").document(userEmail)
+            .collection("Badge")
+            .whereEqualTo("badgeID", "40022")
+            .whereEqualTo("badgeID", "40023")
+            .whereEqualTo("badgeID", "40024")
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+
+                for (doc in value!!) {
+                    val gotBadge = doc.toObject<MyBadge>()
+
+                    if (gotBadge.badgeID == 40022 && gotBadge.getDate == null) {
+                        if (gotBadge.count >= 100.0) {
+                            val getDate = System.currentTimeMillis()
+                            fireDB.collection("User").document(userEmail)
+                                .collection("Badge").document("40022")
+                                .update("getDate", getDate)
+                                .addOnSuccessListener { Timber.i("40022 획득 완료") }
+                                .addOnFailureListener { exeption -> Timber.i(exeption) }
+                        }
+                    } else if (gotBadge.badgeID == 40023 && gotBadge.getDate == null) {
+                        if (gotBadge.count >= 500.0) {
+                            val getDate = System.currentTimeMillis()
+                            fireDB.collection("User").document(userEmail)
+                                .collection("Badge").document("40023")
+                                .update("getDate", getDate)
+                                .addOnSuccessListener { Timber.i("40023 획득 완료") }
+                                .addOnFailureListener { exeption -> Timber.i(exeption) }
+                        }
+                    } else if (gotBadge.badgeID == 40024 && gotBadge.getDate == null) {
+                        if (gotBadge.count >= 1000.0) {
+                            val getDate = System.currentTimeMillis()
+                            fireDB.collection("User").document(userEmail)
+                                .collection("Badge").document("40024")
+                                .update("getDate", getDate)
+                                .addOnSuccessListener { Timber.i("40024 획득 완료") }
+                                .addOnFailureListener { exeption -> Timber.i(exeption) }
+                        }
+                    }
+                }
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

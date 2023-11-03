@@ -327,7 +327,7 @@ class CameraFragment : Fragment() {
     private fun updateBadgeAct(){
         when(CameraActivity.id.toInt()){
             //sust
-            20001 -> {
+            20001 -> {  //todo 분리하기
                 fireDB.collection("User").document(userEmail)
                     .collection("Badge").document("40014")
                     .update("count", FieldValue.increment(1))
@@ -491,25 +491,21 @@ class CameraFragment : Fragment() {
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                              배지 획득 이벤트
+    val counts = ArrayList<MyBadge>()
     private fun updateBadgeDate(){
         fireDB.collection("User").document(userEmail)
             .collection("Badge")
             .orderBy("badgeID")
-            .addSnapshotListener { value, e ->
-                if (e != null) {
-                    Timber.i(e)
-                    return@addSnapshotListener
-                }
-
-                val counts = ArrayList<Int>()
-                for (doc in value!!) {
-                    doc.getDouble("count")?.let {
-                        counts.add(it.toInt())
-                    }
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Timber.i("${document.id} => ${document.data}")
+                    var gotBadge = document.toObject<MyBadge>()
+                    counts.add(gotBadge)
                 }
                 for(i in 0 until counts.size){
                     //카테고리
-                    if(counts[6] == 100){
+                    if(counts[6].count == 100 && counts[6].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40007")
@@ -517,7 +513,7 @@ class CameraFragment : Fragment() {
                             .addOnSuccessListener { Timber.i("40007 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[7] == 100){
+                    else if(counts[7].count == 100 && counts[7].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40008")
@@ -525,7 +521,7 @@ class CameraFragment : Fragment() {
                             .addOnSuccessListener { Timber.i("40008 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[8] == 100){
+                    else if(counts[8].count == 100 && counts[8].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
@@ -533,7 +529,7 @@ class CameraFragment : Fragment() {
                             .addOnSuccessListener { Timber.i("40009 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[9] == 100){
+                    else if(counts[9].count == 100 && counts[9].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40010")
@@ -543,7 +539,7 @@ class CameraFragment : Fragment() {
                     }
 
                     //extra
-                    if(counts[24] == 100){
+                    else if(counts[24].count == 100 && counts[24].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40025")
@@ -551,7 +547,7 @@ class CameraFragment : Fragment() {
                             .addOnSuccessListener { Timber.i("40025 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[25] == 1){
+                    else if(counts[25].count == 1 && counts[25].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40026")
@@ -559,7 +555,7 @@ class CameraFragment : Fragment() {
                             .addOnSuccessListener { Timber.i("40026 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[26] == 1){
+                    else if(counts[26].count == 1 && counts[26].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40027")
@@ -567,7 +563,7 @@ class CameraFragment : Fragment() {
                             .addOnSuccessListener { Timber.i("40027 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[27] == 100){
+                    else if(counts[27].count == 100 && counts[27].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40028")
@@ -575,7 +571,7 @@ class CameraFragment : Fragment() {
                             .addOnSuccessListener { Timber.i("40028 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[28] == 30){
+                    else if(counts[28].count == 30 && counts[28].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40029")
@@ -583,7 +579,7 @@ class CameraFragment : Fragment() {
                             .addOnSuccessListener { Timber.i("40029 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[29] == 30){
+                    else if(counts[29].count == 30 && counts[29].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40030")
@@ -591,7 +587,7 @@ class CameraFragment : Fragment() {
                             .addOnSuccessListener { Timber.i("40030 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[30] == 30){
+                    else if(counts[30].count == 30 && counts[30].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40031")
@@ -600,6 +596,9 @@ class CameraFragment : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                 }
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
             }
     }
 

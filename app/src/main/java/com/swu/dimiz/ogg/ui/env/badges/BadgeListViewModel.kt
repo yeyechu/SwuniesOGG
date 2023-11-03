@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.ui.env.badges
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -13,13 +12,10 @@ import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.BadgeLocation
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
-import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
@@ -212,88 +208,20 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    //마땅히 체크할 곳이 없는 배지 카운트 모아서 올리기
-    var feedfun = 0
-    var feedGreat = 0
-    var feedLike = 0
-
-    //피드에서는 다른 사용자 배지 카운트까지 수정 가능해야함
-    fun getCountandUp(){
-        fireDB.collection("Feed")
-            .whereEqualTo("email", fireUser?.email.toString())
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val feed = document.toObject<Feed>()
-                    feed.id = document.id
-
-                    if (feed.reactionFun >= 10) {
-                        feedfun += 1
-                    }
-                    if (feed.reactionGreat >= 10) {
-                        feedGreat += 1
-                    }
-                    if (feed.reactionLike >= 10) {
-                        feedLike += 1
-                    }
-                }
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Badge").document("40011")
-                    .update("count", feedfun)
-                    .addOnSuccessListener { Timber.i("feedfun 올리기 완료") }
-                    .addOnFailureListener { e -> Timber.i( e ) }
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Badge").document("40012")
-                    .update("count", feedGreat)
-                    .addOnSuccessListener { Timber.i("feedGreat 올리기 완료") }
-                    .addOnFailureListener { e -> Timber.i( e ) }
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Badge").document("40013")
-                    .update("count", feedLike)
-                    .addOnSuccessListener { Timber.i("feedLike 올리기 완료") }
-                    .addOnFailureListener { e -> Timber.i( e ) }
-            }
-    }
-
-    //baseValue랑 비교해서 서버에 획득 날짜 생성
-    fun setBadgeDate(){
-        fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Badge")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Timber.i("${document.id} => ${document.data}")
-
-                    var gotBadge = document.toObject<MyBadge>()
-                    //todo 룸 아이디랑 비교해서 basevalue가져오기
-                    /*if(gotBadge.count == base){
-                        var getDate = System.currentTimeMillis().toString()
-
-                        fireDB.collection("User").document(fireUser?.email.toString())
-                            .collection("Badge").document(gotBadge.badgeID.toString())
-                            .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("feedLike 올리기 완료") }
-                            .addOnFailureListener { e -> Timber.i( e ) }
-                    }*/
-                }
-            }
-            .addOnFailureListener { exception -> Timber.i(exception) }
-    }
-
     //획득한 배지 가져오기
     fun getHaveBadge(){
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Badge")
             .whereNotEqualTo("getDate", null)
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Timber.i("${document.id} => ${document.data}")
-
-                    var gotBadge = document.toObject<MyBadge>()
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+                for (doc in value!!) {
+                    var gotBadge = doc.toObject<MyBadge>()
                     updateBadgeFire(gotBadge)
                 }
             }
-            .addOnFailureListener { exception -> Timber.i(exception) }
     }
 }
