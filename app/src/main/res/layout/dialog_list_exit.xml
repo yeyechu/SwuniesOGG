@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/spacing_regular"
+    android:id="@+id/dialog_layout"
+    android:background="@color/transparency_dimmed">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_big"
+        android:background="@drawable/common_layer_window_rounded"
+        android:padding="@dimen/spacing_big"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text_popup_title"
+            style="@style/StyleText.title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/spacing_extra_small"
+            android:text="@string/listaim_text_dialog_title"
+            app:layout_constraintBottom_toTopOf="@id/text_popup_body"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_popup_body"
+            style="@style/StyleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_big"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_big"
+            android:layout_marginBottom="@dimen/spacing_regular"
+            android:lineSpacingExtra="@dimen/spacing_text"
+            android:text="@string/listaim_text_dialog_body"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/button_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_popup_title" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_cancel"
+            style="@style/StyleButtonOggWhite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/listaim_button_dialog_left"
+            app:layout_constraintBottom_toBottomOf="@id/button_exit"
+            app:layout_constraintEnd_toStartOf="@id/button_exit"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/button_exit" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_exit"
+            style="@style/StyleButtonOgg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_extra_medium"
+            android:text="@string/listaim_button_dialog_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/button_cancel" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

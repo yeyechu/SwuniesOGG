@@ -34,14 +34,7 @@ class ListsetFragment : Fragment() {
     ): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listset, container, false)
-
         Timber.i("ListsetFragment onCreateView() 생성")
-
-        //지속활동 진행중 리스트
-        viewModel.initCo2Holder()
-
-        viewModel.fireGetSust()
-        Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : ListsetFragment 46 fireGetDaily()")
 
         return binding.root
     }
@@ -69,12 +62,17 @@ class ListsetFragment : Fragment() {
         }
 
         viewModel.userCondition.observe(viewLifecycleOwner) {
+            viewModel.initCo2Holder()
+            viewModel.fireGetSust()
+
             if(it.startDate != 0L) {
                 viewModel.fireGetDaily()
                 viewModel.getTodayList()
                 Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : ListsetFragment 106 userCondition observer : getTodayList() 호출")
                 Timber.i("todayHolder: ${viewModel.todayHolder.value}")
                 viewModel.today = convertToDuration(it.startDate)
+            } else {
+                viewModel.getCo2Sum()
             }
         }
 

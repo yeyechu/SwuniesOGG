@@ -112,6 +112,10 @@
     <string name="listaim_text_instruction_two">멸종위기종 %s를 구해봐요!</string>
 
     <string name="listaim_button">다음으로 ></string>
+    <string name="listaim_text_dialog_title">프로젝트를 중단하시겠어요?</string>
+    <string name="listaim_text_dialog_body">지금까지 선택했던 내용이 전부 삭제돼요.</string>
+    <string name="listaim_button_dialog_left">취소하기</string>
+    <string name="listaim_button_dialog_right">중단하기</string>
 
     <!--                                         활동 선택                                        -->
     <string name="listset_button_allset">완료</string>

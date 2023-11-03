@@ -54,6 +54,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     val setListaimUI: LiveData<Int>
         get() = _setListaimUI
 
+    private val _navigateToDialog = MutableLiveData<Boolean>()
+    val navigateToDialog: LiveData<Boolean>
+        get() = _navigateToDialog
+
     //                                          활동 선택
     private val _navigateToSave = MutableLiveData<Boolean>()
     val navigateToSave: LiveData<Boolean>
@@ -169,7 +173,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun initCondition() {
         initCo2()
         _userMobility.value = _userCondition.value!!.car == 0
-        //resetFrequency()
 
     }
 
@@ -248,7 +251,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _co2Holder.value = FLOAT_ZERO
     }
 
-    private fun initListHolder() {
+    fun initListHolder() {
 
         var count = LIST_SIZE
 
@@ -304,6 +307,15 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         Timber.i("_sust ${_sust.value}")
     }
 
+    fun getCo2Sum() = viewModelScope.launch {
+        Timber.i("getCo2Sum() 전: ${_co2Holder.value}")
+        val sumCo2 = repository.dailyCo2Sum()
+        sumCo2?.let {
+            _co2Holder.value = _co2Holder.value!!.plus(sumCo2)
+        }
+        Timber.i("getCo2Sum() 후: ${_co2Holder.value}")
+    }
+
     fun addListHolder(act: ActivitiesDaily, isChecked: Boolean) {
 
         Timber.i("addListHolder() 진입")
@@ -319,6 +331,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 update(act)
             } else {
                 toastVisible()
+                plusCo2(amount)
                 act.freq = 0
             }
 
@@ -332,7 +345,9 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 setListHolder(listArray)
                 act.freq--
                 update(act)
-                temp = 0
+                temp--
+            } else {
+                minusCo2(amount)
             }
             Timber.i("co2Holder 값 : ${_co2Holder.value}")
             Timber.i("활동 Id: $act")
@@ -429,7 +444,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _dailyDone.value = null
     }
 
-    // ───────────────────────────────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────────────
     //                                        클릭 리스너
 
     //                              활동 목표 : 다음으로> 버튼 클릭
@@ -439,6 +454,14 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     fun onNavigatedToSelection() {
         _navigateToSelection.value = false
+    }
+
+    fun onUpButtonClicked() {
+        _navigateToDialog.value = true
+    }
+
+    fun onNavigatedToDialog() {
+        _navigateToDialog.value = false
     }
 
     //                                        활동 리스트
@@ -704,7 +727,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                             }
                     }
                 }
-                getTodayList()
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)

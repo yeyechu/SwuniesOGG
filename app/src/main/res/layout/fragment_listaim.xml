@@ -1,185 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.contents.listset.ListsetViewModel" />
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/frame_layout_listaim"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/secondary_baby_gray">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="">
+            android:layout_height="match_parent"
+            android:background="@color/secondary_baby_gray">
+
+            <Button
+                android:id="@+id/button_selection"
+                style="@style/StyleButtonOgg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_big"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_big"
+                android:onClick="@{() -> viewModel.onSelectionButtonClicked()}"
+                android:text="@string/listaim_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_balloon" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="">
+
+                <TextView
+                    style="@style/StyleText.header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/destination_title_listaim" />
+
+            </androidx.appcompat.widget.Toolbar>
 
             <TextView
-                style="@style/StyleText.header"
+                android:id="@+id/text_garbage_one"
+                style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/destination_title_listaim" />
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <TextView
-            android:id="@+id/text_garbage_one"
-            style="@style/StyleText.title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_regular"
-            android:paddingTop="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_regular"
-            android:text="@string/listaim_text_title"
-            app:layout_constraintBottom_toTopOf="@id/text_garbage_two"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-        <TextView
-            android:id="@+id/text_garbage_two"
-            style="@style/StyleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_large"
-            android:text="@string/listaim_text_title_instruction"
-            android:textColor="@color/primary_gray"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/image_face_two"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_garbage_one" />
-
-
-        <ImageView
-            android:id="@+id/image_face_one"
-            style="@style/StyleImageButton"
-            android:layout_width="@dimen/image_size_aim_face"
-            android:layout_height="@dimen/image_size_aim_face"
-            android:contentDescription="@string/description_listaim_image_one"
-            android:onClick="@{() -> viewModel.setAimCo2(1)}"
-            android:adjustViewBounds="true"
-            android:src="@{viewModel.onClickedFaceOne? @drawable/listaim_image_face_1_color : @drawable/listaim_image_face_1_grayscale}"
-            app:layout_constraintBottom_toBottomOf="@+id/image_face_two"
-            app:layout_constraintEnd_toStartOf="@+id/image_face_two"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/image_face_two" />
-
-        <ImageView
-            android:id="@+id/image_face_two"
-            style="@style/StyleImageButton"
-            android:layout_width="@dimen/image_size_aim_face"
-            android:layout_height="@dimen/image_size_aim_face"
-            android:contentDescription="@string/description_listaim_image_two"
-            android:onClick="@{() -> viewModel.setAimCo2(2)}"
-            android:adjustViewBounds="true"
-            android:src="@{viewModel.onClickedFaceTwo? @drawable/listaim_image_face_2_color : @drawable/listaim_image_face_2_grayscale}"
-            app:layout_constraintBottom_toBottomOf="@+id/image_face_three"
-            app:layout_constraintEnd_toStartOf="@+id/image_face_three"
-            app:layout_constraintStart_toEndOf="@+id/image_face_one"
-            app:layout_constraintTop_toTopOf="@+id/image_face_three" />
-
-
-        <ImageView
-            android:id="@+id/image_face_three"
-            style="@style/StyleImageButton"
-            android:layout_width="@dimen/image_size_aim_face"
-            android:layout_height="@dimen/image_size_aim_face"
-            android:contentDescription="@string/description_listaim_image_three"
-            android:onClick="@{() -> viewModel.setAimCo2(3)}"
-            android:adjustViewBounds="true"
-            android:src="@{viewModel.onClickedFaceThree? @drawable/listaim_image_face_3_color : @drawable/listaim_image_face_3_grayscale}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_face_two"
-            app:layout_constraintTop_toTopOf="@+id/image_face_two" />
-
-        <LinearLayout
-            android:id="@+id/imageView_balloon"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/listaim_balloon_height"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/spacing_regular"
-            android:layout_marginStart="@dimen/spacing_big"
-            android:layout_marginEnd="@dimen/spacing_big"
-            android:background="@drawable/listaim_balloon_left"
-            android:orientation="vertical"
-            android:padding="@dimen/spacing_big"
-            app:setBackground="@{viewModel.setListaimUI}"
-            app:layout_constraintBottom_toTopOf="@+id/button_selection"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_face_one">
+                android:layout_marginTop="@dimen/spacing_regular"
+                android:layout_marginBottom="@dimen/spacing_regular"
+                android:paddingTop="@dimen/spacing_large"
+                android:text="@string/listaim_text_title"
+                app:layout_constraintBottom_toTopOf="@id/text_garbage_two"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
             <TextView
-                android:id="@+id/text_aim_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_big"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:layout_gravity="center"
-                android:background="@drawable/listaim_shape_nametag"
-                android:paddingTop="@dimen/spacing_extra_small"
-                android:paddingBottom="@dimen/spacing_extra_small"
-                android:paddingStart="@dimen/spacing_regular"
-                android:paddingEnd="@dimen/spacing_regular"
-                android:text="@{String.valueOf(viewModel.aimTitle)}"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_size_subtitle"
-                tools:text="초보" />
-
-            <TextView
-                android:id="@+id/text_aim_instruction_one"
+                android:id="@+id/text_garbage_two"
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/text_line_spacing"
-                android:layout_marginBottom="@dimen/text_line_spacing"
-                android:text="@{@string/listaim_text_instruction_one(viewModel.aimCo2)}"
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:text="@string/listaim_text_title_instruction"
+                android:textAlignment="center"
+                android:textColor="@color/primary_gray"
                 android:textStyle="bold"
-                tools:text="하루 2.78kg 탄소 감축으로" />
+                app:layout_constraintBottom_toTopOf="@+id/image_face_two"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_garbage_one" />
 
-            <TextView
-                android:id="@+id/text_aim_instruction_two"
-                style="@style/StyleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+            <ImageView
+                android:id="@+id/image_face_one"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/image_size_aim_face"
+                android:layout_height="@dimen/image_size_aim_face"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/description_listaim_image_one"
+                android:onClick="@{() -> viewModel.setAimCo2(1)}"
+                android:src="@{viewModel.onClickedFaceOne? @drawable/listaim_image_face_1_color : @drawable/listaim_image_face_1_grayscale}"
+                app:layout_constraintBottom_toBottomOf="@+id/image_face_two"
+                app:layout_constraintEnd_toStartOf="@+id/image_face_two"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_face_two" />
+
+            <ImageView
+                android:id="@+id/image_face_two"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/image_size_aim_face"
+                android:layout_height="@dimen/image_size_aim_face"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/description_listaim_image_two"
+                android:onClick="@{() -> viewModel.setAimCo2(2)}"
+                android:src="@{viewModel.onClickedFaceTwo? @drawable/listaim_image_face_2_color : @drawable/listaim_image_face_2_grayscale}"
+                app:layout_constraintBottom_toBottomOf="@+id/image_face_three"
+                app:layout_constraintEnd_toStartOf="@+id/image_face_three"
+                app:layout_constraintStart_toEndOf="@+id/image_face_one"
+                app:layout_constraintTop_toTopOf="@+id/image_face_three" />
+
+
+            <ImageView
+                android:id="@+id/image_face_three"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/image_size_aim_face"
+                android:layout_height="@dimen/image_size_aim_face"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/description_listaim_image_three"
+                android:onClick="@{() -> viewModel.setAimCo2(3)}"
+                android:src="@{viewModel.onClickedFaceThree? @drawable/listaim_image_face_3_color : @drawable/listaim_image_face_3_grayscale}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/image_face_two"
+                app:layout_constraintTop_toTopOf="@+id/image_face_two" />
+
+            <LinearLayout
+                android:id="@+id/imageView_balloon"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/listaim_balloon_height"
                 android:layout_gravity="center"
-                android:text="@{@string/listaim_text_instruction_two(viewModel.aimCotent)}"
-                tools:text="멸종위기종 3위인 바다거북을 구해봐요!" />
+                android:layout_marginStart="@dimen/spacing_big"
+                android:layout_marginTop="@dimen/spacing_regular"
+                android:layout_marginEnd="@dimen/spacing_big"
+                android:background="@drawable/listaim_balloon_left"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_big"
+                app:layout_constraintBottom_toTopOf="@+id/button_selection"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_face_one"
+                app:setBackground="@{viewModel.setListaimUI}">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/text_aim_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/spacing_big"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:background="@drawable/listaim_shape_nametag"
+                    android:paddingStart="@dimen/spacing_regular"
+                    android:paddingTop="@dimen/spacing_extra_small"
+                    android:paddingEnd="@dimen/spacing_regular"
+                    android:paddingBottom="@dimen/spacing_extra_small"
+                    android:text="@{String.valueOf(viewModel.aimTitle)}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_subtitle"
+                    android:textStyle="bold"
+                    tools:text="초보" />
 
-        <Button
-            android:id="@+id/button_selection"
-            style="@style/StyleButtonOgg"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_big"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:layout_marginEnd="@dimen/spacing_big"
-            android:onClick="@{() -> viewModel.onSelectionButtonClicked()}"
-            android:text="@string/listaim_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_balloon" />
+                <TextView
+                    android:id="@+id/text_aim_instruction_one"
+                    style="@style/StyleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/text_line_spacing"
+                    android:layout_marginBottom="@dimen/text_line_spacing"
+                    android:text="@{@string/listaim_text_instruction_one(viewModel.aimCo2)}"
+                    android:textStyle="bold"
+                    tools:text="하루 2.78kg 탄소 감축으로" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/text_aim_instruction_two"
+                    style="@style/StyleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@{@string/listaim_text_instruction_two(viewModel.aimCotent)}"
+                    tools:text="멸종위기종 3위인 바다거북을 구해봐요!" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.navigateToDialog ? View.VISIBLE : View.GONE}">
+
+            <include
+                android:id="@+id/included_layout_dialog_exit"
+                layout="@layout/dialog_list_exit" />
+        </FrameLayout>
+    </FrameLayout>
+
 </layout>

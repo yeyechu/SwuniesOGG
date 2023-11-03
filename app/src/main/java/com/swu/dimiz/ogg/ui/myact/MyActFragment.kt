@@ -109,6 +109,8 @@ class MyActFragment : Fragment() {
         val mainActivity = activity as MainActivity
 
         navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
+
         fragmentManager = childFragmentManager
 
         binding.viewModel = viewModel

@@ -59,6 +59,11 @@ class OggRepository(private val database: OggDatabase) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun dailyCo2Sum(): Float? {
+        return  database.dailyDatabaseDao.getCo2Sum()
+    }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun getTodayListInteger(): List<Int>? {
         return database.dailyDatabaseDao.getTodayIdCoroutines()
     }

@@ -39,9 +39,6 @@ class ListFragment : Fragment() {
 
         viewModel.userCondition.observe(viewLifecycleOwner) {
             automobile = it.car
-            if(it.startDate == 0L){
-                viewModel.resetFrequency()
-            }
         }
 
         // ──────────────────────────────────────────────────────────────────────────────────────

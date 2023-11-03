@@ -14,7 +14,9 @@ class ListDialog : DialogFragment() {
     private var _binding : DialogListBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
+    // 보민님 다이얼로그프래그먼트에는 뷰모델 부르면 메모리 누수 일으켜서
+    // 구글 공식문서에 뷰모델 불러놓지 말라고 하고 있습니다
+    //private val viewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -43,13 +45,13 @@ class ListDialog : DialogFragment() {
     private fun onLeftdayClicked() {
         // 오른쪽 버튼 구현
         dismiss()
-        viewModel.fireReSave()
+        //viewModel.fireReSave()
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
     private fun onOnedayClicked() {
         // 왼쪽 버튼 구현
         dismiss()
-        viewModel.fireOnlySave()
+        //viewModel.fireOnlySave()
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 

@@ -52,6 +52,9 @@ interface ActivitiesDailyDatabaseDao {
     @Query("SELECT co2 FROM daily WHERE dailyId = :id")
     suspend fun getCo2(id: Int) : Float
 
+    @Query("SELECT SUM(co2) FROM daily WHERE freq = 1")
+    suspend fun getCo2Sum(): Float?
+
     @Query("SELECT * FROM daily WHERE dailyId = :id")
     suspend fun getActivity(id: Int) : ActivitiesDaily
 }

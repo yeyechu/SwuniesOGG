@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/radius_component"
-        app:cardBackgroundColor="@{activity.freq == 0 ? @color/white : @color/secondary_baby_blue}"
+        app:cardBackgroundColor="@{activity.freq == 0 ? @color/white : @color/white}"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true">
 
