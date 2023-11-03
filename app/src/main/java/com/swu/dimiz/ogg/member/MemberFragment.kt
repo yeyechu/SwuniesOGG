@@ -35,6 +35,7 @@ class MemberFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
