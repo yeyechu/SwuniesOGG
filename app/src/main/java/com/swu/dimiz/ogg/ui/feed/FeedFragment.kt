@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -21,7 +22,7 @@ import com.swu.dimiz.ogg.ui.feed.detail.FeedDetailFragment
 import com.swu.dimiz.ogg.ui.feed.detail.FeedReportDialog
 import timber.log.Timber
 
-class FeedFragment : Fragment(){
+class FeedFragment : Fragment() {
 
     private var _binding: FragmentFeedBinding? = null
     private val binding get() = _binding!!
@@ -36,10 +37,10 @@ class FeedFragment : Fragment(){
 
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_feed, container, false)
-
         Timber.i("onCreateView()")
 
         viewModel.fireGetFeed()
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                     카테고리 출력
         viewModel.activityFilter.observe(viewLifecycleOwner) { value ->
@@ -71,6 +72,7 @@ class FeedFragment : Fragment(){
                 chipGroup.addView(chip)
             }
         }
+
         return binding.root
     }
 
@@ -97,12 +99,13 @@ class FeedFragment : Fragment(){
             } else {
                 mainActivity.hideBottomNavView(true)
                 addDetailFragment()
+                Timber.i("디테일 열림")
             }
         }
 
         viewModel.navigateToReport.observe(viewLifecycleOwner) {
             it?.let {
-                addReportWindow(it.id)
+                addReportWindow(it.id, it.email)
                 viewModel.onReportCompleted()
             }
         }
@@ -116,9 +119,9 @@ class FeedFragment : Fragment(){
             .commit()
     }
 
-    private fun addReportWindow(id: String) {
+    private fun addReportWindow(id: String, email: String) {
         fragmentManager.beginTransaction()
-            .add(R.id.frame_layout_feed, FeedReportDialog(id))
+            .add(R.id.frame_layout_feed, FeedReportDialog(id, email))
             .setReorderingAllowed(true)
             .addToBackStack(null)
             .commit()

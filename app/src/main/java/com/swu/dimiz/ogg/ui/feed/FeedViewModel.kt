@@ -1,15 +1,11 @@
 package com.swu.dimiz.ogg.ui.feed
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.AggregateSource
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
@@ -19,8 +15,6 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyReaction
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
 
 class FeedViewModel : ViewModel() {
 
@@ -64,13 +58,19 @@ class FeedViewModel : ViewModel() {
     val navigateToReport: LiveData<Feed?>
         get() = _navigateToReport
 
-    private val _makeToast = MutableLiveData<Boolean>()
-    val makeToast: LiveData<Boolean>
-        get() = _makeToast
+    private val _setToast = MutableLiveData<Boolean>()
+    val setToast: LiveData<Boolean>
+        get() = _setToast
+
+    private val _makeToasts = MutableLiveData<Int>()
+    val makeToasts: LiveData<Int>
+        get() = _makeToasts
 
     init {
         getFilters()
         onFilterChanged(TOGETHER, true)
+        _makeToasts.value = 0
+
         Timber.i("created")
     }
 
@@ -87,7 +87,7 @@ class FeedViewModel : ViewModel() {
                 .addOnSuccessListener { result ->
                     for (document in result) {
                         Timber.i("이미 반응 남김")
-                        //todo 이미 남김 알려주는 처리
+                        onMakeToast(2)
                     }
                     if(result.isEmpty){
                         val react = MyReaction(_feedId.value?.id.toString())
@@ -127,7 +127,7 @@ class FeedViewModel : ViewModel() {
                                             .addOnSuccessListener { Timber.i("40001 획득 완료") }
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                                     }
-                                    else  if(gotBadge!!.count == 100 && gotBadge.getDate == null){
+                                    else  if(gotBadge.count == 100 && gotBadge.getDate == null){
                                         val getDate = System.currentTimeMillis()
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40002")
@@ -135,7 +135,7 @@ class FeedViewModel : ViewModel() {
                                             .addOnSuccessListener { Timber.i("40002 획득 완료") }
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                                     }
-                                    if(gotBadge!!.count == 500 && gotBadge.getDate == null){
+                                    if(gotBadge.count == 500 && gotBadge.getDate == null){
                                         val getDate = System.currentTimeMillis()
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40003")
@@ -252,7 +252,7 @@ class FeedViewModel : ViewModel() {
                     Timber.i(exception)
                 }
         } else {
-            onYourFeed()
+            onMakeToast(1)
         }
     }
 
@@ -261,6 +261,7 @@ class FeedViewModel : ViewModel() {
     fun onFeedDetailClicked(feed: Feed) {
         _navigateToSelectedItem.value = feed
         _feedId.value = feed
+        getHistoryFromFirebase(feed)
     }
 
     fun onFeedDetailCompleted() {
@@ -268,19 +269,27 @@ class FeedViewModel : ViewModel() {
     }
 
     fun onReportClicked(feed: Feed) {
-        _navigateToReport.value = feed
+
+        if(_setToast.value != null && _setToast.value!!) {
+            onMakeToast(4)
+        } else if(feed.email != OggApplication.auth.currentUser!!.email) {
+            _navigateToReport.value = feed
+
+        } else {
+            onMakeToast(3)
+        }
     }
 
     fun onReportCompleted() {
         _navigateToReport.value = null
     }
 
-    private fun onYourFeed() {
-        _makeToast.value = true
+    private fun onMakeToast(data: Int) {
+        _makeToasts.value = data
     }
 
-    fun onYourFeedCompleted() {
-        _makeToast.value = false
+    fun onToastCompleted() {
+        _makeToasts.value = 0
     }
 
     fun noClick() {
@@ -378,5 +387,11 @@ class FeedViewModel : ViewModel() {
             }
     }
 
-
+    private fun getHistoryFromFirebase(feed: Feed) {
+        // 이미 신고한 피드 확인
+        // 만약에 신고한 적 있으면
+        _setToast.value = true
+        // 신고한 적 없으면
+        // _setToast.value = false
+    }
 }

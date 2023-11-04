@@ -9,11 +9,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentFeedDetailWhiteBinding
 import com.swu.dimiz.ogg.ui.feed.FeedViewModel
+import timber.log.Timber
 
 class FeedDetailFragment : Fragment() {
 
@@ -30,6 +32,7 @@ class FeedDetailFragment : Fragment() {
 
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_feed_detail_white, container, false)
+        Timber.i("onCreateView()")
 
         return binding.root
     }
@@ -43,16 +46,30 @@ class FeedDetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.buttonExit.setOnClickListener {
-            //it.findNavController().navigateUp()
             requireActivity().onBackPressedDispatcher.onBackPressed()
             viewModel.onFeedDetailCompleted()
         }
 
-        viewModel.makeToast.observe(viewLifecycleOwner) {
-            if(it) {
-                Toast.makeText(context, "휴먼, 너의 피드를 좋아요 할 수 없다", Toast.LENGTH_SHORT).show()
-                viewModel.onYourFeedCompleted()
+        viewModel.makeToasts.observe(viewLifecycleOwner) {
+            when(it) {
+                1 -> {
+                    Toast.makeText(context, getText(R.string.feed_toast_reaction_to_mine), Toast.LENGTH_SHORT).show()
+                    viewModel.onToastCompleted()
+                }
+                2 -> {
+                    Toast.makeText(context, getText(R.string.feed_toast_reaction_already), Toast.LENGTH_SHORT).show()
+                    viewModel.onToastCompleted()
+                }
+                3 -> {
+                    Toast.makeText(context, getText(R.string.feed_toast_report_to_mine), Toast.LENGTH_SHORT).show()
+                    viewModel.onToastCompleted()
+                }
+                4 -> {
+                    Toast.makeText(context, getText(R.string.feed_toast_report_already), Toast.LENGTH_SHORT).show()
+                    viewModel.onToastCompleted()
+                }
             }
+
         }
     }
 

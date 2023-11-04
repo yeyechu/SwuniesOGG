@@ -52,9 +52,7 @@ class DailyLayer : Fragment() {
             if(it.aim > 0f) {
                 listViewModel.setCo2(it.aim)
                 listViewModel.fireGetDaily()
-                Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : DailyLayer 124")
                 listViewModel.getTodayList()
-                Timber.i("데일리 리스트 초기화 실제 되는 곳 찾기 : DailyLayer 126")
             }
         }
 
