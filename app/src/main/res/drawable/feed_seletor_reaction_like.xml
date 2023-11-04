@@ -2,25 +2,25 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:state_pressed="true">
+        android:state_checked="true">
         <layer-list>
             <shape>
                 <solid android:color="@color/transparency_dimmed" />
             </shape>
             <item
-                android:drawable="@drawable/feed_button_reaction_fun_enabled"
+                android:drawable="@drawable/feed_button_reaction_like_enabled"
                 android:height="@dimen/image_size_reaction" android:width="@dimen/image_size_reaction"/>
         </layer-list>
     </item>
 
     <item
-        android:state_pressed="false">
+        android:state_checked="false">
         <layer-list>
             <shape>
                 <solid android:color="@color/transparency_transparent" />
             </shape>
             <item
-                android:drawable="@drawable/feed_button_reaction_fun_disabled"
+                android:drawable="@drawable/feed_button_reaction_like_disabled"
                 android:height="@dimen/image_size_reaction" android:width="@dimen/image_size_reaction"/>
         </layer-list>
     </item>
@@ -31,7 +31,7 @@
                 <solid android:color="@color/transparency_transparent" />
             </shape>
             <item
-                android:drawable="@drawable/feed_button_reaction_fun_disabled"
+                android:drawable="@drawable/feed_button_reaction_like_disabled"
                 android:height="@dimen/image_size_reaction" android:width="@dimen/image_size_reaction"/>
         </layer-list>
     </item>

@@ -214,8 +214,8 @@
 
     <string name="myact_card_text_title_done">인증 완료</string>
     <string name="myact_card_text_subtitle_done">오늘 하루 인증 회수를\n다 채웠어요!</string>
-    <string name="myact_card_text_post_date">%s 등록 \n %d일 간 지속</string>
-    <string name="myact_card_text_post_date_left">%s 등록 \n %d일 뒤 다시 가능</string>
+    <string name="myact_card_text_post_date">%s 등록 \n%d일 간 지속</string>
+    <string name="myact_card_text_post_date_left">%s 등록 \n%d일 뒤 다시 가능</string>
 
 
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->

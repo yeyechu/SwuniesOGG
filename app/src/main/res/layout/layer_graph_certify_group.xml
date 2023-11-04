@@ -81,7 +81,7 @@
                     android:layout_width="@dimen/fui_min_height_target"
                     android:layout_height="@dimen/fui_min_height_target"
                     android:layout_marginTop="@dimen/spacing_medium"
-                    android:background="@drawable/feed_button_reaction_like"
+                    android:background="@drawable/feed_button_reaction_like_enabled"
                     app:layout_constraintEnd_toStartOf="@+id/reaction_great_icon"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/most_reaction_image"
@@ -93,7 +93,7 @@
                     android:layout_width="@dimen/fui_min_height_target"
                     android:layout_height="@dimen/fui_min_height_target"
 
-                    android:background="@drawable/feed_button_reaction_great"
+                    android:background="@drawable/feed_button_reaction_great_enabled"
                     app:layout_constraintBottom_toBottomOf="@+id/reaction_like_icon"
                     app:layout_constraintEnd_toStartOf="@+id/reaction_fun_icon"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -105,7 +105,7 @@
                     android:layout_width="@dimen/fui_min_height_target"
                     android:layout_height="@dimen/fui_min_height_target"
 
-                    android:background="@drawable/feed_button_reaction_fun"
+                    android:background="@drawable/feed_button_reaction_fun_enabled"
                     app:layout_constraintBottom_toBottomOf="@+id/reaction_great_icon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/reaction_great_icon"

@@ -11,7 +11,7 @@
             type="com.swu.dimiz.ogg.ui.feed.FeedViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/frame_layout_feed_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -144,19 +144,33 @@
                 android:layout_height="wrap_content"
                 android:text="@string/feed_text_reaction_title"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@id/image_feed_reaction_fun"
+                app:layout_constraintBottom_toTopOf="@id/text_body_reaction"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_body_reaction"
+                style="@style/StyleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:text="@string/feed_text_reaction_body"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/image_feed_reaction_fun"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_title_reaction" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/image_feed_reaction_like"
                 style="@style/StyleImageButton"
                 android:layout_width="@dimen/dimension_80"
                 android:layout_height="@dimen/dimension_80"
-                android:drawableTop="@drawable/feed_seletor_reaction_fun"
                 android:fontFamily="@font/nanumsquare_b"
                 android:onClick="@{() -> viewModel.onreactionClicked(1)}"
+                android:drawableTop="@{viewModel.onClickedLike? @drawable/feed_button_reaction_like_enabled_resize : @drawable/feed_button_reaction_like_disabled_resize }"
+                android:enabled="@{viewModel.buttonEnable}"
                 android:text="@string/feed_text_reaction_like"
                 android:textAlignment="center"
                 android:textColor="@color/black"
@@ -173,9 +187,10 @@
                 android:layout_width="@dimen/dimension_80"
                 android:layout_height="@dimen/dimension_80"
                 android:button="@color/transparency_transparent"
-                android:drawableTop="@drawable/feed_seletor_reaction_fun"
                 android:fontFamily="@font/nanumsquare_b"
                 android:onClick="@{() -> viewModel.onreactionClicked(2)}"
+                android:drawableTop="@{viewModel.onClickedFun? @drawable/feed_button_reaction_fun_enabled_resize : @drawable/feed_button_reaction_fun_disabled_resize }"
+                android:enabled="@{viewModel.buttonEnable}"
                 android:text="@string/feed_text_reaction_fun"
                 android:textAlignment="center"
                 android:textColor="@color/black"
@@ -191,9 +206,10 @@
                 android:layout_width="@dimen/dimension_80"
                 android:layout_height="@dimen/dimension_80"
                 android:button="@color/transparency_transparent"
-                android:drawableTop="@drawable/feed_seletor_reaction_fun"
                 android:fontFamily="@font/nanumsquare_b"
                 android:onClick="@{() -> viewModel.onreactionClicked(3)}"
+                android:drawableTop="@{viewModel.onClickedGreat? @drawable/feed_button_reaction_great_enabled_resize : @drawable/feed_button_reaction_great_disabled_resize }"
+                android:enabled="@{viewModel.buttonEnable}"
                 android:text="@string/feed_text_reaction_great"
                 android:textAlignment="center"
                 android:textColor="@color/black"
@@ -203,5 +219,5 @@
                 app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_fun"
                 app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_fun" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

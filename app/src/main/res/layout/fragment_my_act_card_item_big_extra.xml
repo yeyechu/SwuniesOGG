@@ -100,24 +100,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_marginBottom="@dimen/spacing_text"
                 android:text="@string/myact_text_title_done"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textAlignment="center"
-                android:textSize="@dimen/text_size_subtitle"
-                android:fontFamily="@font/nanumsquare_r" />
+                android:textSize="@dimen/text_size_title"
+                android:fontFamily="@font/nanumsquare_eb" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:textColor="@color/white"
-                android:lineSpacingExtra="@dimen/spacing_extra_small"
+                android:layout_marginTop="@dimen/dimension_70"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_marginBottom="@dimen/spacing_text"
+                android:textColor="@color/secondary_baby_gray"
+                android:lineSpacingExtra="@dimen/spacing_text"
                 android:textStyle="bold"
-                android:textAlignment="center"
-                android:textSize="@dimen/text_size_subtitle"
+                android:textSize="@dimen/text_size_body_big"
                 android:fontFamily="@font/nanumsquare_r"
                 app:postDate="@{activity}"
                 tools:text="2023년 10월 19일 등록"/>

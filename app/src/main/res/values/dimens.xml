@@ -88,7 +88,7 @@
     <dimen name="progressbar_width">300dp</dimen>
     <dimen name="progressbar_height">3dp</dimen>
 
-    <dimen name="bottom_feed_reaction_height">170dp</dimen>
+    <dimen name="bottom_feed_reaction_height">180dp</dimen>
     <dimen name="listaim_balloon_height">160dp</dimen>
 
     <dimen name="myact_today_card_width">150dp</dimen>

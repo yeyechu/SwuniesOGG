@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentFeedDetailWhiteBinding
 import com.swu.dimiz.ogg.ui.feed.FeedViewModel
@@ -53,26 +52,24 @@ class FeedDetailFragment : Fragment() {
         viewModel.makeToasts.observe(viewLifecycleOwner) {
             when(it) {
                 1 -> {
-                    Toast.makeText(context, getText(R.string.feed_toast_reaction_to_mine), Toast.LENGTH_SHORT).show()
+                    OggSnackbar.make(view, getText(R.string.feed_toast_reaction_to_mine).toString()).show()
                     viewModel.onToastCompleted()
                 }
                 2 -> {
-                    Toast.makeText(context, getText(R.string.feed_toast_reaction_already), Toast.LENGTH_SHORT).show()
+                    OggSnackbar.make(view, getText(R.string.feed_toast_reaction_already).toString()).show()
                     viewModel.onToastCompleted()
                 }
                 3 -> {
-                    Toast.makeText(context, getText(R.string.feed_toast_report_to_mine), Toast.LENGTH_SHORT).show()
+                    OggSnackbar.make(view, getText(R.string.feed_toast_report_to_mine).toString()).show()
                     viewModel.onToastCompleted()
                 }
                 4 -> {
-                    Toast.makeText(context, getText(R.string.feed_toast_report_already), Toast.LENGTH_SHORT).show()
+                    OggSnackbar.make(view, getText(R.string.feed_toast_report_already).toString()).show()
                     viewModel.onToastCompleted()
                 }
             }
-
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -66,10 +66,15 @@ class FeedViewModel : ViewModel() {
     val makeToasts: LiveData<Int>
         get() = _makeToasts
 
+    private val _setReactionButton = MutableLiveData<Int>()
+    private val setReactionButton: LiveData<Int>
+        get() = _setReactionButton
+
     init {
         getFilters()
         onFilterChanged(TOGETHER, true)
         _makeToasts.value = 0
+        _setReactionButton.value = 0
 
         Timber.i("created")
     }
@@ -78,7 +83,28 @@ class FeedViewModel : ViewModel() {
         it.isNotEmpty()
     }
 
+    val onClickedLike = setReactionButton.map {
+        it == 1
+    }
+
+    val onClickedFun = setReactionButton.map {
+        it == 2
+    }
+
+    val onClickedGreat = setReactionButton.map {
+        it == 3
+    }
+
+    val buttonEnable = setReactionButton.map {
+        it == 0
+    }
+
+    private fun setButton(item: Int) {
+        _setReactionButton.value = item
+    }
+
     fun onreactionClicked(item: Int) {
+        setButton(item)
         if(_feedId.value!!.email != OggApplication.auth.currentUser!!.email) {
             fireDB.collection("User").document(userEmail)
                 .collection("Reation")
@@ -261,7 +287,8 @@ class FeedViewModel : ViewModel() {
     fun onFeedDetailClicked(feed: Feed) {
         _navigateToSelectedItem.value = feed
         _feedId.value = feed
-        getHistoryFromFirebase(feed)
+        getReactionHistoryFromFirebase(feed)
+        getReportHistoryFromFirebase(feed)
     }
 
     fun onFeedDetailCompleted() {
@@ -387,11 +414,20 @@ class FeedViewModel : ViewModel() {
             }
     }
 
-    private fun getHistoryFromFirebase(feed: Feed) {
+    private fun getReportHistoryFromFirebase(feed: Feed) {
         // 이미 신고한 피드 확인
         // 만약에 신고한 적 있으면
         _setToast.value = true
         // 신고한 적 없으면
         // _setToast.value = false
+    }
+
+    private fun getReactionHistoryFromFirebase(feed: Feed) {
+        // 이미 반응남긴 피드 확인
+        // 남긴 반응이 뭔지
+        // like 1
+        // fun 2
+        // great 3
+        setButton(1)
     }
 }
