@@ -5,18 +5,49 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.feed.FeedViewModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_marginBottom="@dimen/bottom_nav_size"
-        android:paddingBottom="@dimen/bottom_nav_size">
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_no_feed_title"
+            style="@style/StyleText.title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:text="@string/feed_text_title_null"
+            android:textAlignment="center"
+            android:visibility="@{viewModel.myfeedVisible ? View.GONE : View.VISIBLE}" />
+
+        <TextView
+            android:id="@+id/text_no_feed_body"
+            style="@style/StyleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="@string/feed_text_body_null"
+            android:textAlignment="center"
+            android:visibility="@{viewModel.myfeedVisible ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_navigateTomyAct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="@dimen/spacing_scroll"
+            android:layout_marginStart="@dimen/spacing_larger"
+            android:layout_marginEnd="@dimen/spacing_larger"
+            android:visibility="@{viewModel.myfeedVisible ? View.GONE : View.VISIBLE}"
+            android:text="활동하러 가기"
+            style="@style/StyleButtonOgg" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/feed_my_list_grid"
@@ -31,18 +62,5 @@
             app:listData="@{viewModel.myList}"
             tools:itemCount="16"
             tools:listitem="@layout/fragment_feed_item" />
-
-
-        <ImageView
-            android:id="@+id/feed_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- app:status="@{viewModel.status}" 상태 판별 기능 추가하기 -->
-
-    </LinearLayout>
+    </FrameLayout>
 </layout>

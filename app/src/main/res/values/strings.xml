@@ -252,8 +252,8 @@
     <string name="feed_text_reaction_body">반응은 한 번만 남길 수 있고 수정할 수 없어요</string>
     <string name="feed_toast_reaction_already">이미 반응한 피드에요</string>
 
-    <string name="feed_toast_reaction_to_mine">본인 피드에는 반응을 남길 수 없어요</string>
-    <string name="feed_toast_report_to_mine">본인 피드는 신고할 수 없어요</string>
+    <string name="feed_toast_reaction_to_mine">자신의 피드에는 반응을 남길 수 없어요</string>
+    <string name="feed_toast_report_to_mine">자신의 피드는 신고할 수 없어요</string>
 
     <string name="feed_toast_report_already">이미 신고한 게시물이에요</string>
     <string name="feed_toast_report_completed">신고를 완료했어요. 당신은 피드지킴이!</string>
@@ -261,6 +261,8 @@
     <string name="feed_text_reaction_like">좋아요</string>
     <string name="feed_text_reaction_fun">웃겨요</string>
     <string name="feed_text_reaction_great">대단해요</string>
+
+    <string name="myfeed_text_reaction_number">%d개</string>
     <!--  -->
     <!-- ──────────────────────────────────────  회원메뉴  ────────────────────────────────────── -->
     <string name="settings_"> </string>

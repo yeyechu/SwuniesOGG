@@ -83,6 +83,10 @@ class FeedViewModel : ViewModel() {
         it.isNotEmpty()
     }
 
+    val myfeedVisible = myList.map {
+        it.isNotEmpty()
+    }
+
     val onClickedLike = setReactionButton.map {
         it == 1
     }
@@ -425,9 +429,9 @@ class FeedViewModel : ViewModel() {
     private fun getReactionHistoryFromFirebase(feed: Feed) {
         // 이미 반응남긴 피드 확인
         // 남긴 반응이 뭔지
-        // like 1
-        // fun 2
-        // great 3
+        // like -> setButton(1)
+        // fun -> setButton(2)
+        // great -> setButton(3)
         setButton(1)
     }
 }

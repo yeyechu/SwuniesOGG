@@ -7,6 +7,7 @@
 
     <data>
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.feed.FeedViewModel" />

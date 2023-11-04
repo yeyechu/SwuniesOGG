@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.feed.FeedViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_regular"
+        android:background="@color/transparency_dimmed"
+        android:onClick="@{() -> viewModel.noClick()}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_myfeed_detail_window"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_big"
+            android:background="@drawable/common_layer_window_rounded"
+            android:padding="@dimen/spacing_big"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/text_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layout_myfeed_detail_window"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:text="@{viewModel.feedId.actCode}"
+                    android:textAppearance="@style/StyleText.subtitle"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:chipBackgroundColor="@color/primary_blue"
+                    app:chipEndPadding="@dimen/spacing_small"
+                    app:chipStartPadding="@dimen/spacing_small"
+                    app:chipStrokeColor="@color/primary_blue"
+                    app:chipStrokeWidth="@dimen/stroke_shape_light"
+                    app:chipSurfaceColor="@color/white"
+                    tools:text="에너지" />
+
+                <TextView
+                    android:id="@+id/text_title_feed_detail"
+                    style="@style/StyleText.title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_extra_small"
+                    android:text="@{viewModel.feedId.actTitle}"
+                    android:textStyle="bold"
+                    tools:text="냉장고 관리하기하기하기" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_body"
+                style="@style/StyleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/text_size_body_small"
+                android:paddingBottom="@dimen/spacing_regular"
+                android:text=""
+                app:postDate="@{viewModel.feedId}"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/image_feed_reaction_fun"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_layout"
+                tools:text="2023년 10월 30일" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/image_feed_reaction_like"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/dimension_80"
+                android:layout_height="@dimen/dimension_80"
+                android:drawableTop="@drawable/feed_button_reaction_like_enabled_resize"
+                android:fontFamily="@font/nanumsquare_b"
+                android:text="@{@string/myfeed_text_reaction_number(viewModel.feedId.reactionLike)}"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_body_small"
+                app:layout_constraintBottom_toTopOf="@id/button_completed"
+                app:layout_constraintEnd_toStartOf="@+id/image_feed_reaction_fun"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_body"
+                tools:text="10개" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/image_feed_reaction_fun"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/dimension_80"
+                android:layout_height="@dimen/dimension_80"
+                android:button="@color/transparency_transparent"
+                android:drawableTop="@drawable/feed_button_reaction_fun_enabled_resize"
+                android:fontFamily="@font/nanumsquare_b"
+                android:text="@{@string/myfeed_text_reaction_number(viewModel.feedId.reactionFun)}"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_body_small"
+                app:layout_constraintEnd_toStartOf="@+id/image_feed_reaction_great"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_like"
+                app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_like"
+                tools:text="10개" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/image_feed_reaction_great"
+                style="@style/StyleImageButton"
+                android:layout_width="@dimen/dimension_80"
+                android:layout_height="@dimen/dimension_80"
+                android:button="@color/transparency_transparent"
+                android:drawableTop="@drawable/feed_button_reaction_great_enabled_resize"
+                android:fontFamily="@font/nanumsquare_b"
+                android:text="@{@string/myfeed_text_reaction_number(viewModel.feedId.reactionGreat)}"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_body_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_fun"
+                app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_fun"
+                tools:text="10개" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_completed"
+                style="@style/StyleButtonOgg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_big"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:text="@string/post_button_completed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_feed_reaction_fun" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMemberBinding
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
+import com.swu.dimiz.ogg.ui.feed.FeedViewModel
+import com.swu.dimiz.ogg.ui.feed.myfeed.MyFeedDetailWindow
 import timber.log.Timber
 
 class MemberFragment : Fragment() {
@@ -22,7 +25,10 @@ class MemberFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
+    private lateinit var fragmentManager: FragmentManager
+
     private val viewModel: EnvViewModel by activityViewModels()
+    private val feedViewModel: FeedViewModel by activityViewModels()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
@@ -36,6 +42,7 @@ class MemberFragment : Fragment() {
 
         navController = findNavController()
         navController.setLifecycleOwner(viewLifecycleOwner)
+        fragmentManager = childFragmentManager
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
@@ -49,6 +56,20 @@ class MemberFragment : Fragment() {
                 navController.navigate(R.id.destination_settings)
             }
         }
+
+        feedViewModel.navigateToSelectedItem.observe(viewLifecycleOwner) {
+            it?.let {
+                addDetailWindow()
+            }
+        }
+    }
+
+    private fun addDetailWindow() {
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout_member, MyFeedDetailWindow())
+            .setReorderingAllowed(true)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroyView() {

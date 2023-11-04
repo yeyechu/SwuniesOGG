@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.LayerMyFeedBinding
 import com.swu.dimiz.ogg.ui.feed.FeedViewModel
@@ -31,17 +32,16 @@ class MyFeedLayer : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.fireGetFeed()
+        viewModel.setMyFeedList()
 
         binding.feedMyListGrid.adapter = FeedGridAdapter(FeedGridAdapter.OnFeedClickListener {
-            // 나의 피드도 디테일 화면 있어야 하나
+            viewModel.onFeedDetailClicked(it)
         })
 
-        viewModel.feedList.observe(viewLifecycleOwner) {
-            it?.let {
-                viewModel.setMyFeedList()
-            }
+        binding.buttonNavigateTomyAct.setOnClickListener {
+            it.findNavController().navigate(R.id.navigation_myact)
         }
+
     }
 
     override fun onDestroyView() {

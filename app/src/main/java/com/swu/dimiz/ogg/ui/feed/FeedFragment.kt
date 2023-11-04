@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -99,7 +98,6 @@ class FeedFragment : Fragment() {
             } else {
                 mainActivity.hideBottomNavView(true)
                 addDetailFragment()
-                Timber.i("디테일 열림")
             }
         }
 

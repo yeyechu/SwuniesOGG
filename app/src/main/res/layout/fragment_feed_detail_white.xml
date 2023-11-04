@@ -15,6 +15,7 @@
         android:id="@+id/frame_layout_feed_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:onClick="@{() -> viewModel.noClick()}"
         android:background="@color/white">
 
         <ImageView
