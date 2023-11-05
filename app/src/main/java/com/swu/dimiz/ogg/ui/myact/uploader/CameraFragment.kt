@@ -472,7 +472,7 @@ class CameraFragment : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     //sust
-                    else if(counts[13].count == 1 && counts[13].getDate == null){
+                    if(counts[13].count == 1 && counts[13].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40014")
                             .update("getDate", getDate)
@@ -530,7 +530,7 @@ class CameraFragment : Fragment() {
                     }
 
                     //extra
-                    else if(counts[24].count == 100 && counts[24].getDate == null){
+                    if(counts[24].count == 100 && counts[24].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40025")
                             .update("getDate", getDate)
