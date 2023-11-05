@@ -96,6 +96,7 @@
 
     <dimen name="post_window_height">550dp</dimen>
     <dimen name="member_stroke_height">10dp</dimen>
+    <dimen name="common_edittext_height">50dp</dimen>
 
 
     <!-- 기타 -->

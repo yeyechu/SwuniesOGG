@@ -29,7 +29,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/new_nickname_et"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/StyleEditTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_big"
@@ -39,10 +39,12 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/common_edittext_height"
                 android:ems="10"
+                android:maxLength="10"
                 android:hint="@string/nickname_change_inputtext_new_nickname"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                style="@style/StyleEditText"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -55,10 +57,6 @@
             app:layout_constraintEnd_toEndOf="@+id/new_nickname_et"
             app:layout_constraintStart_toStartOf="@+id/new_nickname_et"
             app:layout_constraintTop_toBottomOf="@+id/new_nickname_et" />
-
-
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

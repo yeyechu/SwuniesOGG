@@ -21,11 +21,13 @@
         <item name="android:navigationBarColor">@color/transparency_dimmed</item>
         <item name="android:windowLightStatusBar">true</item>
 
+
+
     </style>
     <!-- ────────────────────────────── 스플래시 화면 ────────────────────────────── -->
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/login_image_face</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/login_image_logo_splash</item>
         <item name="postSplashScreenTheme">@style/Theme.SwuniesOGG</item>
     </style>
 
