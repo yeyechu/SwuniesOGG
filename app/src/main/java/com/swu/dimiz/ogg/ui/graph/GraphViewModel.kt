@@ -1,14 +1,10 @@
 package com.swu.dimiz.ogg.ui.graph
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -26,8 +22,9 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyGraph
 import kotlinx.coroutines.*
 import timber.log.Timber
-import kotlin.text.Typography.less
+import kotlin.math.roundToInt
 
+//todo 플젝 시작하고 아무것도 안올렸을때 오류남
 //─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 인서님 여기 경고 뜨는 거 신경 써주세요, 하라는 대로 고치면 됩니다 ▲
 class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     private var viewModelJob = Job()
@@ -40,9 +37,19 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     var projectCount = 0
     var startDate = 0L
+    var layoutVisible: Boolean = true
 
-    //──────────────────────────────────────────────────────────────────────────────────────
-    //
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                                   필요한 데이터 초기화
+
+    // 프로젝트 카운트 데이터
+    private val projectCountLiveData = MutableLiveData<Int>()
+
+    private val _fireInfoget = MutableLiveData<Int?>()
+    val fireInfoget: LiveData<Int?>
+        get() = _fireInfoget
+
+
     //myact
     private val _energyCo2 = MutableLiveData<Float>()
     val energyCo2: LiveData<Float>
@@ -66,27 +73,34 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         get() = _co2ActList
 
     //certify
-    private val _gotMyFeedList = MutableLiveData<List<Feed>>()
-    val gotMyFeedList: LiveData<List<Feed>>
-        get() = _gotMyFeedList
+    private val _funnycnt = MutableLiveData<Int>()
+    val funnycnt: LiveData<Int>
+        get() = _funnycnt
 
-    private val _sumReactionList = MutableLiveData<List<Int>>()
-    val sumReactionList: LiveData<List<Int>>
-        get() = _sumReactionList
+    private val _greatcnt = MutableLiveData<Int>()
+    val greatcnt: LiveData<Int>
+        get() = _greatcnt
 
-    private val _myPost = MutableLiveData<MyGraph?>()
-    val myPost: LiveData<MyGraph?>
-        get() = _myPost
+    private val _likecnt = MutableLiveData<Int>()
+    val likecnt: LiveData<Int>
+        get() = _likecnt
+
+    private val _reactiontitle = MutableLiveData<String?>()
+    val reactiontitle: LiveData<String?>
+        get() = _reactiontitle
+
+
+    private val _mostUpList = MutableLiveData<List<Int>>()
+    val mostUpList: LiveData<List<Int>>
+        get() = _mostUpList
 
 
     //special
-    private val _extraRank = MutableLiveData<Float>()
-    val extraRank: LiveData<Float>
-        get() = _extraRank
+    private val _rank = MutableLiveData<Float>()
+    val rank: LiveData<Float>
+        get() = _rank
 
-    //certify
 
-    //special
     private val _graph = MutableLiveData<MyGraph>()
     val graph: LiveData<MyGraph>
         get() = _graph
@@ -95,23 +109,47 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     val title: LiveData<String>
         get() = _title
 
+    private val _projcnt = MutableLiveData<Int>()
+    val projcnt: LiveData<Int>
+        get() = _projcnt
+
+
     init {
         Timber.i("created")
-        // 인서님,
-        // null 허용 안되는 변수들은 전부 여기서 초기화 해주셔야 합니다
+//        projectCountLiveData.value = 0
+
+
+        _energyCo2.value = 0.0f
+        _consumptionCo2.value = 0.0f
+        _transportCo2.value = 0.0f
+        _resourceCo2.value = 0.0f
+
+        _co2ActList.value = emptyList()
+
+        _funnycnt.value = 0
+        _greatcnt.value = 0
+        _likecnt.value = 0
+        _reactiontitle.value = null
+
+        _mostUpList.value = emptyList()
+
+        _rank.value = 0.0f
+
     }
 
-    //──────────────────────────────────────────────────────────────────────────────────────
-    //                                       전체활동 가져오기
-    fun getGraph() {
-        //_graph.value!!.co21 =
+    fun getProjectCountLiveData(): LiveData<Int> = projectCountLiveData
+
+    fun fetchFirebaseData(newCount: Int) {
+        projectCount = newCount
     }
+
+
+
 
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                         활동 타이틀
-    // 기본적인 형태로 만들었고
-    // 인서님이 필요한 대로 수정해서 쓰시면 됩니다
-    private fun getTitle(id: Int) {
+
+     fun getTitle(id: Int) {
         uiScope.launch {
             _title.value = when (id / ID_MODIFIER) {
                 1 -> getDailyTitleFromRoomDatabase(id).title
@@ -121,6 +159,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             }
         }
     }
+
 
     private suspend fun getDailyTitleFromRoomDatabase(id: Int): ActivitiesDaily {
         return withContext(Dispatchers.IO) {
@@ -140,6 +179,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
+
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                       전체활동 가져오기
     fun fireInfo() {
         fireDB.collection("User").document(fireUser?.email.toString())
             .addSnapshotListener { snapshot, e ->
@@ -150,7 +193,11 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 if (snapshot != null && snapshot.exists()) {
                     val gotUser = snapshot.toObject<MyCondition>()!!
                     projectCount = gotUser.projectCount
-                    //0이면 없음 페이지
+                    fetchFirebaseData(gotUser.projectCount)
+
+                    // 0이면 없음 페이지
+                    layoutVisible = projectCount == 0
+
                     startDate = gotUser.startDate
                     fireGetCategory()
                     fireGetCo2()
@@ -160,8 +207,12 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 } else {
                     Timber.i("Current data: null")
                 }
+
             }
+
     }
+
+
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       Daily 가져오기
@@ -194,16 +245,21 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     resourceCo2 += act.allCo2
                 }
             }
+
+
+            val totalSum = energyCo2+ consumptionCo2 + transportCo2 + resourceCo2
+
+            _energyCo2.value = ((energyCo2 / totalSum) * 100.0f).toFloat()
+            _consumptionCo2.value = ((consumptionCo2 / totalSum) * 100.0f).toFloat()
+            _transportCo2.value = ((transportCo2/ totalSum) * 100.0f).toFloat()
+            _resourceCo2.value = ((resourceCo2 / totalSum) * 100.0f).toFloat()
+
             //각 카테고리별 Co2합
             Timber.i("energyCo2 $energyCo2")
             Timber.i("consumptionCo2 $consumptionCo2")
             Timber.i("transportCo2 $transportCo2")
             Timber.i("resourceCo2 $resourceCo2")
 
-            _energyCo2.value = energyCo2.toFloat()
-            _consumptionCo2.value = consumptionCo2.toFloat()
-            _transportCo2.value = transportCo2.toFloat()
-            _resourceCo2.value = resourceCo2.toFloat()
 
             //sever Graph 업데이트
             fireDB.collection("User").document(fireUser?.email.toString())
@@ -273,16 +329,19 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     var great = 0
     var like = 0
 
+
     private fun fireGetReaction() {
         reactionList.clear()
-        //val less = startDate + 21000000  //todo 날짜 변환
+        val less = startDate + 21000000
         fireDB.collection("Feed")
             .whereEqualTo("email", fireUser?.email.toString())
             .whereGreaterThan("postTime", startDate)
-            //.whereLessThan("postTime", less)
+            .whereLessThan("postTime", less)
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
+
+                val feedList = mutableListOf<feedReact>()
                 for (document in documents) {
                     val feed = document.toObject<Feed>()
                     feed.id = document.id
@@ -292,15 +351,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     var reactLike = feed.reactionLike
 
                     var reaccTotal = reactFun + reactGreat + reactLike
-
                     reactionList.add(feedReact(feed.id, reaccTotal))
                 }
                 //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
 
-                //todo 플젝 시작하고 아무것도 안올렸을때 오류남
                 resultId = reactionList[0].id
                 Timber.i("resultId $resultId")
+
 
                 //sever Graph 업데이트
                 fireDB.collection("Feed").document(reactionList[0].id)
@@ -312,6 +370,13 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                             funny = gotFeed!!.reactionFun
                             great = gotFeed!!.reactionGreat
                             like = gotFeed!!.reactionLike
+
+                            // LiveData를 통해 UI에 값을 업데이트
+                            _funnycnt.value = funny
+                            _greatcnt.value = great
+                            _likecnt.value = like
+                            _reactiontitle.value = reactionList[0].id
+//                            _reactionuri.value = reactionURI
 
                             fireDB.collection("User").document(fireUser?.email.toString())
                                 .collection("Project$projectCount").document("Graph")
@@ -330,6 +395,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     .addOnFailureListener { exception ->
                         Timber.i(exception)
                     }
+
+
 
             }
             .addOnFailureListener { exception ->
@@ -360,6 +427,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 val upSecondId = mostUpList[1]
                 val upThirdId = mostUpList[2]
 
+                _mostUpList.value = mostUpList
+
                 Timber.i("mostUpList $mostUpList")
 
                 //sever Graph 업데이트
@@ -373,6 +442,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                             "post3" to upThirdId
                         ),
                     )
+
             }
     }
 
@@ -410,6 +480,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             Timber.i("size $size")
             Timber.i("rank $rank")
 
+            val roundedRank: Float = (rank * 10.0f).roundToInt() / 10.0f
+            _rank.value = roundedRank
+
+
             //sever Graph 업데이트
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Project$projectCount").document("Graph")
@@ -422,27 +496,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
 
-
-
-    fun updateEnergyCo2(value: Float) {
-        _energyCo2.value = value
-    }
-
-    fun updateConsumptionCo2(value: Float) {
-        _consumptionCo2.value = value
-    }
-
-    fun updateTransportCo2(value: Float) {
-        _transportCo2.value = value
-    }
-
-    fun updateResourceCo2(value: Float) {
-        _resourceCo2.value = value
-    }
-
-    fun updateCo2ActList(data: List<MyAllAct>) {
-        _co2ActList.value = data
-    }
 
     override fun onCleared() {
         super.onCleared()

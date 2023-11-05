@@ -233,7 +233,8 @@
     <string name="graph_title_certify_most_reaction">가장 많은 반응을 받은 활동</string>
     <string name="graph_title_certify_most_reaction_subtitle">활동명</string>
     <string name="graph_title_certify_most_certify">가장 많이 인증한 활동명 TOP3</string>
-
+    <string name="count_format">%1$s 개</string>
+    <string name="rank_format">상위 %1$.1f %%</string>
     <!-- 나의 특별 활동 -->
     <string name="graph_title_special">나의 특별활동</string>
     <string name="graph_title_special_act_chart">특별활동 전체 순위</string>

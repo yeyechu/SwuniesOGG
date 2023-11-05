@@ -4,12 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
    >
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.swu.dimiz.ogg.ui.graph.GraphViewModel" />
 
-    </data>
 
     <LinearLayout
         android:layout_width="match_parent"

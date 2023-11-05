@@ -3,11 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
-    <data>
-        <variable
-            name="viewModel"
-            type="com.swu.dimiz.ogg.ui.graph.GraphViewModel" />
-    </data>
 
     <!-- CardView 레이아웃 -->
     <androidx.cardview.widget.CardView

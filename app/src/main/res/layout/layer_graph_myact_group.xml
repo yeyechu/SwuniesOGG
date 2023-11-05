@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!--통계 뷰모델 연결-->
     <data>
@@ -9,11 +10,24 @@
             type="com.swu.dimiz.ogg.ui.graph.GraphViewModel" />
 
     </data>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
+        >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView6"
+            style="@style/StyleText.header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            android:text="@string/graph_title_myact" />
+
 
     <!-- CardView 레이아웃 -->
     <androidx.cardview.widget.CardView
@@ -110,18 +124,462 @@
     </androidx.cardview.widget.CardView>
 
         <LinearLayout
-            android:id="@+id/seachar_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center"
             >
 
-            <include  layout="@layout/layer_graph_myact_card_item" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/seachar_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_medium"
+                app:cardCornerRadius="@dimen/radius_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <include  layout="@layout/layer_graph_myact_card_item" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/spacing_small"
+                    >
+
+                    <TextView
+                        android:id="@+id/seachar_title"
+                        style="@style/StyleText.subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        tools:text = "@string/graph_title_myact_seachart_1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/seachar_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:contentDescription="@string/description_myact_card_image"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seachar_title"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/seachar_text"
+                        style="@style/StyleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:text="@string/graph_title_myact_seachart_subtitle"
+                        app:layout_constraintBottom_toTopOf="@+id/seachar_num"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seachar_image" />
+
+                    <TextView
+                        android:id="@+id/seachar_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/StyleText.header"
+                        android:fontFamily="@font/nanumsquare_eb"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seachar_image"
+                        tools:text="82m²" />
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- CardView 레이아웃 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/seachar_card2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_medium"
+                app:cardCornerRadius="@dimen/radius_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/spacing_small"
+                    >
+
+                    <TextView
+                        android:id="@+id/seachar_title2"
+                        style="@style/StyleText.subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        tools:text = "@string/graph_title_myact_seachart_1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/seachar_image2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:contentDescription="@string/description_myact_card_image"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seachar_title2"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/seachar_text2"
+                        style="@style/StyleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_medium"
+                        android:text="@string/graph_title_myact_seachart_subtitle"
+                        app:layout_constraintBottom_toTopOf="@+id/seachar_num2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seachar_image2" />
+
+                    <TextView
+                        android:id="@+id/seachar_num2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/StyleText.header"
+                        android:fontFamily="@font/nanumsquare_eb"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seachar_image2"
+                        tools:text="82m²" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
 
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/StyleText.header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            android:text="@string/graph_title_certify" />
+
+        <!-- CardView 레이아웃 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/most_reaction_act_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            app:cardCornerRadius="@dimen/radius_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_small"
+
+                >
+
+                <TextView
+                    android:id="@+id/most_reaction_title"
+                    style="@style/StyleText.header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/graph_title_certify_most_reaction"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/most_reaction_image"
+                    android:layout_width="@dimen/dimension_100"
+                    android:layout_height="@dimen/dimension_100"
+                    android:layout_margin="@dimen/spacing_medium"
+                    android:contentDescription="@string/description_myact_card_image"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/most_reaction_title"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/most_reaction_act"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/StyleText.subtitle"
+                    android:text="@{viewModel.reactiontitle}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/most_reaction_image"
+                    app:layout_constraintTop_toTopOf="@+id/most_reaction_image"
+                    tools:text="@string/graph_title_certify_most_reaction_subtitle" />
+
+
+                <ImageView
+                    android:id="@+id/reaction_like_icon"
+                    android:layout_width="@dimen/fui_min_height_target"
+                    android:layout_height="@dimen/fui_min_height_target"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:background="@drawable/feed_button_reaction_like_enabled"
+                    app:layout_constraintEnd_toStartOf="@+id/reaction_great_icon"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/most_reaction_image"
+                    app:layout_constraintTop_toBottomOf="@+id/most_reaction_act" />
+
+
+                <ImageView
+                    android:id="@+id/reaction_great_icon"
+                    android:layout_width="@dimen/fui_min_height_target"
+                    android:layout_height="@dimen/fui_min_height_target"
+                    android:background="@drawable/feed_button_reaction_great_enabled"
+                    app:layout_constraintBottom_toBottomOf="@+id/reaction_like_icon"
+                    app:layout_constraintEnd_toStartOf="@+id/reaction_fun_icon"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/reaction_like_icon"
+                    app:layout_constraintTop_toTopOf="@+id/reaction_like_icon" />
+
+                <ImageView
+                    android:id="@+id/reaction_fun_icon"
+                    android:layout_width="@dimen/fui_min_height_target"
+                    android:layout_height="@dimen/fui_min_height_target"
+
+                    android:background="@drawable/feed_button_reaction_fun_enabled"
+                    app:layout_constraintBottom_toBottomOf="@+id/reaction_great_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/reaction_great_icon"
+                    app:layout_constraintTop_toTopOf="@+id/reaction_great_icon" />
+
+                <TextView
+                    android:id="@+id/reaction_like_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/StyleText"
+                    android:text="@{@string/count_format(viewModel.likecnt.toString)}"
+                    app:layout_constraintBottom_toBottomOf="@+id/most_reaction_image"
+                    app:layout_constraintEnd_toEndOf="@+id/reaction_like_icon"
+                    app:layout_constraintStart_toStartOf="@+id/reaction_like_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/reaction_like_icon"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="1개" />
+
+                <TextView
+                    android:id="@+id/reaction_great_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="1개"
+                    android:text='@{@string/count_format(viewModel.greatcnt.toString)}'
+                    style="@style/StyleText"
+                    app:layout_constraintBottom_toBottomOf="@+id/reaction_like_cnt"
+                    app:layout_constraintEnd_toEndOf="@+id/reaction_great_icon"
+                    app:layout_constraintStart_toStartOf="@+id/reaction_great_icon" />
+                <TextView
+                    android:id="@+id/reaction_fun_cnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="1개"
+                    android:text="@{@string/count_format(viewModel.funnycnt.toString)}"
+                    style="@style/StyleText"
+                    app:layout_constraintBottom_toBottomOf="@+id/reaction_great_cnt"
+                    app:layout_constraintEnd_toEndOf="@+id/reaction_fun_icon"
+                    app:layout_constraintStart_toStartOf="@+id/reaction_fun_icon" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- CardView 레이아웃 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/most_certify_act_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            app:cardCornerRadius="@dimen/radius_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_vie1w">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_small"
+                android:layout_margin="@dimen/spacing_regular"
+
+
+                >
+
+                <TextView
+                    android:id="@+id/most_certify_title"
+                    style="@style/StyleText.header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/graph_title_certify_most_certify"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                <ProgressBar
+                    android:id="@+id/most_certify_act1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bottom_sheet_peek_height"
+                    android:max="100"
+                    android:progress="70"
+                    android:progressDrawable="@drawable/graph_progressbar_custom" />
+
+                <TextView
+                    android:id="@+id/most_certify_act1_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.mostUpList[0].toString}"
+                    />
+                <ProgressBar
+                    android:id="@+id/most_certify_act2"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bottom_sheet_peek_height"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/graph_progressbar_2_custom" />
+
+                <TextView
+                    android:id="@+id/most_certify_act2_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.mostUpList[1].toString}"
+                    />
+                <ProgressBar
+                    android:id="@+id/most_certify_act3"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bottom_sheet_peek_height"
+                    android:max="100"
+                    android:progress="30"
+                    android:progressDrawable="@drawable/graph_progressbar_3_custom" />
+
+                <TextView
+                    android:id="@+id/most_certify_act3_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.mostUpList[2].toString}"
+                    />
+
+
+
+
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/StyleText.header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            android:text="@string/graph_title_special" />
+
+        <!-- CardView 레이아웃 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/special_chart_cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_medium"
+            app:cardCornerRadius="@dimen/radius_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_medium"
+
+                >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <TextView
+                        android:id="@+id/special_act_char_title"
+                        style="@style/StyleText.header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_small"
+                        android:text="@string/graph_title_special_act_chart"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/special_chart"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:padding="@dimen/spacing_medium"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/special_act_char_title" />
+
+                    <TextView
+                        android:id="@+id/my_special_act_percent"
+                        style="@style/StyleText.percent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.format(@string/rank_format, viewModel.rank)}"
+                        tools:text="상위10%"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/special_chart"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/special_act_char_title"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
+
+    </ScrollView>
 </layout>
