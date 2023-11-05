@@ -174,7 +174,6 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      파이어베이스
     //겟데이트가 있는지 카운트 업데이트
-
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
@@ -212,15 +211,20 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     fun getHaveBadge(){
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Badge")
-            .whereNotEqualTo("getDate", null)
             .addSnapshotListener { value, e ->
                 if (e != null) {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
                 for (doc in value!!) {
+                    //전체 배지
                     var gotBadge = doc.toObject<MyBadge>()
-                    updateBadgeFire(gotBadge)
+                    gotBadge.count *= 1000
+                    if(gotBadge.getDate != null){
+                        //획득한 배지만
+                        updateBadgeFire(gotBadge)
+                    }
+                    Timber.i("gotBadge $gotBadge")
                 }
             }
     }

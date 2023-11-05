@@ -835,7 +835,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)
-                            .addOnCompleteListener { Timber.i("DocumentSnap shot1 successfully written!")
+                            .addOnCompleteListener { Timber.i("남은활동 모두 변경하기 클릭시 successfully written!")
                             }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
                     }
                 }
@@ -863,7 +863,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)
-                            .addOnCompleteListener { Timber.i("DocumentSnap shot1 successfully written!")
+                            .addOnCompleteListener { Timber.i("하루만 변경하기 클릭시 successfully written!")
                             }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
                     }
                 }

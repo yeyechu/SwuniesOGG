@@ -336,7 +336,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         fireDB.collection("Feed")
             .whereEqualTo("email", fireUser?.email.toString())
             .whereGreaterThan("postTime", startDate)
-            .whereLessThan("postTime", less)
+            //.whereLessThan("postTime", less)
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->

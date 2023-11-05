@@ -85,6 +85,8 @@ class MyEnvLayer : Fragment() {
 
         binding.envViewModel = envViewModel
 
+        viewModel.getHaveBadge()
+
         binding.buttonExit.setOnClickListener {
             envViewModel.onNavigatedMyEnv()
             it.findNavController().navigateUp()

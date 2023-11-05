@@ -6,5 +6,9 @@ User/사용자 이메일/Reaction/id
  */
 
 data class MyReaction(
-    var feedId : String =""
+    var feedId : String ="",
+
+    var reactionLike: Boolean = false,
+    var reactionFun: Boolean = false,
+    var reactionGreat: Boolean = false
 )

@@ -72,9 +72,9 @@ class FeedReportDialog(
 
                     Timber.i("피드 신고 완료")
                     fireDB.collection("User").document(fireUser?.email.toString())
-                        .collection("Reation").document(feedId)
+                        .collection("Report").document(feedId)
                         .set(react)
-                        .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
+                        .addOnSuccessListener { Timber.i("MyReport 업데이트 완료") }
                         .addOnFailureListener { e -> Timber.i(e) }
 
                     fireDB.collection("Feed").document(feedId)
