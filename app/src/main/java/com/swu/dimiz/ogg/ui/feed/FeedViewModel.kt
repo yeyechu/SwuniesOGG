@@ -117,6 +117,23 @@ class FeedViewModel : ViewModel() {
                         onMakeToast(2)
                     }
                     if(result.isEmpty){
+                        when (item) {
+                            1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                                .update("reactionLike", FieldValue.increment(1))
+                                .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
+                                .addOnFailureListener { e -> Timber.i(e) }
+
+                            2 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                                .update("reactionFun", FieldValue.increment(1))
+                                .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
+                                .addOnFailureListener { e -> Timber.i(e) }
+
+                            3 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                                .update("reactionGreat", FieldValue.increment(1))
+                                .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
+                                .addOnFailureListener { e -> Timber.i(e) }
+                        }
+
                         val react = MyReaction(_feedId.value?.id.toString())
                         fireDB.collection("User").document(userEmail)
                             .collection("Reation").document(_feedId.value?.id.toString())
@@ -171,27 +188,8 @@ class FeedViewModel : ViewModel() {
                                             .addOnSuccessListener { Timber.i("40003 획득 완료") }
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                                     }
-                                } else {
-                                    Timber.i("Current data: null")
-                                }
+                                } else { Timber.i("Current data: null") }
                             }
-
-                        when (item) {
-                            1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                                .update("reactionLike", FieldValue.increment(1))
-                                .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
-                                .addOnFailureListener { e -> Timber.i(e) }
-
-                            2 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                                .update("reactionFun", FieldValue.increment(1))
-                                .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
-                                .addOnFailureListener { e -> Timber.i(e) }
-
-                            3 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                                .update("reactionGreat", FieldValue.increment(1))
-                                .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
-                                .addOnFailureListener { e -> Timber.i(e) }
-                        }
                         fireBadgeOtherUser()
                         fireGetFeed()
                     }
@@ -230,7 +228,6 @@ class FeedViewModel : ViewModel() {
                                 return@addSnapshotListener
                             }
 
-
                             for (doc in value!!) {
                                 if (gotFeed != null) {
                                     if(gotFeed.reactionLike == 10){
@@ -248,7 +245,6 @@ class FeedViewModel : ViewModel() {
                                             .collection("Badge").document("40011")
                                             .update("count", FieldValue.increment(1))
                                     }
-
 
                                 //카운트가 5가 된게 있으면 개시물 주인의(이메일) 배지 획득
                                 val gotBadge = doc.toObject<MyBadge>()
@@ -384,7 +380,8 @@ class FeedViewModel : ViewModel() {
         val gotFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed")
-            .orderBy("postTime",  Query.Direction.DESCENDING)
+            .whereNotEqualTo("email", userEmail) //todo 쉽게 바꿔논거 나중에 돌려놓기
+            //.orderBy("postTime",  Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
                 gotFeedList.clear()
@@ -454,12 +451,12 @@ class FeedViewModel : ViewModel() {
         var reaction = 0
         Timber.i("getReactionHistoryFromFirebase $feed")
 
+        // 이미 반응남긴 피드 확인
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Reaction")
             .whereEqualTo("feedId", feed)
             .get()
             .addOnSuccessListener { documents ->
-
                 for (document in documents) {
                     Timber.i("리액션 확인 중")
                    val gotFeed = document.toObject<MyReaction>()

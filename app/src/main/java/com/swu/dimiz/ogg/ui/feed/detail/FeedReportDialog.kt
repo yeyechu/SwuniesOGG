@@ -4,17 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.setFragmentResult
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.DialogFeedReportBinding
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyReaction
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyReport
 import timber.log.Timber
 
 class FeedReportDialog(
@@ -60,7 +56,7 @@ class FeedReportDialog(
 
 
         fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Reation")
+            .collection("Report")
             .whereEqualTo("feedId", feedId)
             .get()
             .addOnSuccessListener { result ->
@@ -68,12 +64,12 @@ class FeedReportDialog(
                     Timber.i("이미 신고된 피드")
                 }
                 if (result.isEmpty) {
-                    val react = MyReaction(feedId)
+                    val report = MyReport(feedId)
 
                     Timber.i("피드 신고 완료")
                     fireDB.collection("User").document(fireUser?.email.toString())
                         .collection("Report").document(feedId)
-                        .set(react)
+                        .set(report)
                         .addOnSuccessListener { Timber.i("MyReport 업데이트 완료") }
                         .addOnFailureListener { e -> Timber.i(e) }
 

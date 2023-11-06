@@ -201,6 +201,7 @@ class SettingCarFragment : Fragment() {
                             .addOnSuccessListener { Timber.i("40009 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
+                    //sust
                     if(counts[20].count == 1 && counts[20].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40021")

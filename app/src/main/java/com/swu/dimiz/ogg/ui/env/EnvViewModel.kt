@@ -349,6 +349,12 @@ class EnvViewModel : ViewModel() {
         }
     }
 
+    //todo 배지 (며칠 연속 활동인지 체크)
+    fun fireGetContinuDay(){
+
+    }
+
+
 
     override fun onCleared() {
         super.onCleared()
