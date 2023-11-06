@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.feed
 
+import android.provider.SyncStateContract.Helpers.update
 import androidx.lifecycle.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
@@ -118,28 +119,51 @@ class FeedViewModel : ViewModel() {
                     }
                     if(result.isEmpty){
                         when (item) {
-                            1 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                                .update("reactionLike", FieldValue.increment(1))
-                                .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
-                                .addOnFailureListener { e -> Timber.i(e) }
+                            1 -> {
+                                fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                                    .update("reactionLike", FieldValue.increment(1))
+                                    .addOnSuccessListener { Timber.i("like 반응 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i(e) }
 
-                            2 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                                .update("reactionFun", FieldValue.increment(1))
-                                .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
-                                .addOnFailureListener { e -> Timber.i(e) }
+                                val react = MyReaction(feedId =_feedId.value?.id.toString(), reactionLike = true)
+                                fireDB.collection("User").document(userEmail)
+                                    .collection("Reation").document(_feedId.value?.id.toString())
+                                    .set(react)
+                                    .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
+                                    .addOnFailureListener { e -> Timber.i(e) }
+                            }
 
-                            3 -> fireDB.collection("Feed").document(_feedId.value?.id.toString())
-                                .update("reactionGreat", FieldValue.increment(1))
-                                .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
-                                .addOnFailureListener { e -> Timber.i(e) }
+
+                            2 ->{
+                                fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                                    .update("reactionFun", FieldValue.increment(1))
+                                    .addOnSuccessListener { Timber.i("Fun 반응 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i(e) }
+
+                                val react = MyReaction(feedId =_feedId.value?.id.toString(), reactionFun = true)
+                                fireDB.collection("User").document(userEmail)
+                                    .collection("Reation").document(_feedId.value?.id.toString())
+                                    .set(react)
+                                    .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
+                                    .addOnFailureListener { e -> Timber.i(e) }
+                            }
+
+                            3 -> {
+                                fireDB.collection("Feed").document(_feedId.value?.id.toString())
+                                    .update("reactionGreat", FieldValue.increment(1))
+                                    .addOnSuccessListener { Timber.i("Great 반응 올리기 완료") }
+                                    .addOnFailureListener { e -> Timber.i(e) }
+
+                                val react = MyReaction(feedId =_feedId.value?.id.toString(), reactionGreat = true)
+                                fireDB.collection("User").document(userEmail)
+                                    .collection("Reation").document(_feedId.value?.id.toString())
+                                    .set(react)
+                                    .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
+                                    .addOnFailureListener { e -> Timber.i(e) }
+                            }
                         }
 
-                        val react = MyReaction(_feedId.value?.id.toString())
-                        fireDB.collection("User").document(userEmail)
-                            .collection("Reation").document(_feedId.value?.id.toString())
-                            .set(react)
-                            .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
-                            .addOnFailureListener { e -> Timber.i(e) }
+
 
                         // ───────────────────────────────────────────────────────────────────────────────────
                         //배지 카운트 업
