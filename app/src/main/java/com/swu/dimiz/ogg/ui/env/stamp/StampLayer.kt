@@ -17,7 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.convertDurationToInt
+import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.LayerStampBinding
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import timber.log.Timber
@@ -52,7 +52,7 @@ class StampLayer : Fragment() {
             viewModel.setCo2(it.aim)
             if(it.startDate != 0L) {
                 viewModel.fireGetStamp()
-                viewModel.setUntilTodayCo2(it.aim, convertDurationToInt(it.startDate))
+                viewModel.setUntilTodayCo2(it.aim, convertToDuration(it.startDate))
             }
         }
 

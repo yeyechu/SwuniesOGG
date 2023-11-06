@@ -13,6 +13,8 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.collections.ArrayList
+import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 class EnvViewModel : ViewModel() {
 
@@ -35,6 +37,8 @@ class EnvViewModel : ViewModel() {
         get() = _todayCo2
 
     private val _untilTodayCo2 = MutableLiveData<Float>()
+    val untilTodayCo2: LiveData<Float>
+        get() = _untilTodayCo2
 
     private val _co2Holder = MutableLiveData<Float>()
     val co2Holder: LiveData<Float>
@@ -139,8 +143,7 @@ class EnvViewModel : ViewModel() {
 
     fun setUntilTodayCo2(co2: Float, date: Int?) {
         date?.let {
-            _untilTodayCo2.value = co2 * date
-            Timber.i("setUntilTodayCo2 초기화: ${_untilTodayCo2.value}")
+            _untilTodayCo2.value = co2 * it
         }
     }
 
@@ -150,8 +153,6 @@ class EnvViewModel : ViewModel() {
 
     private fun plusCo2All(data: Float) {
         _co2Holder.value = _co2Holder.value!!.plus(data)
-        Timber.i("co2Holder 초기화 : ${_co2Holder.value}")
-        Timber.i("progressEnv: ${progressEnv.value}")
     }
 
     private fun onMakeToast() {

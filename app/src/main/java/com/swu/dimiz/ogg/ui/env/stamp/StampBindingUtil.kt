@@ -68,6 +68,7 @@ fun ImageView.setEnvImage(data: Int) {
 @BindingAdapter("oggImage", "oggAim")
 fun ImageView.setOGGImage(data: Int, aim: Float?) {
     Timber.i("오지지 바인딩어댑터: $data")
+    Timber.i("오지지 바인딩어댑터: $aim")
     aim?.let {
         var id = ""
 
@@ -100,6 +101,7 @@ fun ImageView.setOGGImage(data: Int, aim: Float?) {
                 visibility = View.GONE
             }
         }
+        Timber.i("$id")
         val resource = context.resources?.getIdentifier("env_image_level$id", "drawable", context.packageName)
 
         Glide.with(context)
@@ -109,6 +111,7 @@ fun ImageView.setOGGImage(data: Int, aim: Float?) {
                     .placeholder(R.drawable.feed_animation_loading)
                     .error(R.drawable.myenv_image_empty)
             ).into(this)
+        Timber.i("글라이드")
     }
 }
 

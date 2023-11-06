@@ -339,7 +339,7 @@ class FeedViewModel : ViewModel() {
         _navigateToReport.value = null
     }
 
-    private fun onMakeToast(data: Int) {
+    fun onMakeToast(data: Int) {
         _makeToasts.value = data
     }
 
@@ -446,9 +446,6 @@ class FeedViewModel : ViewModel() {
     }
 
     private fun getReportHistoryFromFirebase(feed: Feed) = viewModelScope.launch {
-        // 이미 신고한 피드 확인
-        Timber.i("getReportHistoryFromFirebase $feed")
-        Timber.i( "feed.id ${feed.id}")
 
         fireDB.collection("User").document(userEmail)
             .collection("Report")
@@ -457,11 +454,9 @@ class FeedViewModel : ViewModel() {
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                    Timber.i("${document.id} => ${document.data}")
-                    // 만약에 신고한 적 있으면
                     _setToast.value = true
                 }
                 if(documents.isEmpty){
-                    // 신고한 적 없으면
                     _setToast.value = false
                 }
             }
@@ -472,29 +467,22 @@ class FeedViewModel : ViewModel() {
 
     private fun getReactionHistoryFromFirebase(feed: Feed) {
         var reaction = 0
-        Timber.i("getReactionHistoryFromFirebase $feed")
-        Timber.i( "feed.id ${feed.id}")
 
-        // 이미 반응남긴 피드 확인
         fireDB.collection("User").document(userEmail)
             .collection("Reaction")
             .whereEqualTo("feedId", feed.id)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    Timber.i("리액션 확인 중")
                     val gotFeed = document.toObject<MyReaction>()
                     Timber.i("gotFeed $gotFeed")
-                    if(gotFeed.reactionLike == true){
+                    if(gotFeed.reactionLike){
                         reaction = 1
-                        Timber.i("반응 초기화 시점 찾기 1 $reaction")
-                    }else if(gotFeed.reactionFun == true){
+                    }else if(gotFeed.reactionFun){
                         reaction = 2
-                        Timber.i("반응 초기화 시점 찾기 2 $reaction")
                     }
-                    else if(gotFeed.reactionGreat == true){
+                    else if(gotFeed.reactionGreat){
                         reaction = 3
-                        Timber.i("반응 초기화 시점 찾기 3 $reaction")
                     }
                 }
                 setButton(reaction)
