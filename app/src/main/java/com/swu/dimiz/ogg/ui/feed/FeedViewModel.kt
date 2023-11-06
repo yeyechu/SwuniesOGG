@@ -109,7 +109,7 @@ class FeedViewModel : ViewModel() {
         setButton(item)
         if(_feedId.value!!.email != OggApplication.auth.currentUser!!.email) {
             fireDB.collection("User").document(userEmail)
-                .collection("Reation")
+                .collection("Reaction")
                 .whereEqualTo("feedId", _feedId.value?.id.toString())
                 .get()
                 .addOnSuccessListener { result ->
@@ -127,7 +127,7 @@ class FeedViewModel : ViewModel() {
 
                                 val react = MyReaction(feedId =_feedId.value?.id.toString(), reactionLike = true)
                                 fireDB.collection("User").document(userEmail)
-                                    .collection("Reation").document(_feedId.value?.id.toString())
+                                    .collection("Reaction").document(_feedId.value?.id.toString())
                                     .set(react)
                                     .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
                                     .addOnFailureListener { e -> Timber.i(e) }
@@ -142,7 +142,7 @@ class FeedViewModel : ViewModel() {
 
                                 val react = MyReaction(feedId =_feedId.value?.id.toString(), reactionFun = true)
                                 fireDB.collection("User").document(userEmail)
-                                    .collection("Reation").document(_feedId.value?.id.toString())
+                                    .collection("Reaction").document(_feedId.value?.id.toString())
                                     .set(react)
                                     .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
                                     .addOnFailureListener { e -> Timber.i(e) }
@@ -156,14 +156,12 @@ class FeedViewModel : ViewModel() {
 
                                 val react = MyReaction(feedId =_feedId.value?.id.toString(), reactionGreat = true)
                                 fireDB.collection("User").document(userEmail)
-                                    .collection("Reation").document(_feedId.value?.id.toString())
+                                    .collection("Reaction").document(_feedId.value?.id.toString())
                                     .set(react)
                                     .addOnSuccessListener { Timber.i("MyReaction 업데이트 완료") }
                                     .addOnFailureListener { e -> Timber.i(e) }
                             }
                         }
-
-
 
                         // ───────────────────────────────────────────────────────────────────────────────────
                         //배지 카운트 업
@@ -450,10 +448,11 @@ class FeedViewModel : ViewModel() {
     private fun getReportHistoryFromFirebase(feed: Feed) = viewModelScope.launch {
         // 이미 신고한 피드 확인
         Timber.i("getReportHistoryFromFirebase $feed")
+        Timber.i( "feed.id ${feed.id}")
 
-        fireDB.collection("User").document(fireUser?.email.toString())
+        fireDB.collection("User").document(userEmail)
             .collection("Report")
-            .whereEqualTo("feedId", feed)
+            .whereEqualTo("feedId", feed.id)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
@@ -474,24 +473,26 @@ class FeedViewModel : ViewModel() {
     private fun getReactionHistoryFromFirebase(feed: Feed) {
         var reaction = 0
         Timber.i("getReactionHistoryFromFirebase $feed")
+        Timber.i( "feed.id ${feed.id}")
 
         // 이미 반응남긴 피드 확인
-        fireDB.collection("User").document(fireUser?.email.toString())
+        fireDB.collection("User").document(userEmail)
             .collection("Reaction")
-            .whereEqualTo("feedId", feed)
+            .whereEqualTo("feedId", feed.id)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     Timber.i("리액션 확인 중")
-                   val gotFeed = document.toObject<MyReaction>()
-                    if(gotFeed.reactionLike){
+                    val gotFeed = document.toObject<MyReaction>()
+                    Timber.i("gotFeed $gotFeed")
+                    if(gotFeed.reactionLike == true){
                         reaction = 1
                         Timber.i("반응 초기화 시점 찾기 1 $reaction")
-                    }else if(gotFeed.reactionFun){
+                    }else if(gotFeed.reactionFun == true){
                         reaction = 2
                         Timber.i("반응 초기화 시점 찾기 2 $reaction")
                     }
-                    else if(gotFeed.reactionGreat){
+                    else if(gotFeed.reactionGreat == true){
                         reaction = 3
                         Timber.i("반응 초기화 시점 찾기 3 $reaction")
                     }
