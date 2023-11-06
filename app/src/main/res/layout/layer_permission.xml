@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/spacing_scroll"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:src="@drawable/login_image_logo"
+        android:src="@drawable/login_image_logo_folded"
         app:layout_constraintBottom_toTopOf="@id/text_title_app"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

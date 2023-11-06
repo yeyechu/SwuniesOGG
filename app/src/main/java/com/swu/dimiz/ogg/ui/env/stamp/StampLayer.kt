@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.databinding.LayerStampBinding
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import timber.log.Timber
@@ -37,26 +38,21 @@ class StampLayer : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.layer_stamp, container, false)
 
-        //val typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m), Typeface.BOLD)
-
         viewModel.leftHolder.observe(viewLifecycleOwner) {
             val textDecorator = SpannableStringBuilder.valueOf(getString(R.string.stamplayout_text_body, it))
 
             binding.textCo2Left.text = textDecorator.apply {
                 setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.primary_blue)), 9, 16, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 setSpan(StyleSpan(Typeface.BOLD), 9, 16, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//                    setSpan(TypefaceSpan(typeface), 9, 16, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-//                }
             }
         }
 
         viewModel.userCondition.observe(viewLifecycleOwner) {
             aim = it.aim
             viewModel.setCo2(it.aim)
-            viewModel.setUntilTodayCo2(it.aim, viewModel.date.value)
             if(it.startDate != 0L) {
                 viewModel.fireGetStamp()
+                viewModel.setUntilTodayCo2(it.aim, convertDurationToInt(it.startDate))
             }
         }
 

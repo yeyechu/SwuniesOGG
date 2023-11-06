@@ -3,13 +3,13 @@ package com.swu.dimiz.ogg.ui.env.stamp
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
+import timber.log.Timber
 import kotlin.math.abs
 
 // ──────────────────────────────────────────────────────────────────────────────────────
@@ -55,6 +55,7 @@ fun ImageView.setTodayImage(data: Float) {
 //                                       나의 환경
 @BindingAdapter("envImage")
 fun ImageView.setEnvImage(data: Int) {
+    Timber.i("배경지정 바인딩어댑터: $data")
     when(data) {
         in 0..20 -> setBackgroundResource(R.drawable.env_image_background_stage1_very_dirty)
         in 21..40 -> setBackgroundResource(R.drawable.env_image_background_stage2_dirty)
@@ -66,10 +67,11 @@ fun ImageView.setEnvImage(data: Int) {
 
 @BindingAdapter("oggImage", "oggAim")
 fun ImageView.setOGGImage(data: Int, aim: Float?) {
+    Timber.i("오지지 바인딩어댑터: $data")
     aim?.let {
         var id = ""
 
-         when(aim) {
+         when(it) {
             AIMCO2_ONE -> {
                 id = when(data) {
                     in 0..30 -> "1_030"

@@ -39,7 +39,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_edittext_height"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:maxLength="10"
                 android:hint="@string/nickname_change_inputtext_new_nickname"

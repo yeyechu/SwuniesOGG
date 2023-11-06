@@ -23,7 +23,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_big"
+            android:layout_marginTop="@dimen/spacing_big"
+            android:layout_marginStart="@dimen/spacing_big"
+            android:layout_marginEnd="@dimen/spacing_big"
+            android:layout_marginBottom="@dimen/spacing_scroll"
             android:background="@drawable/common_layer_window_rounded"
             android:padding="@dimen/spacing_big"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -76,9 +79,9 @@
                 android:id="@+id/explain_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/text_co2"
-                tools:layout_editor_absoluteX="20dp">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_co2">
 
                 <ImageView
                     android:id="@+id/image_example"
@@ -138,7 +141,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_garbage_two"/>
+                    app:layout_constraintTop_toBottomOf="@+id/text_garbage_two" />
 
                 <LinearLayout
                     android:id="@+id/button_layout"
@@ -157,13 +160,13 @@
                         style="@style/StyleButtonOggWhite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_weight="1"
+                        android:onClick="@{() -> viewModel.onGalleryButtonClicked()}"
                         android:paddingStart="@dimen/spacing_medium"
                         android:paddingEnd="@dimen/spacing_medium"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:text="@string/post_button_take_gallary"
-                        android:onClick="@{() -> viewModel.onGalleryButtonClicked()}"
                         app:buttonVisibility="@{viewModel.todailyId}"
                         tools:text="앨범 업로드" />
 
@@ -172,14 +175,14 @@
                         style="@style/StyleButtonOgg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_weight="1"
+                        android:enabled="@{!viewModel.setDailyDone(viewModel.todailyId)}"
+                        android:onClick="@{() -> viewModel.onDailyButtonClicked(viewModel.todailyId)}"
                         android:paddingStart="@dimen/spacing_medium"
                         android:paddingEnd="@dimen/spacing_medium"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:text="@string/post_button_take_photo"
-                        android:onClick="@{() -> viewModel.onDailyButtonClicked(viewModel.todailyId)}"
-                        android:enabled="@{!viewModel.setDailyDone(viewModel.todailyId)}"
                         app:buttonText="@{viewModel.todailyId}"
                         tools:text="카메라 촬영" />
                 </LinearLayout>

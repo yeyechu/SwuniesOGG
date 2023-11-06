@@ -13,7 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_big"
         android:background="@drawable/common_layer_window_rounded"
-        android:padding="@dimen/spacing_big"
+        android:paddingTop="@dimen/spacing_large"
+        android:paddingStart="@dimen/spacing_big"
+        android:paddingEnd="@dimen/spacing_big"
+        android:paddingBottom="@dimen/spacing_big"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +36,7 @@
 
         <TextView
             android:id="@+id/text_popup_body"
-            style="@style/StyleText"
+            style="@style/StyleText.gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_big"
@@ -53,22 +56,29 @@
             style="@style/StyleButtonOggWhite"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/common_button_gray"
             android:text="@string/listaim_button_dialog_left"
-            app:layout_constraintBottom_toBottomOf="@id/button_exit"
+            android:textColor="@color/primary_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/button_exit"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/button_exit" />
+            app:layout_constraintTop_toBottomOf="@id/text_popup_body"
+            app:layout_constraintVertical_bias="0.5"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_exit"
             style="@style/StyleButtonOgg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_big"
             android:layout_marginStart="@dimen/spacing_extra_medium"
+            android:background="@drawable/common_button_warning"
             android:text="@string/listaim_button_dialog_right"
+            app:layout_constraintTop_toBottomOf="@id/text_popup_body"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/button_cancel" />
+            app:layout_constraintStart_toEndOf="@id/button_cancel"
+            app:layout_constraintVertical_bias="0.5"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

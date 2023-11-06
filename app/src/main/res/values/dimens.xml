@@ -75,7 +75,7 @@
 
 
     <!--                                       내비게이션                                      -->
-    <dimen name="bottom_nav_icon_size">45dp</dimen>
+    <dimen name="bottom_nav_icon_size">35dp</dimen>
     <dimen name="bottom_nav_size">60dp</dimen>
 
     <!--                                        바텀시트                                      -->
@@ -102,7 +102,7 @@
     <!-- 기타 -->
 
     <dimen name="image_size_indicator">4dp</dimen>
-    <dimen name="image_size_stamp_face">40dp</dimen>
+    <dimen name="image_size_stamp_face">38dp</dimen>
     <dimen name="image_size_reaction">62dp</dimen>
     <dimen name="image_size_stamp_face_big">70dp</dimen>
 

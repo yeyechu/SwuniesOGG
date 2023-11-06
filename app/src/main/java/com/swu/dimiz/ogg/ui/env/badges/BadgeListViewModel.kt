@@ -55,6 +55,8 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     //                                         배지 위치
     var badgeList = ArrayList<BadgeLocation>()
 
+    private val unknownBadge: Badges = Badges(0, "", "알 수 없는 배지", "", null, null, 0L, 0, 0, "", "")
+
     init {
         Timber.i("created")
         getFilters()
@@ -76,6 +78,7 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     fun initInventoryList() {
         _adapterList.value = inventory.value
         inventoryList.clear()
+        displayList.clear()
         _adapterList.value?.forEach {
             inventoryList.add(it)
         }
@@ -109,6 +112,17 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
             badgeList.add(BadgeLocation(it.badgeId, 0f, 0f))
         }
         Timber.i("배지리스트 초기화: $badgeList")
+    }
+
+    fun badgeItem(id: Int): Badges {
+        var badge: Badges = unknownBadge
+
+        inventoryList.forEach {
+            if(it.badgeId == id) {
+                badge = it
+            }
+        }
+        return badge
     }
 
     fun updateLocationList(id: Int, x: Float, y: Float) {
@@ -189,7 +203,7 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
             var badgeID = 0
             var valueX = 0.0
             var valueY = 0.0
-
+            Timber.i("saveLocationToFirebase: $it")
             badgeID = it.bId
             valueX = it.bx.toDouble()
             valueY = it.by.toDouble()
@@ -216,9 +230,9 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
-                for (doc in value!!) {
+                value!!.forEach {
                     //전체 배지
-                    var gotBadge = doc.toObject<MyBadge>()
+                    val gotBadge = it.toObject<MyBadge>()
                     gotBadge.count *= 1000
                     if(gotBadge.getDate != null){
                         //획득한 배지만

@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginBottom="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_scroll"
             android:text="@string/feed_text_title_null"
             android:textAlignment="center"
             android:visibility="@{viewModel.myfeedVisible ? View.GONE : View.VISIBLE}" />
@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginBottom="@dimen/spacing_regular"
             android:text="@string/feed_text_body_null"
             android:textAlignment="center"
             android:visibility="@{viewModel.myfeedVisible ? View.GONE : View.VISIBLE}" />
@@ -45,6 +46,7 @@
             android:layout_marginTop="@dimen/spacing_scroll"
             android:layout_marginStart="@dimen/spacing_larger"
             android:layout_marginEnd="@dimen/spacing_larger"
+            android:layout_marginBottom="@dimen/spacing_medium"
             android:visibility="@{viewModel.myfeedVisible ? View.GONE : View.VISIBLE}"
             android:text="활동하러 가기"
             style="@style/StyleButtonOgg" />

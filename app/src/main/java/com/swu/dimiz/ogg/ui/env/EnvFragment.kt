@@ -13,7 +13,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.listutils.BADGE_SIZE
 import com.swu.dimiz.ogg.databinding.FragmentEnvBinding
 import timber.log.Timber
 
@@ -45,6 +47,7 @@ class EnvFragment : Fragment() {
 
         // ────────────────────────────────────────────────────────────────────────────────────────
         //                                      배지 위치 저장
+        viewModel.initLocationFromFirebase()
         viewModel.badgeHolder.observe(viewLifecycleOwner) { list ->
             list?.let { list ->
                 list.forEach {
@@ -52,6 +55,13 @@ class EnvFragment : Fragment() {
                         setMyEnv(it.bId, it.bx, it.by)
                     }
                 }
+            }
+        }
+
+        viewModel.setToast.observe(viewLifecycleOwner) {
+            if(it) {
+                OggSnackbar.make(view, getString(R.string.envlayer_button_saved)).show()
+                viewModel.onToastCompleted()
             }
         }
 
@@ -82,13 +92,10 @@ class EnvFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                            오늘 날짜, 스탬프 정보 업데이트
-        viewModel.todayCo2.observe(viewLifecycleOwner) {
-           //viewModel.updateTodayStampToFirebase()
-            //viewModel.leftCo2()
-        }
-
         viewModel.co2Holder.observe(viewLifecycleOwner) {
             viewModel.leftCo2()
+            Timber.i("co2Holder 초기화 : $it")
+            Timber.i("프래그먼트 progressEnv: ${viewModel.progressEnv.value}")
         }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
@@ -99,6 +106,7 @@ class EnvFragment : Fragment() {
         envToolbar.setOnMenuItemClickListener {
             when(it.itemId) {
                 R.id.action_badges -> {
+
                     navController.navigate(
                         EnvFragmentDirections.actionNavigationEnvToDestinationBadgeList()
                     )
@@ -128,8 +136,8 @@ class EnvFragment : Fragment() {
 
         badge.apply {
             layoutParams = ViewGroup.LayoutParams(
-                300,
-                300
+                BADGE_SIZE,
+                BADGE_SIZE
             )
 
             Glide.with(context)
@@ -151,7 +159,6 @@ class EnvFragment : Fragment() {
         }
 
         binding.displayLayout.apply {
-            //addView(frameLayout)
             addView(badge, frameLayout.layoutParams)
         }
     }

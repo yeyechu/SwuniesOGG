@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.listutils.BADGE_SIZE
 import com.swu.dimiz.ogg.databinding.LayerEnvBinding
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
@@ -66,7 +66,6 @@ class MyEnvLayer : Fragment() {
             })
         }
 
-        //                                 BottomSheet 핸들러
         binding.handler.setOnClickListener {
             bottomBehavior.state = if(bottomBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
                 BottomSheetBehavior.STATE_EXPANDED
@@ -81,11 +80,8 @@ class MyEnvLayer : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-
         binding.envViewModel = envViewModel
-
-        viewModel.getHaveBadge()
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.buttonExit.setOnClickListener {
             envViewModel.onNavigatedMyEnv()
@@ -96,8 +92,7 @@ class MyEnvLayer : Fragment() {
             envViewModel.onNavigatedMyEnv()
             viewModel.onSaveCompleted()
             envViewModel.setLocationList(viewModel.badgeList)
-            Toast.makeText(context, getString(R.string.envlayer_button_saved), Toast.LENGTH_LONG).show()
-            // 파이어베이스 저장할 곳
+            Timber.i("${viewModel.badgeList}")
             viewModel.saveLocationToFirebase()
 
             it.findNavController().navigateUp()
@@ -112,7 +107,7 @@ class MyEnvLayer : Fragment() {
         binding.badgeList.layoutManager = manager
 
         val badgeInventoryAdapter = BadgeInventoryAdapter(BadgeListAdapter.BadgeClickListener {
-            addBadge(it)
+            addBadge(it, 0f, 0f)
         })
 
         viewModel.inventory.observe(viewLifecycleOwner) {
@@ -126,9 +121,20 @@ class MyEnvLayer : Fragment() {
                 badgeInventoryAdapter.inventory = it
             }
         }
+
+        envViewModel.badgeHolder.observe(viewLifecycleOwner) { list ->
+            list?.let { list ->
+                list.forEach {
+                    if(it.bx > 0f && it.by > 0f) {
+                        Timber.i("배지 위치: $it")
+                        addBadge(viewModel.badgeItem(it.bId), it.bx, it.by)
+                    }
+                }
+            }
+        }
     }
 
-    private fun addBadge(item: Badges) {
+    private fun addBadge(item: Badges, valueX: Float, valueY: Float) {
         val badge = ImageView(context)
         val button = ImageView(context)
         val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
@@ -159,18 +165,17 @@ class MyEnvLayer : Fragment() {
         badge.apply {
             id = item.badgeId
             val layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
+                BADGE_SIZE,
+                BADGE_SIZE
             )
             this.layoutParams = layoutParams
 
             layoutParams.setMargins(0, 29, 29, 0)
             badge.isPressed = true
 
-            setImageBitmap(item.image)
+            setImageBitmap(item.imageDeco)
             adjustViewBounds = true
             setBackgroundResource(R.drawable.myenv_decoration_selector)
-            //setBackgroundResource(R.drawable.myenv_shape_imageholder_dash)
 
         }
         frameLayout.apply {
@@ -181,6 +186,10 @@ class MyEnvLayer : Fragment() {
             )
             addView(badge)
             addView(button)
+
+            x = valueX
+            y = valueY
+            viewModel.updateLocationList(badge.id, x, y)
 
             setOnTouchListener { view, event ->
                 viewModel.onChangeDetected()

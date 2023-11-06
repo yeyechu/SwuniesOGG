@@ -8,9 +8,7 @@
     <ImageView
         android:id="@+id/image_stamp_face"
         android:layout_width="@dimen/image_size_stamp_face"
-        android:layout_height="@dimen/image_size_stamp_face"
-        />
-
+        android:layout_height="@dimen/image_size_stamp_face" />
 
     <TextView
         android:id="@+id/text_stamp_date"
@@ -18,7 +16,7 @@
         android:layout_height="@dimen/image_size_stamp_face"
         android:text=""
         android:textSize="@dimen/text_size_body_big"
-        android:fontFamily="@font/gmarketsans_m"
+        android:fontFamily="@font/nanumsquare_b"
         android:textColor="@color/secondary_light_gray"
         android:gravity="center"
         android:adjustViewBounds="true"

@@ -25,6 +25,7 @@
                 android:id="@+id/card_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_regular"
                 android:background="@color/secondary_background_blue">
 
                 <fragment

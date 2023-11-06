@@ -67,7 +67,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.17000002"
                 app:memberFace="@{viewModel.userCondition.aim}"
                 tools:src="" />
 
@@ -99,7 +98,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/member_stroke_height"
-                android:layout_marginTop="@dimen/spacing_extra_small"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:background="@color/secondary_baby_gray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

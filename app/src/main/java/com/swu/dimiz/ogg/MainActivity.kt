@@ -1,10 +1,10 @@
 package com.swu.dimiz.ogg
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -22,8 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration : AppBarConfiguration
     private lateinit var navController: NavController
-
-    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +81,6 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }else{
-            Timber.i( auth.currentUser?.email.toString())
             Timber.i("이미 로그인 되어있습니다.")
         }
     }

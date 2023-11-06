@@ -32,6 +32,8 @@ const val DATE_WHOLE = 21
 const val ID_MODIFIER = 10000
 const val LIST_SIZE = 5
 
+const val BADGE_SIZE = 350
+
 const val ENERGY = "에너지"
 const val CONSUME = "소비"
 const val TRANSPORT = "이동수단"
