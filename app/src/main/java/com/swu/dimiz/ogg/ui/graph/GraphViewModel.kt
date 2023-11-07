@@ -109,9 +109,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     val titles: LiveData<List<String>>
         get() = _titles
 
+    private val _titlesMost = MutableLiveData<List<String>>()
+    val titlesMost: LiveData<List<String>>
+        get() = _titlesMost
+
     private val _projcnt = MutableLiveData<Int>()
     val projcnt: LiveData<Int>
         get() = _projcnt
+
 
     init {
         Timber.i("created")
@@ -143,13 +148,15 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
 
-
+    fun co2Act(): List<MyAllAct> {
+        return _co2ActList.value!!
+    }
 
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                         활동 타이틀
 
-     private fun getTitle(list: List<MyAllAct>) {
-         val titleList = ArrayList<String>()
+    private fun getTitle(list: List<MyAllAct>) {
+        val titleList = ArrayList<String>()
 
         uiScope.launch {
             list.forEach {
@@ -163,10 +170,27 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
+    private fun getTitleMost(list: List<Int>) {
+        val titleList = ArrayList<String>()
+
+        uiScope.launch {
+            list.forEach {
+                when (it / ID_MODIFIER) {
+                    1 -> titleList.add(getDailyTitleFromRoomDatabase(it).title)
+                    2 -> titleList.add(getSustTitleFromRoomDatabase(it).title)
+                    3 -> titleList.add(getExtraTitleFromRoomDatabase(it).title)
+                }
+            }
+            setTitleListMost(titleList)
+        }
+    }
+
     fun setTitleList(list: List<String>) {
         _titles.value = list
     }
-
+    fun setTitleListMost(list: List<String>) {
+        _titlesMost.value = list
+    }
 
     private suspend fun getDailyTitleFromRoomDatabase(id: Int): ActivitiesDaily {
         return withContext(Dispatchers.IO) {
@@ -381,7 +405,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                             _funnycnt.value = funny
                             _greatcnt.value = great
                             _likecnt.value = like
-                            _reactiontitle.value = reactionList[0].id
+                            _reactiontitle.value = resultTitle
 //                            _reactionuri.value = reactionURI
 
                             fireDB.collection("User").document(fireUser?.email.toString())
@@ -427,6 +451,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     var act = doc.toObject<MyAllAct>()
                     mostUpList.add(act.ID)  //여기에 123위 순서대로 담겨있음
                 }
+                getTitleMost(mostUpList)
 
                 //분리한다면 아래 같음
                 val upFirstId = mostUpList[0]

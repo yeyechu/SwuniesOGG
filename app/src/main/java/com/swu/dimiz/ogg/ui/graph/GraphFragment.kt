@@ -36,10 +36,10 @@ class GraphFragment : Fragment() {
             inflater, R.layout.fragment_graph, container, false
         )
 
+
         viewPager2 = binding.viewpagerGraph
         viewpager2Adapter = GraphFragmentStateAdapter(this)
         viewPager2.adapter = viewpager2Adapter
-
 
 
         // 프래그먼트 목록을 설정
@@ -107,7 +107,6 @@ class GraphFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
 
-
     }
 
 
@@ -127,6 +126,8 @@ class GraphFragment : Fragment() {
         }
         viewpager2Adapter.setFragments(fragments)
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

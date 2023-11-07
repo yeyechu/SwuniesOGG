@@ -61,12 +61,14 @@ class GraphLayer : Fragment() {
 
         // 원형 차트
         pieChart = binding.mostReduceCo2ActChart
-        viewModel.co2ActList.observe(viewLifecycleOwner, Observer { co2ActList ->
-            if (co2ActList != null && co2ActList.size >= 3) {
-                configurePieChart(co2ActList)
+
+        viewModel.titles.observe(viewLifecycleOwner){
+            it?.let{
+                configurePieChart(viewModel.co2Act(),it)
+
 
             }
-        })
+        }
         val projectCount = arguments?.getInt("projectCount", 1) ?: 1
         loadGraphData(projectCount)
 
@@ -79,6 +81,7 @@ class GraphLayer : Fragment() {
 
 
     }
+
 
     //-------------- 카테고리 차트 -------------------
     private fun configureChartAppearance() {
@@ -186,18 +189,18 @@ class GraphLayer : Fragment() {
 
 
     //-------------- 원형 차트 -------------------
-    private fun configurePieChart(co2ActList: List<MyAllAct>) {
+    private fun configurePieChart(co2ActList: List<MyAllAct>, list: List<String>) {
 
         pieChart.setUsePercentValues(true)
         val entries: MutableList<PieEntry> = ArrayList()
 
-        val firstTitle = ""
-        val secondTitle = ""
-        val thirdTitle = ""
+        val firstTitle = list[0]
+        val secondTitle = list[1]
+        val thirdTitle = list[2]
 
-        entries.add(PieEntry(co2ActList[0].allCo2.toFloat(), firstTitle.toString()))
-        entries.add(PieEntry(co2ActList[1].allCo2.toFloat(), secondTitle.toString()))
-        entries.add(PieEntry(co2ActList[2].allCo2.toFloat(), thirdTitle.toString()))
+        entries.add(PieEntry(co2ActList[0].allCo2.toFloat(), firstTitle))
+        entries.add(PieEntry(co2ActList[1].allCo2.toFloat(), secondTitle))
+        entries.add(PieEntry(co2ActList[2].allCo2.toFloat(), thirdTitle))
         Timber.i("원형 그래프 관찰")
 
         // 데이터 항목에 사용할 색상 배열 (원하는 색상으로 지정)
@@ -296,42 +299,44 @@ class GraphLayer : Fragment() {
         }
     }
     private fun prepareChartData2() {
-    val values2: ArrayList<BarEntry> = ArrayList()
+        val values2: ArrayList<BarEntry> = ArrayList()
 
-    // x축 레이블
-    val xLabels = listOf("나", "다른사람")
+        // x축 레이블
+        val xLabels = listOf("나", "다른사람")
 
-    // 값 설정
-    val myRank = viewModel.rank.value ?: 0f // ViewModel에서 rank LiveData 값을 가져옴
-    val otherRank = 50f // 다른 사람의 값 (이 값은 수정이 필요한 경우 수정)
+        // 값 설정
+        val myRank = viewModel.rank.value ?: 0f // ViewModel에서 rank LiveData 값을 가져옴
+        val otherRank = 50f // 다른 사람의 값 (이 값은 수정이 필요한 경우 수정)
+        val percentileValue = (myRank / 100.0f) * otherRank
 
-    values2.add(BarEntry(0f, myRank))
-    values2.add(BarEntry(1f, otherRank))
 
-    // BarDataSet을 생성하고 데이터 설정
-    val dataSet = BarDataSet(values2, "Data Set")
-    dataSet.setDrawIcons(false)
-    dataSet.setDrawValues(false)
+        values2.add(BarEntry(0f, percentileValue))
+        values2.add(BarEntry(1f, otherRank))
 
-    // 각 y 값과 색상을 매핑하는 데이터 맵
-    val yColorMap = mapOf(
-        0 to Color.parseColor("#FFCE6E"), // "나"에 해당하는 색상
-        1 to Color.parseColor("#F5F5F5")  // "다른사람"에 해당하는 색상
-    )
+        // BarDataSet을 생성하고 데이터 설정
+        val dataSet = BarDataSet(values2, "Data Set")
+        dataSet.setDrawIcons(false)
+        dataSet.setDrawValues(false)
 
-    // 정렬된 순서에 따라 막대 색상을 설정
-    val barColors = values2.mapIndexed { index, _ ->
-        yColorMap[index] ?: Color.BLACK // 디폴트 색상
+        // 각 y 값과 색상을 매핑하는 데이터 맵
+        val yColorMap = mapOf(
+            0 to Color.parseColor("#FFCE6E"), // "나"에 해당하는 색상
+            1 to Color.parseColor("#F5F5F5")  // "다른사람"에 해당하는 색상
+        )
+
+        // 정렬된 순서에 따라 막대 색상을 설정
+        val barColors = values2.mapIndexed { index, _ ->
+            yColorMap[index] ?: Color.BLACK // 디폴트 색상
+        }
+
+        dataSet.setColors(barColors)
+
+        val data = BarData(dataSet)
+        data.barWidth = 0.9f
+
+        barChart2.data = data
+        barChart2.invalidate()
     }
-
-    dataSet.setColors(barColors)
-
-    val data = BarData(dataSet)
-    data.barWidth = 0.9f
-
-    barChart2.data = data
-    barChart2.invalidate()
-}
     private fun prepareChartData2(data: BarData) {
         barChart2.data = data
         barChart2.invalidate()
@@ -341,7 +346,6 @@ class GraphLayer : Fragment() {
         // 데이터를 사용하여 그래프 업데이트
     }
 
-    // ViewModel 내부
 
     override fun onDestroyView() {
         super.onDestroyView()
