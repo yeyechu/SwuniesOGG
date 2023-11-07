@@ -1,7 +1,10 @@
 package com.swu.dimiz.ogg.ui.env
 
+import android.util.Log
 import androidx.lifecycle.*
+import com.google.android.play.integrity.internal.c
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -362,7 +365,101 @@ class EnvViewModel : ViewModel() {
 
     //todo 배지 (며칠 연속 활동인지 체크)
     fun fireGetContinuDay(){
+        val today = convertToDuration(_userCondition.value!!.startDate)
+        var continuNum = 0
 
+        _userCondition.value?.email?.let {
+            if(_userCondition.value?.startDate != 0L) {
+                val todayList = arrayListOf<MyStamp>()
+                todayList.clear()
+
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Project${_userCondition.value?.projectCount}").document("Entire")
+                    .collection("Stamp")
+                    .whereLessThan("day", today)
+                    .orderBy("day")
+                    .addSnapshotListener { value, e ->
+                        if (e != null) {
+                            Timber.i("listen:error $e")
+                            return@addSnapshotListener
+                        }
+                        for (doc in value!!) {
+                            val stamp = doc.toObject<MyStamp>()
+                            todayList.add(stamp)
+                        }
+
+                        for(i in 0 until todayList.size){
+                            if(todayList[i].dayCo2 > _userCondition.value!!.aim){
+                                continuNum++
+
+                                if(continuNum == 7 || continuNum == 14 || continuNum == 21){
+                                    fireDB.collection("User").document(fireUser?.email.toString())
+                                        .collection("Badge")
+                                        .whereEqualTo("badgeID", "40004")
+                                        .whereEqualTo("badgeID", "40005")
+                                        .whereEqualTo("badgeID", "40006")
+                                        .addSnapshotListener { value, e ->
+                                            if (e != null) {
+                                                Timber.i(e)
+                                                return@addSnapshotListener
+                                            }
+
+                                            for (doc in value!!) {
+                                                val gotBadge = doc.toObject<MyBadge>()
+
+                                                // todo 카운트 업데이트 너무 자주될까봐 7,14,21에만 하도록 되어있음
+                                                if (continuNum == 7 && gotBadge.badgeID == 40004 && gotBadge.getDate == null ) {
+                                                    fireDB.collection("User").document(fireUser?.email.toString())
+                                                        .collection("Badge").document("40004")
+                                                        .update("count", 7)
+                                                        .addOnSuccessListener { Timber.i("40004 올리기 완료") }
+                                                        .addOnFailureListener { e -> Timber.i( e ) }
+
+                                                    val getDate = System.currentTimeMillis()
+                                                    fireDB.collection("User").document(fireUser?.email.toString())
+                                                        .collection("Badge").document("40004")
+                                                        .update("getDate", getDate)
+                                                        .addOnSuccessListener { Timber.i("40004 획득 완료") }
+                                                        .addOnFailureListener { exeption -> Timber.i(exeption) }
+                                                } else if(continuNum == 14 && gotBadge.badgeID == 40005 && gotBadge.getDate == null) {
+                                                    fireDB.collection("User").document(fireUser?.email.toString())
+                                                        .collection("Badge").document("40005")
+                                                        .update("count", 14)
+                                                        .addOnSuccessListener { Timber.i("40005 올리기 완료") }
+                                                        .addOnFailureListener { e -> Timber.i( e ) }
+
+                                                    val getDate = System.currentTimeMillis()
+                                                    fireDB.collection("User").document(fireUser?.email.toString())
+                                                        .collection("Badge").document("40005")
+                                                        .update("getDate", getDate)
+                                                        .addOnSuccessListener { timber.log.Timber.i("40005 획득 완료") }
+                                                        .addOnFailureListener { exeption -> Timber.i(exeption) }
+                                                } else if (continuNum == 21 && gotBadge.badgeID == 40006 && gotBadge.getDate == null) {
+                                                    fireDB.collection("User").document(fireUser?.email.toString())
+                                                        .collection("Badge").document("40005")
+                                                        .update("count", 21)
+                                                        .addOnSuccessListener { Timber.i("40005 올리기 완료") }
+                                                        .addOnFailureListener { e -> Timber.i( e ) }
+
+                                                    val getDate = System.currentTimeMillis()
+                                                    fireDB.collection("User").document(fireUser?.email.toString())
+                                                        .collection("Badge").document("40006")
+                                                        .update("getDate", getDate)
+                                                        .addOnSuccessListener { Timber.i("40006 획득 완료") }
+                                                        .addOnFailureListener { exeption -> Timber.i(exeption) }
+                                                }
+                                            }
+                                        }
+                                }
+                            }
+                            else{
+                                continuNum = 0
+                            }
+                            Timber.i("continuNum $continuNum")
+                        }
+                    }
+            }
+        }
     }
 
 
