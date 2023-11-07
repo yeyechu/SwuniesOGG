@@ -191,9 +191,9 @@ class GraphLayer : Fragment() {
         pieChart.setUsePercentValues(true)
         val entries: MutableList<PieEntry> = ArrayList()
 
-        val firstTitle =  viewModel.getTitle(co2ActList[0].ID)
-        val secondTitle =   viewModel.getTitle(co2ActList[1].ID)
-        val thirdTitle =   viewModel.getTitle(co2ActList[2].ID)
+        val firstTitle = ""
+        val secondTitle = ""
+        val thirdTitle = ""
 
         entries.add(PieEntry(co2ActList[0].allCo2.toFloat(), firstTitle.toString()))
         entries.add(PieEntry(co2ActList[1].allCo2.toFloat(), secondTitle.toString()))
