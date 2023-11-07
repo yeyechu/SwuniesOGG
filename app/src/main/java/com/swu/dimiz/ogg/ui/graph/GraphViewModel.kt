@@ -319,7 +319,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       전체활동 가져오기
-    data class feedReact(var id: String, var reactionSum: Int)
+    data class feedReact(var id: String, var reactionSum: Int, var title : String)
 
     private var reactionList = arrayListOf<feedReact>()
 
@@ -340,25 +340,25 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
-
                 val feedList = mutableListOf<feedReact>()
                 for (document in documents) {
                     val feed = document.toObject<Feed>()
                     feed.id = document.id
 
-                    var reactFun = feed.reactionFun
-                    var reactGreat = feed.reactionGreat
-                    var reactLike = feed.reactionLike
+                    val reactFun = feed.reactionFun
+                    val reactGreat = feed.reactionGreat
+                    val reactLike = feed.reactionLike
 
                     var reaccTotal = reactFun + reactGreat + reactLike
-                    reactionList.add(feedReact(feed.id, reaccTotal))
+                    reactionList.add(feedReact(feed.id, reaccTotal, feed.actTitle))
                 }
                 //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
 
                 resultId = reactionList[0].id
+                var resultTitle = reactionList[0].title
                 Timber.i("resultId $resultId")
-
+                Timber.i("title $title")
 
                 //sever Graph 업데이트
                 fireDB.collection("Feed").document(reactionList[0].id)
@@ -495,6 +495,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
+    //todo회차 가져오는 함수
+    //현재 플젝이 3이면 3-1, 3-2 같이해서 가져옴
+    //새로운 플젝시작할때 저장하고 지우고 하는것도 괜찮을것 같음
 
 
     override fun onCleared() {
