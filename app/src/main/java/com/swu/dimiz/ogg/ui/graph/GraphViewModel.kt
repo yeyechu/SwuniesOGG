@@ -11,7 +11,6 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.ID_MODIFIER
-import com.swu.dimiz.ogg.contents.listset.listutils.NO_TITLE
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
@@ -361,7 +360,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 resultId = reactionList[0].id
                 var resultTitle = reactionList[0].title
                 Timber.i("resultId $resultId")
-                Timber.i("title $title")
+                Timber.i("resultTitle $resultTitle")
 
                 //sever Graph 업데이트
                 fireDB.collection("Feed").document(reactionList[0].id)
@@ -498,9 +497,24 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    //todo회차 가져오는 함수
-    //현재 플젝이 3이면 3-1, 3-2 같이해서 가져옴
     //새로운 플젝시작할때 저장하고 지우고 하는것도 괜찮을것 같음
+
+    //이전 프로젝트 불러오기
+    private fun fireGetBeforPorject(projectNum : Int){   //몇회차 이전, 이후 필요한지 넣어주기
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project$projectNum").document("Graph")
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Timber.i("DocumentSnapshot data: ${document.data}")
+                    val gotGraph = document.toObject<MyGraph>()
+                } else {
+                    Timber.i("No such document")
+                }
+            }
+            .addOnFailureListener { exception -> Timber.i(exception) }
+    }
+
 
 
     override fun onCleared() {

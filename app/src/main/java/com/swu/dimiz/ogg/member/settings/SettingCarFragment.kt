@@ -128,30 +128,30 @@ class SettingCarFragment : Fragment() {
                                 //배지 Co2 업
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40022")
-                                    .update("count", FieldValue.increment(4.027))
+                                    .update("count", FieldValue.increment(4027))
                                     .addOnSuccessListener { Timber.i("40022 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40023")
-                                    .update("count", FieldValue.increment(4.027))
+                                    .update("count", FieldValue.increment(4027))
                                     .addOnSuccessListener { Timber.i("40023 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40024")
-                                    .update("count", FieldValue.increment(4.027))
+                                    .update("count", FieldValue.increment(4027))
                                     .addOnSuccessListener { Timber.i("40024 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
 
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40009")
-                                    .update("count", FieldValue.increment(1))
+                                    .update("count", FieldValue.increment(1000))
                                     .addOnSuccessListener { Timber.i("40009 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
 
                                 //배지 sust 업
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40021")
-                                    .update("count", FieldValue.increment(1))
+                                    .update("count", FieldValue.increment(1000))
                                     .addOnSuccessListener { Timber.i("40021 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
 
@@ -194,7 +194,7 @@ class SettingCarFragment : Fragment() {
                 for(i in 0 until counts.size){
                     val getDate = System.currentTimeMillis()
                     //카테고리
-                    if(counts[8].count == 100 && counts[8].getDate == null){
+                    if(counts[8].count == 100000 && counts[8].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
                             .update("getDate", getDate)
@@ -202,7 +202,7 @@ class SettingCarFragment : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     //sust
-                    if(counts[20].count == 1 && counts[20].getDate == null){
+                    if(counts[20].count == 1000 && counts[20].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40021")
                             .update("getDate", getDate)
@@ -232,7 +232,7 @@ class SettingCarFragment : Fragment() {
                     val gotBadge = doc.toObject<MyBadge>()
 
                     if (gotBadge.badgeID == 40022 && gotBadge.getDate == null) {
-                        if (gotBadge.count >= 100.0) {
+                        if (gotBadge.count >= 100000) {
                             val getDate = System.currentTimeMillis()
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40022")
@@ -241,7 +241,7 @@ class SettingCarFragment : Fragment() {
                                 .addOnFailureListener { exeption -> Timber.i(exeption) }
                         }
                     } else if (gotBadge.badgeID == 40023 && gotBadge.getDate == null) {
-                        if (gotBadge.count >= 500.0) {
+                        if (gotBadge.count >= 500000) {
                             val getDate = System.currentTimeMillis()
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40023")
@@ -250,7 +250,7 @@ class SettingCarFragment : Fragment() {
                                 .addOnFailureListener { exeption -> Timber.i(exeption) }
                         }
                     } else if (gotBadge.badgeID == 40024 && gotBadge.getDate == null) {
-                        if (gotBadge.count >= 1000.0) {
+                        if (gotBadge.count >= 1000000) {
                             val getDate = System.currentTimeMillis()
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40024")
