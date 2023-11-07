@@ -4,8 +4,6 @@ import android.graphics.Color
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertLongToDateString
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
@@ -55,22 +53,3 @@ fun ImageView.setImage(item: Badges?) {
         }
     }
 }
-
-@BindingAdapter("badgeGifimage")
-fun ImageView.setGif(item: Int?) {
-    item?.let {
-        Glide.with(context)
-            .load(R.drawable.badge_gif_40007)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.feed_animation_loading)
-                    .error(R.drawable.myenv_image_empty)
-            ).into(this)
-    }
-}
-
-//@BindingAdapter("badgeInventory")
-//fun bindRecyclerInventory(recyclerView: RecyclerView, data: List<Badges>?) {
-//    val adapter = recyclerView.adapter as InventoryAdapter
-//    adapter.submitList(data)
-//}

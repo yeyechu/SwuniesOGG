@@ -3,11 +3,6 @@ package com.swu.dimiz.ogg
 import android.annotation.SuppressLint
 import android.content.Context
 import android.icu.text.SimpleDateFormat
-import android.view.LayoutInflater
-import android.widget.Toast
-import androidx.databinding.DataBindingUtil
-import com.google.android.material.snackbar.Snackbar
-import com.swu.dimiz.ogg.databinding.ItemToastBinding
 import java.text.ParseException
 import java.util.*
 import java.util.concurrent.TimeUnit

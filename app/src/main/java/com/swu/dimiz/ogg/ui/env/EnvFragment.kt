@@ -94,8 +94,6 @@ class EnvFragment : Fragment() {
         //                            오늘 날짜, 스탬프 정보 업데이트
         viewModel.co2Holder.observe(viewLifecycleOwner) {
             viewModel.leftCo2()
-            Timber.i("co2Holder 초기화 : $it")
-            Timber.i("프래그먼트 progressEnv: ${viewModel.progressEnv.value}")
         }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
@@ -106,7 +104,6 @@ class EnvFragment : Fragment() {
         envToolbar.setOnMenuItemClickListener {
             when(it.itemId) {
                 R.id.action_badges -> {
-
                     navController.navigate(
                         EnvFragmentDirections.actionNavigationEnvToDestinationBadgeList()
                     )

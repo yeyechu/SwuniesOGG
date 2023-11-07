@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -21,24 +21,22 @@
             type="com.swu.dimiz.ogg.ui.env.badges.badgeadapters.BadgeListAdapter.BadgeClickListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/badge_container"
         android:layout_width="@dimen/image_size_badge"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="@dimen/spacing_small">
 
         <ImageView
             android:id="@+id/image_badge_icon"
             android:layout_width="@dimen/dimension_80"
             android:layout_height="@dimen/dimension_80"
+            android:layout_gravity="center_horizontal"
             android:contentDescription="@string/description_badgelist_image_badges"
             android:src="@drawable/badge_40000"
             android:adjustViewBounds="true"
-            android:onClick="@{() -> viewModel.showBadgeDetail(badgeId)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/text_badge_title" />
+            android:onClick="@{() -> viewModel.showBadgeDetail(badgeId)}" />
 
         <TextView
             android:id="@+id/text_badge_title"
@@ -50,10 +48,6 @@
             android:maxLines="1"
             android:textAlignment="center"
             style="@style/StyleText"
-            app:layout_constraintTop_toBottomOf="@+id/image_badge_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="오늘도 지구를 지켰다" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

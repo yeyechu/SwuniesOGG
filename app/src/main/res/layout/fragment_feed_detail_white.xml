@@ -223,6 +223,16 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_fun"
                 app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_fun" />
+
+            <ImageView
+                android:layout_width="@dimen/dimension_200"
+                android:layout_height="@dimen/dimension_40"
+                android:onClick="@{() -> viewModel.onMakeToast(2)}"
+                android:enabled="@{!viewModel.buttonEnable}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

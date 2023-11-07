@@ -1,11 +1,12 @@
 package com.swu.dimiz.ogg.ui.env.stamp
 
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
@@ -55,7 +56,6 @@ fun ImageView.setTodayImage(data: Float) {
 //                                       나의 환경
 @BindingAdapter("envImage")
 fun ImageView.setEnvImage(data: Int) {
-    Timber.i("배경지정 바인딩어댑터: $data")
     when(data) {
         in 0..20 -> setBackgroundResource(R.drawable.env_image_background_stage1_very_dirty)
         in 21..40 -> setBackgroundResource(R.drawable.env_image_background_stage2_dirty)
@@ -68,47 +68,62 @@ fun ImageView.setEnvImage(data: Int) {
 @BindingAdapter("oggImage", "oggAim")
 fun ImageView.setOGGImage(data: Int, aim: Float?) {
     Timber.i("오지지 바인딩어댑터: $data")
+    Timber.i("오지지 바인딩어댑터: $aim")
+
+    var id = ""
+    var resource: Int?
+
     aim?.let {
-        var id = ""
 
-         when(it) {
-            AIMCO2_ONE -> {
-                id = when(data) {
-                    in 0..30 -> "1_030"
-                    in 31..90 -> "1_060"
-                    in 91..100 -> "1_090"
-                    else -> "1_090"
+        if(aim > 0f) {
+            when(it) {
+                AIMCO2_ONE -> {
+                    id = when (data) {
+                        in 0..30 -> "1_030"
+                        in 31..90 -> "1_060"
+                        else -> "1_090"
+                    }
+                }
+                AIMCO2_TWO -> {
+                    id = when (data) {
+                        in 0..30 -> "2_030"
+                        in 31..90 -> "2_060"
+                        else -> "2_090"
+                    }
+                }
+                AIMCO2_THREE -> {
+                    id = when (data) {
+                        in 0..30 -> "3_030"
+                        in 31..90 -> "3_060"
+                        else -> "3_090"
+                    }
                 }
             }
-            AIMCO2_TWO -> {
-                id = when(data) {
-                    in 0..30 -> "2_030"
-                    in 31..90 -> "2_060"
-                    in 91..100 -> "2_090"
-                    else -> "2_090"
-                }
-            }
-            AIMCO2_THREE -> {
-                id = when(data) {
-                    in 0..30 -> "3_030"
-                    in 31..90 -> "3_060"
-                    in 91..100 -> "3_090"
-                    else -> "3_090"
-                }
-            }
-            else -> {
-                visibility = View.GONE
-            }
+            resource = context.resources?.getIdentifier("env_image_level$id", "drawable", context.packageName)
+
+            Glide.with(context)
+                .load(resource)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.feed_animation_loading)
+                        .error(R.drawable.myenv_image_empty)
+                        .fallback(R.drawable.myenv_image_empty)
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                )
+                .into(this)
+        } else {
+            Glide.with(context)
+                .load(R.drawable.myenv_image_empty)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.feed_animation_loading)
+                        .error(R.drawable.myenv_image_empty)
+                        .fallback(R.drawable.myenv_image_empty)
+                )
+                .into(this)
         }
-        val resource = context.resources?.getIdentifier("env_image_level$id", "drawable", context.packageName)
-
-        Glide.with(context)
-            .load(resource)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.feed_animation_loading)
-                    .error(R.drawable.myenv_image_empty)
-            ).into(this)
     }
 }
 

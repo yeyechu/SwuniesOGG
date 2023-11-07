@@ -37,8 +37,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activity_list"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
+
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_small"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>

@@ -106,7 +106,7 @@ class BadgeListFragment : Fragment() {
                 viewModel.completedPopup()
             }
         }
-        viewModel.getHaveBadge()
+        viewModel.getAllBadge()
     }
 
     private fun addWindow() {
