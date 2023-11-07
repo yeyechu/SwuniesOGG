@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View" />
 
@@ -12,9 +14,6 @@
             type="com.swu.dimiz.ogg.ui.env.EnvViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -54,11 +53,11 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal|bottom"
                 android:layout_marginBottom="@dimen/dimension_100"
-                android:src="@drawable/env_image_level1_030"
                 android:contentDescription="@string/description_myenv_image_ogg"
                 android:adjustViewBounds="true"
                 app:oggImage="@{envViewModel.progressEnv}"
-                app:oggAim="@{envViewModel.userCondition.aim}" />
+                app:oggAim="@{envViewModel.userCondition.aim}"
+                tools:src="@drawable/env_image_level1_030"/>
         </FrameLayout>
 
         <!-- ─────────────────────────────────────────────────────────────────────────────────── -->
@@ -74,7 +73,7 @@
             <ImageButton
                 android:id="@+id/button_exit"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/icon_size_small"
+                android:layout_height="wrap_content"
                 android:contentDescription="@string/description_common_button_exit"
                 android:src="@drawable/myenv_button_badge_out_selector"
                 android:enabled="@{!viewModel.detector}"
@@ -113,15 +112,19 @@
                 android:layout_gravity="center"
                 android:text=""
                 android:contentDescription="@string/description_bottom_sheet"
-                android:backgroundTint="@color/secondary_light_gray" />
+                android:backgroundTint="@color/primary_gray" />
 
             <!--                                 화면 스크롤                                 -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/badge_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:scrollIndicators="end"
+                android:scrollbarStyle="insideInset"
                 android:visibility="@{viewModel.inventoryNull ? View.GONE : View.VISIBLE}"
-                tools:listitem="@layout/fragment_badge_list_item"/>
+                tools:listitem="@layout/layer_env_item" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,12 +133,12 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/image_size_big"
-                    android:layout_height="@dimen/image_size_big"
+                    android:layout_width="@dimen/dimension_100"
+                    android:layout_height="@dimen/dimension_100"
                     android:layout_gravity="center"
                     android:padding="@dimen/spacing_medium"
                     android:layout_marginTop="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_extra_small"
+                    android:layout_marginBottom="@dimen/spacing_large"
                     android:contentDescription="@string/description_badgelist_image_placeholder"
                     android:src="@drawable/myenv_image_empty" />
 

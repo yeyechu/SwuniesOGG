@@ -185,28 +185,20 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         repository.updateBadge(badge.badgeID!!, badge.getDate!!, badge.count)
     }
 
+    private fun updateBadgeCountFromFirebase(badge: MyBadge) = viewModelScope.launch {
+        repository.updateBadgeCount(badge.badgeID!!, badge.count)
+    }
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      파이어베이스
-    //겟데이트가 있는지 카운트 업데이트
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val repository = (this[APPLICATION_KEY] as OggApplication).repository
-                BadgeListViewModel(repository = repository)
-            }
-        }
-    }
 
     //파이어베이스에 저장
     fun saveLocationToFirebase(){
         badgeList.forEach{
-            var badgeID = 0
-            var valueX = 0.0
-            var valueY = 0.0
             Timber.i("saveLocationToFirebase: $it")
-            badgeID = it.bId
-            valueX = it.bx.toDouble()
-            valueY = it.by.toDouble()
+            val badgeID: Int = it.bId
+            val valueX: Double = it.bx.toDouble()
+            val valueY: Double = it.by.toDouble()
 
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Badge").document(badgeID.toString())
@@ -232,14 +224,14 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
                     return@addSnapshotListener
                 }
                 for (doc in value!!) {
-                    var gotBadge = doc.toObject<MyBadge>()
+                    val gotBadge = doc.toObject<MyBadge>()
                     updateBadgeFire(gotBadge)
                 }
             }
     }
 
     //배지 전체 리스트
-    fun getAllBadge(){
+    fun getAllBadge() = viewModelScope.launch {
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Badge")
             .addSnapshotListener { value, e ->
@@ -250,9 +242,24 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
                 value!!.forEach {
                     //전체 배지
                     val gotBadge = it.toObject<MyBadge>()
-                    gotBadge.count *= 1000
+
+                    if(gotBadge.getDate == null) {
+                        updateBadgeCountFromFirebase(gotBadge)
+                    } else {
+                        updateBadgeFire(gotBadge)
+                    }
+
                     Timber.i("gotBadge $gotBadge")
                 }
             }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val repository = (this[APPLICATION_KEY] as OggApplication).repository
+                BadgeListViewModel(repository = repository)
+            }
+        }
     }
 }

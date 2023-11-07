@@ -126,7 +126,7 @@
                 style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/icon_size_small"
                 android:layout_marginEnd="@dimen/spacing_scroll"
                 android:paddingStart="@dimen/spacing_extra_medium"
