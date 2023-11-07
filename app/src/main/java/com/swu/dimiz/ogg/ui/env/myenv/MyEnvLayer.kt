@@ -92,7 +92,6 @@ class MyEnvLayer : Fragment() {
             envViewModel.onNavigatedMyEnv()
             viewModel.onSaveCompleted()
             envViewModel.setLocationList(viewModel.badgeList)
-            Timber.i("${viewModel.badgeList}")
             viewModel.saveLocationToFirebase()
 
             it.findNavController().navigateUp()
@@ -130,6 +129,19 @@ class MyEnvLayer : Fragment() {
                         addBadge(viewModel.badgeItem(it.bId), it.bx, it.by)
                     }
                 }
+            }
+        }
+
+        envViewModel.stampHolder.observe(viewLifecycleOwner) {
+            it?.let {
+                viewModel.setDuration(envViewModel.countStampsForBadge())
+            }
+        }
+
+        viewModel.getBadgeNotification.observe(viewLifecycleOwner) {
+            if(it) {
+                envViewModel.onMakeToast(2)
+                viewModel.onNotificationCompleted()
             }
         }
     }

@@ -20,7 +20,7 @@
 
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/sust_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -83,7 +83,7 @@
 
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_view_done_sust"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -127,6 +127,6 @@
                 android:contentDescription="@string/description_myact_card_image"
                 app:activityImage="@{activity}"
                 app:srcCompat="@drawable/common_image_placeholder" />
-        </androidx.cardview.widget.CardView>
-    </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -73,7 +73,6 @@
     <string name="description_myact_card_image">각 활동을 나타내는 이미지</string>
     <string name="description_preview_photo">카메라로 찍은 사진</string>
 
-
     <!--                                  description_컴포넌트명                                   -->
     <string name="description_scroll">스크롤</string>
     <string name="description_bottom_sheet">위로 올라오는 창</string>
@@ -83,15 +82,14 @@
     <string name="description_button_report">신고하기 기능</string>
     <string name="description_indicator">%d번 째 인디케이터</string>
 
-
     <!--                    모든 EditText에 들어가는 Hint 속성은 이곳에 선언되어야 함                   -->
     <!--                                    hint_edittext이름                                    -->
-
 
     <!-- ──────────────────────────────────────   환경탭   ────────────────────────────────────── -->
 
     <string name="env_text_before_message">21일 프로젝트를 시작해볼까요?</string>
     <string name="env_button_start">시작하기</string>
+    <string name="env_toast_badge">획득한 배지가 있어요</string>
 
     <!--                                           스탬프                                         -->
     <string name="stamplayout_text_nickname">%s님</string>
@@ -102,7 +100,6 @@
     <!--                                       활동 레벨 선택                                      -->
     <string name="listaim_text_title">온실가스 1인 1톤 줄이기란,</string>
     <string name="listaim_text_title_instruction">탄소중립 실천을 위한 기후 캠페인이에요. \n알맞은 목표 설정으로 환경보호 습관을 만들어보아요!</string>
-
 
     <string name="listaim_text_one_title">초보거북</string>
     <string name="listaim_text_two_title">중수물개</string>
@@ -133,7 +130,6 @@
     <string name="listset_text_dialog_body">수정한 리스트를 적용할 범위를 지정해주세요 \n 오늘 혹은 남은 기간 전체에 적용할 수 있어요</string>
     <string name="listset_button_dialog_left">오늘만 수정</string>
     <string name="listset_button_dialog_right">전체 수정</string>
-
 
     <!--                                         배지 리스트                                       -->
     <string name="badgelist_text_badge_count">보유한 배지 %d 개</string>
@@ -217,7 +213,6 @@
     <string name="myact_card_text_post_date">%s 등록 \n%d일 간 지속</string>
     <string name="myact_card_text_post_date_left">%s 등록 \n%d일 뒤 다시 가능</string>
 
-
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->
     <string name="graph_text_title_null">아직 통계가 없어요</string>
     <string name="graph_text_body_null">탄소 중립을 위한 기후활동을 시작해보아요</string>
@@ -238,7 +233,6 @@
     <!-- 나의 특별 활동 -->
     <string name="graph_title_special">나의 특별활동</string>
     <string name="graph_title_special_act_chart">특별활동 전체 순위</string>
-
 
     <!-- ──────────────────────────────────────   피드탭   ────────────────────────────────────── -->
     <string name="feed_text_title_null">아직 등록된 피드가 없어요</string>
@@ -324,15 +318,12 @@
     <string name="setting_password_text_new_password">새로운 비밀번호</string>
     <string name="setting_password_text_new_password_again">새로운 비밀번호 확인</string>
 
-
     <!-- ──────────────────────────────────────   환경설정 내부 페이지    ────────────────────────────────────── -->
-
     <!-- 닉네임 변경 -->
     <string name="nickname_change_inputtext_new_nickname">새로운 닉네임</string>
 
     <!-- 비밀번호 변경 -->
     <string name="password_change_inputtext_new_password">새로운 비밀번호</string>
-
 
     <!-- 자차유무 확인 -->
     <string name="mycar_text_info_title">본인 소유의 차량을 가지고 계신가요?</string>
@@ -360,6 +351,5 @@
 
     <!-- ──────────────────────────────────────   마이페이지 페이지   ────────────────────────────────────── -->
     <string name="member_text_title_myfeed">나의 피드</string>
-
 
 </resources>

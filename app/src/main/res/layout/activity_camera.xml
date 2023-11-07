@@ -13,7 +13,7 @@
         android:paddingTop="@dimen/spacing_regular"
         android:paddingStart="@dimen/spacing_extra_small"
         android:paddingEnd="@dimen/spacing_extra_small"
-        android:paddingBottom="@dimen/spacing_extra_medium"
+        android:paddingBottom="@dimen/spacing_large"
         android:layout_margin="@dimen/spacing_regular"
         android:background="@drawable/common_layer_window_rounded"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -119,7 +119,7 @@
 
             <TextView
                 android:id="@+id/text_progress_co2_zero"
-                style="@style/StyleText.number"
+                style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_extra_small"
@@ -130,7 +130,7 @@
 
             <TextView
                 android:id="@+id/text_progress_co2_aim"
-                style="@style/StyleText.number"
+                style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="@dimen/spacing_small"

@@ -38,4 +38,7 @@ interface BadgeDatabaseDao {
 
     @Query("SELECT DISTINCT filter FROM badges")
     suspend fun getFilter(): List<String>?
+
+    @Query("SELECT * FROM badges WHERE filter = :filter")
+    suspend fun getFilteredBadgeList(filter: String): List<Badges>?
 }

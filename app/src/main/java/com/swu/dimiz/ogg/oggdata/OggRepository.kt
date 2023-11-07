@@ -131,6 +131,12 @@ class OggRepository(private val database: OggDatabase) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun getFilteredBadgeList(filter: String): List<Badges>? {
+        return database.badgesDatabaseDao.getFilteredBadgeList(filter)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun updateBadge(id: Int, date: Long, count: Int) {
         database.badgesDatabaseDao.updateBadgeFromFirebase(id, date, count)
     }

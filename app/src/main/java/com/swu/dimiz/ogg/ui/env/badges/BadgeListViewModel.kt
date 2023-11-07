@@ -13,7 +13,7 @@ import com.swu.dimiz.ogg.contents.listset.listutils.BadgeLocation
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.Badges
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
 import kotlin.collections.ArrayList
@@ -21,6 +21,10 @@ import kotlin.collections.ArrayList
 class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     val fireDB = Firebase.firestore
     val fireUser = Firebase.auth.currentUser
+
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
 
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                        배지 리스트
@@ -51,6 +55,9 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     val detector: LiveData<Boolean>
         get() = _detector
 
+    private val _getBadgeNotification = MutableLiveData<Boolean>()
+    val getBadgeNotification: LiveData<Boolean>
+        get() = _getBadgeNotification
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                         배지 위치
     var badgeList = ArrayList<BadgeLocation>()
@@ -144,6 +151,42 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
+    fun setDuration(duration: Int) {
+        val badges = ArrayList<Badges>()
+
+        uiScope.launch {
+            getBadges("clear")?.let { badgesList ->
+                badgesList.forEach {
+                    badges.add(it)
+                }
+            }
+            badges.forEach {
+                if(it.getDate == null) {
+                    if(duration == it.baseValue) {
+                        updateBadgeToFire(it.badgeId, true)
+                        onBadgeCleared()
+                    } else if(duration > it.count) {
+                        updateBadgeToFire(it.badgeId, false)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onBadgeCleared() {
+        _getBadgeNotification.value = true
+    }
+
+    fun onNotificationCompleted() {
+        _getBadgeNotification.value = false
+    }
+
+    private suspend fun getBadges(filter: String): List<Badges>? {
+        return withContext(Dispatchers.IO) {
+            repository.getFilteredBadgeList(filter)
+        }
+    }
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       인터랙션 감지
     fun onChangeDetected() {
@@ -191,7 +234,11 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      파이어베이스
-
+    private fun updateBadgeToFire(id: Int, bool: Boolean) = viewModelScope.launch {
+        Timber.i("전달된 $id, bool: $bool")
+        // bool == true일 때, 날짜 생성
+        // bool == false일 때, count만 업데이트
+    }
     //파이어베이스에 저장
     fun saveLocationToFirebase(){
         badgeList.forEach{
@@ -252,6 +299,12 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i("gotBadge $gotBadge")
                 }
             }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+        Timber.i("destroyed")
     }
 
     companion object {

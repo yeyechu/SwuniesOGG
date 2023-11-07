@@ -6,6 +6,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.contents.listset.listutils.*
+import com.swu.dimiz.ogg.convertLongToDateString
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
@@ -13,11 +14,8 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.collections.ArrayList
-import kotlin.math.ceil
-import kotlin.math.roundToInt
 
 class EnvViewModel : ViewModel() {
-
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      회원 정보 저장
 
@@ -37,8 +35,6 @@ class EnvViewModel : ViewModel() {
         get() = _todayCo2
 
     private val _untilTodayCo2 = MutableLiveData<Float>()
-    val untilTodayCo2: LiveData<Float>
-        get() = _untilTodayCo2
 
     private val _co2Holder = MutableLiveData<Float>()
     val co2Holder: LiveData<Float>
@@ -80,8 +76,8 @@ class EnvViewModel : ViewModel() {
     val badgeHolder: LiveData<List<BadgeLocation>?>
         get() = _badgeHolder
 
-    private val _setToast = MutableLiveData<Boolean>()
-    val setToast: LiveData<Boolean>
+    private val _setToast = MutableLiveData<Int>()
+    val setToast: LiveData<Int>
         get() = _setToast
 
     //──────────────────────────────────────────────────────────────────────────────────────
@@ -109,8 +105,8 @@ class EnvViewModel : ViewModel() {
         setStampHolder(stampList)
 
         Timber.i("ViewModel created")
-        Timber.i("─────────── 날짜 변환 확인용 로그 ───────────")
-        Timber.i("10월 11일 오전 1시 19분 이후: ${convertToDuration(1696954754160)}일 경과")
+        Timber.i("────────────────────── 날짜 변환 확인용 로그 ──────────────────────")
+        Timber.i("${convertLongToDateString(1696954754160)}이후 : ${convertToDuration(1696954754160)}일 경과")
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
@@ -155,19 +151,18 @@ class EnvViewModel : ViewModel() {
         _co2Holder.value = _co2Holder.value!!.plus(data)
     }
 
-    private fun onMakeToast() {
-        _setToast.value = true
+    fun onMakeToast(case: Int) {
+        _setToast.value = case
     }
 
     fun onToastCompleted() {
-        _setToast.value = false
+        _setToast.value = 0
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      스탬프 초기화
     private fun setStampHolder(item: List<StampData>) {
         _stampHolder.postValue(item)
-        Timber.i("스탬프 홀더 : ${_stampHolder.value}")
     }
 
     private fun stampInitialize() {
@@ -239,7 +234,22 @@ class EnvViewModel : ViewModel() {
 
     fun setLocationList(list: List<BadgeLocation>) {
         _badgeHolder.value = list
-        onMakeToast()
+        onMakeToast(1)
+    }
+
+    fun countStampsForBadge(): Int {
+        var count = 0
+
+        _stampHolder.value!!.forEach {
+            if(it.today != 0) {
+                if((_userCondition.value!!.aim - it.sNumber) <= 0f) {
+                    count++
+                } else {
+                    count = 0
+                }
+            }
+        }
+        return count
     }
 
     // ──────────────────────────────────────────────────────────────────────────────────────

@@ -113,6 +113,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     val projcnt: LiveData<Int>
         get() = _projcnt
 
+    val titleList = ArrayList<String>()
 
     init {
         Timber.i("created")
@@ -149,13 +150,15 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                         활동 타이틀
 
-     fun getTitle(id: Int) {
+     fun getTitle(list: List<MyAllAct>) {
+
         uiScope.launch {
-            _title.value = when (id / ID_MODIFIER) {
-                1 -> getDailyTitleFromRoomDatabase(id).title
-                2 -> getSustTitleFromRoomDatabase(id).title
-                3 -> getExtraTitleFromRoomDatabase(id).title
-                else -> NO_TITLE
+            list.forEach {
+                when (it.ID / ID_MODIFIER) {
+                    1 -> titleList.add(getDailyTitleFromRoomDatabase(it.ID).title)
+                    2 -> titleList.add(getSustTitleFromRoomDatabase(it.ID).title)
+                    3 -> titleList.add(getExtraTitleFromRoomDatabase(it.ID).title)
+                }
             }
         }
     }
@@ -178,7 +181,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             repository.getExtraDate(id)
         }
     }
-
 
 
     //──────────────────────────────────────────────────────────────────────────────────────
@@ -290,6 +292,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     var act = doc.toObject<MyAllAct>()
                     co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
                 }
+                getTitle(co2ActList)
                 //분리한다면 아래 같음
                 val firstId = co2ActList[0].ID
                 val secondId = co2ActList[1].ID

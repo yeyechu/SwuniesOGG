@@ -31,8 +31,9 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_extra_small"
         app:cardCornerRadius="@dimen/radius_component"
         app:cardBackgroundColor="@{activity.freq == 0 ? @color/white : @color/white}"
         app:cardPreventCornerOverlap="true"
@@ -74,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:paddingEnd="@dimen/spacing_scroll"
+                android:paddingEnd="@dimen/spacing_larger"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/text_title"
@@ -108,7 +109,7 @@
                 android:layout_width="@dimen/icon_size_button"
                 android:layout_height="@dimen/icon_size_button"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
                 android:padding="@dimen/spacing_text"
                 android:contentDescription="@string/description_common_button_arrow_right"
                 android:onClick="@{() -> detailListener.onClick(activity)}"

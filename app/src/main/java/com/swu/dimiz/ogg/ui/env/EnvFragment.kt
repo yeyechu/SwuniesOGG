@@ -59,9 +59,15 @@ class EnvFragment : Fragment() {
         }
 
         viewModel.setToast.observe(viewLifecycleOwner) {
-            if(it) {
-                OggSnackbar.make(view, getString(R.string.envlayer_button_saved)).show()
-                viewModel.onToastCompleted()
+            when(it) {
+                1 -> {
+                    OggSnackbar.make(view, getString(R.string.envlayer_button_saved)).show()
+                    viewModel.onToastCompleted()
+                }
+                2 -> {
+                    OggSnackbar.make(view, getString(R.string.env_toast_badge)).show()
+                    viewModel.onToastCompleted()
+                }
             }
         }
 
