@@ -130,24 +130,24 @@ class ChecklistFragment : Fragment() {
         //이동수단
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40009")
-            .update("count", FieldValue.increment(1))
+            .update("count", FieldValue.increment(1000))
             .addOnSuccessListener { Timber.i("40009 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
 
         //Co2
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40022")
-            .update("count", FieldValue.increment(0.28))
+            .update("count", FieldValue.increment(280))
             .addOnSuccessListener { Timber.i("40022 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40023")
-            .update("count", FieldValue.increment(0.28))
+            .update("count", FieldValue.increment(280))
             .addOnSuccessListener { Timber.i("40023 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40024")
-            .update("count", FieldValue.increment(0.28))
+            .update("count", FieldValue.increment(280))
             .addOnSuccessListener { Timber.i("40024 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
     }
@@ -167,7 +167,7 @@ class ChecklistFragment : Fragment() {
                 for(i in 0 until counts.size){
                     getDate = System.currentTimeMillis()
                     //카테고리
-                    if(counts[8].count == 100 && counts[8].getDate == null){
+                    if(counts[8].count == 100000 && counts[8].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
                             .update("getDate", getDate)
@@ -197,7 +197,7 @@ class ChecklistFragment : Fragment() {
                     val gotBadge = doc.toObject<MyBadge>()
 
                     if(gotBadge.badgeID == 40022 && gotBadge.getDate == null){
-                        if(gotBadge.count >= 100.0){
+                        if(gotBadge.count >= 100000){
                             getDate = System.currentTimeMillis()
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40022")
@@ -207,7 +207,7 @@ class ChecklistFragment : Fragment() {
                         }
                     }
                     else if(gotBadge.badgeID == 40023 && gotBadge.getDate == null){
-                        if(gotBadge.count >= 500.0){
+                        if(gotBadge.count >= 500000){
                             getDate = System.currentTimeMillis()
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40023")
@@ -217,7 +217,7 @@ class ChecklistFragment : Fragment() {
                         }
                     }
                     else if(gotBadge.badgeID == 40024 && gotBadge.getDate == null){
-                        if(gotBadge.count >= 1000.0){
+                        if(gotBadge.count >= 1000000){
                             getDate = System.currentTimeMillis()
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40024")

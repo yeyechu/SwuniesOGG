@@ -105,16 +105,15 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     val graph: LiveData<MyGraph>
         get() = _graph
 
-    private val _titles = MutableLiveData<List<String>>()
-    val titles: LiveData<List<String>>
-        get() = _titles
+    private val _title = MutableLiveData<String>()
+    val title: LiveData<String>
+        get() = _title
 
     private val _projcnt = MutableLiveData<Int>()
     val projcnt: LiveData<Int>
         get() = _projcnt
 
-
-
+    val titleList = ArrayList<String>()
 
     init {
         Timber.i("created")
@@ -152,7 +151,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     //                                         활동 타이틀
 
      fun getTitle(list: List<MyAllAct>) {
-         val titleList = ArrayList<String>()
 
         uiScope.launch {
             list.forEach {
@@ -163,12 +161,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 }
             }
         }
-         setTileList(titleList)
     }
 
-    fun setTileList(list: List<String>) {
-        _titles.value = list
-    }
 
     private suspend fun getDailyTitleFromRoomDatabase(id: Int): ActivitiesDaily {
         return withContext(Dispatchers.IO) {
@@ -367,6 +361,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 resultId = reactionList[0].id
                 var resultTitle = reactionList[0].title
                 Timber.i("resultId $resultId")
+                Timber.i("title $title")
 
                 //sever Graph 업데이트
                 fireDB.collection("Feed").document(reactionList[0].id)
