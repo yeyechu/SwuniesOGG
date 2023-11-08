@@ -29,6 +29,7 @@ data class MyGraph (    //통계 페이지 들어올때마다 업데이트
     //var reactionCount : Int = 0,
     //가장 많은 반응을 받은 활동
     var reactionURI: URI ?=null,
+    var reactionTitle: String = "",
     var funny : Int = 0,
     var great : Int = 0,
     var like : Int = 0,

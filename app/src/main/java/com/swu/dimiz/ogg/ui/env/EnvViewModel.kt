@@ -1,19 +1,15 @@
 package com.swu.dimiz.ogg.ui.env
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.google.android.play.integrity.internal.c
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertLongToDateString
 import com.swu.dimiz.ogg.convertToDuration
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyStamp
+import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.collections.ArrayList
@@ -297,8 +293,24 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
+
+    var projectCount = 0
+    var startDate = 0L
+
     private fun resetCondition() = viewModelScope.launch {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+
+        // todo 플젝 초기화할때 이전 그래프 저장
+        if(_userCondition.value!!.projectCount != 0 && _userCondition.value!!.startDate != 0L){
+            projectCount = _userCondition.value!!.projectCount
+            startDate = _userCondition.value!!.startDate
+
+            fireGetCategory()
+            fireGetCo2()
+            fireGetReaction()
+            fireGetMostUp()
+            fireGetExtra()
+        }
 
         docRef
             .update("startDate", 0L)
@@ -308,8 +320,246 @@ class EnvViewModel : ViewModel() {
             .update("aim", 0f)
             .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+
+
     }
 
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                       Daily 가져오기
+    private fun fireGetCategory(){
+        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project$projectCount").document("Entire").collection("AllAct")
+        //에너지
+        var energyCo2 = 0.0
+        var consumptionCo2 = 0.0
+        var transportCo2 = 0.0
+        var resourceCo2 = 0.0
+
+        docRef.addSnapshotListener { value, e ->
+            if (e != null) {
+                Timber.i(e)
+                return@addSnapshotListener
+            }
+            for (doc in value!!) {
+                val act = doc.toObject<MyAllAct>()
+                if(act.actCode == "에너지"){
+                    energyCo2 += act.allCo2
+                }
+                else if(act.actCode == "소비"){
+                    consumptionCo2 += act.allCo2
+                }
+                else if(act.actCode == "이동수단"){
+                    transportCo2 += act.allCo2
+                }
+                else if(act.actCode == "자원순환"){
+                    resourceCo2 += act.allCo2
+                }
+            }
+            //sever Graph 업데이트
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project$projectCount").document("Graph")
+                .update(
+                    mapOf(
+                        "energy" to energyCo2,
+                        "consumption" to consumptionCo2,
+                        "transport" to transportCo2,
+                        "resource" to resourceCo2
+                    ),
+                )
+        }
+    }
+
+    private fun fireGetCo2(){
+        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project$projectCount").document("Entire").collection("AllAct")
+
+        val co2ActList = arrayListOf<MyAllAct>()
+        docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+                for (doc in value!!) {
+                    val act = doc.toObject<MyAllAct>()
+                    co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
+                }
+                //분리한다면 아래 같음
+                val firstId = co2ActList[0].ID
+                val secondId = co2ActList[1].ID
+                val thirdId = co2ActList[2].ID
+                val firstCo2 = co2ActList[0].allCo2
+                val secondCo2 = co2ActList[1].allCo2
+                val thirdCo2 = co2ActList[2].allCo2
+
+                //sever Graph 업데이트
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Project$projectCount").document("Graph")
+                    .update(
+                        mapOf(
+                            "nameCo21" to firstId,
+                            "nameCo22" to secondId,
+                            "nameCo23" to thirdId,
+                            "co2Sum1" to firstCo2,
+                            "co2Sum2" to secondCo2,
+                            "co2Sum3" to thirdCo2
+                        ),
+                    )
+            }
+    }
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                       전체활동 가져오기
+    data class feedReact(var id: String, var reactionSum: Int, var title : String)
+
+    private var reactionList = arrayListOf<feedReact>()
+
+    private var resultId = ""
+
+    var funny = 0
+    var great = 0
+    var like = 0
+
+
+    private fun fireGetReaction() {
+        reactionList.clear()
+
+        fireDB.collection("Feed")
+            .whereEqualTo("email", fireUser?.email.toString())
+            .whereGreaterThan("postTime", startDate)
+            .orderBy("postTime", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val feed = document.toObject<Feed>()
+                    feed.id = document.id
+
+                    val reactFun = feed.reactionFun
+                    val reactGreat = feed.reactionGreat
+                    val reactLike = feed.reactionLike
+
+                    val reaccTotal = reactFun + reactGreat + reactLike
+                    reactionList.add(feedReact(feed.id, reaccTotal, feed.actTitle))
+                }
+                //순서대로 정렬
+                reactionList.sortByDescending { it.reactionSum }
+
+                //sever Graph 업데이트
+                fireDB.collection("Feed").document(reactionList[0].id)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        if (document != null) {
+                            val gotFeed = document.toObject<Feed>()
+
+                            funny = gotFeed!!.reactionFun
+                            great = gotFeed!!.reactionGreat
+                            like = gotFeed!!.reactionLike
+
+                            fireDB.collection("User").document(fireUser?.email.toString())
+                                .collection("Project$projectCount").document("Graph")
+                                .update(
+                                    mapOf(
+                                        "reactionURI" to reactionList[0].id,
+                                        "reactionTitle" to reactionList[0].title,
+                                        "funny" to funny,
+                                        "great" to great,
+                                        "like" to like
+                                    ),
+                                )
+                        } else {
+                            Timber.i("No such document")
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Timber.i(exception)
+                    }
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
+            }
+    }
+
+    private fun fireGetMostUp() {
+        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project$projectCount").document("Entire").collection("AllAct")
+
+        val mostUpList = arrayListOf<Int>()
+
+        docRef.orderBy("upCount", Query.Direction.DESCENDING).limit(3)
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+                for (doc in value!!) {
+                    Timber.i("${doc.id} => ${doc.data}")
+                    val act = doc.toObject<MyAllAct>()
+                    mostUpList.add(act.ID)  //여기에 123위 순서대로 담겨있음
+                }
+
+                //분리한다면 아래 같음
+                val upFirstId = mostUpList[0]
+                val upSecondId = mostUpList[1]
+                val upThirdId = mostUpList[2]
+
+                //sever Graph 업데이트
+
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Project$projectCount").document("Graph")
+                    .update(
+                        mapOf(
+                            "post1" to upFirstId,
+                            "post2" to upSecondId,
+                            "post3" to upThirdId
+                        ),
+                    )
+            }
+    }
+
+    //특별활동 전체 순위
+    private fun fireGetExtra(){
+        val docRef = fireDB.collection("User")
+
+        val usersExtraList = arrayListOf<Int>()
+        var uExtra = 0
+
+        docRef.addSnapshotListener { value, e ->
+            if (e != null) {
+                Timber.i(e)
+                return@addSnapshotListener
+            }
+            for (doc in value!!) {
+                val user = doc.toObject<MyCondition>()
+                if(user.email == fireUser?.email.toString()){
+                    uExtra = user.extraPost
+                }
+                usersExtraList.add(user.extraPost)  //전체회원 특별 올린 횟수
+            }
+
+            usersExtraList.sortDescending()
+
+            var level = 0
+            val size = usersExtraList.size
+            for( i in 0 until size){
+                if(uExtra == usersExtraList[i]){
+                    level = i
+                }
+            }
+            var rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100
+
+            //sever Graph 업데이트
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Project$projectCount").document("Graph")
+                .update(
+                    mapOf(
+                        "extraRank" to rank
+                    ),
+                )
+        }
+    }
+
+    //──────────────────────────────────────────────────────────────────────────────────────
+    //                                   파이어베이스 함수
     private fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(fireUser?.email.toString())

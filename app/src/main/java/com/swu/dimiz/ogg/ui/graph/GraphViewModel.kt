@@ -11,7 +11,6 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.ID_MODIFIER
-import com.swu.dimiz.ogg.contents.listset.listutils.NO_TITLE
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
@@ -227,15 +226,19 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     projectCount = gotUser.projectCount
                     fetchFirebaseData(gotUser.projectCount)
 
-                    // 0이면 없음 페이지
                     layoutVisible = projectCount == 0
 
                     startDate = gotUser.startDate
-                    fireGetCategory()
-                    fireGetCo2()
-                    fireGetReaction()
-                    fireGetMostUp()
-                    fireGetExtra()
+
+                    if(projectCount != 0 && startDate != 0L){
+                        fireGetCategory()
+                        fireGetCo2()
+                        fireGetReaction()
+                        fireGetMostUp()
+                        fireGetExtra()
+                    }else{
+                        // todo 플젝 시작하라는 문구
+                    }
                 } else {
                     Timber.i("Current data: null")
                 }
@@ -365,11 +368,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     private fun fireGetReaction() {
         reactionList.clear()
-        val less = startDate + 21000000
+
         fireDB.collection("Feed")
             .whereEqualTo("email", fireUser?.email.toString())
             .whereGreaterThan("postTime", startDate)
-            //.whereLessThan("postTime", less)
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
@@ -415,6 +417,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                                 .update(
                                     mapOf(
                                         "reactionURI" to reactionList[0].id,
+                                        "reactionTitle" to reactionList[0].title,
                                         "funny" to funny,
                                         "great" to great,
                                         "like" to like
