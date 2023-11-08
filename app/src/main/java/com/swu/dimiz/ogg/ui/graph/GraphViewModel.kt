@@ -23,7 +23,6 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 import kotlin.math.roundToInt
 
-
 class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     private var viewModelJob = Job()
@@ -60,6 +59,16 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     private val _feed = MutableLiveData<Feed>()
     val feed: LiveData<Feed>
         get() = _feed
+
+    private val _co2ForCategory = MutableLiveData<List<Float>>()
+    val co2ForCategory: LiveData<List<Float>>
+        get() = _co2ForCategory
+
+    private val co2List = ArrayList<Float>()
+
+    private val _co2Sum = MutableLiveData<Float>()
+    val co2Sum: LiveData<Float>
+        get() = _co2Sum
 
     //myact
     private val _energyCo2 = MutableLiveData<Float>()
@@ -108,6 +117,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
         _currentPage.value = ID_MODIFIER
         _projectSize.value = INTEGER_ZERO
+        co2List.clear()
 
         _energyCo2.value = FLOAT_ZERO
         _consumptionCo2.value = FLOAT_ZERO
@@ -131,6 +141,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         it < _projectSize.value!!
     }
 
+    val glacierCo2 = co2Sum.map {
+        it * 0.3.toFloat()
+    }
+
+    val seaweedCo2 = co2Sum.map {
+        it * 2.025.toFloat()
+    }
+
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                     GraphFragment
     private fun getProjectSize(num: Int) {
@@ -146,6 +164,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     //                                      GraphLayer
     fun co2Act(): List<MyAllAct> {
         return _co2ActList.value!!
+    }
+
+    private fun getCo2Percent(co2: Float, total: Float): Float {
+        return (co2 / total * 100)
+    }
+
+    fun setCo2List(list: List<Float>) {
+        _co2ForCategory.value = list
     }
 
     // ─────────────────────────────────────────────────────────────────────────────────────
@@ -236,11 +262,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     getProjectSize(gotUser.projectCount)
 
                     startDate = gotUser.startDate
-                    fireGetCategory()
-                    fireGetCo2()
-                    fireGetReaction()
-                    fireGetMostUp()
-                    fireGetExtra()
+
+
+
+
                 } else {
                     Timber.i("Current data: null")
                 }
@@ -249,9 +274,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       Daily 가져오기
-    private fun fireGetCategory(){
+    fun fireGetCategory(num: Int) {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project$projectCount").document("Entire").collection("AllAct")
+            .collection("Project$num").document("Entire").collection("AllAct")
         //에너지
         var energyCo2 = 0.0
         var consumptionCo2 = 0.0
@@ -267,14 +292,23 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             for (doc in value!!) {
                 val act = doc.toObject<MyAllAct>()
                 when (act.actCode) {
-                    ENERGY -> energyCo2 += act.allCo2.toFloat()
-                    CONSUME -> consumptionCo2 += act.allCo2.toFloat()
-                    TRANSPORT -> transportCo2 += act.allCo2.toFloat()
-                    RECYCLE -> resourceCo2 += act.allCo2.toFloat()
+                    ENERGY -> energyCo2 += act.allCo2
+                    CONSUME -> consumptionCo2 += act.allCo2
+                    TRANSPORT -> transportCo2 += act.allCo2
+                    RECYCLE -> resourceCo2 += act.allCo2
                 }
             }
 
             val totalSum = energyCo2+ consumptionCo2 + transportCo2 + resourceCo2
+            _co2Sum.value = totalSum.toFloat()
+
+            co2List.add(getCo2Percent(energyCo2.toFloat(), totalSum.toFloat()))
+            co2List.add(getCo2Percent(consumptionCo2.toFloat(), totalSum.toFloat()))
+            co2List.add(getCo2Percent(transportCo2.toFloat(), totalSum.toFloat()))
+            co2List.add(getCo2Percent(resourceCo2.toFloat(), totalSum.toFloat()))
+
+            setCo2List(co2List)
+            Timber.i("co2List: $co2List")
 
             _energyCo2.value = ((energyCo2 / totalSum) * 100.0f).toFloat()
             _consumptionCo2.value = ((consumptionCo2 / totalSum) * 100.0f).toFloat()
@@ -301,9 +335,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    private fun fireGetCo2(){
+    fun fireGetCo2(num: Int){
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project$projectCount").document("Entire").collection("AllAct")
+            .collection("Project$num").document("Entire").collection("AllAct")
 
         val co2ActList = arrayListOf<MyAllAct>()
         docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
@@ -317,42 +351,27 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
                 }
                 getTitle(co2ActList)
-                //분리한다면 아래 같음
-
-                val firstCo2 = co2ActList[0].allCo2
-                val secondCo2 = co2ActList[1].allCo2
-                val thirdCo2 = co2ActList[2].allCo2
-                val firstId :Int = co2ActList[0].ID
-                val secondId :Int = co2ActList[1].ID
-                val thirdId :Int = co2ActList[2].ID
-
-
                 Timber.i("co2ActList $co2ActList")
                 _co2ActList.value = co2ActList
 
                 //sever Graph 업데이트
                 fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Project$projectCount").document("Graph")
+                    .collection("Project$num").document("Graph")
                     .update(
                         mapOf(
-                            "nameCo21" to firstId,
-                            "nameCo22" to secondId,
-                            "nameCo23" to thirdId,
-                            "co2Sum1" to firstCo2,
-                            "co2Sum2" to secondCo2,
-                            "co2Sum3" to thirdCo2
+                            "co2Sum1" to co2ActList[0].allCo2,
+                            "co2Sum2" to co2ActList[1].allCo2,
+                            "co2Sum3" to co2ActList[2].allCo2
                         ),
                     )
             }
     }
 
-    // todo 빙하면적 해초지
-
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       최고 반응 피드
     private var reactionList = arrayListOf<FeedReact>()
 
-    private fun fireGetReaction() {
+    fun fireGetReaction() {
         reactionList.clear()
 
         fireDB.collection("Feed")
@@ -410,9 +429,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    private fun fireGetMostUp() {
+    fun fireGetMostUp(num: Int) {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project$projectCount").document("Entire").collection("AllAct")
+            .collection("Project$num").document("Entire").collection("AllAct")
 
         val mostUpList = arrayListOf<Int>()
 
@@ -429,32 +448,24 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 }
                 getTitleMost(mostUpList)
 
-                //분리한다면 아래 같음
-                val upFirstId :Int = mostUpList[0]
-                val upSecondId :Int = mostUpList[1]
-                val upThirdId :Int = mostUpList[2]
-
                 _mostUpList.value = mostUpList
-
                 Timber.i("mostUpList $mostUpList")
 
                 //sever Graph 업데이트
-
                 fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Project$projectCount").document("Graph")
+                    .collection("Project$num").document("Graph")
                     .update(
                         mapOf(
-                            "post1" to upFirstId,
-                            "post2" to upSecondId,
-                            "post3" to upThirdId
+                            "post1" to mostUpList[0],
+                            "post2" to mostUpList[1],
+                            "post3" to mostUpList[2]
                         ),
                     )
-
             }
     }
 
     //특별활동 전체 순위
-    private fun fireGetExtra(){
+    fun fireGetExtra(num: Int){
         val docRef = fireDB.collection("User")
 
         val usersExtraList = arrayListOf<Int>()
@@ -492,7 +503,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
             //sever Graph 업데이트
             fireDB.collection("User").document(fireUser?.email.toString())
-                .collection("Project$projectCount").document("Graph")
+                .collection("Project$num").document("Graph")
                 .update(
                     mapOf(
                         "extraRank" to rank
@@ -500,6 +511,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 )
         }
     }
+    //새로운 플젝시작할때 저장하고 지우고 하는것도 괜찮을것 같음
 
     //이전 프로젝트 불러오기
     private fun fireGetBeforPorject(projectNum : Int){   //몇회차 이전, 이후 필요한지 넣어주기

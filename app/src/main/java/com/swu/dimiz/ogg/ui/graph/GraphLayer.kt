@@ -51,14 +51,27 @@ class GraphLayer : Fragment() {
             viewModel.setCurrentPage(pageNumber)
         }
 
-        // 카테고리별
+        viewModel.currentPage.observe(viewLifecycleOwner) {
+            it?.let {
+                viewModel.fireGetCategory(it)
+                viewModel.fireGetCo2(it)
+                viewModel.fireGetMostUp(it)
+                viewModel.fireGetExtra(it)
+                viewModel.fireGetReaction()
+            }
+        }
+
+        //──────────────────────────────────────────────────────────────────────────────────────
+        //                                   카테고리별 줄인 탄소량
         barChart = binding.categotyChart
+
         configureChartAppearance()
         val data = createChartData()
         prepareChartData(data)
 
 
-        // 원형 차트
+        //──────────────────────────────────────────────────────────────────────────────────────
+        //                                   가장 많은 탄소를
         pieChart = binding.mostReduceCo2ActChart
 
         viewModel.titles.observe(viewLifecycleOwner){
@@ -88,6 +101,7 @@ class GraphLayer : Fragment() {
 
     //-------------- 카테고리 차트 -------------------
     private fun configureChartAppearance() {
+        Timber.i("configureChartAppearance")
         barChart.description.isEnabled = false // chart 밑에 description 표시 유무
         barChart.setTouchEnabled(false) // 터치 유무
         barChart.legend.isEnabled = false // Legend는 차트의 범례
@@ -141,7 +155,7 @@ class GraphLayer : Fragment() {
             viewModel.transportCo2,
             viewModel.resourceCo2
         )
-
+        Timber.i("createChartData(): ${viewModel.energyCo2.value}")
         val observedLiveDataCount = AtomicInteger(0)
 
         viewModelList.forEachIndexed { index, liveData ->
@@ -184,7 +198,8 @@ class GraphLayer : Fragment() {
         dataSet.colors = barColors
 
         val data = BarData(dataSet)
-        data.barWidth = 0.9f
+        data.barWidth = 0.7f
+
         return data
     }
     private fun prepareChartData(data: BarData) {
@@ -325,7 +340,7 @@ class GraphLayer : Fragment() {
         dataSet.colors = barColors
 
         val data = BarData(dataSet)
-        data.barWidth = 0.9f
+        data.barWidth = 0.7f
 
         barChart2.data = data
         barChart2.invalidate()

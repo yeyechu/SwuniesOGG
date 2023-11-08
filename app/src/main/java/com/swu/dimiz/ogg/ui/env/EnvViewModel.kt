@@ -403,7 +403,6 @@ class EnvViewModel : ViewModel() {
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       전체활동 가져오기
     private var reactionList = arrayListOf<FeedReact>()
-
     private fun fireGetReaction() {
         reactionList.clear()
 
@@ -435,6 +434,7 @@ class EnvViewModel : ViewModel() {
                             val gotFeed = document.toObject<Feed>()
 
                             gotFeed?.let {
+
                                 fireDB.collection("User").document(fireUser?.email.toString())
                                     .collection("Project$projectCount").document("Graph")
                                     .update(

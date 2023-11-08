@@ -227,6 +227,7 @@
     <string name="graph_title_myact_seachart_1">당신이 지킨 \n북극빙하의 면적</string>
     <string name="graph_title_myact_seachart_2">같은 양의 탄소를 \n흡수하는 해초지 크기</string>
     <string name="graph_title_myact_seachart_subtitle">내가 줄인 탄소량으로</string>
+    <string name="graph_title_myact_seachart_co2">%.3f m²</string>
     <!-- 나의 인증 활동 -->
     <string name="graph_title_certify">나의 인증활동</string>
     <string name="graph_title_certify_most_reaction">가장 많은 반응을 받은 활동</string>

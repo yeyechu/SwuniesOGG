@@ -71,7 +71,7 @@
     <!--                                        텍스트                                        -->
     <dimen name="text_size_hint">15sp</dimen>
     <dimen name="text_size_user_name">20sp</dimen>
-    <dimen name="text_size_percent">26sp</dimen>
+    <dimen name="text_size_percent">21sp</dimen>
 
 
     <!--                                       내비게이션                                      -->
@@ -97,6 +97,8 @@
     <dimen name="post_window_height">550dp</dimen>
     <dimen name="member_stroke_height">10dp</dimen>
     <dimen name="common_edittext_height">50dp</dimen>
+
+    <dimen name="graph_progressbar_height">25dp</dimen>
 
 
     <!-- 기타 -->
