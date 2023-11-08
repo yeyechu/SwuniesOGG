@@ -33,8 +33,8 @@
                 android:id="@+id/category_reduce_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_marginEnd="@dimen/spacing_regular"
                 app:cardCornerRadius="@dimen/radius_card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,8 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_marginEnd="@dimen/spacing_regular"
                 app:cardCornerRadius="@dimen/radius_card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_small">
+                    android:padding="@dimen/spacing_medium">
 
                     <TextView
                         android:id="@+id/most_reduce_co2_act_title"
@@ -115,8 +115,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_marginEnd="@dimen/spacing_regular"
                 android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -124,18 +127,19 @@
                     android:id="@+id/seachar_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginEnd="@dimen/spacing_extra_small"
-                    android:layout_marginBottom="@dimen/spacing_extra_small"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/spacing_small"
                     app:cardCornerRadius="@dimen/radius_card"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
                         android:padding="@dimen/spacing_small">
 
                         <TextView
@@ -156,9 +160,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/spacing_medium"
                             android:contentDescription="@string/description_myact_card_image"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/seachar_title"
+
                             tools:srcCompat="@tools:sample/avatars" />
 
                         <TextView
@@ -168,10 +170,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="@string/graph_title_myact_seachart_subtitle"
-                            app:layout_constraintBottom_toTopOf="@+id/seachar_num"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/seachar_image" />
+                            />
 
                         <TextView
                             android:id="@+id/seachar_num"
@@ -179,12 +178,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nanumsquare_eb"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/seachar_image"
+                            android:layout_gravity="center"
                             tools:text="82m²" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <!-- CardView 레이아웃 -->
@@ -192,18 +188,16 @@
                     android:id="@+id/seachar_card2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_extra_small"
-                    android:layout_marginEnd="@dimen/spacing_large"
-                    android:layout_marginBottom="@dimen/spacing_extra_small"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_small"
                     app:cardCornerRadius="@dimen/radius_card"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:gravity="center"
+                    >
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="vertical"
                         android:padding="@dimen/spacing_small">
 
                         <TextView
@@ -224,9 +218,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/spacing_medium"
                             android:contentDescription="@string/description_myact_card_image"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/seachar_title2"
+
                             tools:srcCompat="@tools:sample/avatars" />
 
                         <TextView
@@ -236,10 +228,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/spacing_medium"
                             android:text="@string/graph_title_myact_seachart_subtitle"
-                            app:layout_constraintBottom_toTopOf="@+id/seachar_num2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/seachar_image2" />
+                            />
 
                         <TextView
                             android:id="@+id/seachar_num2"
@@ -247,12 +236,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nanumsquare_eb"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/seachar_image2"
+                            android:layout_gravity="center"
+
                             tools:text="82m²" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 
@@ -269,8 +256,8 @@
                 android:id="@+id/most_reaction_act_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_marginEnd="@dimen/spacing_regular"
                 android:layout_marginBottom="@dimen/spacing_medium"
                 app:cardCornerRadius="@dimen/radius_card"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -325,6 +312,7 @@
                         style="@style/StyleImageButton"
                         android:layout_width="@dimen/image_size_reaction_graph"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_medium"
                         android:drawableTop="@drawable/feed_button_reaction_like_enabled_graph"
                         android:fontFamily="@font/nanumsquare_b"
                         android:text="@{@string/myfeed_text_reaction_number(viewModel.feed.reactionLike)}"
@@ -380,10 +368,8 @@
                 android:id="@+id/most_certify_act_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_medium"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_marginEnd="@dimen/spacing_regular"
                 app:cardCornerRadius="@dimen/radius_card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -392,9 +378,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/spacing_regular"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_small">
+                    android:padding="@dimen/spacing_medium">
 
                     <TextView
                         android:id="@+id/most_certify_title"
@@ -471,8 +456,8 @@
                 android:id="@+id/special_chart_cardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_regular"
+                android:layout_marginEnd="@dimen/spacing_regular"
                 android:layout_marginBottom="@dimen/spacing_medium"
                 app:cardCornerRadius="@dimen/radius_card"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -495,6 +480,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/graph_title_special_act_chart"
+                            android:layout_marginRight="@dimen/spacing_big"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
@@ -502,15 +488,17 @@
 
                         <com.github.mikephil.charting.charts.BarChart
                             android:id="@+id/special_chart"
-                            android:layout_width="200dp"
-                            android:layout_height="200dp"
-                            android:layout_marginLeft="@dimen/spacing_big"
+                            android:layout_width="@dimen/dimension_150"
+                            android:layout_height="@dimen/dimension_150"
+                            android:layout_marginTop="@dimen/spacing_big"
                             android:padding="@dimen/spacing_medium"
+                            app:layout_constraintTop_toBottomOf="@+id/special_act_char_title"
+                            app:layout_constraintVertical_bias="0.0"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/special_act_char_title" />
+                             />
 
                         <TextView
                             android:id="@+id/my_special_act_percent"

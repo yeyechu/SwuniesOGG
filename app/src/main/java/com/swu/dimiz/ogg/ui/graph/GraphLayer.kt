@@ -57,6 +57,7 @@ class GraphLayer : Fragment() {
         val data = createChartData()
         prepareChartData(data)
 
+
         // 원형 차트
         pieChart = binding.mostReduceCo2ActChart
 
@@ -90,7 +91,8 @@ class GraphLayer : Fragment() {
         barChart.description.isEnabled = false // chart 밑에 description 표시 유무
         barChart.setTouchEnabled(false) // 터치 유무
         barChart.legend.isEnabled = false // Legend는 차트의 범례
-        barChart.setExtraOffsets(0f, 20f, 0f, 20f)
+        barChart.setExtraOffsets(0f, 10f, 0f, 10f)
+        barChart.renderer = RoundedBarChart(barChart, barChart.animator, barChart.viewPortHandler)
 
         // ----- XAxis  - 선 유무, 사이즈, 색상, 축 위치 설정
         val xAxis: XAxis = barChart.xAxis
@@ -109,7 +111,7 @@ class GraphLayer : Fragment() {
         axisLeft.setDrawGridLines(false)
         axisLeft.setDrawAxisLine(false)
         axisLeft.axisMinimum = 0f // 최솟값
-        axisLeft.axisMaximum = 50f // 최댓값
+        axisLeft.axisMaximum = 100f // 최댓값
         axisLeft.granularity = 1f // 값만큼 라인선 설정
         axisLeft.setDrawLabels(false) // label 삭제
 
@@ -130,6 +132,7 @@ class GraphLayer : Fragment() {
             }
         }
     }
+
     private fun createChartData(): BarData {
         val values: ArrayList<BarEntry> = ArrayList()
         val viewModelList = listOf(
@@ -247,6 +250,7 @@ class GraphLayer : Fragment() {
         barChart2.setTouchEnabled(false) // 터치 유무
         barChart2.legend.isEnabled = false // Legend는 차트의 범례
         barChart2.setExtraOffsets(0f, 10f, 0f, 10f)
+        barChart2.renderer = RoundedBarChart(barChart2, barChart2.animator, barChart2.viewPortHandler)
 
         // ----- XAxis  - 선 유무, 사이즈, 색상, 축 위치 설정
         val xAxis: XAxis = barChart2.xAxis
@@ -257,7 +261,7 @@ class GraphLayer : Fragment() {
         ) // XAxis 레이블로 사용할 문자열 리스트
         xAxis.setDrawAxisLine(false)
         xAxis.granularity = 1f
-        xAxis.textSize = 15f
+        xAxis.textSize = 13f
         xAxis.gridLineWidth = 0f
         xAxis.gridColor = Color.parseColor("#FFFFFF")
         xAxis.position = XAxis.XAxisPosition.BOTTOM // X 축 데이터 표시 위치
@@ -331,12 +335,18 @@ class GraphLayer : Fragment() {
         barChart2.invalidate()
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
         Timber.i("onDestroyView()")
     }
 }
+
+
+
+
+
 
 
 

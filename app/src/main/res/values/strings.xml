@@ -225,7 +225,7 @@
     <string name="graph_title_myact_category">카테고리 별 줄인 탄소량</string>
     <string name="graph_title_myact_most_reduce">가장 많은 탄소를 줄인 활동명 TOP3</string>
     <string name="graph_title_myact_seachart_1">당신이 지킨 \n북극빙하의 면적</string>
-    <string name="graph_title_myact_seachart_2">동일한 양의 탄소를 \n흡수하는 해초지 크기</string>
+    <string name="graph_title_myact_seachart_2">같은 양의 탄소를 \n흡수하는 해초지 크기</string>
     <string name="graph_title_myact_seachart_subtitle">내가 줄인 탄소량으로</string>
     <!-- 나의 인증 활동 -->
     <string name="graph_title_certify">나의 인증활동</string>

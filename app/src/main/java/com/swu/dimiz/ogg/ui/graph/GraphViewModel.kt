@@ -23,6 +23,7 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 import kotlin.math.roundToInt
 
+
 class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     private var viewModelJob = Job()
