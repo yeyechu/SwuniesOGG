@@ -402,8 +402,6 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       전체활동 가져오기
-    data class FeedReact(var id: String, var reactionSum: Int, var title : String)
-
     private var reactionList = arrayListOf<FeedReact>()
 
     private var funny = 0

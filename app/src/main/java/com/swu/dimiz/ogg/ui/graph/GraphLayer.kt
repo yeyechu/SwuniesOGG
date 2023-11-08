@@ -16,7 +16,7 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.contents.listset.listutils.GRAPH_OBJECT
+import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.databinding.LayerGraphMyactGroupBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyAllAct
 import timber.log.Timber
@@ -72,9 +72,6 @@ class GraphLayer : Fragment() {
             }
         }
 
-        val projectCount = arguments?.getInt("projectCount", 1) ?: 1
-        loadGraphData(projectCount)
-
         // 스페셜 차트
         barChart2 = binding.specialChart
         configureChartAppearance2()
@@ -93,15 +90,16 @@ class GraphLayer : Fragment() {
         barChart.description.isEnabled = false // chart 밑에 description 표시 유무
         barChart.setTouchEnabled(false) // 터치 유무
         barChart.legend.isEnabled = false // Legend는 차트의 범례
-        barChart.setExtraOffsets(0f, 50f, 0f, 50f)
+        barChart.setExtraOffsets(0f, 20f, 0f, 20f)
 
         // ----- XAxis  - 선 유무, 사이즈, 색상, 축 위치 설정
         val xAxis: XAxis = barChart.xAxis
-        val labels = listOf("에너지", "소비", "자원순환", "이동수단")
+        val labels = listOf(ENERGY, CONSUME, TRANSPORT, RECYCLE)
 
         xAxis.setDrawAxisLine(false)
         xAxis.granularity = 1f
-        xAxis.textSize = 15f
+        xAxis.textSize = 13f
+        xAxis.textColor = requireContext().getColor(R.color.primary_gray)
         xAxis.gridLineWidth = 0f
         xAxis.gridColor = Color.parseColor("#FFFFFF")
         xAxis.position = XAxis.XAxisPosition.BOTTOM // X 축 데이터 표시 위치
@@ -117,7 +115,6 @@ class GraphLayer : Fragment() {
 
         // ----- YAxis(Right) (수평 막대 기준 위쪽) - 사이즈, 선 유무
         val axisRight: YAxis = barChart.axisRight
-        axisRight.textSize = 15f
         axisRight.setDrawLabels(false) // label 삭제
         axisRight.setDrawGridLines(false)
         axisRight.setDrawAxisLine(false)
@@ -332,10 +329,6 @@ class GraphLayer : Fragment() {
     private fun prepareChartData2(data: BarData) {
         barChart2.data = data
         barChart2.invalidate()
-    }
-    private fun loadGraphData(projectCount: Int) {
-        // Firebase에서 데이터 가져오는 로직 추가
-        // 데이터를 사용하여 그래프 업데이트
     }
 
     override fun onDestroyView() {

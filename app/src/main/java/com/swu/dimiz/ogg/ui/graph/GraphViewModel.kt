@@ -56,6 +56,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                 그래프 데이터 : GraphLayer
+    private val _feed = MutableLiveData<Feed>()
+    val feed: LiveData<Feed>
+        get() = _feed
+
     //myact
     private val _energyCo2 = MutableLiveData<Float>()
     val energyCo2: LiveData<Float>
@@ -76,23 +80,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     private val _co2ActList = MutableLiveData<List<MyAllAct>>()
     val co2ActList: LiveData<List<MyAllAct>>
         get() = _co2ActList
-
-    //certify
-    private val _funnycnt = MutableLiveData<Int>()
-    val funnycnt: LiveData<Int>
-        get() = _funnycnt
-
-    private val _greatcnt = MutableLiveData<Int>()
-    val greatcnt: LiveData<Int>
-        get() = _greatcnt
-
-    private val _likecnt = MutableLiveData<Int>()
-    val likecnt: LiveData<Int>
-        get() = _likecnt
-
-    private val _reactiontitle = MutableLiveData<String?>()
-    val reactiontitle: LiveData<String?>
-        get() = _reactiontitle
 
     private val _mostUpList = MutableLiveData<List<Int>>()
     val mostUpList: LiveData<List<Int>>
@@ -125,10 +112,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         _consumptionCo2.value = FLOAT_ZERO
         _transportCo2.value = FLOAT_ZERO
         _resourceCo2.value = FLOAT_ZERO
-
-        _funnycnt.value = INTEGER_ZERO
-        _greatcnt.value = INTEGER_ZERO
-        _likecnt.value = INTEGER_ZERO
 
         _rank.value = FLOAT_ZERO
     }
@@ -356,16 +339,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
-    //                                       전체활동 가져오기
-    data class FeedReact(var id: String, var reactionSum: Int, var title : String)
-
+    //                                       최고 반응 피드
     private var reactionList = arrayListOf<FeedReact>()
-
-    private var resultId = ""
-
-    private var funny = 0
-    private var great = 0
-    private var like = 0
 
     private fun fireGetReaction() {
         reactionList.clear()
@@ -381,19 +356,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     val feed = document.toObject<Feed>()
                     feed.id = document.id
 
-                    val reactFun = feed.reactionFun
-                    val reactGreat = feed.reactionGreat
-                    val reactLike = feed.reactionLike
-
-                    val reaccTotal = reactFun + reactGreat + reactLike
-                    reactionList.add(FeedReact(feed.id, reaccTotal, feed.actTitle))
+                    reactionList.add(FeedReact(
+                        feed.id,
+                        feed.reactionFun + feed.reactionGreat + feed.reactionLike,
+                        feed.actTitle))
                 }
+
                 //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
-
-                resultId = reactionList[0].id
-                val resultTitle = reactionList[0].title
-                Timber.i("resultId $resultId")
 
                 //sever Graph 업데이트
                 fireDB.collection("Feed").document(reactionList[0].id)
@@ -402,28 +372,21 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                         if (document != null) {
                             val gotFeed = document.toObject<Feed>()
 
-                            funny = gotFeed!!.reactionFun
-                            great = gotFeed.reactionGreat
-                            like = gotFeed.reactionLike
+                            gotFeed?.let {
+                                _feed.value = it
 
-                            // LiveData를 통해 UI에 값을 업데이트
-                            _funnycnt.value = funny
-                            _greatcnt.value = great
-                            _likecnt.value = like
-                            _reactiontitle.value = resultTitle
-//                            _reactionuri.value = reactionURI
-
-                            fireDB.collection("User").document(fireUser?.email.toString())
-                                .collection("Project$projectCount").document("Graph")
-                                .update(
-                                    mapOf(
-                                        "reactionURI" to reactionList[0].id,
-                                        "reactionTitle" to reactionList[0].title,
-                                        "funny" to funny,
-                                        "great" to great,
-                                        "like" to like
-                                    ),
-                                )
+                                fireDB.collection("User").document(fireUser?.email.toString())
+                                    .collection("Project$projectCount").document("Graph")
+                                    .update(
+                                        mapOf(
+                                            "reactionURI" to gotFeed.imageUrl,
+                                            "reactionTitle" to gotFeed.actTitle,
+                                            "funny" to gotFeed.reactionFun,
+                                            "great" to gotFeed.reactionGreat,
+                                            "like" to gotFeed.reactionLike
+                                        ),
+                                    )
+                            }
                         } else {
                             Timber.i("No such document")
                         }

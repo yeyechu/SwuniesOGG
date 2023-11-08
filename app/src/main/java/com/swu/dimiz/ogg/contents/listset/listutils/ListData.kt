@@ -21,6 +21,12 @@ data class BadgeLocation (
     var by: Float = 0f
 )
 
+data class FeedReact(
+    var id: String,
+    var reactionSum: Int,
+    var title : String
+    )
+
 const val AIMCO2_ONE = 1.4f
 const val AIMCO2_TWO = 2.78f
 const val AIMCO2_THREE = 5.22f

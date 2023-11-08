@@ -216,6 +216,7 @@
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->
     <string name="graph_text_title_page">%d 회</string>
     <string name="graph_text_title_page_null">프로젝트 통계</string>
+    <string name="graph_text_title_page_current">진행 중인 프로젝트</string>
 
     <string name="graph_text_title_null">아직 통계가 없어요</string>
     <string name="graph_text_body_null">탄소 중립을 위한 기후활동을 시작해보아요</string>

@@ -50,6 +50,7 @@
                 style="@style/StyleText.header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:projectSize="@{viewModel.projectSize}"
                 app:currentPage="@{viewModel.currentPage}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/button_right"
