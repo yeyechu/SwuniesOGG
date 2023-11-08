@@ -7,6 +7,7 @@
 
     <data>
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.graph.GraphViewModel" />
@@ -35,8 +36,9 @@
                 android:layout_height="@dimen/icon_extra_small"
                 android:layout_marginStart="@dimen/spacing_regular"
                 android:contentDescription="@string/description_common_button_arrow_right"
-                android:enabled="true"
-                android:src="@drawable/common_button_arrow_left_svg"
+                android:enabled="@{viewModel.leftButtonEnable}"
+                android:onClick="@{() -> viewModel.onLeftButtonClicked()}"
+                android:src="@drawable/common_selector_arrow_left"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/text_graph_title"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -48,7 +50,7 @@
                 style="@style/StyleText.header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                app:currentPage="@{viewModel.currentPage}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/button_right"
                 app:layout_constraintStart_toEndOf="@id/button_left"
@@ -63,8 +65,9 @@
                 android:layout_marginEnd="@dimen/spacing_regular"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/description_common_button_arrow_right"
-                android:enabled="true"
-                android:src="@drawable/common_button_arrow_right_svg"
+                android:enabled="@{viewModel.rightButtonEnable}"
+                android:onClick="@{() -> viewModel.onRightButtonClicked()}"
+                android:src="@drawable/common_selector_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_graph_title"
@@ -96,17 +99,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/graph_text_body_null"
                 android:textAlignment="center" />
-
-<!--            <fragment-->
-<!--                android:id="@+id/include_graph_layer"-->
-<!--                android:name="com.swu.dimiz.ogg.ui.graph.GraphFragment"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content" />-->
         </FrameLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewpager_graph"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.layoutVisible ? View.GONE : View.VISIBLE}"/>
     </LinearLayout>
 </layout>

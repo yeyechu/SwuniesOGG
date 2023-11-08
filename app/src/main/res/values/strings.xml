@@ -143,7 +143,7 @@
     <string name="badgelist_filter_part">카테고리별 활동</string>
     <string name="badgelist_filter_reaction">피드 반응 스티커</string>
     <string name="badgelist_filter_sust">지속가능한 활동</string>
-    <string name="badgelist_filter_co2">탄소량</string>
+    <string name="badgelist_filter_co2">오늘의 활동 탄소량</string>
     <string name="badgelist_filter_extra">특별 활동</string>
 
     <!--                                         배지 수정                                         -->
@@ -214,6 +214,9 @@
     <string name="myact_card_text_post_date_left">%s 등록 \n%d일 뒤 다시 가능</string>
 
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->
+    <string name="graph_text_title_page">%d 회</string>
+    <string name="graph_text_title_page_null">프로젝트 통계</string>
+
     <string name="graph_text_title_null">아직 통계가 없어요</string>
     <string name="graph_text_body_null">탄소 중립을 위한 기후활동을 시작해보아요</string>
     <!-- 나의 탄소 감축 활동 -->

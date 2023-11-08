@@ -4,19 +4,11 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class GraphFragmentStateAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    private val fragments = mutableListOf<Fragment>()
 
-    override fun getItemCount(): Int = fragments.size
+    var pagerSize: Int = 0
 
-    override fun createFragment(position: Int): Fragment {
-        return fragments[position]
-    }
+    override fun getItemCount(): Int = pagerSize
 
-
-    fun setFragments(fragments: List<Fragment>) {
-        this.fragments.clear()
-        this.fragments.addAll(fragments)
-        notifyDataSetChanged()
-    }
+    override fun createFragment(position: Int): Fragment = GraphLayer()
 }
 
