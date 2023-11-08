@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.ui.graph
 
-import android.net.Uri
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -11,7 +10,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
-import com.swu.dimiz.ogg.contents.listset.listutils.ID_MODIFIER
+import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.OggRepository
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
@@ -22,12 +21,10 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyGraph
 import kotlinx.coroutines.*
 import timber.log.Timber
-import java.net.URI
 import kotlin.math.roundToInt
 
-//todo 플젝 시작하고 아무것도 안올렸을때 오류남
-//─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 인서님 여기 경고 뜨는 거 신경 써주세요, 하라는 대로 고치면 됩니다 ▲
 class GraphViewModel(private val repository: OggRepository) : ViewModel() {
+
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -38,18 +35,30 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     var projectCount = 0
     var startDate = 0L
-    var layoutVisible: Boolean = true
 
     // ───────────────────────────────────────────────────────────────────────────────────
-    //                                   필요한 데이터 초기화
+    //                               뷰페이저 관리용 : GraphFragment
+    private val _projectSize = MutableLiveData<Int>()
+    val projectSize: LiveData<Int>
+        get() = _projectSize
 
-    // 프로젝트 카운트 데이터
-    private val projectCountLiveData = MutableLiveData<Int>()
+    private val _currentPage = MutableLiveData<Int>()
+    val currentPage: LiveData<Int>
+        get() = _currentPage
 
-    private val _fireInfoget = MutableLiveData<Int?>()
-    val fireInfoget: LiveData<Int?>
-        get() = _fireInfoget
+    private val _leftPager = MutableLiveData<Boolean>()
+    val leftPager: LiveData<Boolean>
+        get() = _leftPager
 
+    private val _rightPager = MutableLiveData<Boolean>()
+    val rightPager: LiveData<Boolean>
+        get() = _rightPager
+
+    // ───────────────────────────────────────────────────────────────────────────────────
+    //                                 그래프 데이터 : GraphLayer
+    private val _feed = MutableLiveData<Feed>()
+    val feed: LiveData<Feed>
+        get() = _feed
 
     //myact
     private val _energyCo2 = MutableLiveData<Float>()
@@ -68,39 +77,18 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     val resourceCo2: LiveData<Float>
         get() = _resourceCo2
 
-
     private val _co2ActList = MutableLiveData<List<MyAllAct>>()
     val co2ActList: LiveData<List<MyAllAct>>
         get() = _co2ActList
-
-    //certify
-    private val _funnycnt = MutableLiveData<Int>()
-    val funnycnt: LiveData<Int>
-        get() = _funnycnt
-
-    private val _greatcnt = MutableLiveData<Int>()
-    val greatcnt: LiveData<Int>
-        get() = _greatcnt
-
-    private val _likecnt = MutableLiveData<Int>()
-    val likecnt: LiveData<Int>
-        get() = _likecnt
-
-    private val _reactiontitle = MutableLiveData<String?>()
-    val reactiontitle: LiveData<String?>
-        get() = _reactiontitle
-
 
     private val _mostUpList = MutableLiveData<List<Int>>()
     val mostUpList: LiveData<List<Int>>
         get() = _mostUpList
 
-
     //special
     private val _rank = MutableLiveData<Float>()
     val rank: LiveData<Float>
         get() = _rank
-
 
     private val _graph = MutableLiveData<MyGraph>()
     val graph: LiveData<MyGraph>
@@ -114,50 +102,53 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     val titlesMost: LiveData<List<String>>
         get() = _titlesMost
 
-    private val _projcnt = MutableLiveData<Int>()
-    val projcnt: LiveData<Int>
-        get() = _projcnt
-
-
     init {
         Timber.i("created")
-//        projectCountLiveData.value = 0
 
+        _currentPage.value = ID_MODIFIER
+        _projectSize.value = INTEGER_ZERO
 
-        _energyCo2.value = 0.0f
-        _consumptionCo2.value = 0.0f
-        _transportCo2.value = 0.0f
-        _resourceCo2.value = 0.0f
+        _energyCo2.value = FLOAT_ZERO
+        _consumptionCo2.value = FLOAT_ZERO
+        _transportCo2.value = FLOAT_ZERO
+        _resourceCo2.value = FLOAT_ZERO
 
-        _co2ActList.value = emptyList()
-
-        _funnycnt.value = 0
-        _greatcnt.value = 0
-        _likecnt.value = 0
-        _reactiontitle.value = null
-
-        _mostUpList.value = emptyList()
-
-        _rank.value = 0.0f
-
+        _rank.value = FLOAT_ZERO
     }
 
-    fun getProjectCountLiveData(): LiveData<Int> = projectCountLiveData
-
-    fun fetchFirebaseData(newCount: Int) {
-        projectCount = newCount
+    // ─────────────────────────────────────────────────────────────────────────────────────
+    //                                     XML파일 UI 매핑
+    val layoutVisible = projectSize.map {
+        projectSize.value == 0
     }
 
+    val leftButtonEnable = currentPage.map {
+        it != ID_MODIFIER && it > 1
+    }
 
+    val rightButtonEnable = currentPage.map {
+        it < _projectSize.value!!
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────────────
+    //                                     GraphFragment
+    private fun getProjectSize(num: Int) {
+        _projectSize.value = num
+    }
+
+    fun setCurrentPage(num: Int) {
+        _currentPage.value = num + 1
+        Timber.i("현재 페이지: ${_currentPage.value}")
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────────────
+    //                                      GraphLayer
     fun co2Act(): List<MyAllAct> {
         return _co2ActList.value!!
     }
 
-
-
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                         활동 타이틀
-
     private fun getTitle(list: List<MyAllAct>) {
         val titleList = ArrayList<String>()
 
@@ -188,10 +179,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    fun setTitleList(list: List<String>) {
+    private fun setTitleList(list: List<String>) {
         _titles.value = list
     }
-    fun setTitleListMost(list: List<String>) {
+    private fun setTitleListMost(list: List<String>) {
         _titlesMost.value = list
     }
 
@@ -212,10 +203,24 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             repository.getExtraDate(id)
         }
     }
+    // ─────────────────────────────────────────────────────────────────────────────────────
+    //                                         인터랙션 감지
+    fun onLeftButtonClicked() {
+        _leftPager.value = true
+    }
 
+    fun onLeftCompleted() {
+        _leftPager.value = false
+    }
+    fun onRightButtonClicked() {
+        _rightPager.value = true
+    }
 
-    //──────────────────────────────────────────────────────────────────────────────────────
-    //                                       전체활동 가져오기
+    fun onRightCompleted() {
+        _rightPager.value = false
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────────────
     fun fireInfo() {
         fireDB.collection("User").document(fireUser?.email.toString())
             .addSnapshotListener { snapshot, e ->
@@ -225,31 +230,21 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     val gotUser = snapshot.toObject<MyCondition>()!!
-                    projectCount = gotUser.projectCount
-                    fetchFirebaseData(gotUser.projectCount)
 
-                    layoutVisible = projectCount == 0
+                    projectCount = gotUser.projectCount
+                    getProjectSize(gotUser.projectCount)
 
                     startDate = gotUser.startDate
-
-                    if(projectCount != 0 && startDate != 0L){
-                        fireGetCategory()
-                        fireGetCo2()
-                        fireGetReaction()
-                        fireGetMostUp()
-                        fireGetExtra()
-                    }else{
-                        // todo 플젝 시작하라는 문구
-                    }
+                    fireGetCategory()
+                    fireGetCo2()
+                    fireGetReaction()
+                    fireGetMostUp()
+                    fireGetExtra()
                 } else {
                     Timber.i("Current data: null")
                 }
-
             }
-
     }
-
-
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       Daily 가져오기
@@ -267,24 +262,16 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 Timber.i(e)
                 return@addSnapshotListener
             }
+
             for (doc in value!!) {
                 val act = doc.toObject<MyAllAct>()
                 when (act.actCode) {
-                    "에너지" -> {
-                        energyCo2 += act.allCo2
-                    }
-                    "소비" -> {
-                        consumptionCo2 += act.allCo2
-                    }
-                    "이동수단" -> {
-                        transportCo2 += act.allCo2
-                    }
-                    "자원순환" -> {
-                        resourceCo2 += act.allCo2
-                    }
+                    ENERGY -> energyCo2 += act.allCo2.toFloat()
+                    CONSUME -> consumptionCo2 += act.allCo2.toFloat()
+                    TRANSPORT -> transportCo2 += act.allCo2.toFloat()
+                    RECYCLE -> resourceCo2 += act.allCo2.toFloat()
                 }
             }
-
 
             val totalSum = energyCo2+ consumptionCo2 + transportCo2 + resourceCo2
 
@@ -298,7 +285,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             Timber.i("consumptionCo2 $consumptionCo2")
             Timber.i("transportCo2 $transportCo2")
             Timber.i("resourceCo2 $resourceCo2")
-
 
             //sever Graph 업데이트
             fireDB.collection("User").document(fireUser?.email.toString())
@@ -331,12 +317,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 }
                 getTitle(co2ActList)
                 //분리한다면 아래 같음
+
+                val firstCo2 = co2ActList[0].allCo2
+                val secondCo2 = co2ActList[1].allCo2
+                val thirdCo2 = co2ActList[2].allCo2
                 val firstId :Int = co2ActList[0].ID
                 val secondId :Int = co2ActList[1].ID
                 val thirdId :Int = co2ActList[2].ID
-                val firstCo2 :Double = co2ActList[0].allCo2
-                val secondCo2 :Double = co2ActList[1].allCo2
-                val thirdCo2 :Double = co2ActList[2].allCo2
+
 
                 Timber.i("co2ActList $co2ActList")
                 _co2ActList.value = co2ActList
@@ -358,15 +346,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
-    //                                       전체활동 가져오기
-    data class feedReact(var id: String, var reactionSum: Int, var title : String)
-
-    private var reactionList = arrayListOf<feedReact>()
-
-    private var funny = 0
-    private var great = 0
-    private var like = 0
-
+    //                                       최고 반응 피드
+    private var reactionList = arrayListOf<FeedReact>()
 
     private fun fireGetReaction() {
         reactionList.clear()
@@ -377,23 +358,19 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
+
                 for (document in documents) {
                     val feed = document.toObject<Feed>()
                     feed.id = document.id
 
-                    val reactFun = feed.reactionFun
-                    val reactGreat = feed.reactionGreat
-                    val reactLike = feed.reactionLike
-
-                    val reaccTotal = reactFun + reactGreat + reactLike
-                    reactionList.add(feedReact(feed.id, reaccTotal, feed.actTitle))
+                    reactionList.add(FeedReact(
+                        feed.id,
+                        feed.reactionFun + feed.reactionGreat + feed.reactionLike,
+                        feed.actTitle))
                 }
+
                 //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
-
-                val resultId : String = reactionList[0].id
-                val resultTitle :String = reactionList[0].title
-                Timber.i("resultId $resultId")
 
                 //sever Graph 업데이트
                 fireDB.collection("Feed").document(reactionList[0].id)
@@ -402,31 +379,21 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                         if (document != null) {
                             val gotFeed = document.toObject<Feed>()
 
-                            if (gotFeed != null) {
-                                funny = gotFeed.reactionFun
-                                great = gotFeed.reactionGreat
-                                like = gotFeed.reactionLike
+                            gotFeed?.let {
+                                _feed.value = it
+
+                                fireDB.collection("User").document(fireUser?.email.toString())
+                                    .collection("Project$projectCount").document("Graph")
+                                    .update(
+                                        mapOf(
+                                            "reactionURI" to gotFeed.imageUrl,
+                                            "reactionTitle" to gotFeed.actTitle,
+                                            "funny" to gotFeed.reactionFun,
+                                            "great" to gotFeed.reactionGreat,
+                                            "like" to gotFeed.reactionLike
+                                        ),
+                                    )
                             }
-
-
-                            // LiveData를 통해 UI에 값을 업데이트
-                            _funnycnt.value = funny
-                            _greatcnt.value = great
-                            _likecnt.value = like
-                            _reactiontitle.value = resultTitle
-//                            _reactionuri.value = reactionURI
-
-                            fireDB.collection("User").document(fireUser?.email.toString())
-                                .collection("Project$projectCount").document("Graph")
-                                .update(
-                                    mapOf(
-                                        "reactionURI" to reactionList[0].id,
-                                        "reactionTitle" to reactionList[0].title,
-                                        "funny" to funny,
-                                        "great" to great,
-                                        "like" to like
-                                    ),
-                                )
                         } else {
                             Timber.i("No such document")
                         }
@@ -434,9 +401,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     .addOnFailureListener { exception ->
                         Timber.i(exception)
                     }
-
-
-
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)

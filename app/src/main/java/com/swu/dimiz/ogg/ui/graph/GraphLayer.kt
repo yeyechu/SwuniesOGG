@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -17,6 +16,7 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.databinding.LayerGraphMyactGroupBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyAllAct
 import timber.log.Timber
@@ -24,34 +24,32 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class GraphLayer : Fragment() {
     private var _binding: LayerGraphMyactGroupBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var barChart: BarChart
     private lateinit var barChart2: BarChart
     private lateinit var pieChart: PieChart
 
-    private val binding get() = _binding!!
+    private var pageNumber = 0
+
     private val viewModel: GraphViewModel by activityViewModels { GraphViewModel.Factory }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding =
             DataBindingUtil.inflate(inflater, R.layout.layer_graph_myact_group, container, false)
 
-
-        // 데이터 가져오기
-        viewModel.fireInfo()
-
         return binding.root
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        arguments?.takeIf { it.containsKey(GRAPH_OBJECT) }?.apply {
+            pageNumber = getInt(GRAPH_OBJECT)
+            viewModel.setCurrentPage(pageNumber)
+        }
 
         // 카테고리별
         barChart = binding.categotyChart
@@ -65,28 +63,20 @@ class GraphLayer : Fragment() {
         viewModel.titles.observe(viewLifecycleOwner){
             it?.let{
                 configurePieChart(viewModel.co2Act(),it)
-
             }
         }
+
         viewModel.titlesMost.observe(viewLifecycleOwner){
             it?.let{
                 mostActTitle(it)
-
             }
         }
-
-
-        val projectCount = arguments?.getInt("projectCount", 1) ?: 1
-        loadGraphData(projectCount)
 
         // 스페셜 차트
         barChart2 = binding.specialChart
         configureChartAppearance2()
 //        val data2 = createChartData2()
         prepareChartData2()
-
-
-
     }
 
     private fun mostActTitle(list: List<String>){
@@ -95,21 +85,21 @@ class GraphLayer : Fragment() {
         binding.mostCertifyAct3Name.text = list[2]
     }
 
-
     //-------------- 카테고리 차트 -------------------
     private fun configureChartAppearance() {
         barChart.description.isEnabled = false // chart 밑에 description 표시 유무
         barChart.setTouchEnabled(false) // 터치 유무
         barChart.legend.isEnabled = false // Legend는 차트의 범례
-        barChart.setExtraOffsets(0f, 50f, 0f, 50f)
+        barChart.setExtraOffsets(0f, 20f, 0f, 20f)
 
         // ----- XAxis  - 선 유무, 사이즈, 색상, 축 위치 설정
         val xAxis: XAxis = barChart.xAxis
-        val labels = listOf("에너지", "소비", "자원순환", "이동수단")
+        val labels = listOf(ENERGY, CONSUME, TRANSPORT, RECYCLE)
 
         xAxis.setDrawAxisLine(false)
         xAxis.granularity = 1f
-        xAxis.textSize = 15f
+        xAxis.textSize = 13f
+        xAxis.textColor = requireContext().getColor(R.color.primary_gray)
         xAxis.gridLineWidth = 0f
         xAxis.gridColor = Color.parseColor("#FFFFFF")
         xAxis.position = XAxis.XAxisPosition.BOTTOM // X 축 데이터 표시 위치
@@ -125,7 +115,6 @@ class GraphLayer : Fragment() {
 
         // ----- YAxis(Right) (수평 막대 기준 위쪽) - 사이즈, 선 유무
         val axisRight: YAxis = barChart.axisRight
-        axisRight.textSize = 15f
         axisRight.setDrawLabels(false) // label 삭제
         axisRight.setDrawGridLines(false)
         axisRight.setDrawAxisLine(false)
@@ -189,7 +178,7 @@ class GraphLayer : Fragment() {
             val color = yColorMap[i] ?: Color.BLACK // 디폴트 색상
             barColors.add(color)
         }
-        dataSet.setColors(barColors)
+        dataSet.colors = barColors
 
         val data = BarData(dataSet)
         data.barWidth = 0.9f
@@ -200,20 +189,15 @@ class GraphLayer : Fragment() {
         barChart.invalidate()
     }
 
-
     //-------------- 원형 차트 -------------------
     private fun configurePieChart(co2ActList: List<MyAllAct>, list: List<String>) {
 
         pieChart.setUsePercentValues(true)
         val entries: MutableList<PieEntry> = ArrayList()
 
-        val firstTitle = list[0]
-        val secondTitle = list[1]
-        val thirdTitle = list[2]
-
-        entries.add(PieEntry(co2ActList[0].allCo2.toFloat(), firstTitle))
-        entries.add(PieEntry(co2ActList[1].allCo2.toFloat(), secondTitle))
-        entries.add(PieEntry(co2ActList[2].allCo2.toFloat(), thirdTitle))
+        entries.add(PieEntry(co2ActList[0].allCo2.toFloat(), list[0]))
+        entries.add(PieEntry(co2ActList[1].allCo2.toFloat(), list[1]))
+        entries.add(PieEntry(co2ActList[2].allCo2.toFloat(), list[2]))
         Timber.i("원형 그래프 관찰")
 
         // 데이터 항목에 사용할 색상 배열 (원하는 색상으로 지정)
@@ -230,10 +214,8 @@ class GraphLayer : Fragment() {
         // 라벨 및 숫자 숨기기
         pieDataSet.setDrawValues(false) // 숫자 숨기기
 
-
 // PieData를 생성하고 설정
         val pieData = PieData(pieDataSet)
-
 
 // PieChart 설정
         pieChart.apply {
@@ -257,11 +239,7 @@ class GraphLayer : Fragment() {
                 setDrawInside(false) // 차트 내부에 범례를 그리지 않음
             }
         }
-
-
-
     }
-
 
     //-------------- 스페셜 차트 -------------------
     private fun configureChartAppearance2() {
@@ -321,8 +299,6 @@ class GraphLayer : Fragment() {
         val myRank = viewModel.rank.value ?: 0f // ViewModel에서 rank LiveData 값을 가져옴
         val otherRank = 50f // 다른 사람의 값 (이 값은 수정이 필요한 경우 수정)
 
-
-
         values2.add(BarEntry(0f, myRank+99f))
         values2.add(BarEntry(1f, otherRank))
 
@@ -338,11 +314,11 @@ class GraphLayer : Fragment() {
         )
 
         // 정렬된 순서에 따라 막대 색상을 설정
-        val barColors = values2.mapIndexed { index, _ ->
+        val barColors = List(values2.size) { index ->
             yColorMap[index] ?: Color.BLACK // 디폴트 색상
         }
 
-        dataSet.setColors(barColors)
+        dataSet.colors = barColors
 
         val data = BarData(dataSet)
         data.barWidth = 0.9f
@@ -354,14 +330,10 @@ class GraphLayer : Fragment() {
         barChart2.data = data
         barChart2.invalidate()
     }
-    private fun loadGraphData(projectCount: Int) {
-        // Firebase에서 데이터 가져오는 로직 추가
-        // 데이터를 사용하여 그래프 업데이트
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
         Timber.i("onDestroyView()")
     }
 }

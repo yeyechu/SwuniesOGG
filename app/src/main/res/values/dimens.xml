@@ -104,6 +104,7 @@
     <dimen name="image_size_indicator">4dp</dimen>
     <dimen name="image_size_stamp_face">38dp</dimen>
     <dimen name="image_size_reaction">62dp</dimen>
+    <dimen name="image_size_reaction_graph">50dp</dimen>
     <dimen name="image_size_stamp_face_big">70dp</dimen>
 
     <dimen name="image_size_listset">48dp</dimen>
