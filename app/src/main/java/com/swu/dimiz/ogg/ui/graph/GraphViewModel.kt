@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.graph
 
+import android.net.Uri
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -21,6 +22,7 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyGraph
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.net.URI
 import kotlin.math.roundToInt
 
 //todo 플젝 시작하고 아무것도 안올렸을때 오류남
@@ -266,18 +268,20 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 return@addSnapshotListener
             }
             for (doc in value!!) {
-                var act = doc.toObject<MyAllAct>()
-                if(act.actCode == "에너지"){
-                    energyCo2 += act.allCo2
-                }
-                else if(act.actCode == "소비"){
-                    consumptionCo2 += act.allCo2
-                }
-                else if(act.actCode == "이동수단"){
-                    transportCo2 += act.allCo2
-                }
-                else if(act.actCode == "자원순환"){
-                    resourceCo2 += act.allCo2
+                val act = doc.toObject<MyAllAct>()
+                when (act.actCode) {
+                    "에너지" -> {
+                        energyCo2 += act.allCo2
+                    }
+                    "소비" -> {
+                        consumptionCo2 += act.allCo2
+                    }
+                    "이동수단" -> {
+                        transportCo2 += act.allCo2
+                    }
+                    "자원순환" -> {
+                        resourceCo2 += act.allCo2
+                    }
                 }
             }
 
@@ -314,7 +318,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
 
-        var co2ActList = arrayListOf<MyAllAct>()
+        val co2ActList = arrayListOf<MyAllAct>()
         docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { value, e ->
                 if (e != null) {
@@ -322,17 +326,17 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     return@addSnapshotListener
                 }
                 for (doc in value!!) {
-                    var act = doc.toObject<MyAllAct>()
+                    val act = doc.toObject<MyAllAct>()
                     co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
                 }
                 getTitle(co2ActList)
                 //분리한다면 아래 같음
-                val firstId = co2ActList[0].ID
-                val secondId = co2ActList[1].ID
-                val thirdId = co2ActList[2].ID
-                val firstCo2 = co2ActList[0].allCo2
-                val secondCo2 = co2ActList[1].allCo2
-                val thirdCo2 = co2ActList[2].allCo2
+                val firstId :Int = co2ActList[0].ID
+                val secondId :Int = co2ActList[1].ID
+                val thirdId :Int = co2ActList[2].ID
+                val firstCo2 :Double = co2ActList[0].allCo2
+                val secondCo2 :Double = co2ActList[1].allCo2
+                val thirdCo2 :Double = co2ActList[2].allCo2
 
                 Timber.i("co2ActList $co2ActList")
                 _co2ActList.value = co2ActList
@@ -359,11 +363,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     private var reactionList = arrayListOf<feedReact>()
 
-    private var resultId = ""
-
-    var funny = 0
-    var great = 0
-    var like = 0
+    private var funny = 0
+    private var great = 0
+    private var like = 0
 
 
     private fun fireGetReaction() {
@@ -375,7 +377,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
-                val feedList = mutableListOf<feedReact>()
                 for (document in documents) {
                     val feed = document.toObject<Feed>()
                     feed.id = document.id
@@ -384,14 +385,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     val reactGreat = feed.reactionGreat
                     val reactLike = feed.reactionLike
 
-                    var reaccTotal = reactFun + reactGreat + reactLike
+                    val reaccTotal = reactFun + reactGreat + reactLike
                     reactionList.add(feedReact(feed.id, reaccTotal, feed.actTitle))
                 }
                 //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
 
-                resultId = reactionList[0].id
-                var resultTitle = reactionList[0].title
+                val resultId : String = reactionList[0].id
+                val resultTitle :String = reactionList[0].title
                 Timber.i("resultId $resultId")
 
                 //sever Graph 업데이트
@@ -399,11 +400,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     .get()
                     .addOnSuccessListener { document ->
                         if (document != null) {
-                            var gotFeed = document.toObject<Feed>()
+                            val gotFeed = document.toObject<Feed>()
 
-                            funny = gotFeed!!.reactionFun
-                            great = gotFeed!!.reactionGreat
-                            like = gotFeed!!.reactionLike
+                            if (gotFeed != null) {
+                                funny = gotFeed.reactionFun
+                                great = gotFeed.reactionGreat
+                                like = gotFeed.reactionLike
+                            }
+
 
                             // LiveData를 통해 UI에 값을 업데이트
                             _funnycnt.value = funny
@@ -443,7 +447,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectCount").document("Entire").collection("AllAct")
 
-        var mostUpList = arrayListOf<Int>()
+        val mostUpList = arrayListOf<Int>()
 
         docRef.orderBy("upCount", Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { value, e ->
@@ -453,15 +457,15 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 }
                 for (doc in value!!) {
                     Timber.i("${doc.id} => ${doc.data}")
-                    var act = doc.toObject<MyAllAct>()
+                    val act = doc.toObject<MyAllAct>()
                     mostUpList.add(act.ID)  //여기에 123위 순서대로 담겨있음
                 }
                 getTitleMost(mostUpList)
 
                 //분리한다면 아래 같음
-                val upFirstId = mostUpList[0]
-                val upSecondId = mostUpList[1]
-                val upThirdId = mostUpList[2]
+                val upFirstId :Int = mostUpList[0]
+                val upSecondId :Int = mostUpList[1]
+                val upThirdId :Int = mostUpList[2]
 
                 _mostUpList.value = mostUpList
 
@@ -486,7 +490,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     private fun fireGetExtra(){
         val docRef = fireDB.collection("User")
 
-        var usersExtraList = arrayListOf<Int>()
+        val usersExtraList = arrayListOf<Int>()
         var uExtra = 0
 
         docRef.addSnapshotListener { value, e ->
@@ -495,7 +499,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 return@addSnapshotListener
             }
             for (doc in value!!) {
-                var user = doc.toObject<MyCondition>()
+                val user = doc.toObject<MyCondition>()
                 if(user.email == fireUser?.email.toString()){
                     uExtra = user.extraPost
                 }
@@ -505,13 +509,13 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             usersExtraList.sortDescending()
 
             var level = 0
-            var size = usersExtraList.size
+            val size = usersExtraList.size
             for( i in 0 until size){
                 if(uExtra == usersExtraList[i]){
                     level = i
                 }
             }
-            var rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100 - 99
+            val rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100 - 99
             Timber.i("level $level")
             Timber.i("size $size")
             Timber.i("rank $rank")
@@ -529,8 +533,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 )
         }
     }
-
-    //새로운 플젝시작할때 저장하고 지우고 하는것도 괜찮을것 같음
 
     //이전 프로젝트 불러오기
     private fun fireGetBeforPorject(projectNum : Int){   //몇회차 이전, 이후 필요한지 넣어주기
