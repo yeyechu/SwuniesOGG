@@ -33,7 +33,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     private val fireDB = Firebase.firestore
     private val fireUser = Firebase.auth.currentUser
 
-    var projectCount = 0
     var startDate = 0L
 
     // ───────────────────────────────────────────────────────────────────────────────────
@@ -67,25 +66,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     private val co2List = ArrayList<Float>()
 
     private val _co2Sum = MutableLiveData<Float>()
-    val co2Sum: LiveData<Float>
+    private val co2Sum: LiveData<Float>
         get() = _co2Sum
-
-    //myact
-    private val _energyCo2 = MutableLiveData<Float>()
-    val energyCo2: LiveData<Float>
-        get() = _energyCo2
-
-    private val _consumptionCo2 = MutableLiveData<Float>()
-    val consumptionCo2: LiveData<Float>
-        get() = _consumptionCo2
-
-    private val _transportCo2 = MutableLiveData<Float>()
-    val transportCo2: LiveData<Float>
-        get() = _transportCo2
-
-    private val _resourceCo2 = MutableLiveData<Float>()
-    val resourceCo2: LiveData<Float>
-        get() = _resourceCo2
 
     private val _co2ActList = MutableLiveData<List<MyAllAct>>()
     val co2ActList: LiveData<List<MyAllAct>>
@@ -117,12 +99,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
         _currentPage.value = ID_MODIFIER
         _projectSize.value = INTEGER_ZERO
-        co2List.clear()
-
-        _energyCo2.value = FLOAT_ZERO
-        _consumptionCo2.value = FLOAT_ZERO
-        _transportCo2.value = FLOAT_ZERO
-        _resourceCo2.value = FLOAT_ZERO
 
         _rank.value = FLOAT_ZERO
     }
@@ -170,7 +146,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         return (co2 / total * 100)
     }
 
-    fun setCo2List(list: List<Float>) {
+    private fun setCo2List(list: List<Float>) {
         _co2ForCategory.value = list
     }
 
@@ -258,13 +234,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 if (snapshot != null && snapshot.exists()) {
                     val gotUser = snapshot.toObject<MyCondition>()!!
 
-                    projectCount = gotUser.projectCount
                     getProjectSize(gotUser.projectCount)
 
                     startDate = gotUser.startDate
-
-
-
 
                 } else {
                     Timber.i("Current data: null")
@@ -302,6 +274,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             val totalSum = energyCo2+ consumptionCo2 + transportCo2 + resourceCo2
             _co2Sum.value = totalSum.toFloat()
 
+            co2List.clear()
             co2List.add(getCo2Percent(energyCo2.toFloat(), totalSum.toFloat()))
             co2List.add(getCo2Percent(consumptionCo2.toFloat(), totalSum.toFloat()))
             co2List.add(getCo2Percent(transportCo2.toFloat(), totalSum.toFloat()))
@@ -309,11 +282,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
             setCo2List(co2List)
             Timber.i("co2List: $co2List")
-
-            _energyCo2.value = ((energyCo2 / totalSum) * 100.0f).toFloat()
-            _consumptionCo2.value = ((consumptionCo2 / totalSum) * 100.0f).toFloat()
-            _transportCo2.value = ((transportCo2/ totalSum) * 100.0f).toFloat()
-            _resourceCo2.value = ((resourceCo2 / totalSum) * 100.0f).toFloat()
 
             //각 카테고리별 Co2합
             Timber.i("energyCo2 $energyCo2")
@@ -323,7 +291,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
             //sever Graph 업데이트
             fireDB.collection("User").document(fireUser?.email.toString())
-                .collection("Project$projectCount").document("Graph")
+                .collection("Project$num").document("Graph")
                 .update(
                     mapOf(
                         "energy" to energyCo2,
@@ -371,7 +339,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     //                                       최고 반응 피드
     private var reactionList = arrayListOf<FeedReact>()
 
-    fun fireGetReaction() {
+    fun fireGetReaction(num: Int) {
         reactionList.clear()
 
         fireDB.collection("Feed")
@@ -405,7 +373,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                                 _feed.value = it
 
                                 fireDB.collection("User").document(fireUser?.email.toString())
-                                    .collection("Project$projectCount").document("Graph")
+                                    .collection("Project$num").document("Graph")
                                     .update(
                                         mapOf(
                                             "reactionURI" to gotFeed.imageUrl,

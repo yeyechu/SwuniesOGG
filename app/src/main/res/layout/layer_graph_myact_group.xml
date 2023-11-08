@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--통계 뷰모델 연결-->
     <data>
         <variable
             name="viewModel"
@@ -110,7 +109,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/most_reduce_co2_act_title" />
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
