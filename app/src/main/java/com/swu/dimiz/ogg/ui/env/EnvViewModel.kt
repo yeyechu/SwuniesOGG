@@ -320,8 +320,6 @@ class EnvViewModel : ViewModel() {
             .update("aim", 0f)
             .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Timber.i("Error updating document", e) }
-
-
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
@@ -342,17 +340,11 @@ class EnvViewModel : ViewModel() {
             }
             for (doc in value!!) {
                 val act = doc.toObject<MyAllAct>()
-                if(act.actCode == "에너지"){
-                    energyCo2 += act.allCo2
-                }
-                else if(act.actCode == "소비"){
-                    consumptionCo2 += act.allCo2
-                }
-                else if(act.actCode == "이동수단"){
-                    transportCo2 += act.allCo2
-                }
-                else if(act.actCode == "자원순환"){
-                    resourceCo2 += act.allCo2
+                when (act.actCode) {
+                    ENERGY -> energyCo2 += act.allCo2
+                    CONSUME -> consumptionCo2 += act.allCo2
+                    TRANSPORT -> transportCo2 += act.allCo2
+                    RECYCLE -> resourceCo2 += act.allCo2
                 }
             }
             //sever Graph 업데이트
@@ -410,16 +402,13 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       전체활동 가져오기
-    data class feedReact(var id: String, var reactionSum: Int, var title : String)
+    data class FeedReact(var id: String, var reactionSum: Int, var title : String)
 
-    private var reactionList = arrayListOf<feedReact>()
+    private var reactionList = arrayListOf<FeedReact>()
 
-    private var resultId = ""
-
-    var funny = 0
-    var great = 0
-    var like = 0
-
+    private var funny = 0
+    private var great = 0
+    private var like = 0
 
     private fun fireGetReaction() {
         reactionList.clear()
@@ -439,7 +428,7 @@ class EnvViewModel : ViewModel() {
                     val reactLike = feed.reactionLike
 
                     val reaccTotal = reactFun + reactGreat + reactLike
-                    reactionList.add(feedReact(feed.id, reaccTotal, feed.actTitle))
+                    reactionList.add(FeedReact(feed.id, reaccTotal, feed.actTitle))
                 }
                 //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
@@ -452,8 +441,8 @@ class EnvViewModel : ViewModel() {
                             val gotFeed = document.toObject<Feed>()
 
                             funny = gotFeed!!.reactionFun
-                            great = gotFeed!!.reactionGreat
-                            like = gotFeed!!.reactionLike
+                            great = gotFeed.reactionGreat
+                            like = gotFeed.reactionLike
 
                             fireDB.collection("User").document(fireUser?.email.toString())
                                 .collection("Project$projectCount").document("Graph")
@@ -545,7 +534,7 @@ class EnvViewModel : ViewModel() {
                     level = i
                 }
             }
-            var rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100
+            val rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100
 
             //sever Graph 업데이트
             fireDB.collection("User").document(fireUser?.email.toString())
@@ -613,9 +602,6 @@ class EnvViewModel : ViewModel() {
             }
         }
     }
-
-
-
 
     override fun onCleared() {
         super.onCleared()

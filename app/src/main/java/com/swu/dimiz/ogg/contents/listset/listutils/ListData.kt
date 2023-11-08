@@ -41,3 +41,5 @@ const val RECYCLE = "자원순환"
 const val TOGETHER = "전체"
 
 const val NO_TITLE = "제목없음"
+
+const val GRAPH_OBJECT = "graph"

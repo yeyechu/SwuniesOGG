@@ -23,8 +23,6 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 import kotlin.math.roundToInt
 
-//todo 플젝 시작하고 아무것도 안올렸을때 오류남
-//─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 인서님 여기 경고 뜨는 거 신경 써주세요, 하라는 대로 고치면 됩니다 ▲
 class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     private var viewModelJob = Job()
@@ -39,7 +37,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     var startDate = 0L
 
     // ───────────────────────────────────────────────────────────────────────────────────
-    //                                   뷰페이저 관리용
+    //                               뷰페이저 관리용 : GraphFragment
     private val _projectSize = MutableLiveData<Int>()
     val projectSize: LiveData<Int>
         get() = _projectSize
@@ -57,7 +55,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         get() = _rightPager
 
     // ───────────────────────────────────────────────────────────────────────────────────
-    //                                   그래프 데이터
+    //                                 그래프 데이터 : GraphLayer
     //myact
     private val _energyCo2 = MutableLiveData<Float>()
     val energyCo2: LiveData<Float>
@@ -117,10 +115,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     val titlesMost: LiveData<List<String>>
         get() = _titlesMost
 
-    private val _projcnt = MutableLiveData<Int>()
-    val projcnt: LiveData<Int>
-        get() = _projcnt
-
     init {
         Timber.i("created")
 
@@ -139,6 +133,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         _rank.value = FLOAT_ZERO
     }
 
+    // ─────────────────────────────────────────────────────────────────────────────────────
+    //                                     XML파일 UI 매핑
     val layoutVisible = projectSize.map {
         projectSize.value == 0
     }
@@ -148,13 +144,22 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     val rightButtonEnable = currentPage.map {
-        it <= _projectSize.value!!
+        it < _projectSize.value!!
     }
 
+    // ─────────────────────────────────────────────────────────────────────────────────────
+    //                                     GraphFragment
     private fun getProjectSize(num: Int) {
         _projectSize.value = num
     }
 
+    fun setCurrentPage(num: Int) {
+        _currentPage.value = num + 1
+        Timber.i("현재 페이지: ${_currentPage.value}")
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────────────
+    //                                      GraphLayer
     fun co2Act(): List<MyAllAct> {
         return _co2ActList.value!!
     }
@@ -232,11 +237,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         _rightPager.value = false
     }
 
-    fun setCurrentPage(num: Int) {
-        _currentPage.value = num + 1
-        Timber.i("현재 페이지: ${_currentPage.value}")
-    }
-
+    // ─────────────────────────────────────────────────────────────────────────────────────
     fun fireInfo() {
         fireDB.collection("User").document(fireUser?.email.toString())
             .addSnapshotListener { snapshot, e ->
@@ -368,15 +369,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     private fun fireGetReaction() {
         reactionList.clear()
-        val less = startDate + 21000000
+
         fireDB.collection("Feed")
             .whereEqualTo("email", fireUser?.email.toString())
             .whereGreaterThan("postTime", startDate)
-            //.whereLessThan("postTime", less)
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
-                val feedList = mutableListOf<FeedReact>()
+
                 for (document in documents) {
                     val feed = document.toObject<Feed>()
                     feed.id = document.id
@@ -418,6 +418,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                                 .update(
                                     mapOf(
                                         "reactionURI" to reactionList[0].id,
+                                        "reactionTitle" to reactionList[0].title,
                                         "funny" to funny,
                                         "great" to great,
                                         "like" to like

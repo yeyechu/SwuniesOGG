@@ -1,7 +1,9 @@
 package com.swu.dimiz.ogg.ui.graph
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.swu.dimiz.ogg.contents.listset.listutils.GRAPH_OBJECT
 
 class GraphFragmentStateAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
@@ -9,6 +11,12 @@ class GraphFragmentStateAdapter(fragment: Fragment) : FragmentStateAdapter(fragm
 
     override fun getItemCount(): Int = pagerSize
 
-    override fun createFragment(position: Int): Fragment = GraphLayer()
+    override fun createFragment(position: Int): Fragment {
+        val fragment = GraphLayer()
+        fragment.arguments = Bundle().apply {
+            putInt(GRAPH_OBJECT, position)
+        }
+        return fragment
+    }
 }
 

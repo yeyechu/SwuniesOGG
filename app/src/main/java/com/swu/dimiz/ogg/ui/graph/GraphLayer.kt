@@ -16,6 +16,7 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.listutils.GRAPH_OBJECT
 import com.swu.dimiz.ogg.databinding.LayerGraphMyactGroupBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyAllAct
 import timber.log.Timber
@@ -29,6 +30,8 @@ class GraphLayer : Fragment() {
     private lateinit var barChart2: BarChart
     private lateinit var pieChart: PieChart
 
+    private var pageNumber = 0
+
     private val viewModel: GraphViewModel by activityViewModels { GraphViewModel.Factory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -39,8 +42,14 @@ class GraphLayer : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        arguments?.takeIf { it.containsKey(GRAPH_OBJECT) }?.apply {
+            pageNumber = getInt(GRAPH_OBJECT)
+            viewModel.setCurrentPage(pageNumber)
+        }
 
         // 카테고리별
         barChart = binding.categotyChart

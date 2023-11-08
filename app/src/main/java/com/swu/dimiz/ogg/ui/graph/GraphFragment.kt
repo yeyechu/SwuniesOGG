@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentGraphBinding
 import timber.log.Timber
@@ -48,7 +49,6 @@ class GraphFragment : Fragment() {
         viewPager2 = binding.viewpagerGraph
         viewpager2Adapter = GraphFragmentStateAdapter(this)
         viewPager2.adapter = viewpager2Adapter
-        viewModel.setCurrentPage(viewPager2.currentItem)
 
         viewModel.projectSize.observe(viewLifecycleOwner) {
             it?.let {
@@ -62,7 +62,7 @@ class GraphFragment : Fragment() {
 
                 viewPager2.setCurrentItem(currentPage - 1, true)
                 viewModel.onLeftCompleted()
-                viewModel.setCurrentPage(currentPage)
+                //viewModel.setCurrentPage(currentPage)
             }
         }
 
@@ -72,7 +72,7 @@ class GraphFragment : Fragment() {
 
                 viewPager2.setCurrentItem(currentPage + 1, true)
                 viewModel.onRightCompleted()
-                viewModel.setCurrentPage(currentPage)
+               //viewModel.setCurrentPage(currentPage)
             }
         }
     }
