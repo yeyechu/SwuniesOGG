@@ -722,21 +722,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     if(it.aId != 0) {
                         addCo2HolderFromListHolder(it.aId)
                         updateListFire(it)
-
-                        //이미 한 daily 개수 따지려면 today에서 dailyID 몇개있는지 판별
-                        /*fireDB.collection("User").document(fireUser?.email.toString())
-                            .collection("Project${_userCondition.value?.projectCount}")
-                            .document("Daily").collection(today.toString())
-                            .whereEqualTo("dailyID", it.aId)
-                            .count().get(AggregateSource.SERVER).addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    // Count fetched successfully
-                                    val snapshot = task.result
-                                    Timber.i(" ${it.aId} Count: ${snapshot.count}")
-                                } else {
-                                    Timber.i("Count failed: ${task.exception}")
-                                }
-                            }*/
                     }
                 }
             }

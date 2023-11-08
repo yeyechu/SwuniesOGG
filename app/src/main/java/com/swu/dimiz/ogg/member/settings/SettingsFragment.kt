@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,8 +18,6 @@ import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSettingsBinding
 import com.swu.dimiz.ogg.member.login.SignInActivity
-import com.swu.dimiz.ogg.ui.env.EnvViewModel
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 
 class SettingsFragment : Fragment() {
@@ -29,7 +26,7 @@ class SettingsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
-    private val viewModel: EnvViewModel by activityViewModels()
+//    private val viewModel: EnvViewModel by activityViewModels()
 
     private lateinit var auth: FirebaseAuth
 

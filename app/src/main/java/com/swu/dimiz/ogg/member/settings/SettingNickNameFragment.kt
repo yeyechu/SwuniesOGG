@@ -36,8 +36,8 @@ class SettingNickNameFragment : Fragment() {
 
 
 
-        binding.changeNicknameBtn.setOnClickListener(){
-            var newNickname = binding.newNicknameEt.editText?.text.toString()
+        binding.changeNicknameBtn.setOnClickListener {
+            val newNickname = binding.newNicknameEt.editText?.text.toString()
 
             //계정 닉네임 업데이트
             val profileUpdates = userProfileChangeRequest {
@@ -60,7 +60,7 @@ class SettingNickNameFragment : Fragment() {
             it?.let {
                 navController.navigate(R.id.action_destination_setting_nickname_to_destination_settings)
             }
-            Toast.makeText(activity,"닉네임 변경이 완료되었어요!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity,"닉네임 변경이 완료되었어요!",Toast.LENGTH_SHORT).show()
         }
         return binding.root
     }

@@ -243,7 +243,7 @@ class PostDailyWindow  : Fragment() {
     }
     // ─────────────────────────────────────────────────────────────────────────────────
     //                              배지 획득 이벤트
-    val counts = ArrayList<MyBadge>()
+    private val counts = ArrayList<MyBadge>()
     private fun updateBadgeDate(){
         fireDB.collection("User").document(userEmail)
             .collection("Badge")
@@ -252,7 +252,7 @@ class PostDailyWindow  : Fragment() {
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     Timber.i("${document.id} => ${document.data}")
-                    var gotBadge = document.toObject<MyBadge>()
+                    val gotBadge = document.toObject<MyBadge>()
                     counts.add(gotBadge)
                 }
                 for(i in 0 until counts.size){

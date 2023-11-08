@@ -345,6 +345,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             }
     }
 
+    // todo 빙하면적 해초지
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       최고 반응 피드
     private var reactionList = arrayListOf<FeedReact>()

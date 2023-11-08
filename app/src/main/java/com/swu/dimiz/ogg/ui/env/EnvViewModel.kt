@@ -404,10 +404,6 @@ class EnvViewModel : ViewModel() {
     //                                       전체활동 가져오기
     private var reactionList = arrayListOf<FeedReact>()
 
-    private var funny = 0
-    private var great = 0
-    private var like = 0
-
     private fun fireGetReaction() {
         reactionList.clear()
 
@@ -417,17 +413,17 @@ class EnvViewModel : ViewModel() {
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
+
                 for (document in documents) {
                     val feed = document.toObject<Feed>()
                     feed.id = document.id
 
-                    val reactFun = feed.reactionFun
-                    val reactGreat = feed.reactionGreat
-                    val reactLike = feed.reactionLike
-
-                    val reaccTotal = reactFun + reactGreat + reactLike
-                    reactionList.add(FeedReact(feed.id, reaccTotal, feed.actTitle))
+                    reactionList.add(FeedReact(
+                        feed.id,
+                        feed.reactionFun + feed.reactionGreat + feed.reactionLike,
+                        feed.actTitle))
                 }
+
                 //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
 
@@ -438,21 +434,19 @@ class EnvViewModel : ViewModel() {
                         if (document != null) {
                             val gotFeed = document.toObject<Feed>()
 
-                            funny = gotFeed!!.reactionFun
-                            great = gotFeed.reactionGreat
-                            like = gotFeed.reactionLike
-
-                            fireDB.collection("User").document(fireUser?.email.toString())
-                                .collection("Project$projectCount").document("Graph")
-                                .update(
-                                    mapOf(
-                                        "reactionURI" to reactionList[0].id,
-                                        "reactionTitle" to reactionList[0].title,
-                                        "funny" to funny,
-                                        "great" to great,
-                                        "like" to like
-                                    ),
-                                )
+                            gotFeed?.let {
+                                fireDB.collection("User").document(fireUser?.email.toString())
+                                    .collection("Project$projectCount").document("Graph")
+                                    .update(
+                                        mapOf(
+                                            "reactionURI" to gotFeed.imageUrl,
+                                            "reactionTitle" to gotFeed.actTitle,
+                                            "funny" to gotFeed.reactionFun,
+                                            "great" to gotFeed.reactionGreat,
+                                            "like" to gotFeed.reactionLike
+                                        ),
+                                    )
+                            }
                         } else {
                             Timber.i("No such document")
                         }

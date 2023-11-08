@@ -3,7 +3,6 @@ package com.swu.dimiz.ogg.member.settings
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +37,7 @@ class SettingPasswordFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_setting_password, container, false)
 
-        binding.presentPasswordBtn.setOnClickListener(){
+        binding.presentPasswordBtn.setOnClickListener {
             val presentPwd = binding.presentPassword.editText?.text.toString()
 
             //계정 삭제, 기본 이메일 주소 설정, 비밀번호 변경과 같이 보안에 민감한 작업을 하려면 사용자가 최근에 로그인한 적이 있어야 함
@@ -85,8 +84,8 @@ class SettingPasswordFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) { } //작성 후
         })
 
-        binding.passwordBtn.setOnClickListener(){
-            var newPassword = binding.newPasswordEt.editText?.text.toString()
+        binding.passwordBtn.setOnClickListener{
+            val newPassword = binding.newPasswordEt.editText?.text.toString()
 
             //비밀번호 업데이트
             fireUser!!.updatePassword(newPassword)
@@ -100,7 +99,7 @@ class SettingPasswordFragment : Fragment() {
             it?.let {
                 navController.navigate(R.id.action_destination_setting_password_to_destination_settings)
             }
-            Toast.makeText(activity,"비밀번호 변경이 완료되었어요!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity,"비밀번호 변경이 완료되었어요!", Toast.LENGTH_SHORT).show()
         }
 
 

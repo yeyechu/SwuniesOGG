@@ -35,13 +35,13 @@ class SettingSignoutFragment: Fragment() {
 
         binding.textView2.text = fireUser?.email.toString() + "님"
 
-        binding.signoutBtn.setOnClickListener(){
+        binding.signoutBtn.setOnClickListener {
             if(binding.checkBox3.isChecked){
 
 
             }
             else{
-                Toast.makeText(activity,"탈퇴에 동의해주세요", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,"탈퇴에 동의해주세요", Toast.LENGTH_SHORT).show()
             }
         }
         return binding.root

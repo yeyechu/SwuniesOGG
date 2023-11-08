@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.member.login
 
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -41,7 +40,7 @@ class SignupFragment : Fragment() {
             signup(email, password1, nickname)
 
 
-            if (password1 != null && password2 != null && password1 != password2) {
+            if (password1 != password2) {
                 binding.passwordEtSecond.error = "비밀번호가 일치하지 않습니다."
                 return@setOnClickListener
             }

@@ -64,7 +64,7 @@ class SigninFragment: Fragment() {
         auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 //auth에 저장해둔 정보 가져오기
-                var appUser = MyCondition()     //사용자 기본 정보 저장
+                val appUser = MyCondition()     //사용자 기본 정보 저장
 
                 val fireUser = Firebase.auth.currentUser
                 fireUser?.let {

@@ -21,14 +21,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.FragmentSettingCarBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 
 class SettingCarFragment : Fragment() {
@@ -51,7 +49,6 @@ class SettingCarFragment : Fragment() {
     var projectCount = 0
 
     private var feedDay = 0L
-    private var getDate = 0L
 
     private val userEmail = fireUser?.email.toString()
 
@@ -67,13 +64,13 @@ class SettingCarFragment : Fragment() {
             val washingtonRef = fireDB.collection("User").document(userEmail)
 
             if(elecisChecked){
-                var car = 1
+                val car = 1
                 washingtonRef
                     .update("car", car)
                     .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                     .addOnFailureListener { e -> Timber.i(e) }
 
-                var carNumber = binding.carNumberInput.editText?.text.toString()
+                val carNumber = binding.carNumberInput.editText?.text.toString()
                 washingtonRef
                     .update("carNumber", carNumber)
                     .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
@@ -113,14 +110,15 @@ class SettingCarFragment : Fragment() {
                                 }
 
                                 //전체 활동 상태 업
-                                val washingtonRef = fireDB.collection("User").document(userEmail)
+                                val washingtonRef2 = fireDB.collection("User").document(userEmail)
                                     .collection("Project${projectCount}").document("Entire")
                                     .collection("AllAct").document("20008")
-                                washingtonRef
+
+                                washingtonRef2
                                     .update("upCount", FieldValue.increment(1))
                                     .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
-                                washingtonRef
+                                washingtonRef2
                                     .update("allCo2", FieldValue.increment(4.027))
                                     .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
@@ -163,13 +161,13 @@ class SettingCarFragment : Fragment() {
                     }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
 
             }else if(nomalisChecked){
-                var car = 2
+                val car = 2
                 washingtonRef
                     .update("car", car)
                     .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                     .addOnFailureListener { e -> Timber.i(e) }
 
-                var carNumber = binding.carNumberInput.editText?.text.toString()
+                val carNumber = binding.carNumberInput.editText?.text.toString()
                 washingtonRef
                     .update("carNumber", carNumber)
                     .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }

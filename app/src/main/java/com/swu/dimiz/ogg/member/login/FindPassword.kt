@@ -33,7 +33,7 @@ class FindPassword: Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_signin_find_password, container, false)
 
-        binding.sendEmailBtn.setOnClickListener(){
+        binding.sendEmailBtn.setOnClickListener {
             val email =  binding.emailEt.editText?.text.toString()
 
             Firebase.auth.sendPasswordResetEmail(email)
