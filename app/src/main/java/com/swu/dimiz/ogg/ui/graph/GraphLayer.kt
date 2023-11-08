@@ -66,9 +66,16 @@ class GraphLayer : Fragment() {
             it?.let{
                 configurePieChart(viewModel.co2Act(),it)
 
+            }
+        }
+        viewModel.titlesMost.observe(viewLifecycleOwner){
+            it?.let{
+                mostActTitle(it)
 
             }
         }
+
+
         val projectCount = arguments?.getInt("projectCount", 1) ?: 1
         loadGraphData(projectCount)
 
@@ -80,6 +87,12 @@ class GraphLayer : Fragment() {
 
 
 
+    }
+
+    private fun mostActTitle(list: List<String>){
+        binding.mostCertifyAct1Name.text = list[0]
+        binding.mostCertifyAct2Name.text = list[1]
+        binding.mostCertifyAct3Name.text = list[2]
     }
 
 
@@ -307,10 +320,10 @@ class GraphLayer : Fragment() {
         // 값 설정
         val myRank = viewModel.rank.value ?: 0f // ViewModel에서 rank LiveData 값을 가져옴
         val otherRank = 50f // 다른 사람의 값 (이 값은 수정이 필요한 경우 수정)
-        val percentileValue = (myRank / 100.0f) * otherRank
 
 
-        values2.add(BarEntry(0f, percentileValue))
+
+        values2.add(BarEntry(0f, myRank+99f))
         values2.add(BarEntry(1f, otherRank))
 
         // BarDataSet을 생성하고 데이터 설정

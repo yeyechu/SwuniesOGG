@@ -154,7 +154,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_medium"
-                        tools:text = "@string/graph_title_myact_seachart_1"
+                        android:text = "@string/graph_title_myact_seachart_1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -227,7 +227,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_medium"
-                        tools:text = "@string/graph_title_myact_seachart_1"
+                        android:text = "@string/graph_title_myact_seachart_2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -357,26 +357,26 @@
 
 
                 <ImageView
-                    android:id="@+id/reaction_great_icon"
+                    android:id="@+id/reaction_fun_icon"
                     android:layout_width="@dimen/fui_min_height_target"
                     android:layout_height="@dimen/fui_min_height_target"
-                    android:background="@drawable/feed_button_reaction_great_enabled"
+                    android:background="@drawable/feed_button_reaction_fun_enabled"
                     app:layout_constraintBottom_toBottomOf="@+id/reaction_like_icon"
-                    app:layout_constraintEnd_toStartOf="@+id/reaction_fun_icon"
+                    app:layout_constraintEnd_toStartOf="@+id/reaction_great_icon"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/reaction_like_icon"
                     app:layout_constraintTop_toTopOf="@+id/reaction_like_icon" />
 
                 <ImageView
-                    android:id="@+id/reaction_fun_icon"
+                    android:id="@+id/reaction_great_icon"
                     android:layout_width="@dimen/fui_min_height_target"
                     android:layout_height="@dimen/fui_min_height_target"
 
-                    android:background="@drawable/feed_button_reaction_fun_enabled"
-                    app:layout_constraintBottom_toBottomOf="@+id/reaction_great_icon"
+                    android:background="@drawable/feed_button_reaction_great_enabled"
+                    app:layout_constraintBottom_toBottomOf="@+id/reaction_fun_icon"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/reaction_great_icon"
-                    app:layout_constraintTop_toTopOf="@+id/reaction_great_icon" />
+                    app:layout_constraintStart_toEndOf="@+id/reaction_fun_icon"
+                    app:layout_constraintTop_toTopOf="@+id/reaction_fun_icon" />
 
                 <TextView
                     android:id="@+id/reaction_like_cnt"
@@ -396,21 +396,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="1개"
-                    android:text='@{@string/count_format(viewModel.greatcnt.toString)}'
+                    android:text='@{@string/count_format(viewModel.funnycnt.toString)}'
                     style="@style/StyleText"
                     app:layout_constraintBottom_toBottomOf="@+id/reaction_like_cnt"
-                    app:layout_constraintEnd_toEndOf="@+id/reaction_great_icon"
-                    app:layout_constraintStart_toStartOf="@+id/reaction_great_icon" />
+                    app:layout_constraintEnd_toEndOf="@+id/reaction_fun_icon"
+                    app:layout_constraintStart_toStartOf="@+id/reaction_fun_icon" />
                 <TextView
                     android:id="@+id/reaction_fun_cnt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="1개"
-                    android:text="@{@string/count_format(viewModel.funnycnt.toString)}"
+                    android:text="@{@string/count_format(viewModel.greatcnt.toString)}"
                     style="@style/StyleText"
-                    app:layout_constraintBottom_toBottomOf="@+id/reaction_great_cnt"
-                    app:layout_constraintEnd_toEndOf="@+id/reaction_fun_icon"
-                    app:layout_constraintStart_toStartOf="@+id/reaction_fun_icon" />
+                    app:layout_constraintBottom_toBottomOf="@+id/reaction_like_cnt"
+                    app:layout_constraintEnd_toEndOf="@+id/reaction_great_icon"
+                    app:layout_constraintStart_toStartOf="@+id/reaction_great_icon" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -466,6 +466,7 @@
                     android:id="@+id/most_certify_act1_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_small"
                     android:text="@{viewModel.mostUpList[0].toString}"
                     />
                 <ProgressBar
@@ -481,6 +482,7 @@
                     android:id="@+id/most_certify_act2_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_small"
                     android:text="@{viewModel.mostUpList[1].toString}"
                     />
                 <ProgressBar
@@ -496,6 +498,7 @@
                     android:id="@+id/most_certify_act3_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_small"
                     android:text="@{viewModel.mostUpList[2].toString}"
                     />
 
@@ -544,7 +547,6 @@
                         style="@style/StyleText.header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/spacing_small"
                         android:text="@string/graph_title_special_act_chart"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -555,6 +557,7 @@
                         android:id="@+id/special_chart"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
+                        android:layout_marginLeft="@dimen/spacing_big"
                         android:padding="@dimen/spacing_medium"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

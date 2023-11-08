@@ -193,6 +193,7 @@
                     android:id="@+id/most_certify_act1_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_small"
                     android:text="활동명1"
                     />
                 <ProgressBar

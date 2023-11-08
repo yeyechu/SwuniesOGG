@@ -152,6 +152,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         return _co2ActList.value!!
     }
 
+
+
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                         활동 타이틀
 
@@ -506,14 +508,13 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     level = i
                 }
             }
-            var rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100
+            var rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100 - 99
             Timber.i("level $level")
             Timber.i("size $size")
             Timber.i("rank $rank")
 
             val roundedRank: Float = (rank * 10.0f).roundToInt() / 10.0f
             _rank.value = roundedRank
-
 
             //sever Graph 업데이트
             fireDB.collection("User").document(fireUser?.email.toString())
