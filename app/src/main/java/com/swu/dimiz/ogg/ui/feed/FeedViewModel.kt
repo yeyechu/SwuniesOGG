@@ -162,6 +162,7 @@ class FeedViewModel : ViewModel() {
                                     .addOnFailureListener { e -> Timber.i(e) }
                             }
                         }
+                        fireBadgeOtherUser()
 
                         // ───────────────────────────────────────────────────────────────────────────────────
                         //배지 카운트 업
@@ -211,8 +212,9 @@ class FeedViewModel : ViewModel() {
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                                     }
                                 } else { Timber.i("Current data: null") }
+
                             }
-                        fireBadgeOtherUser()
+
                         fireGetFeed()
                     }
                 }

@@ -526,10 +526,23 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    //todo회차 가져오는 함수
-    //현재 플젝이 3이면 3-1, 3-2 같이해서 가져옴
     //새로운 플젝시작할때 저장하고 지우고 하는것도 괜찮을것 같음
 
+    //이전 프로젝트 불러오기
+    private fun fireGetBeforPorject(projectNum : Int){   //몇회차 이전, 이후 필요한지 넣어주기
+        fireDB.collection("User").document(fireUser?.email.toString())
+            .collection("Project$projectNum").document("Graph")
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Timber.i("DocumentSnapshot data: ${document.data}")
+                    val gotGraph = document.toObject<MyGraph>()
+                } else {
+                    Timber.i("No such document")
+                }
+            }
+            .addOnFailureListener { exception -> Timber.i(exception) }
+    }
 
     override fun onCleared() {
         super.onCleared()

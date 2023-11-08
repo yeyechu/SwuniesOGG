@@ -407,23 +407,25 @@ class CameraFragment : Fragment() {
                 .addOnFailureListener { e -> Timber.i( e ) }
         }
     }
-
     private fun updateBadgeCo2(){
-        fireDB.collection("User").document(userEmail)
-            .collection("Badge").document("40022")
-            .update("count", FieldValue.increment(CameraActivity.co2.toDouble() * 1000))
-            .addOnSuccessListener { Timber.i("40022 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
-        fireDB.collection("User").document(userEmail)
-            .collection("Badge").document("40023")
-            .update("count", FieldValue.increment(CameraActivity.co2.toDouble() * 1000))
-            .addOnSuccessListener { Timber.i("40023 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
-        fireDB.collection("User").document(userEmail)
-            .collection("Badge").document("40024")
-            .update("count", FieldValue.increment(CameraActivity.co2.toDouble() * 1000))
-            .addOnSuccessListener { Timber.i("40024 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+        // 오늟의 활동만
+        if(CameraActivity.id.toInt() < 20000) {
+            fireDB.collection("User").document(userEmail)
+                .collection("Badge").document("40022")
+                .update("count", FieldValue.increment(CameraActivity.co2.toDouble() * 1000))
+                .addOnSuccessListener { Timber.i("40022 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+            fireDB.collection("User").document(userEmail)
+                .collection("Badge").document("40023")
+                .update("count", FieldValue.increment(CameraActivity.co2.toDouble() * 1000))
+                .addOnSuccessListener { Timber.i("40023 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+            fireDB.collection("User").document(userEmail)
+                .collection("Badge").document("40024")
+                .update("count", FieldValue.increment(CameraActivity.co2.toDouble() * 1000))
+                .addOnSuccessListener { Timber.i("40024 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────────────────────

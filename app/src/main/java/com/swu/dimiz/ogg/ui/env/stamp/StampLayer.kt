@@ -52,7 +52,6 @@ class StampLayer : Fragment() {
             viewModel.setCo2(it.aim)
             if(it.startDate != 0L) {
                 viewModel.fireGetStamp()
-                viewModel.fireGetContinuDay()
                 viewModel.setUntilTodayCo2(it.aim, convertToDuration(it.startDate))
             }
         }

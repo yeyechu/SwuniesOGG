@@ -163,10 +163,10 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
             badges.forEach {
                 if(it.getDate == null) {
                     if(duration == it.baseValue) {
-                        updateBadgeToFire(it.badgeId, true)
+                        updateBadgeToFire(it.badgeId, true, duration)
                         onBadgeCleared()
                     } else if(duration > it.count) {
-                        updateBadgeToFire(it.badgeId, false)
+                        updateBadgeToFire(it.badgeId, false, duration)
                     }
                 }
             }
@@ -234,10 +234,31 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      파이어베이스
-    private fun updateBadgeToFire(id: Int, bool: Boolean) = viewModelScope.launch {
+    private fun updateBadgeToFire(id: Int, bool: Boolean, duration: Int) = viewModelScope.launch {
         Timber.i("전달된 $id, bool: $bool")
-        // bool == true일 때, 날짜 생성
-        // bool == false일 때, count만 업데이트
+
+        if(bool){ // bool == true일 때, 날짜 생성
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Badge").document(id.toString())
+                .update("count", duration)
+                .addOnSuccessListener { Timber.i("$id 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+
+            val getDate = System.currentTimeMillis()
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Badge").document(id.toString())
+                .update("getDate", getDate)
+                .addOnSuccessListener { Timber.i("$id 획득 완료") }
+                .addOnFailureListener { exeption -> Timber.i(exeption) }
+        }
+        else{   // bool == false일 때, count만 업데이트
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Badge").document(id.toString())
+                .update("count", duration)
+                .addOnSuccessListener { Timber.i("$id 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+        }
+
     }
     //파이어베이스에 저장
     fun saveLocationToFirebase(){
