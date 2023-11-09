@@ -171,6 +171,13 @@ class GraphLayer : Fragment() {
                 return ""
             }
         }
+        val axisLeft: YAxis = barChart.axisLeft
+        axisLeft.setDrawGridLines(false)
+        axisLeft.setDrawAxisLine(false)
+        axisLeft.axisMinimum = 0f // 최솟값
+        axisLeft.axisMaximum = 100f // 최댓값
+        axisLeft.granularity = 1f // 값만큼 라인선 설정
+        axisLeft.setDrawLabels(false) // label 삭제
 
         val leftAxis: YAxis = barChart.axisLeft
         leftAxis.setDrawAxisLine(false)
