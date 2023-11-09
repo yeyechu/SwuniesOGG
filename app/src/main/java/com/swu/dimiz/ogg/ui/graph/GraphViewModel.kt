@@ -370,7 +370,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                         feed.reactionFun + feed.reactionGreat + feed.reactionLike,
                         feed.actTitle))
                 }
-
+                _noFeed.value = reactionList.size == 0
                 //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
 

@@ -62,7 +62,7 @@ class GraphFragment : Fragment() {
 
                 viewPager2.setCurrentItem(currentPage - 1, true)
                 viewModel.onLeftCompleted()
-                //viewModel.setCurrentPage(currentPage)
+                viewModel.setCurrentPage(currentPage)
             }
         }
 
@@ -72,7 +72,7 @@ class GraphFragment : Fragment() {
 
                 viewPager2.setCurrentItem(currentPage + 1, true)
                 viewModel.onRightCompleted()
-               //viewModel.setCurrentPage(currentPage)
+               viewModel.setCurrentPage(currentPage)
             }
         }
     }
