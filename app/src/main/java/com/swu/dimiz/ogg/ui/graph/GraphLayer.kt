@@ -1,10 +1,12 @@
 package com.swu.dimiz.ogg.ui.graph
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -20,6 +22,7 @@ import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.databinding.LayerGraphMyactGroupBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyAllAct
 import timber.log.Timber
+import kotlin.math.abs
 
 class GraphLayer : Fragment() {
     private var _binding: LayerGraphMyactGroupBinding? = null
@@ -71,13 +74,15 @@ class GraphLayer : Fragment() {
 
         viewModel.titlesPost.observe(viewLifecycleOwner){
             it?.let{
-                initPieChart(pieChart, viewModel.co2Act(),it)
+                initPieChart(pieChart, viewModel.getCo2List(),it)
             }
         }
 
         viewModel.titlesCo2.observe(viewLifecycleOwner){
             it?.let{
-                mostActTitle(it)
+                it.forEach {title ->
+                    binding.mostCertifyAct1Name.text = title
+                }
             }
         }
 
@@ -86,7 +91,7 @@ class GraphLayer : Fragment() {
 
         viewModel.rank.observe(viewLifecycleOwner) {
             it?.let {
-                setBarData(barChart2, listOf(it - 100, 50f), labels2)
+                setBarData(barChart2, listOf(abs(it - 100), 50f), labels2)
             }
         }
     }
@@ -108,10 +113,10 @@ class GraphLayer : Fragment() {
         entries.clear()
 
         val yColorMap = mapOf(
-            0 to Color.parseColor("#FFCE6E"),
-            1 to Color.parseColor("#F5F5F5"),
-            2 to Color.parseColor("#FEF5E2"),
-            3 to Color.parseColor("#FFE2A8")
+            0 to requireContext().getColor(R.color.point_yellow),
+            1 to requireContext().getColor(R.color.secondary_baby_gray),
+            2 to requireContext().getColor(R.color.point_yellow_baby),
+            3 to requireContext().getColor(R.color.point_yellow_light)
         )
 
         list.forEach {
@@ -158,9 +163,10 @@ class GraphLayer : Fragment() {
         xAxis.granularity = 1f
         xAxis.textColor = requireContext().getColor(R.color.primary_gray)
         xAxis.textSize = 12f
+        xAxis.typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.nanumsquare_r), Typeface.BOLD)
 
         xAxis.gridLineWidth = 0f
-        xAxis.gridColor = Color.parseColor("#FFFFFF")
+        xAxis.gridColor = requireContext().getColor(R.color.transparency_transparent)
         xAxis.setDrawAxisLine(false)
         xAxis.setDrawGridLines(false)
         xAxis.valueFormatter = object : ValueFormatter() {
@@ -200,14 +206,20 @@ class GraphLayer : Fragment() {
             isRotationEnabled = false
             setDrawEntryLabels(false) // 파이 조각 위의 라벨 숨기기
             setEntryLabelColor(Color.BLACK)
-            animateX(1000)
+            setExtraOffsets(0f, 5f, 0f, 5f)
+            transparentCircleRadius = 20f
+            holeRadius = 40f
+
+            animateXY(500, 500)
 
             legend.apply {
                 form = Legend.LegendForm.CIRCLE
-                textSize = 12f
+                textSize = 13f
                 formSize = 10f
-                formToTextSpace = 10f
-                yEntrySpace = 15f
+                formToTextSpace = 15f
+                yEntrySpace = 10f
+                typeface = Typeface.create(ResourcesCompat.getFont(requireContext(), R.font.nanumsquare_r), Typeface.BOLD)
+                textColor = requireContext().getColor(R.color.primary_gray)
 
                 horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT // 우측 정렬
                 verticalAlignment = Legend.LegendVerticalAlignment.CENTER
@@ -222,9 +234,9 @@ class GraphLayer : Fragment() {
         entries.clear()
 
         val yColorMap = mapOf(
-            0 to Color.parseColor("#6897F3"),
-            1 to Color.parseColor("#A4C0F8"),
-            2 to Color.parseColor("#E8EFFD")
+            0 to requireContext().getColor(R.color.primary_blue),
+            1 to requireContext().getColor(R.color.secondary_light_blue),
+            2 to requireContext().getColor(R.color.secondary_baby_blue)
         )
         val colors = ArrayList<Int>()
 

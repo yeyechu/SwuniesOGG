@@ -37,32 +37,6 @@ class SettingsFragment : Fragment() {
 
         auth = Firebase.auth
 
-        binding.changeNicknameBtn.setOnClickListener {
-
-            it?.let {
-                navController.navigate(R.id.destination_setting_nickname)
-            }
-        }
-
-        binding.changePasswordBtn.setOnClickListener {
-
-            it?.let {
-                navController.navigate(R.id.destination_setting_password)
-            }
-        }
-
-        binding.mycarBtn.setOnClickListener {
-
-            it?.let {
-                navController.navigate(R.id.destination_setting_car)
-            }
-        }
-        binding.signoutBtn.setOnClickListener {
-
-            it?.let {
-                navController.navigate(R.id.destination_setting_signout)
-            }
-        }
         return binding.root
     }
 
@@ -80,6 +54,22 @@ class SettingsFragment : Fragment() {
             auth.signOut()
             requireContext().startActivity(intent)
             MainActivity.mainActivity!!.finish()
+        }
+
+        binding.changeNicknameBtn.setOnClickListener {
+            navController.navigate(R.id.destination_setting_nickname)
+        }
+
+        binding.changePasswordBtn.setOnClickListener {
+            navController.navigate(R.id.destination_setting_password)
+        }
+
+        binding.mycarBtn.setOnClickListener {
+            navController.navigate(R.id.destination_setting_car)
+        }
+
+        binding.signoutBtn.setOnClickListener {
+            navController.navigate(R.id.destination_setting_signout)
         }
     }
 

@@ -149,7 +149,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                      GraphLayer
-    fun co2Act(): List<MyAllAct> {
+    fun getCo2List(): List<MyAllAct> {
         return _mostCo2List.value!!
     }
 
@@ -163,7 +163,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                         활동 타이틀
-    private fun getTitle(list: List<MyAllAct>) {
+    private fun getTitlePost(list: List<MyAllAct>) {
         val titleList = ArrayList<String>()
 
         uiScope.launch {
@@ -174,11 +174,11 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     3 -> titleList.add(getExtraTitleFromRoomDatabase(it.ID).title)
                 }
             }
-            setTitleList(titleList)
+            setTitlePost(titleList)
         }
     }
 
-    private fun getTitleMost(list: List<Int>) {
+    private fun getTitleCo2(list: List<Int>) {
         val titleList = ArrayList<String>()
 
         uiScope.launch {
@@ -189,14 +189,14 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     3 -> titleList.add(getExtraTitleFromRoomDatabase(it).title)
                 }
             }
-            setTitleListMost(titleList)
+            setTitleCo2(titleList)
         }
     }
 
-    private fun setTitleList(list: List<String>) {
+    private fun setTitlePost(list: List<String>) {
         _titlesPost.value = list
     }
-    private fun setTitleListMost(list: List<String>) {
+    private fun setTitleCo2(list: List<String>) {
         _titlesCo2.value = list
     }
 
@@ -309,6 +309,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             .collection("Project$num").document("Entire").collection("AllAct")
 
         val mostCo2List = arrayListOf<MyAllAct>()
+        mostCo2List.clear()
+
         docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { value, e ->
                 if (e != null) {
@@ -320,6 +322,11 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
                     if(act.allCo2 != 0.0) {
                         mostCo2List.add(act)  //여기에 123위 순서대로 담겨있음
+                    } else {
+                        // 파이어베이스 업로드때문에 임의 초기화함
+                        // 리스트 크기만큼 업로드로 구현되면 없앨 부분
+                        // todo 수정 필요
+                        mostCo2List.add(MyAllAct(0, "", 0, 0.0))
                     }
                 }
                 if(mostCo2List.size != 0) {
@@ -409,6 +416,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             .collection("Project$num").document("Entire").collection("AllAct")
 
         val mostPostList = arrayListOf<Int>()
+        mostPostList.clear()
 
         docRef.orderBy("upCount", Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { value, e ->
@@ -421,7 +429,13 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     val act = doc.toObject<MyAllAct>()
                     if(act.upCount != 0) {
                         mostPostList.add(act.ID)
+                        // todo 보민님
+                        //  count도 담도록 해주세요
+                        // 프로그레스바 길이조정에 필요합니다
                     } else {
+                        // 파이어베이스 업로드때문에 임의 초기화함
+                        // 리스트 크기만큼 업로드로 구현되면 없앨 부분
+                        // todo 수정 필요
                         mostPostList.add(0)
                     }
                 }
@@ -534,13 +548,13 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                         }
 
                         if(mostCo2List.size != 0) {
-                            getTitle(mostCo2List)
+                            getTitlePost(mostCo2List)
                             Timber.i("가장 많은 탄소량 활동 리스트: $mostCo2List")
                             _mostCo2List.value = mostCo2List
                         }
 
                         // ───────────────────────────────── 가장 많은 리액션 ─────────────────────────────────
-                        _noFeed.value = gotGraph.reactionURI == null
+                        _noFeed.value = (gotGraph.like + gotGraph.funny + gotGraph.great) == 0
                         _feed.value = Feed(
                             "",
                             gotGraph.reactionTitle,
@@ -566,7 +580,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                         }
 
                         if(mostPostList.size != 0) {
-                            getTitleMost(mostPostList)
+                            getTitleCo2(mostPostList)
                             _mostPostList.value = mostPostList
                             Timber.i("가장 많이 인증한 활동 리스트: $mostPostList")
                         }

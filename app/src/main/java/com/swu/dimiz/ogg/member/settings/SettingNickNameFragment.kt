@@ -66,10 +66,7 @@ class SettingNickNameFragment : Fragment() {
                 .addOnSuccessListener { Timber.i("닉네임 변경 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
 
-            //화면 이동
-            it?.let {
-                navController.navigateUp()
-            }
+            navController.navigateUp()
             OggSnackbar.make(view, getText(R.string.setting_toast_nickname_changed).toString()).show()
         }
     }

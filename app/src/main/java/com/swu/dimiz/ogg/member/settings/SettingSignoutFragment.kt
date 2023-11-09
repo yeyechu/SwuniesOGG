@@ -13,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSettingSignoutBinding
 import timber.log.Timber
@@ -25,36 +26,31 @@ class SettingSignoutFragment: Fragment() {
 
     private lateinit var navController: NavController
 
-    val fireUser = Firebase.auth.currentUser
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_setting_signout, container, false)
 
-        binding.textView2.text = fireUser?.email.toString() + "님"
-
-        binding.signoutBtn.setOnClickListener {
-            if(binding.checkBox3.isChecked){
-
-
-            }
-            else{
-                Toast.makeText(activity,"탈퇴에 동의해주세요", Toast.LENGTH_SHORT).show()
-            }
-        }
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
+        binding.textView2.text = "회원님"
 
+        binding.signoutBtn.setOnClickListener {
+            if(binding.checkBox3.isChecked){
+            }
+            else{
+                OggSnackbar.make(view, getText(R.string.setting_toast_memberout_check).toString()).show()
+            }
+        }
     }
 
     override fun onDestroyView() {

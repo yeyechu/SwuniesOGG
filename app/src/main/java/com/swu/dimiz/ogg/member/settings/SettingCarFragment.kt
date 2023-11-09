@@ -63,7 +63,7 @@ class SettingCarFragment : Fragment() {
         binding.carSettingCompleteBtn.setOnClickListener {
             val washingtonRef = fireDB.collection("User").document(userEmail)
 
-            if(elecisChecked){
+            if (elecisChecked) {
                 val car = 1
                 washingtonRef
                     .update("car", car)
@@ -97,16 +97,16 @@ class SettingCarFragment : Fragment() {
                                     .collection("Sustainable").document("20008")
                                     .set(sust)
                                     .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                    .addOnFailureListener { e -> Timber.i(e) }
 
                                 //스탭프 업
-                                for( i in today..21){
+                                for (i in today..21) {
                                     fireDB.collection("User").document(userEmail)
                                         .collection("Project${projectCount}").document("Entire")
                                         .collection("Stamp").document(i.toString())
                                         .update("dayCo2", FieldValue.increment(4.027))
-                                        .addOnSuccessListener {  }
-                                        .addOnFailureListener { e -> Timber.i( e ) }
+                                        .addOnSuccessListener { }
+                                        .addOnFailureListener { e -> Timber.i(e) }
                                 }
 
                                 //전체 활동 상태 업
@@ -117,50 +117,52 @@ class SettingCarFragment : Fragment() {
                                 washingtonRef2
                                     .update("upCount", FieldValue.increment(1))
                                     .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                    .addOnFailureListener { e -> Timber.i(e) }
                                 washingtonRef2
                                     .update("allCo2", FieldValue.increment(4.027))
                                     .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                    .addOnFailureListener { e -> Timber.i(e) }
 
                                 //배지 Co2 업
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40022")
                                     .update("count", FieldValue.increment(4027))
                                     .addOnSuccessListener { Timber.i("40022 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                    .addOnFailureListener { e -> Timber.i(e) }
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40023")
                                     .update("count", FieldValue.increment(4027))
                                     .addOnSuccessListener { Timber.i("40023 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                    .addOnFailureListener { e -> Timber.i(e) }
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40024")
                                     .update("count", FieldValue.increment(4027))
                                     .addOnSuccessListener { Timber.i("40024 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                    .addOnFailureListener { e -> Timber.i(e) }
 
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40009")
                                     .update("count", FieldValue.increment(1))
                                     .addOnSuccessListener { Timber.i("40009 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                    .addOnFailureListener { e -> Timber.i(e) }
 
                                 //배지 sust 업
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40021")
                                     .update("count", FieldValue.increment(1))
                                     .addOnSuccessListener { Timber.i("40021 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i( e ) }
+                                    .addOnFailureListener { e -> Timber.i(e) }
 
 
                                 fireUpdateBadgeDate()
                                 fireUpdateBadgeDateCo2()
                             }
-                        } else { Timber.i("사용자 기본정보 받아오기 실패") }
+                        } else {
+                            Timber.i("사용자 기본정보 받아오기 실패")
+                        }
                     }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
 
-            }else if(nomalisChecked){
+            } else if (nomalisChecked) {
                 val car = 2
                 washingtonRef
                     .update("car", car)
@@ -178,7 +180,7 @@ class SettingCarFragment : Fragment() {
     }
 
     private val counts = ArrayList<MyBadge>()
-    private fun fireUpdateBadgeDate(){
+    private fun fireUpdateBadgeDate() {
         fireDB.collection("User").document(userEmail)
             .collection("Badge")
             .orderBy("badgeID")
@@ -189,10 +191,10 @@ class SettingCarFragment : Fragment() {
                     val gotBadge = document.toObject<MyBadge>()
                     counts.add(gotBadge)
                 }
-                for(i in 0 until counts.size){
+                for (i in 0 until counts.size) {
                     val getDate = System.currentTimeMillis()
                     //카테고리
-                    if(counts[8].count == 100 && counts[8].getDate == null){
+                    if (counts[8].count == 100 && counts[8].getDate == null) {
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
                             .update("getDate", getDate)
@@ -200,7 +202,7 @@ class SettingCarFragment : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     //sust
-                    if(counts[20].count == 1 && counts[20].getDate == null){
+                    if (counts[20].count == 1 && counts[20].getDate == null) {
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40021")
                             .update("getDate", getDate)
@@ -264,13 +266,14 @@ class SettingCarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         navController = findNavController()
-
+        navController.setLifecycleOwner(viewLifecycleOwner)
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
         binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val carNumberInput = binding.textInputEditText3
         val carSettingCompleteBtn = binding.carSettingCompleteBtn
@@ -305,10 +308,7 @@ class SettingCarFragment : Fragment() {
         setupButtonStyleObservers()
 
 
-        }
-
-
-
+    }
 
     private fun setupButtonClickListeners() {
 
@@ -373,7 +373,7 @@ class SettingCarFragment : Fragment() {
                     "1",
 
 
-                )
+                    )
             }
         }
 
@@ -420,7 +420,7 @@ class SettingCarFragment : Fragment() {
         selectedTextColor: Int,
         deselectedTextColor: Int,
         optionalBackground1: Int?,
-        selectedText:String,
+        selectedText: String,
     ) {
         selectedButton.setBackgroundResource(selectedBackground)
         selectedButton.setTextColor(ContextCompat.getColor(requireContext(), selectedTextColor))
@@ -428,11 +428,17 @@ class SettingCarFragment : Fragment() {
         deselectedButton.setTextColor(ContextCompat.getColor(requireContext(), deselectedTextColor))
         optionalButton1?.let {
             optionalButton1.setBackgroundResource(optionalBackground1 ?: selectedBackground)
-            optionalButton1.setTextColor(ContextCompat.getColor(requireContext(), selectedTextColor))
+            optionalButton1.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    selectedTextColor
+                )
+            )
             optionalButton1.setText(selectedText)
         }
 
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

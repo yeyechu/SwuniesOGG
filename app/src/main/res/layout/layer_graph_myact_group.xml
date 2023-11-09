@@ -120,6 +120,8 @@
                         android:id="@+id/most_reduce_co2_act_Chart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimension_150"
+                        android:paddingTop="@dimen/spacing_regular"
+                        android:paddingBottom="@dimen/spacing_regular"
                         android:visibility="@{viewModel.mostCo2List.size() == 0 ? View.GONE : View.VISIBLE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -359,8 +361,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent">
 
-
-
                     <ImageView
                         android:id="@+id/most_reaction_image"
                         android:layout_width="@dimen/dimension_100"
@@ -467,6 +467,7 @@
                         style="@style/StyleText.header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/spacing_small"
                         android:text="@string/graph_title_certify_most_certify"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -501,9 +502,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_small"
+                        android:paddingTop="@dimen/spacing_text"
                         android:paddingBottom="@dimen/spacing_text"
                         android:visibility="@{viewModel.mostPostList.size() == 0 ? View.GONE : View.VISIBLE}"
-                        android:text="@{viewModel.mostPostList[0].toString}" />
+                        android:text="@{viewModel.titlesCo2[0]}"
+                        android:textColor="@color/primary_gray"
+                        style="@style/StyleText"/>
 
                     <ProgressBar
                         android:id="@+id/most_certify_act2"
@@ -520,9 +524,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_small"
+                        android:paddingTop="@dimen/spacing_text"
                         android:paddingBottom="@dimen/spacing_text"
                         android:visibility="@{viewModel.mostPostList.size() &lt;= 1 ? View.GONE : View.VISIBLE}"
-                        android:text="@{viewModel.mostPostList[1].toString}" />
+                        android:text="@{viewModel.titlesCo2[1]}"
+                        android:textColor="@color/primary_gray"
+                        style="@style/StyleText"/>
 
                     <ProgressBar
                         android:id="@+id/most_certify_act3"
@@ -539,9 +546,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_small"
+                        android:paddingTop="@dimen/spacing_text"
                         android:paddingBottom="@dimen/spacing_text"
                         android:visibility="@{viewModel.mostPostList.size() &lt;= 2 ? View.GONE : View.VISIBLE}"
-                        android:text="@{viewModel.mostPostList[2].toString}" />
+                        android:text="@{viewModel.titlesCo2[2]}"
+                        android:textColor="@color/primary_gray"
+                        style="@style/StyleText"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -601,7 +611,7 @@
 
                         <TextView
                             android:id="@+id/my_special_act_percent"
-                            style="@style/StyleText.percent"
+                            style="@style/StyleText.name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{String.format(@string/rank_format, viewModel.rank)}"

@@ -98,7 +98,7 @@
     <dimen name="member_stroke_height">10dp</dimen>
     <dimen name="common_edittext_height">50dp</dimen>
 
-    <dimen name="graph_progressbar_height">25dp</dimen>
+    <dimen name="graph_progressbar_height">21dp</dimen>
 
 
     <!-- 기타 -->

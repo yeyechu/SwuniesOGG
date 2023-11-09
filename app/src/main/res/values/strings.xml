@@ -224,19 +224,19 @@
     <string name="graph_text_no_data">no data</string>
     <!-- 나의 탄소 감축 활동 -->
     <string name="graph_title_myact">나의 탄소 감축 활동</string>
-    <string name="graph_title_myact_category">카테고리 별 줄인 탄소량</string>
+    <string name="graph_title_myact_category">카테고리별 줄인 탄소량</string>
     <string name="graph_title_myact_most_reduce">가장 많은 탄소를 줄인 활동명 TOP3</string>
     <string name="graph_title_myact_seachart_1">당신이 지킨 \n북극빙하의 면적</string>
     <string name="graph_title_myact_seachart_2">같은 양의 탄소를 \n흡수하는 해초지 크기</string>
     <string name="graph_title_myact_seachart_subtitle">내가 줄인 탄소량으로</string>
-    <string name="graph_title_myact_seachart_co2">%.3fm²</string>
+    <string name="graph_title_myact_seachart_co2">%.1fm²</string>
     <!-- 나의 인증 활동 -->
     <string name="graph_title_certify">나의 인증활동</string>
     <string name="graph_title_certify_most_reaction">가장 많은 반응을 받은 활동</string>
     <string name="graph_title_certify_most_reaction_subtitle">활동명</string>
     <string name="graph_title_certify_most_certify">가장 많이 인증한 활동명 TOP3</string>
-    <string name="count_format">%1$s 개</string>
-    <string name="rank_format">상위 %1$.1f %%</string>
+    <string name="count_format">%1$s개</string>
+    <string name="rank_format">상위 %1$.1f%%</string>
     <!-- 나의 특별 활동 -->
     <string name="graph_title_special">나의 특별활동</string>
     <string name="graph_title_special_act_chart">특별활동 전체 순위</string>
@@ -326,6 +326,8 @@
     <string name="setting_password_text_new_password_again">새로운 비밀번호 확인</string>
 
     <string name="setting_toast_nickname_changed">닉네임 변경이 완료되었어요!</string>
+    <string name="setting_toast_password_changed">비밀번호 변경이 완료되었어요!</string>
+    <string name="setting_toast_memberout_check">탈퇴에 동의해주세요!</string>
 
     <!-- ──────────────────────────────────────   환경설정 내부 페이지    ────────────────────────────────────── -->
     <!-- 닉네임 변경 -->
