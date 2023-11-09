@@ -221,6 +221,7 @@
 
     <string name="graph_text_title_null">아직 통계가 없어요</string>
     <string name="graph_text_body_null">탄소 중립을 위한 기후활동을 시작해보아요</string>
+    <string name="graph_text_no_data">no data</string>
     <!-- 나의 탄소 감축 활동 -->
     <string name="graph_title_myact">나의 탄소 감축 활동</string>
     <string name="graph_title_myact_category">카테고리 별 줄인 탄소량</string>

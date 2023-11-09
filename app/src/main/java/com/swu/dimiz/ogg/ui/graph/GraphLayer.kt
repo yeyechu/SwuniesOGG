@@ -56,7 +56,7 @@ class GraphLayer : Fragment() {
             it?.let {
                 viewModel.fireGetCategory(it)
                 viewModel.fireGetCo2(it)
-                viewModel.fireGetMostUp(it)
+                viewModel.fireGetMostPost(it)
                 viewModel.fireGetExtra(it)
                 viewModel.fireGetReaction(it)
             }
@@ -73,13 +73,13 @@ class GraphLayer : Fragment() {
         //                                   가장 많은 탄소를
         pieChart = binding.mostReduceCo2ActChart
 
-        viewModel.titles.observe(viewLifecycleOwner){
+        viewModel.titlesPost.observe(viewLifecycleOwner){
             it?.let{
-                configurePieChart(viewModel.co2Act(),it)
+                initPieChart(pieChart, viewModel.co2Act(),it)
             }
         }
 
-        viewModel.titlesMost.observe(viewLifecycleOwner){
+        viewModel.titlesCo2.observe(viewLifecycleOwner){
             it?.let{
                 mostActTitle(it)
             }
@@ -87,13 +87,18 @@ class GraphLayer : Fragment() {
 
         // 스페셜 차트
         barChart2 = binding.specialChart
-        setBarData(barChart2, listOf(70f, 50f), labels2)
+
+        viewModel.rank.observe(viewLifecycleOwner) {
+            it?.let {
+                setBarData(barChart2, listOf(it, 50f), labels2)
+            }
+        }
     }
 
     private fun mostActTitle(list: List<String>){
-        binding.mostCertifyAct1Name.text = list[0]
-        binding.mostCertifyAct2Name.text = list[1]
-        binding.mostCertifyAct3Name.text = list[2]
+        list.forEach {
+            binding.mostCertifyAct1Name.text = it
+        }
     }
 
     private fun setBarData(barChart: BarChart, list: List<Float>, labelList: List<String>) {
@@ -191,46 +196,20 @@ class GraphLayer : Fragment() {
     }
 
     //-------------- 원형 차트 -------------------
-    private fun configurePieChart(co2ActList: List<MyAllAct>, list: List<String>) {
+    private fun initPieChart(pieChart: PieChart, co2List: List<MyAllAct>, titleList: List<String>) {
 
-        pieChart.setUsePercentValues(true)
-        val entries: MutableList<PieEntry> = ArrayList()
-
-        entries.add(PieEntry(co2ActList[0].allCo2.toFloat(), list[0]))
-        entries.add(PieEntry(co2ActList[1].allCo2.toFloat(), list[1]))
-        entries.add(PieEntry(co2ActList[2].allCo2.toFloat(), list[2]))
-        Timber.i("원형 그래프 관찰")
-
-        // 데이터 항목에 사용할 색상 배열 (원하는 색상으로 지정)
-        val colors = intArrayOf(
-            Color.parseColor("#6897F3"),
-            Color.parseColor("#A4C0F8"),
-            Color.parseColor("#E8EFFD")
-        )
-
-        // PieDataSet을 생성하고 설정
-        val pieDataSet = PieDataSet(entries, "")
-        pieDataSet.colors = colors.toList() // List<Int>로 변환하여 설정
-
-        // 라벨 및 숫자 숨기기
-        pieDataSet.setDrawValues(false) // 숫자 숨기기
-
-// PieData를 생성하고 설정
-        val pieData = PieData(pieDataSet)
-
-// PieChart 설정
         pieChart.apply {
-            data = pieData
+            setUsePercentValues(true)
             description.isEnabled = false
             isRotationEnabled = false
             setDrawEntryLabels(false) // 파이 조각 위의 라벨 숨기기
             setEntryLabelColor(Color.BLACK)
+            animateX(1000)
 
-            // 범례 위치 설정
             legend.apply {
                 form = Legend.LegendForm.CIRCLE
                 textSize = 12f
-                formSize = 20f
+                formSize = 10f
                 formToTextSpace = 10f
                 yEntrySpace = 15f
 
@@ -239,6 +218,37 @@ class GraphLayer : Fragment() {
                 orientation = Legend.LegendOrientation.VERTICAL
                 setDrawInside(false) // 차트 내부에 범례를 그리지 않음
             }
+        }
+
+        val entries: MutableList<PieEntry> = ArrayList()
+        var index = 0
+
+        entries.clear()
+
+        val yColorMap = mapOf(
+            0 to Color.parseColor("#6897F3"),
+            1 to Color.parseColor("#A4C0F8"),
+            2 to Color.parseColor("#E8EFFD")
+        )
+        val colors = ArrayList<Int>()
+
+        co2List.forEach {
+            entries.add(PieEntry(it.allCo2.toFloat(), titleList[index]))
+            colors.add(yColorMap[index] ?: Color.BLACK)
+            index++
+        }
+
+        Timber.i("원형그래프 초기화: $entries")
+
+        val pieDataSet = PieDataSet(entries, "")
+        pieDataSet.colors = colors
+        pieDataSet.setDrawValues(false) // 숫자 숨기기
+
+        val pieData = PieData(pieDataSet)
+
+        pieChart.apply {
+            data = pieData
+            invalidate()
         }
     }
 

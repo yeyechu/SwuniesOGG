@@ -21,7 +21,6 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyGraph
 import kotlinx.coroutines.*
 import timber.log.Timber
-import kotlin.math.roundToInt
 
 class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
@@ -77,13 +76,13 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     private val co2Sum: LiveData<Float>
         get() = _co2Sum
 
-    private val _co2ActList = MutableLiveData<List<MyAllAct>>()
-    val co2ActList: LiveData<List<MyAllAct>>
-        get() = _co2ActList
+    private val _mostCo2List = MutableLiveData<List<MyAllAct>>()
+    val mostCo2List: LiveData<List<MyAllAct>>
+        get() = _mostCo2List
 
-    private val _mostUpList = MutableLiveData<List<Int>>()
-    val mostUpList: LiveData<List<Int>>
-        get() = _mostUpList
+    private val _mostPostList = MutableLiveData<List<Int>>()
+    val mostPostList: LiveData<List<Int>>
+        get() = _mostPostList
 
     //special
     private val _rank = MutableLiveData<Float>()
@@ -94,13 +93,13 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     val graph: LiveData<MyGraph>
         get() = _graph
 
-    private val _titles = MutableLiveData<List<String>>()
-    val titles: LiveData<List<String>>
-        get() = _titles
+    private val _titlesPost = MutableLiveData<List<String>>()
+    val titlesPost: LiveData<List<String>>
+        get() = _titlesPost
 
-    private val _titlesMost = MutableLiveData<List<String>>()
-    val titlesMost: LiveData<List<String>>
-        get() = _titlesMost
+    private val _titlesCo2 = MutableLiveData<List<String>>()
+    val titlesCo2: LiveData<List<String>>
+        get() = _titlesCo2
 
     init {
         Timber.i("created")
@@ -147,7 +146,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                      GraphLayer
     fun co2Act(): List<MyAllAct> {
-        return _co2ActList.value!!
+        return _mostCo2List.value!!
     }
 
     private fun getCo2Percent(co2: Float, total: Float): Float {
@@ -191,10 +190,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     private fun setTitleList(list: List<String>) {
-        _titles.value = list
+        _titlesPost.value = list
     }
     private fun setTitleListMost(list: List<String>) {
-        _titlesMost.value = list
+        _titlesCo2.value = list
     }
 
     private suspend fun getDailyTitleFromRoomDatabase(id: Int): ActivitiesDaily {
@@ -316,7 +315,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$num").document("Entire").collection("AllAct")
 
-        val co2ActList = arrayListOf<MyAllAct>()
+        val mostCo2List = arrayListOf<MyAllAct>()
         docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { value, e ->
                 if (e != null) {
@@ -325,25 +324,31 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 }
                 for (doc in value!!) {
                     val act = doc.toObject<MyAllAct>()
-                    co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
-                }
-                getTitle(co2ActList)
-                Timber.i("co2ActList $co2ActList")
-                _co2ActList.value = co2ActList
 
-                //sever Graph 업데이트
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Project$num").document("Graph")
-                    .update(
-                        mapOf(
-                            "nameCo21" to co2ActList[0].ID,
-                            "nameCo22" to co2ActList[1].ID,
-                            "nameCo23" to co2ActList[2].ID,
-                            "co2Sum1" to co2ActList[0].allCo2,
-                            "co2Sum2" to co2ActList[1].allCo2,
-                            "co2Sum3" to co2ActList[2].allCo2
-                        ),
-                    )
+                    if(act.allCo2 != 0.0) {
+                        mostCo2List.add(act)  //여기에 123위 순서대로 담겨있음
+                    }
+                }
+                if(mostCo2List.size != 0) {
+                    getTitle(mostCo2List)
+                    Timber.i("가장 많은 탄소량 활동 리스트: $mostCo2List")
+                    _mostCo2List.value = mostCo2List
+
+                    //sever Graph 업데이트
+                    // todo 보민님 여기 mostCo2List 사이즈만큼만 올라가게 해야 합니다
+                    fireDB.collection("User").document(fireUser?.email.toString())
+                        .collection("Project$num").document("Graph")
+                        .update(
+                            mapOf(
+                                "nameCo21" to mostCo2List[0].ID,
+                                "nameCo22" to mostCo2List[1].ID,
+                                "nameCo23" to mostCo2List[2].ID,
+                                "co2Sum1" to mostCo2List[0].allCo2,
+                                "co2Sum2" to mostCo2List[1].allCo2,
+                                "co2Sum3" to mostCo2List[2].allCo2
+                            ),
+                        )
+                }
             }
     }
 
@@ -411,11 +416,11 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    fun fireGetMostUp(num: Int) {
+    fun fireGetMostPost(num: Int) {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$num").document("Entire").collection("AllAct")
 
-        val mostUpList = arrayListOf<Int>()
+        val mostPostList = arrayListOf<Int>()
 
         docRef.orderBy("upCount", Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { value, e ->
@@ -426,23 +431,30 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 for (doc in value!!) {
                     Timber.i("${doc.id} => ${doc.data}")
                     val act = doc.toObject<MyAllAct>()
-                    mostUpList.add(act.ID)  //여기에 123위 순서대로 담겨있음
+
+                    if(act.upCount != 0) {
+                        mostPostList.add(act.ID)
+                    }
                 }
-                getTitleMost(mostUpList)
+                if(mostPostList.size != 0) {
+                    getTitleMost(mostPostList)
+                    _mostPostList.value = mostPostList
+                    Timber.i("가장 많이 인증한 활동 리스트: $mostPostList")
 
-                _mostUpList.value = mostUpList
-                Timber.i("mostUpList $mostUpList")
+                    //sever Graph 업데이트
+                    // todo 보민님 여기 mostPostList 사이즈만큼만 올라가게 해야 합니다
+//                    fireDB.collection("User").document(fireUser?.email.toString())
+//                        .collection("Project$num").document("Graph")
+//                        .update(
+//                            mapOf(
+//                                "post1" to mostCo2List[0],
+//                                "post2" to mostCo2List[1],
+//                                "post3" to mostCo2List[2]
+//                            ),
+//                        )
+                }
 
-                //sever Graph 업데이트
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Project$num").document("Graph")
-                    .update(
-                        mapOf(
-                            "post1" to mostUpList[0],
-                            "post2" to mostUpList[1],
-                            "post3" to mostUpList[2]
-                        ),
-                    )
+
             }
     }
 
@@ -463,32 +475,37 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 if(user.email == fireUser?.email.toString()){
                     uExtra = user.extraPost
                 }
-                usersExtraList.add(user.extraPost)  //전체회원 특별 올린 횟수
-            }
-
-            usersExtraList.sortDescending()
-
-            var level = 0
-            val size = usersExtraList.size
-            for( i in 0 until size){
-                if(uExtra == usersExtraList[i]){
-                    level = i
+                if(uExtra != 0) {
+                    usersExtraList.add(user.extraPost)  //전체회원 특별 올린 횟수
                 }
             }
-            val rank = (level.toFloat() / size.toFloat()) * 100
-            Timber.i("level $level")
-            Timber.i("size $size")
-            Timber.i("rank $rank")
 
-            val roundedRank: Float = (rank * 10.0f).roundToInt() / 10.0f
-            _rank.value = roundedRank
+            if(uExtra != 0) {
+                usersExtraList.sortDescending()
+
+                var level = 0
+                val size = usersExtraList.size
+                for (i in 0 until size) {
+                    if (uExtra == usersExtraList[i]) {
+                        level = i
+                    }
+                }
+                val rank = (level.toFloat() / size.toFloat()) * 100
+                Timber.i("level $level")
+                Timber.i("size $size")
+                Timber.i("rank $rank")
+
+                _rank.value = rank
+            } else {
+                _rank.value = 100f
+            }
 
             //sever Graph 업데이트
             fireDB.collection("User").document(fireUser?.email.toString())
                 .collection("Project$num").document("Graph")
                 .update(
                     mapOf(
-                        "extraRank" to rank
+                        "extraRank" to _rank.value
                     ),
                 )
         }

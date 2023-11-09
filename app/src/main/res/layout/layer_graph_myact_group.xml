@@ -29,7 +29,7 @@
                 android:layout_margin="@dimen/spacing_medium"
                 android:text="@string/graph_title_myact" />
 
-            <!-- CardView 레이아웃 -->
+            <!-- ────────────────────────── 카테고리별 줄인 탄소량 ────────────────────────── -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/category_reduce_card"
                 android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- CardView 레이아웃 -->
+            <!-- ────────────────────────── 가장 많은 탄소를 줄인 활동명 TOP3 ────────────────────────── -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/most_reduce_co2_act_card"
                 android:layout_width="match_parent"
@@ -102,10 +102,25 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimension_150"
+                        android:visibility="@{viewModel.mostCo2List.size() == 0 ? View.VISIBLE : View.GONE}">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/graph_text_no_data"
+                            style="@style/StyleText.gray"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"/>
+
+                    </FrameLayout>
                     <com.github.mikephil.charting.charts.PieChart
                         android:id="@+id/most_reduce_co2_act_Chart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimension_150"
+                        android:visibility="@{viewModel.mostPostList.size() == 0 ? View.GONE : View.VISIBLE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -120,6 +135,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
+                <!-- ────────────────────────── 북극 빙하 ────────────────────────── -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/seachar_card"
                     android:layout_width="wrap_content"
@@ -190,12 +206,12 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/seachar_image"
+                            app:layout_constraintTop_toBottomOf="@+id/seachar_text"
                             tools:text="82m²" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- CardView 레이아웃 -->
+                <!-- ────────────────────────── 해초지 ────────────────────────── -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/seachar_card2"
                     android:layout_width="wrap_content"
@@ -266,7 +282,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/seachar_image2"
+                            app:layout_constraintTop_toBottomOf="@+id/seachar_text2"
                             tools:text="82m²" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
@@ -280,7 +296,7 @@
                 android:layout_margin="@dimen/spacing_medium"
                 android:text="@string/graph_title_certify" />
 
-            <!-- CardView 레이아웃 -->
+            <!-- ────────────────────────── 가장 많은 반응을 받은 활동 ────────────────────────── -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/most_reaction_act_card"
                 android:layout_width="match_parent"
@@ -292,30 +308,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="@{viewModel.noFeed ? View.VISIBLE : View.GONE}"
-                    android:padding="@dimen/spacing_small">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        style="@style/StyleText.gray"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="@{viewModel.noFeed ? View.GONE : View.VISIBLE}"
                     android:padding="@dimen/spacing_small">
 
                     <TextView
@@ -330,6 +326,41 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimension_150"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.noFeed ? View.VISIBLE : View.GONE}"
+                        android:padding="@dimen/spacing_small"
+                        app:layout_constraintTop_toBottomOf="@id/most_reaction_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/graph_text_no_data"
+                            style="@style/StyleText.gray"
+                            android:textAlignment="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimension_150"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.noFeed ? View.GONE : View.VISIBLE}"
+                        android:padding="@dimen/spacing_small"
+                        app:layout_constraintTop_toBottomOf="@id/most_reaction_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+
+
                     <ImageView
                         android:id="@+id/most_reaction_image"
                         android:layout_width="@dimen/dimension_100"
@@ -340,7 +371,7 @@
                         app:imageUrl="@{viewModel.feed.imageUrl}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/most_reaction_title"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:srcCompat="@tools:sample/avatars" />
 
                     <TextView
@@ -407,10 +438,11 @@
                         app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_fun"
                         app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_fun"
                         tools:text="10개" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- CardView 레이아웃 -->
+            <!-- ────────────────────────── 가장 많이 인증한 활동명 TOP3 ────────────────────────── -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/most_certify_act_card"
                 android:layout_width="match_parent"
@@ -428,26 +460,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/spacing_regular"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_small">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/most_certify_title"
                         style="@style/StyleText.header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/spacing_small"
                         android:text="@string/graph_title_certify_most_certify"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimension_150"
+                        android:visibility="@{viewModel.mostPostList.size() == 0 ? View.VISIBLE : View.GONE}">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/graph_text_no_data"
+                            style="@style/StyleText.gray"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"/>
+                    </FrameLayout>
+
                     <ProgressBar
                         android:id="@+id/most_certify_act1"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/graph_progressbar_height"
+                        android:visibility="@{viewModel.mostPostList.size() == 0 ? View.GONE : View.VISIBLE}"
                         android:max="100"
                         android:progress="70"
                         android:progressDrawable="@drawable/graph_progressbar_custom" />
@@ -457,13 +501,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_small"
-                        android:text="@{viewModel.mostUpList[0].toString}" />
+                        android:paddingBottom="@dimen/spacing_text"
+                        android:visibility="@{viewModel.mostPostList.size() == 0 ? View.GONE : View.VISIBLE}"
+                        android:text="@{viewModel.mostPostList[0].toString}" />
 
                     <ProgressBar
                         android:id="@+id/most_certify_act2"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/graph_progressbar_height"
+                        android:visibility="@{viewModel.mostPostList.size() &lt;= 1 ? View.GONE : View.VISIBLE}"
                         android:max="100"
                         android:progress="50"
                         android:progressDrawable="@drawable/graph_progressbar_2_custom" />
@@ -473,13 +520,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_small"
-                        android:text="@{viewModel.mostUpList[1].toString}" />
+                        android:paddingBottom="@dimen/spacing_text"
+                        android:visibility="@{viewModel.mostPostList.size() &lt;= 1 ? View.GONE : View.VISIBLE}"
+                        android:text="@{viewModel.mostPostList[1].toString}" />
 
                     <ProgressBar
                         android:id="@+id/most_certify_act3"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/graph_progressbar_height"
+                        android:visibility="@{viewModel.mostPostList.size() &lt;= 2 ? View.GONE : View.VISIBLE}"
                         android:max="100"
                         android:progress="30"
                         android:progressDrawable="@drawable/graph_progressbar_3_custom" />
@@ -489,7 +539,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_small"
-                        android:text="@{viewModel.mostUpList[2].toString}" />
+                        android:paddingBottom="@dimen/spacing_text"
+                        android:visibility="@{viewModel.mostPostList.size() &lt;= 2 ? View.GONE : View.VISIBLE}"
+                        android:text="@{viewModel.mostPostList[2].toString}" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -501,7 +553,7 @@
                 android:layout_margin="@dimen/spacing_medium"
                 android:text="@string/graph_title_special" />
 
-            <!-- CardView 레이아웃 -->
+            <!-- ────────────────────────── 나의 특별 활동 ────────────────────────── -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/special_chart_cardview"
                 android:layout_width="match_parent"
@@ -560,7 +612,6 @@
                             app:layout_constraintTop_toBottomOf="@+id/special_act_char_title"
                             app:layout_constraintVertical_bias="1.0"
                             tools:text="상위10%" />
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
