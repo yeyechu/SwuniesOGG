@@ -376,25 +376,17 @@ class EnvViewModel : ViewModel() {
                     val act = doc.toObject<MyAllAct>()
                     co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
                 }
-                //분리한다면 아래 같음
-                val firstId = co2ActList[0].ID
-                val secondId = co2ActList[1].ID
-                val thirdId = co2ActList[2].ID
-                val firstCo2 = co2ActList[0].allCo2
-                val secondCo2 = co2ActList[1].allCo2
-                val thirdCo2 = co2ActList[2].allCo2
-
                 //sever Graph 업데이트
                 fireDB.collection("User").document(fireUser?.email.toString())
                     .collection("Project$projectCount").document("Graph")
                     .update(
                         mapOf(
-                            "nameCo21" to firstId,
-                            "nameCo22" to secondId,
-                            "nameCo23" to thirdId,
-                            "co2Sum1" to firstCo2,
-                            "co2Sum2" to secondCo2,
-                            "co2Sum3" to thirdCo2
+                            "nameCo21" to co2ActList[0].ID,
+                            "nameCo22" to co2ActList[1].ID,
+                            "nameCo23" to co2ActList[2].ID,
+                            "co2Sum1" to co2ActList[0].allCo2,
+                            "co2Sum2" to co2ActList[1].allCo2,
+                            "co2Sum3" to co2ActList[2].allCo2
                         ),
                     )
             }

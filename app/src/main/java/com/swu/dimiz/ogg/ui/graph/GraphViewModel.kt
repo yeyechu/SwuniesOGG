@@ -327,9 +327,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     .collection("Project$num").document("Graph")
                     .update(
                         mapOf(
-                            "nameCo21" to co2ActList[0].allCo2,
-                            "nameCo22" to co2ActList[1].allCo2,
-                            "nameCo23" to co2ActList[2].allCo2,
+                            "nameCo21" to co2ActList[0].ID,
+                            "nameCo22" to co2ActList[1].ID,
+                            "nameCo23" to co2ActList[2].ID,
                             "co2Sum1" to co2ActList[0].allCo2,
                             "co2Sum2" to co2ActList[1].allCo2,
                             "co2Sum3" to co2ActList[2].allCo2
@@ -366,34 +366,36 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 reactionList.sortByDescending { it.reactionSum }
 
                 //sever Graph 업데이트
-                fireDB.collection("Feed").document(reactionList[0].id)
-                    .get()
-                    .addOnSuccessListener { document ->
-                        if (document != null) {
-                            val gotFeed = document.toObject<Feed>()
+                if(reactionList[0].id != null){
+                    fireDB.collection("Feed").document(reactionList[0].id)
+                        .get()
+                        .addOnSuccessListener { document ->
+                            if (document != null) {
+                                val gotFeed = document.toObject<Feed>()
 
-                            gotFeed?.let {
-                                _feed.value = it
+                                gotFeed?.let {
+                                    _feed.value = it
 
-                                fireDB.collection("User").document(fireUser?.email.toString())
-                                    .collection("Project$num").document("Graph")
-                                    .update(
-                                        mapOf(
-                                            "reactionURI" to gotFeed.imageUrl,
-                                            "reactionTitle" to gotFeed.actTitle,
-                                            "funny" to gotFeed.reactionFun,
-                                            "great" to gotFeed.reactionGreat,
-                                            "like" to gotFeed.reactionLike
-                                        ),
-                                    )
+                                    fireDB.collection("User").document(fireUser?.email.toString())
+                                        .collection("Project$num").document("Graph")
+                                        .update(
+                                            mapOf(
+                                                "reactionURI" to gotFeed.imageUrl,
+                                                "reactionTitle" to gotFeed.actTitle,
+                                                "funny" to gotFeed.reactionFun,
+                                                "great" to gotFeed.reactionGreat,
+                                                "like" to gotFeed.reactionLike
+                                            ),
+                                        )
+                                }
+                            } else {
+                                Timber.i("No such document")
                             }
-                        } else {
-                            Timber.i("No such document")
                         }
-                    }
-                    .addOnFailureListener { exception ->
-                        Timber.i(exception)
-                    }
+                        .addOnFailureListener { exception ->
+                            Timber.i(exception)
+                        }
+                }
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)
