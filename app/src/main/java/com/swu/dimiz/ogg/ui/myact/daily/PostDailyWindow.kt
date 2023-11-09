@@ -18,15 +18,12 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.convertDurationToInt
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.WindowPostDailyBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import com.swu.dimiz.ogg.ui.myact.MyActViewModel
 import com.swu.dimiz.ogg.ui.myact.post.TextAdapter
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 
 class PostDailyWindow  : Fragment() {

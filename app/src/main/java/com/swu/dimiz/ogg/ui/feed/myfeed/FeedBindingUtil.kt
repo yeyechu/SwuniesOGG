@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertLongToDateString
-import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
 
 @BindingAdapter("imageUrl")

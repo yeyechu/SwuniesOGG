@@ -1,11 +1,9 @@
 package com.swu.dimiz.ogg.ui.myact.cardutils
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -23,7 +21,6 @@ import com.swu.dimiz.ogg.databinding.FragmentChecklistBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyDaily
-import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
 import java.util.ArrayList
 
@@ -34,7 +31,7 @@ class ChecklistFragment : Fragment() {
 
     private lateinit var navController: NavController
 
-    val contactsList : List<Checklist> = listOf(
+    private val contactsList : List<Checklist> = listOf(
         Checklist("급제동, 급출발 하지 않기", "나무 4.0그루만큼을 살릴 수 있어요"),
         Checklist("불필요한 엔진 공회전 하지 않기", "나무 6.2그루만큼을 살릴 수 있어요"),
         Checklist("경제속도(60~80km/h) 준수하기", "나무 10.0그루만큼을 살릴 수 있어요"),

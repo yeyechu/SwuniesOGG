@@ -56,8 +56,6 @@ class FeedViewModel : ViewModel() {
         get() = _navigateToReport
 
     private val _setToast = MutableLiveData<Boolean>()
-    val setToast: LiveData<Boolean>
-        get() = _setToast
 
     private val _makeToasts = MutableLiveData<Int>()
     val makeToasts: LiveData<Int>

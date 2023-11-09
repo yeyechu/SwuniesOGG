@@ -86,19 +86,12 @@ class GraphLayer : Fragment() {
             }
         }
 
-        // 스페셜 차트
         barChart2 = binding.specialChart
 
         viewModel.rank.observe(viewLifecycleOwner) {
             it?.let {
                 setBarData(barChart2, listOf(abs(it - 100), 50f), labels2)
             }
-        }
-    }
-
-    private fun mostActTitle(list: List<String>){
-        list.forEach {
-            binding.mostCertifyAct1Name.text = it
         }
     }
 
@@ -197,7 +190,6 @@ class GraphLayer : Fragment() {
         rightAxis.setDrawLabels(false)
     }
 
-    //-------------- 원형 차트 -------------------
     private fun initPieChart(pieChart: PieChart, co2List: List<MyAllAct>, titleList: List<String>) {
 
         pieChart.apply {

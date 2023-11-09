@@ -394,10 +394,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val mysust = dc.document.toObject<MySustainable>()
                         dayDoneSust = convertToDuration(mysust.strDay!!)
-                        mySustList.add(mysust.sustID!!)
+                        mySustList.add(mysust.sustID)
                         updateSustFromFirebase(mysust)
                         //날짜 체크해서 지우기
-                        getSust(mysust.sustID!!)
+                        getSust(mysust.sustID)
                     }
                 }
                 _sustDone.value = mySustList
@@ -419,10 +419,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (doc in value!!) {
                     val myextra = doc.toObject<MyExtra>()
                     dayDoneExtra = convertToDuration(myextra.strDay!!)
-                    myExtraList.add(myextra.extraID!!)
+                    myExtraList.add(myextra.extraID)
                     updateExtraFromFirebase(myextra)
                     //날짜 체크해서 지우기
-                    getExtra(myextra.extraID!!)
+                    getExtra(myextra.extraID)
                 }
                 _extraDone.value = myExtraList
                 Timber.i( "Extra result: $myExtraList")

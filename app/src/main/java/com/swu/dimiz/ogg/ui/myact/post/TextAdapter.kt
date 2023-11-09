@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
 
-
 class TextAdapter : RecyclerView.Adapter<TextViewHolder>() {
 
     var data = listOf<Instruction>()

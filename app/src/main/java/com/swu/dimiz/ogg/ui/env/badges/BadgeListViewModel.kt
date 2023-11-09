@@ -25,7 +25,6 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                        배지 리스트
     private val _badgeFilter = MutableLiveData<List<String>>()

@@ -45,16 +45,6 @@ class DailyCardAdapter(
         val activity = getItem(position)
 
         holder.apply {
-
-//            if(automobile == 0) {
-//                when(activity.dailyId) {
-//                    100010 -> layout.visibility = View.VISIBLE
-//                    100011 -> layout.visibility = View.VISIBLE
-//                    else -> layout.visibility = View.GONE
-//                }
-//            } else {
-//                layout.visibility = View.GONE
-//            }
             bind(activity, viewModel, detailListener)
         }
     }
