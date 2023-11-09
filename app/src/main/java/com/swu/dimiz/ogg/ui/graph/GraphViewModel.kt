@@ -44,6 +44,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     val projectDate: LiveData<Long>
         get() = _projectDate
 
+    private val _extraNum = MutableLiveData<Int>()
+    private val extraNum: LiveData<Int>
+        get() = _extraNum
+
     private val _currentPage = MutableLiveData<Int>()
     val currentPage: LiveData<Int>
         get() = _currentPage
@@ -243,6 +247,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
                     getProjectSize(gotUser.projectCount)
                     _projectDate.value = gotUser.startDate
+                    _extraNum.value = gotUser.extraPost
 
                     startDate = gotUser.startDate
 
@@ -278,18 +283,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     RECYCLE -> resourceCo2 += act.allCo2
                 }
             }
-
-            val totalSum = energyCo2+ consumptionCo2 + transportCo2 + resourceCo2
-            _co2Sum.value = totalSum.toFloat()
-
-            co2List.clear()
-            co2List.add(getCo2Percent(energyCo2.toFloat(), totalSum.toFloat()))
-            co2List.add(getCo2Percent(consumptionCo2.toFloat(), totalSum.toFloat()))
-            co2List.add(getCo2Percent(transportCo2.toFloat(), totalSum.toFloat()))
-            co2List.add(getCo2Percent(resourceCo2.toFloat(), totalSum.toFloat()))
-
-            setCo2List(co2List)
-            Timber.i("co2List: $co2List")
 
             //각 카테고리별 Co2합
             Timber.i("energyCo2 $energyCo2")
@@ -330,11 +323,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     }
                 }
                 if(mostCo2List.size != 0) {
-                    getTitle(mostCo2List)
-                    Timber.i("가장 많은 탄소량 활동 리스트: $mostCo2List")
-                    _mostCo2List.value = mostCo2List
 
-                    //sever Graph 업데이트
+                    Timber.i("가장 많은 탄소량 활동 리스트: $mostCo2List")
+
                     // todo 보민님 여기 mostCo2List 사이즈만큼만 올라가게 해야 합니다
                     fireDB.collection("User").document(fireUser?.email.toString())
                         .collection("Project$num").document("Graph")
@@ -375,8 +366,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                         feed.reactionFun + feed.reactionGreat + feed.reactionLike,
                         feed.actTitle))
                 }
-                _noFeed.value = reactionList.size == 0
-                //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
 
                 //sever Graph 업데이트
@@ -388,7 +377,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                                 val gotFeed = document.toObject<Feed>()
 
                                 gotFeed?.let {
-                                    _feed.value = it
 
                                     fireDB.collection("User").document(fireUser?.email.toString())
                                         .collection("Project$num").document("Graph")
@@ -431,30 +419,27 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 for (doc in value!!) {
                     Timber.i("${doc.id} => ${doc.data}")
                     val act = doc.toObject<MyAllAct>()
-
                     if(act.upCount != 0) {
                         mostPostList.add(act.ID)
+                    } else {
+                        mostPostList.add(0)
                     }
                 }
+
+                Timber.i("가장 많이 인증한 활동 리스트: $mostPostList")
+                // todo 보민님 여기 리스트 사이즈만큼만 올라가게 해야 합니다
+
                 if(mostPostList.size != 0) {
-                    getTitleMost(mostPostList)
-                    _mostPostList.value = mostPostList
-                    Timber.i("가장 많이 인증한 활동 리스트: $mostPostList")
-
-                    //sever Graph 업데이트
-                    // todo 보민님 여기 mostPostList 사이즈만큼만 올라가게 해야 합니다
-//                    fireDB.collection("User").document(fireUser?.email.toString())
-//                        .collection("Project$num").document("Graph")
-//                        .update(
-//                            mapOf(
-//                                "post1" to mostCo2List[0],
-//                                "post2" to mostCo2List[1],
-//                                "post3" to mostCo2List[2]
-//                            ),
-//                        )
+                    fireDB.collection("User").document(fireUser?.email.toString())
+                        .collection("Project$num").document("Graph")
+                        .update(
+                            mapOf(
+                                "post1" to mostPostList[0],
+                                "post2" to mostPostList[1],
+                                "post3" to mostPostList[2]
+                            ),
+                        )
                 }
-
-
             }
     }
 
@@ -495,25 +480,27 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 Timber.i("size $size")
                 Timber.i("rank $rank")
 
-                _rank.value = rank
-            } else {
-                _rank.value = 100f
+                //sever Graph 업데이트
+                fireDB.collection("User").document(fireUser?.email.toString())
+                    .collection("Project$num").document("Graph")
+                    .update(
+                        mapOf(
+                            "extraRank" to rank
+                        ),
+                    )
             }
-
-            //sever Graph 업데이트
-            fireDB.collection("User").document(fireUser?.email.toString())
-                .collection("Project$num").document("Graph")
-                .update(
-                    mapOf(
-                        "extraRank" to _rank.value
-                    ),
-                )
         }
     }
     //새로운 플젝시작할때 저장하고 지우고 하는것도 괜찮을것 같음
 
     //이전 프로젝트 불러오기
-    private fun fireGetBeforPorject(projectNum : Int){   //몇회차 이전, 이후 필요한지 넣어주기
+    fun fireGetBeforPorject(projectNum : Int){   //몇회차 이전, 이후 필요한지 넣어주기
+
+        val mostCo2List = arrayListOf<MyAllAct>()
+        val mostPostList = arrayListOf<Int>()
+        mostCo2List.clear()
+        mostPostList.clear()
+
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$projectNum").document("Graph")
             .get()
@@ -521,6 +508,78 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 if (document != null) {
                     Timber.i("DocumentSnapshot data: ${document.data}")
                     val gotGraph = document.toObject<MyGraph>()
+
+                    gotGraph?.let {
+                        // ───────────────────────────────── 카테고리별 탄소량 ─────────────────────────────────
+                        _co2Sum.value = gotGraph.energy.toFloat() + gotGraph.consumption.toFloat() + gotGraph.transport.toFloat() + gotGraph.resource.toFloat()
+
+                        co2List.clear()
+                        co2List.add(getCo2Percent(gotGraph.energy.toFloat(), _co2Sum.value!!.toFloat()))
+                        co2List.add(getCo2Percent(gotGraph.consumption.toFloat(), _co2Sum.value!!.toFloat()))
+                        co2List.add(getCo2Percent(gotGraph.transport.toFloat(), _co2Sum.value!!.toFloat()))
+                        co2List.add(getCo2Percent(gotGraph.resource.toFloat(), _co2Sum.value!!.toFloat()))
+
+                        setCo2List(co2List)
+                        Timber.i("co2List: $co2List")
+                        // ───────────────────────────────── 가장 많은 탄소량 ─────────────────────────────────
+
+                        if(gotGraph.co2Sum1 != 0.0) {
+                            mostCo2List.add(MyAllAct(gotGraph.nameCo21, "", 0, gotGraph.co2Sum1))
+                        }
+                        if(gotGraph.co2Sum2 != 0.0) {
+                            mostCo2List.add(MyAllAct(gotGraph.nameCo22, "", 0, gotGraph.co2Sum2))
+                        }
+                        if(gotGraph.co2Sum3 != 0.0) {
+                            mostCo2List.add(MyAllAct(gotGraph.nameCo23, "", 0, gotGraph.co2Sum3))
+                        }
+
+                        if(mostCo2List.size != 0) {
+                            getTitle(mostCo2List)
+                            Timber.i("가장 많은 탄소량 활동 리스트: $mostCo2List")
+                            _mostCo2List.value = mostCo2List
+                        }
+
+                        // ───────────────────────────────── 가장 많은 리액션 ─────────────────────────────────
+                        _noFeed.value = gotGraph.reactionURI == null
+                        _feed.value = Feed(
+                            "",
+                            gotGraph.reactionTitle,
+                            "",
+                            0L,
+                            0,
+                            "",
+                            gotGraph.reactionURI.toString(),
+                            gotGraph.like,
+                            gotGraph.funny,
+                            gotGraph.great,
+                            0
+                        )
+                        // ───────────────────────────────── 가장 많은 인증 활동 ─────────────────────────────────
+                        if(gotGraph.post1 != 0) {
+                            mostPostList.add(gotGraph.post1)
+                        }
+                        if(gotGraph.post2 != 0) {
+                            mostPostList.add(gotGraph.post2)
+                        }
+                        if(gotGraph.post3 != 0) {
+                            mostPostList.add(gotGraph.post3)
+                        }
+
+                        if(mostPostList.size != 0) {
+                            getTitleMost(mostPostList)
+                            _mostPostList.value = mostPostList
+                            Timber.i("가장 많이 인증한 활동 리스트: $mostPostList")
+                        }
+
+                    // ───────────────────────────────── 특별활동 ─────────────────────────────────
+
+                        if(extraNum.value == 0) {
+                            _rank.value = 100f
+                        } else {
+                            _rank.value = gotGraph.extraRank
+                        }
+                    }
+
                 } else {
                     Timber.i("No such document")
                 }

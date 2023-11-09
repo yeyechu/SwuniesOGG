@@ -54,11 +54,7 @@ class GraphLayer : Fragment() {
 
         viewModel.currentPage.observe(viewLifecycleOwner) {
             it?.let {
-                viewModel.fireGetCategory(it)
-                viewModel.fireGetCo2(it)
-                viewModel.fireGetMostPost(it)
-                viewModel.fireGetExtra(it)
-                viewModel.fireGetReaction(it)
+                viewModel.fireGetBeforPorject(it)
             }
         }
 
@@ -90,7 +86,7 @@ class GraphLayer : Fragment() {
 
         viewModel.rank.observe(viewLifecycleOwner) {
             it?.let {
-                setBarData(barChart2, listOf(it, 50f), labels2)
+                setBarData(barChart2, listOf(it - 100, 50f), labels2)
             }
         }
     }

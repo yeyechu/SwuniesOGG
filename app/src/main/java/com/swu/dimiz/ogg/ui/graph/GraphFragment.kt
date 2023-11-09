@@ -53,6 +53,11 @@ class GraphFragment : Fragment() {
         viewModel.projectSize.observe(viewLifecycleOwner) {
             it?.let {
                 viewpager2Adapter.pagerSize = it
+                viewModel.fireGetCategory(it)
+                viewModel.fireGetCo2(it)
+                viewModel.fireGetMostPost(it)
+                viewModel.fireGetExtra(it)
+                viewModel.fireGetReaction(it)
             }
         }
 

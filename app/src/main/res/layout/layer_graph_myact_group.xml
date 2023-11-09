@@ -120,7 +120,7 @@
                         android:id="@+id/most_reduce_co2_act_Chart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimension_150"
-                        android:visibility="@{viewModel.mostPostList.size() == 0 ? View.GONE : View.VISIBLE}"
+                        android:visibility="@{viewModel.mostCo2List.size() == 0 ? View.GONE : View.VISIBLE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
