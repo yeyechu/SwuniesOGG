@@ -651,19 +651,24 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(userEmail)
-            .get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    appUser = document.toObject<MyCondition>()!!
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Timber.i( e)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    appUser = snapshot.toObject<MyCondition>()!!
                     _userCondition.value = appUser
                     Timber.i("유저 컨디션 초기화: ${_userCondition.value}")
-                    today = convertToDuration(appUser.startDate)
+                    //today 초기화
+                    today = if (appUser.startDate == 0L && appUser.aim == 0f) {  //처음 시작한다면
+                        1
+                    } else {
+                        convertToDuration(appUser.startDate)
+                    }
                 } else {
-                    Timber.i( "No such document")
+                    Timber.i("Current data: null")
                 }
-            }
-            .addOnFailureListener { exception ->
-                Timber.i(exception)
             }
     }
 
@@ -758,28 +763,26 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
         }
         //프로젝트 상태 변경
-        if (today == 1) {
-            val toStartDay = System.currentTimeMillis().toString()
+        val toStartDay = System.currentTimeMillis().toString()
 
-            val washingtonRef = fireDB.collection("User").document(userEmail)
-            washingtonRef.update("startDate", toStartDay.toLong())
-                .addOnSuccessListener { Timber.i("startDate updated!") }
-                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+        val washingtonRef = fireDB.collection("User").document(userEmail)
+        washingtonRef.update("startDate", toStartDay.toLong())
+            .addOnSuccessListener { Timber.i("startDate updated!") }
+            .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 
-            washingtonRef.update("aim", _aimCo2.value?.toDouble())
-                .addOnSuccessListener { Timber.i("aim updated!") }
-                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+        washingtonRef.update("aim", _aimCo2.value?.toDouble())
+            .addOnSuccessListener { Timber.i("aim updated!") }
+            .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 
-            washingtonRef.update("projectCount", _userCondition.value?.projectCount)
-                .addOnSuccessListener { Timber.i("projectCount updated!") }
-                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
+        washingtonRef.update("projectCount", _userCondition.value?.projectCount)
+            .addOnSuccessListener { Timber.i("projectCount updated!") }
+            .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 
-            fireDB.collection("User").document(userEmail)
-                .collection("Project${_userCondition.value?.projectCount}").document("Graph")
-                .update("startDate", toStartDay.toLong())
-                .addOnSuccessListener { Timber.i("Graph startDate updated!") }
-                .addOnFailureListener { e -> Timber.i("Error updating document", e) }
-        }
+        fireDB.collection("User").document(userEmail)
+            .collection("Project${_userCondition.value?.projectCount}").document("Graph")
+            .update("startDate", toStartDay.toLong())
+            .addOnSuccessListener { Timber.i("Graph startDate updated!") }
+            .addOnFailureListener { e -> Timber.i("Error updating document", e) }
     }
 
     //남은활동 모두 변경하기 클릭시
