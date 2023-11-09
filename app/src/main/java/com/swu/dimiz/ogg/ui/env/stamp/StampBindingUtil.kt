@@ -28,7 +28,7 @@ fun ImageView.setImage(boolean: Boolean) {
 @BindingAdapter("userCo2")
 fun TextView.setCo2(item: MyCondition?) {
     item?.let {
-        text = (item.aim * CO2_WHOLE).toString()
+        text = resources.getString(R.string.text_co2_all, item.aim * CO2_WHOLE)
     }
 }
 

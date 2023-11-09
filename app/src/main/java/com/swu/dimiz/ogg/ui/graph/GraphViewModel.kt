@@ -41,6 +41,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     val projectSize: LiveData<Int>
         get() = _projectSize
 
+    private val _projectDate = MutableLiveData<Long>()
+    val projectDate: LiveData<Long>
+        get() = _projectDate
+
     private val _currentPage = MutableLiveData<Int>()
     val currentPage: LiveData<Int>
         get() = _currentPage
@@ -58,6 +62,10 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     private val _feed = MutableLiveData<Feed>()
     val feed: LiveData<Feed>
         get() = _feed
+
+    private val _noFeed = MutableLiveData<Boolean>()
+    val noFeed: LiveData<Boolean>
+        get() = _noFeed
 
     private val _co2ForCategory = MutableLiveData<List<Float>>()
     val co2ForCategory: LiveData<List<Float>>
@@ -235,6 +243,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     val gotUser = snapshot.toObject<MyCondition>()!!
 
                     getProjectSize(gotUser.projectCount)
+                    _projectDate.value = gotUser.startDate
 
                     startDate = gotUser.startDate
 

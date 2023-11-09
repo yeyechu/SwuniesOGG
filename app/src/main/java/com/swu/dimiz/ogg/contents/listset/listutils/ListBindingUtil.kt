@@ -11,6 +11,7 @@ import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
 import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
 import com.swu.dimiz.ogg.ui.myact.post.TextAdapter
+import timber.log.Timber
 
 @BindingAdapter("actitityTitle")
 fun TextView.setTitle(item: ActivitiesDaily?) {
@@ -77,6 +78,7 @@ fun TextView.setButtonText(item: ActivitiesDaily?) {
 
 @BindingAdapter("setCardBackground", "automobileData")
 fun setCardBackground(view: CardView, item: ActivitiesDaily, bool: Boolean) {
+    Timber.i("바인딩 어댑터 차량: $bool")
     view.visibility = if(bool) {
         when(item.dailyId) {
             10010 -> View.VISIBLE
