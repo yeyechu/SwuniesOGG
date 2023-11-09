@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.contents.listset
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -650,24 +651,19 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(userEmail)
-            .addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    Timber.i( e)
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    appUser = snapshot.toObject<MyCondition>()!!
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    appUser = document.toObject<MyCondition>()!!
                     _userCondition.value = appUser
                     Timber.i("유저 컨디션 초기화: ${_userCondition.value}")
-                    //today 초기화
-                    today = if (appUser.startDate == 0L && appUser.aim == 0f) {  //처음 시작한다면
-                        1
-                    } else {
-                        convertToDuration(appUser.startDate)
-                    }
+                    today = convertToDuration(appUser.startDate)
                 } else {
-                    Timber.i("Current data: null")
+                    Timber.i( "No such document")
                 }
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
             }
     }
 
@@ -743,7 +739,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     //프로젝트 시작하기로 들어온 경우
     fun fireSave() = viewModelScope.launch {
         //몇번째 프로젝트 초기화
-        _userCondition.value?.projectCount = +1
+        _userCondition.value?.projectCount = _userCondition.value?.projectCount!! + 1
+        today = 1
 
         //프로젝트 내에 있는 테이블
         fireAllReset()
