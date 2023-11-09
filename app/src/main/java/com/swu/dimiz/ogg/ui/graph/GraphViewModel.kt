@@ -327,6 +327,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     .collection("Project$num").document("Graph")
                     .update(
                         mapOf(
+                            "nameCo21" to co2ActList[0].allCo2,
+                            "nameCo22" to co2ActList[1].allCo2,
+                            "nameCo23" to co2ActList[2].allCo2,
                             "co2Sum1" to co2ActList[0].allCo2,
                             "co2Sum2" to co2ActList[1].allCo2,
                             "co2Sum3" to co2ActList[2].allCo2
