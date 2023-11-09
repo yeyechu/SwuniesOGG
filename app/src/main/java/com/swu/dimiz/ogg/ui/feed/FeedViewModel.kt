@@ -389,8 +389,8 @@ class FeedViewModel : ViewModel() {
         val gotFeedList = arrayListOf<Feed>()
 
         fireDB.collection("Feed")
-            .whereNotEqualTo("email", userEmail) //todo 쉽게 바꿔논거 나중에 돌려놓기
-            //.orderBy("postTime",  Query.Direction.DESCENDING)
+            //.whereNotEqualTo("email", userEmail) // 쉽게 바꿔논거 나중에 돌려놓기
+            .orderBy("postTime",  Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
                 gotFeedList.clear()
