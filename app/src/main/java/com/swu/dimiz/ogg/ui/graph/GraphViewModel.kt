@@ -461,7 +461,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     level = i
                 }
             }
-            val rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100 - 99
+            val rank = (level.toFloat() / size.toFloat()) * 100
             Timber.i("level $level")
             Timber.i("size $size")
             Timber.i("rank $rank")
