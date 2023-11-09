@@ -155,10 +155,13 @@
 
                         <ImageView
                             android:id="@+id/seachar_image"
-                            android:layout_width="wrap_content"
+                            android:layout_width="@dimen/dimension_100"
                             android:layout_height="wrap_content"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
                             android:layout_margin="@dimen/spacing_medium"
                             android:contentDescription="@string/description_myact_card_image"
+                            android:src="@drawable/graph_image_co2_glacier"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/seachar_title"
@@ -228,9 +231,12 @@
 
                         <ImageView
                             android:id="@+id/seachar_image2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="@dimen/dimension_100"
                             android:layout_height="wrap_content"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
                             android:layout_margin="@dimen/spacing_medium"
+                            android:src="@drawable/graph_image_co2_seaweed"
                             android:contentDescription="@string/description_myact_card_image"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
