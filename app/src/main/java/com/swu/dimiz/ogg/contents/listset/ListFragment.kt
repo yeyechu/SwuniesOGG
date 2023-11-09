@@ -39,6 +39,8 @@ class ListFragment : Fragment() {
 
         viewModel.userCondition.observe(viewLifecycleOwner) {
             automobile = it.car
+            Timber.i("자동차 번호: $automobile")
+            Timber.i("자동차 번호: ${it.car}")
         }
 
         // ──────────────────────────────────────────────────────────────────────────────────────
@@ -88,16 +90,9 @@ class ListFragment : Fragment() {
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                       어댑터
         val adapter = ListsetAdapter(
-            automobile = automobile,
+            automobile = viewModel.userCondition.value!!.car,
             viewModel = viewModel,
             ListsetAdapter.ListClickListener {
-
-//                viewModel.co2Plus(it)
-//                if (!viewModel.updateItem(it)) {
-//                    viewModel.addItem(it)
-//                }
-//                viewModel.setListHolder(viewModel.listArray)
-//                Timber.i("${viewModel.listArray}")
             },
             ListsetAdapter.ListClickListener {
                 viewModel.showPopup(it)

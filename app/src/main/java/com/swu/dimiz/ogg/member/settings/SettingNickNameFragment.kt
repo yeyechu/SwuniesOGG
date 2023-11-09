@@ -15,6 +15,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSettingNicknameBinding
 import timber.log.Timber
@@ -28,14 +29,23 @@ class SettingNickNameFragment : Fragment() {
     val fireUser = Firebase.auth.currentUser
     val fireDB = Firebase.firestore
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_setting_nickname, container, false)
 
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
+
+//        binding.viewModel = viewModel
         binding.changeNicknameBtn.setOnClickListener {
             val newNickname = binding.newNicknameEt.editText?.text.toString()
 
@@ -58,22 +68,10 @@ class SettingNickNameFragment : Fragment() {
 
             //화면 이동
             it?.let {
-                navController.navigate(R.id.action_destination_setting_nickname_to_destination_settings)
+                navController.navigateUp()
             }
-            Toast.makeText(activity,"닉네임 변경이 완료되었어요!",Toast.LENGTH_SHORT).show()
+            OggSnackbar.make(view, getText(R.string.setting_toast_nickname_changed).toString()).show()
         }
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        navController = findNavController()
-        navController.setLifecycleOwner(viewLifecycleOwner)
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
-
-//        binding.viewModel = viewModel
     }
 
     override fun onDestroyView() {

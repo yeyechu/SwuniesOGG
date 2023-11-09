@@ -46,6 +46,7 @@
     <string name="co2_aim3_dolphin">5.22</string>
     <string name="co2_default_zero">0</string>
     <string name="text_invalid">404 Not Found</string>
+    <string name="text_co2_all">%.1f</string>
 
     <!-- ──────────────────────────────────────    설명    ────────────────────────────────────── -->
     <!--                모든 PNG에 들어가는 contentDescription 속성은 이곳에 선언되어야 함              -->
@@ -322,6 +323,8 @@
     <string name="setting_password_text_password_checking">비밀번호 확인</string>
     <string name="setting_password_text_new_password">새로운 비밀번호</string>
     <string name="setting_password_text_new_password_again">새로운 비밀번호 확인</string>
+
+    <string name="setting_toast_nickname_changed">닉네임 변경이 완료되었어요!</string>
 
     <!-- ──────────────────────────────────────   환경설정 내부 페이지    ────────────────────────────────────── -->
     <!-- 닉네임 변경 -->
