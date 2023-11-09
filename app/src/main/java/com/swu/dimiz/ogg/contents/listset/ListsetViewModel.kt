@@ -622,7 +622,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                         .collection("Project${_userCondition.value?.projectCount}").document("Entire")
                         .collection("Stamp").document(i.toString())
                         .update("dayCo2", FieldValue.increment(sustCo2.toDouble()))
-                        .addOnSuccessListener {  }
+                        .addOnSuccessListener { }
                         .addOnFailureListener { e -> Timber.i( e ) }
                 }
             }else{
@@ -750,11 +750,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         fireStampReset()
         fireGreaphReset()
 
-        //밖에 있는 테이블(한번만 생성)
-       /* if(_userCondition.value?.projectCount == 1){
-            fireBadgeReset()
-        }*/
-
         //전체 리스트 편집
         for (i in 0 until LIST_SIZE) {
             val actList = MyList()
@@ -762,7 +757,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             fireDB.collection("User").document(userEmail)
                 .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                 .set(actList)
-                .addOnCompleteListener { Timber.i("DocumentSnapshot1 successfully written!")
+                .addOnCompleteListener { Timber.i("actList successfully written!")
                 }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
         }
         //프로젝트 상태 변경
@@ -771,21 +766,21 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
             val washingtonRef = fireDB.collection("User").document(userEmail)
             washingtonRef.update("startDate", toStartDay.toLong())
-                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                .addOnSuccessListener { Timber.i("startDate updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 
             washingtonRef.update("aim", _aimCo2.value?.toDouble())
-                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                .addOnSuccessListener { Timber.i("aim updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 
             washingtonRef.update("projectCount", _userCondition.value?.projectCount)
-                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                .addOnSuccessListener { Timber.i("projectCount updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
 
             fireDB.collection("User").document(userEmail)
                 .collection("Project${_userCondition.value?.projectCount}").document("Graph")
                 .update("startDate", toStartDay.toLong())
-                .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
+                .addOnSuccessListener { Timber.i("Graph startDate updated!") }
                 .addOnFailureListener { e -> Timber.i("Error updating document", e) }
         }
     }
@@ -808,8 +803,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)
-                            .addOnCompleteListener { Timber.i("남은활동 모두 변경하기 클릭시 successfully written!")
-                            }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
+                            .addOnCompleteListener { Timber.i("남은활동 모두 변경하기 클릭시 successfully")
+                            }.addOnFailureListener { e -> Timber.i(e) }
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -836,8 +831,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)
-                            .addOnCompleteListener { Timber.i("하루만 변경하기 클릭시 successfully written!")
-                            }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
+                            .addOnCompleteListener { Timber.i("하루만 변경하기 클릭시 successfully")
+                            }.addOnFailureListener { e -> Timber.i(e) }
                     }
                 }
                 .addOnFailureListener { exception ->
