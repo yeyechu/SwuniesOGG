@@ -8,10 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.databinding.FragmentSignupBinding
+import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -136,6 +141,17 @@ class SignupFragment : Fragment() {
                             Timber.i(verificationTask.exception.toString())
                         }
                     }
+
+                    val fireDB = Firebase.firestore
+                    for (i in 1..31) {
+                        val badge = MyBadge(badgeID = 40000 + i)
+                        fireDB.collection("User").document(email)
+                            .collection("Badge").document((40000 + i).toString())
+                            .set(badge)
+                            .addOnSuccessListener { }
+                            .addOnFailureListener { e -> Timber.i(e) }
+                    }
+
                     view?.findNavController()
                         ?.navigate(com.swu.dimiz.ogg.R.id.action_signupFragment_to_signinFragment)
 
@@ -146,6 +162,10 @@ class SignupFragment : Fragment() {
                     Timber.i("이미 존재하는 이메일입니다.")
                 }
             }
+    }
+
+    private fun fireBadgeReset(){
+
     }
 
     override fun onDestroyView() {

@@ -130,7 +130,7 @@ class ChecklistFragment : Fragment() {
         //이동수단
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40009")
-            .update("count", FieldValue.increment(1000))
+            .update("count", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("40009 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
 
@@ -167,7 +167,7 @@ class ChecklistFragment : Fragment() {
                 for(i in 0 until counts.size){
                     getDate = System.currentTimeMillis()
                     //카테고리
-                    if(counts[8].count == 100000 && counts[8].getDate == null){
+                    if(counts[8].count == 100 && counts[8].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
                             .update("getDate", getDate)

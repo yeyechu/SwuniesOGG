@@ -120,7 +120,7 @@ class PostLinkFragment : Fragment() {
         //자원순환
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40010")
-            .update("count", FieldValue.increment(1000))
+            .update("count", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("40010 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
     }
@@ -129,7 +129,7 @@ class PostLinkFragment : Fragment() {
     private fun fireUpdateBadgeDate() {
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40027")
-            .update("count", FieldValue.increment(1000))
+            .update("count", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("40027 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
 
@@ -147,14 +147,14 @@ class PostLinkFragment : Fragment() {
                 for(i in 0 until counts.size){
                     getDate = System.currentTimeMillis()
                     //카테고리
-                    if(counts[9].count == 100000 && counts[9].getDate == null){
+                    if(counts[9].count == 100 && counts[9].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40010")
                             .update("getDate", getDate)
                             .addOnSuccessListener { Timber.i("40010 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    if(counts[25].count == 1000 && counts[25].getDate == null){
+                    if(counts[25].count == 1 && counts[25].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40026")
                             .update("getDate", getDate)

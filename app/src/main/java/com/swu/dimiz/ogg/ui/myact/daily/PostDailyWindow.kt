@@ -193,7 +193,7 @@ class PostDailyWindow  : Fragment() {
             10001,10002,10003,10004,10005,10006,10007,10008 ->{
                 fireDB.collection("User").document(userEmail)
                     .collection("Badge").document("40007")
-                    .update("count", FieldValue.increment(1000))
+                    .update("count", FieldValue.increment(1))
                     .addOnSuccessListener { Timber.i("40007 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
@@ -201,7 +201,7 @@ class PostDailyWindow  : Fragment() {
             10009 ->{
                 fireDB.collection("User").document(userEmail)
                     .collection("Badge").document("40008")
-                    .update("count", FieldValue.increment(1000))
+                    .update("count", FieldValue.increment(1))
                     .addOnSuccessListener { Timber.i("40008 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
@@ -209,7 +209,7 @@ class PostDailyWindow  : Fragment() {
             10010,10011,10012 ->{
                 fireDB.collection("User").document(userEmail)
                     .collection("Badge").document("40009")
-                    .update("count", FieldValue.increment(1000))
+                    .update("count", FieldValue.increment(1))
                     .addOnSuccessListener { Timber.i("40009 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
@@ -218,7 +218,7 @@ class PostDailyWindow  : Fragment() {
             10013,10014,10015,10016,10017,10018,10019,10020 ->{
                 fireDB.collection("User").document(userEmail)
                     .collection("Badge").document("40010")
-                    .update("count", FieldValue.increment(1000))
+                    .update("count", FieldValue.increment(1))
                     .addOnSuccessListener { Timber.i("40010 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
@@ -257,7 +257,7 @@ class PostDailyWindow  : Fragment() {
                 }
                 for(i in 0 until counts.size){
                     //카테고리
-                    if(counts[6].count == 100000 && counts[6].getDate == null){
+                    if(counts[6].count == 100 && counts[6].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40007")
@@ -265,7 +265,7 @@ class PostDailyWindow  : Fragment() {
                             .addOnSuccessListener { Timber.i("40007 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    else if(counts[7].count == 100000 && counts[7].getDate == null){
+                    else if(counts[7].count == 100 && counts[7].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40008")
@@ -273,7 +273,7 @@ class PostDailyWindow  : Fragment() {
                             .addOnSuccessListener { Timber.i("40008 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    else if(counts[8].count == 100000 && counts[8].getDate == null){
+                    else if(counts[8].count == 100 && counts[8].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
@@ -281,7 +281,7 @@ class PostDailyWindow  : Fragment() {
                             .addOnSuccessListener { Timber.i("40009 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    else if(counts[9].count == 100000 && counts[9].getDate == null){
+                    else if(counts[9].count == 100 && counts[9].getDate == null){
                         getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40010")

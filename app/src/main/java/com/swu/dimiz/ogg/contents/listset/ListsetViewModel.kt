@@ -645,17 +645,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             .addOnSuccessListener { }
             .addOnFailureListener { e -> Timber.i(e) }
     }
-
-    private fun fireBadgeReset() = viewModelScope.launch {
-        for (i in 1..31) {
-            val badge = MyBadge(badgeID = 40000 + i)
-            fireDB.collection("User").document(userEmail)
-                .collection("Badge").document((40000 + i).toString())
-                .set(badge)
-                .addOnSuccessListener { }
-                .addOnFailureListener { e -> Timber.i(e) }
-        }
-    }
         // ───────────────────────────────────────────────────────────────────────────────────
     //                             기본 정보 가져오기
     fun fireInfo() = viewModelScope.launch {
@@ -749,7 +738,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 }
             }
     }
-
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 리스트 저장
     //프로젝트 시작하기로 들어온 경우
@@ -763,9 +751,9 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         fireGreaphReset()
 
         //밖에 있는 테이블(한번만 생성)
-        if(_userCondition.value?.projectCount == 1){
+       /* if(_userCondition.value?.projectCount == 1){
             fireBadgeReset()
-        }
+        }*/
 
         //전체 리스트 편집
         for (i in 0 until LIST_SIZE) {

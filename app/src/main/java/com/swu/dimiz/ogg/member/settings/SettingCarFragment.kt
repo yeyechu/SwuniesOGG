@@ -142,14 +142,14 @@ class SettingCarFragment : Fragment() {
 
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40009")
-                                    .update("count", FieldValue.increment(1000))
+                                    .update("count", FieldValue.increment(1))
                                     .addOnSuccessListener { Timber.i("40009 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
 
                                 //배지 sust 업
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40021")
-                                    .update("count", FieldValue.increment(1000))
+                                    .update("count", FieldValue.increment(1))
                                     .addOnSuccessListener { Timber.i("40021 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i( e ) }
 
@@ -192,7 +192,7 @@ class SettingCarFragment : Fragment() {
                 for(i in 0 until counts.size){
                     val getDate = System.currentTimeMillis()
                     //카테고리
-                    if(counts[8].count == 100000 && counts[8].getDate == null){
+                    if(counts[8].count == 100 && counts[8].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
                             .update("getDate", getDate)
@@ -200,7 +200,7 @@ class SettingCarFragment : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     //sust
-                    if(counts[20].count == 1000 && counts[20].getDate == null){
+                    if(counts[20].count == 1 && counts[20].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40021")
                             .update("getDate", getDate)
