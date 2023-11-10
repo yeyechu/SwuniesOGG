@@ -6,11 +6,10 @@
     <data>
 
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/spacing_regular"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         >
 
         <androidx.appcompat.widget.Toolbar
@@ -18,9 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:title="">
 
             <TextView
@@ -32,6 +28,18 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_regular"
+        >
+
         <TextView
             android:id="@+id/sinup_info"
             style="@style/StyleText"
@@ -41,18 +49,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <LinearLayout
             android:id="@+id/inputid"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimension_80"
             android:orientation="horizontal"
             android:gravity=""
             android:layout_marginTop="@dimen/spacing_regular"
             app:layout_constraintTop_toBottomOf="@+id/sinup_info"
             tools:layout_editor_absoluteX="16dp">
+
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/email_et"
@@ -68,8 +78,6 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
-
-
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -78,11 +86,12 @@
                 android:id="@+id/email_check"
                 style="@style/StyleButtonOgg.smaller"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginStart="@dimen/spacing_extra_small"
-                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:layout_gravity="center"
                 android:text="@string/signup_button_email_check" />
+
         </LinearLayout>
 
 
@@ -91,7 +100,7 @@
             android:id="@+id/nickname_et"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimension_80"
             android:layout_marginTop="@dimen/spacing_regular"
             android:hint="@string/nickname"
             app:layout_constraintEnd_toEndOf="parent"
@@ -113,7 +122,7 @@
             android:id="@+id/password_et_first"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimension_80"
             android:layout_marginTop="@dimen/spacing_regular"
             android:hint="@string/password"
 
@@ -135,9 +144,9 @@
             android:id="@+id/password_et_second"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimension_80"
             android:layout_marginTop="@dimen/spacing_regular"
-            android:hint="@string/password"
+            android:hint="@string/password_2"
             app:layout_constraintEnd_toEndOf="@+id/password_et_first"
             app:layout_constraintStart_toStartOf="@+id/password_et_first"
             app:layout_constraintTop_toBottomOf="@+id/password_et_first"
@@ -192,6 +201,7 @@
             <CheckBox
                 android:id="@+id/checkBox"
                 style="@style/StyleText"
+                android:checked="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/signup_text_agree_check_1"
@@ -241,6 +251,7 @@
             style="@style/StyleButtonOgg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:layout_marginTop="@dimen/spacing_regular"
             android:text="@string/send_email"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -249,6 +260,6 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+        </ScrollView>
+    </LinearLayout>
 </layout>

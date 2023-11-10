@@ -1,19 +1,28 @@
 package com.swu.dimiz.ogg.member.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.MainActivity
+import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSignupBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
 import kotlinx.coroutines.launch
@@ -23,7 +32,7 @@ import timber.log.Timber
 
 class SignupFragment : Fragment() {
     private val auth = FirebaseAuth.getInstance()
-
+    private lateinit var navController: NavController
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -37,6 +46,7 @@ class SignupFragment : Fragment() {
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                    InputField
+        val Nextbtn = binding.sendEmailBtn
         binding.sendEmailBtn.setOnClickListener {
             val nickname = binding.nicknameEt.editText?.text.toString()
             val email = binding.emailEt.editText?.text.toString()
@@ -59,12 +69,14 @@ class SignupFragment : Fragment() {
                 if (password1.length < 8) {
                     binding.passwordEtFirst.error = "비밀번호를 8자 이상 입력해주세요"
                     //인증보내기 버튼 비활성화
+
                 } else {
                     binding.passwordEtFirst.error = null
                 }
             }
             override fun afterTextChanged(s: Editable?) { } //작성 후
         })
+
 
         binding.passwordEtSecond.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { } //작성 전
@@ -75,6 +87,7 @@ class SignupFragment : Fragment() {
                 if (password2 != password1) {
                     binding.passwordEtSecond.error = "비밀번호가 일치하지 않아요"
                     //인증보내기 버튼 비활성화
+
                 } else {
                     binding.passwordEtSecond.error = null
                 }
@@ -107,10 +120,17 @@ class SignupFragment : Fragment() {
                     }
                 }
         }
+        binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
+            // 체크박스가 체크되었을 때
+            binding.sendEmailBtn.isEnabled = isChecked
+        }
+
+
 
 
         return binding.root
     }
+
 
     // ──────────────────────────────────────────────────────────────────────────────────────
     //                                      회원가입 (파이어베이스)
@@ -137,6 +157,8 @@ class SignupFragment : Fragment() {
                     user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
                         if (verificationTask.isSuccessful) {
                             Timber.i("확인메일을 보냈습니다")
+                            Toast.makeText(activity,"이메일로 인증을 완료해주세요.", Toast.LENGTH_SHORT).show()
+
                         } else {
                             Timber.i(verificationTask.exception.toString())
                         }
@@ -164,7 +186,15 @@ class SignupFragment : Fragment() {
             }
     }
 
-    private fun fireBadgeReset(){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
+
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
+
 
     }
 

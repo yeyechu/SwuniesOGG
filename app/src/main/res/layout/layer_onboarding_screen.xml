@@ -22,11 +22,12 @@
 
     <TextView
         android:id="@+id/desc"
-        style="@style/StyleText"
+        style="@style/StyleText.subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_margin="@dimen/spacing_big"
+        android:textColor="@color/primary_gray"
         android:text="@string/onboarding_subtext_1"
         app:layout_constraintEnd_toEndOf="@+id/title"
         app:layout_constraintStart_toStartOf="@+id/title"

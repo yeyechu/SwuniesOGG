@@ -11,9 +11,9 @@
 
     <ImageView
         android:id="@+id/image_garbage_one"
-        android:layout_width="@dimen/image_size_aim_face"
+        android:layout_width="@dimen/dimension_200"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_scroll"
+        android:layout_marginTop="@dimen/spacing_large"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:src="@drawable/login_image_logo_folded"
@@ -42,7 +42,7 @@
         style="@style/StyleText.header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_scroll"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="@dimen/spacing_regular"
         android:layout_marginEnd="@dimen/spacing_regular"
         android:text="@string/permission_text_title"
@@ -57,7 +57,7 @@
         style="@style/StyleText.subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_regular"
+        android:layout_marginBottom="@dimen/spacing_big"
         android:lineSpacingExtra="@dimen/spacing_extra_small"
         android:text="@string/permission_text_body"
         android:textAlignment="center"
@@ -67,27 +67,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_garbage_one" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+
+        >
+        <ImageView
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:src="@drawable/permission_image_to_camera"
+            android:layout_marginEnd="@dimen/spacing_small"
+            />
+
     <TextView
         android:id="@+id/text_garbage_camera"
         style="@style/StyleText.header"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/icon_size_regular"
-        android:layout_margin="@dimen/spacing_regular"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:drawableStart="@drawable/permission_image_to_camera"
-        android:gravity="center_vertical"
-        android:lineSpacingExtra="@dimen/spacing_extra_small"
         android:text="@string/destination_title_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_garbage_two" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/text_garbage_camera_body"
         style="@style/StyleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_regular"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_regular"
         android:lineSpacingExtra="@dimen/spacing_extra_small"
         android:text="@string/permission_text_body_camera"
         android:textAlignment="center"
@@ -97,24 +110,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_garbage_camera" />
 
-    <TextView
-        android:id="@+id/text_garbage_gallery"
-        style="@style/StyleText.header"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_regular"
-        android:layout_gravity="center"
-        android:drawableStart="@drawable/permission_image_to_image"
-        android:gravity="center_vertical"
-        android:lineSpacingExtra="@dimen/spacing_extra_small"
-        android:text="@string/permission_text_subtitle_gallery" />
+        android:orientation="horizontal"
+        android:gravity="center"
+
+        >
+        <ImageView
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:src="@drawable/permission_to_gallery"
+            android:layout_marginEnd="@dimen/spacing_small"
+            />
+
+        <TextView
+            android:id="@+id/text_garbage_gallery"
+            style="@style/StyleText.header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/permission_text_subtitle_gallery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_garbage_two" />
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/text_garbage_gallery_body"
         style="@style/StyleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_regular"
+        android:layout_margin="@dimen/spacing_small"
         android:lineSpacingExtra="@dimen/spacing_extra_small"
         android:text="@string/permission_text_body_gallery"
         android:textAlignment="center"
@@ -126,5 +155,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_scroll"
+        android:layout_marginTop="@dimen/spacing_large"
         android:text="확인" />
 </LinearLayout>

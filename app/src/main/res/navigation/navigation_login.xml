@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.swu.dimiz.ogg.member.login.SignupFragment"
-        android:label="SignupFragment" >
+        >
         <action
             android:id="@+id/action_signupFragment_to_signinFragment"
             app:destination="@id/signinFragment" />

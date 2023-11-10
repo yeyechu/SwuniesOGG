@@ -94,7 +94,8 @@
         <item name="android:layout_marginTop">@dimen/spacing_extra_small</item>
         <item name="paddingStart">@dimen/spacing_big</item>
         <item name="paddingEnd">@dimen/spacing_big</item>
-
+        <item name="android:paddingTop">@dimen/spacing_small</item>
+        <item name="android:paddingBottom">@dimen/spacing_small</item>
         <item name="fontFamily">@font/nanumsquare_b</item>
         <item name="android:fontFamily">@font/nanumsquare_b</item>
         <item name="android:textSize">@dimen/text_size_subtitle</item>

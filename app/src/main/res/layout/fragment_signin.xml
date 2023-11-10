@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_scroll"
             android:adjustViewBounds="true"
-            android:src="@drawable/login_image_logo"
+            android:src="@drawable/login_image_logo_folded"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -81,10 +81,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- 회원가입 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
 
             android:padding="@dimen/spacing_small"
             app:layout_constraintBottom_toTopOf="@+id/signin_btn"
@@ -98,6 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sinin_text_forget_password"
+                android:layout_marginEnd="@dimen/spacing_small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/signin_to_find_password_btn"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -118,7 +120,7 @@
                 app:layout_constraintStart_toEndOf="@+id/signin_to_find_password_info"
                 app:layout_constraintTop_toTopOf="@+id/signin_to_find_password_info"
                 app:layout_constraintVertical_bias="0.5" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <!-- 로그인 버튼 -->
         <androidx.appcompat.widget.AppCompatButton
@@ -127,7 +129,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/signin"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
@@ -139,6 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/signup"
+            android:layout_marginTop="@dimen/spacing_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/signin_btn"
             app:layout_constraintStart_toStartOf="@+id/signin_btn"

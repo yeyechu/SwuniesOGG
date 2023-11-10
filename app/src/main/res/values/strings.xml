@@ -274,6 +274,8 @@
     <string name="email">이메일</string>
     <string name="id">아이디</string>
     <string name="password">비밀번호</string>
+    <string name="password_2">비밀번호 확인</string>
+
     <string name="send_email">이메일 인증 보내기</string>
 
     <!-- ──────────────────────────────────────  온보딩  ────────────────────────────────────── -->
@@ -284,7 +286,7 @@
     <string name="onboarding_title_3">바뀌어가는 환경을 만나요</string>
     <string name="onboarding_subtext_3">탄소 감축량에 따라 달라지는 환경을\n매일 확인하고, 직접 꾸밀 수 있어요!</string>
     <string name="onboarding_title_4">일상 속 환경 습관,</string>
-    <string name="onboarding_subtext_4">지금부터 만들어 볼까요?</string>
+    <string name="onboarding_subtext_4">\n지금부터 만들어 볼까요?</string>
     <string name="onboarding_start_btn">OGG 시작하기</string>
 
     <!-- ──────────────────────────────────────  로그인  ────────────────────────────────────── -->
