@@ -51,8 +51,6 @@
                 android:layout_height="@dimen/icon_extra_small"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="@dimen/spacing_extra_medium"
-                android:button="@color/transparency_transparent"
-                android:background="@drawable/common_checkbox_seletor"
                 android:onClick="@{(view) -> viewModel.addListHolder(activity, ((CompoundButton)view).isChecked())}"
                 checkBox="@{activity}"
                 automobile="@{automobile == 0}"

@@ -135,7 +135,7 @@
     <string name="badgelist_text_badge_count">보유한 배지 %d 개</string>
     <string name="badgelist_button">닫기</string>
     <string name="badgelist_detail_count">%d/%d회</string>
-    <string name="badgelist_detail_count_co2">%d/%dkg</string>
+    <string name="badgelist_detail_count_co2">%.3f/%dkg</string>
     <string name="badgelist_detail_date">%s 획득</string>
 
     <string name="badgelist_filter_feed">피드에 반응</string>

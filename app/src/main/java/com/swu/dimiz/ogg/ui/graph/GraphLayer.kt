@@ -220,7 +220,7 @@ class GraphLayer : Fragment() {
             }
         }
 
-        val entries: MutableList<PieEntry> = ArrayList()
+        val entries: ArrayList<PieEntry> = ArrayList()
         var index = 0
 
         entries.clear()

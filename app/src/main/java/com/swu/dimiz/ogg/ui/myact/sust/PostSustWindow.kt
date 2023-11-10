@@ -45,7 +45,6 @@ class PostSustWindow : Fragment() {
     override fun onStart() {
         super.onStart()
         Timber.i("onStart()")
-        viewModel.fireGetSust()
     }
     override fun onResume() {
         super.onResume()

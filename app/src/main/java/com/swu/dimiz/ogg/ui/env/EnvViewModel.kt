@@ -223,9 +223,11 @@ class EnvViewModel : ViewModel() {
                     val gotBadge = document.toObject<MyBadge>()
                     if(gotBadge.getDate != null && gotBadge.valueX != 0.0 && gotBadge.valueY != 0.0){
                         badgeList.add(BadgeLocation(gotBadge.badgeID!!, gotBadge.valueX.toFloat(), gotBadge.valueY.toFloat()))
+                        Timber.i("initBadgeLocation")
                     }
                 }
                 _badgeHolder.value = badgeList
+
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)

@@ -21,7 +21,7 @@ fun TextView.setCount(item: Badges?) {
         text = if(item.getDate != null) {
             resources.getString(R.string.badgelist_detail_date, convertLongToDateString(item.getDate!!))
         } else if(item.filter == "co2") {
-            resources.getString(R.string.badgelist_detail_count_co2, item.count, item.baseValue/1000)
+            resources.getString(R.string.badgelist_detail_count_co2, item.count/1000f, item.baseValue/1000)
         } else {
             resources.getString(R.string.badgelist_detail_count, item.count, item.baseValue)
         }
