@@ -27,12 +27,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
@@ -70,7 +70,6 @@ class CameraFragment : Fragment() {
     // ─────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 변수
     private val fireDB = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
     private val fireStorage = Firebase.storage
 
     private var startDate = 0L
@@ -80,19 +79,13 @@ class CameraFragment : Fragment() {
     private var feedDay = ""
     var getDate : Long = 0L
 
-    private val userEmail = fireUser?.email.toString()
-
-    // ─────────────────────────────────────────────────────────────────────────────────
-    //                                      기타
-    //var bitmap : Bitmap? = null
+    private val userEmail = OggApplication.auth.currentUser!!.email.toString()
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
         Timber.i("카메라 onCreateView()")
-
-
 
         fireDB.collection("User").document(userEmail)
             .get().addOnSuccessListener { document ->
@@ -115,7 +108,6 @@ class CameraFragment : Fragment() {
             CameraActivity.cameraActivity!!.finish()
 
             feedDay = System.currentTimeMillis().toString()
-
 
             // ─────────────────────────────────────────────────────────────────────────────────
             //                           세가지 활동 분리해서 업로드
@@ -636,7 +628,6 @@ class CameraFragment : Fragment() {
             }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -774,10 +765,20 @@ class CameraFragment : Fragment() {
 
     override fun onDestroyView() {
         _binding = null
-        super.onDestroyView()
-        Timber.i("카메라 onDestroyView()")
         cameraExecutor.shutdown()
         broadcastManager.unregisterReceiver(volumeDownReceiver)
+        preview = null
+        imageCapture = null
+        savedUri = null
+        cameraProvider = null
+        camera = null
+        counts.clear()
+        super.onDestroyView()
+        Timber.i("카메라 onDestroyView()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     private val volumeDownReceiver = object : BroadcastReceiver() {

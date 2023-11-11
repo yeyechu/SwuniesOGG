@@ -13,7 +13,11 @@ class SignInActivity : AppCompatActivity() {
     }
 
     companion object{
-        var signInActivity: SignInActivity?=null
+        var signInActivity: SignInActivity? = null
     }
 
+    override fun onDestroy() {
+        signInActivity = null
+        super.onDestroy()
+    }
 }

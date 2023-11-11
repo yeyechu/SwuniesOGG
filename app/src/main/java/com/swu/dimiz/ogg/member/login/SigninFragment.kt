@@ -1,26 +1,22 @@
 package com.swu.dimiz.ogg.member.login
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.swu.dimiz.ogg.MainActivity
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSigninBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
-import com.swu.dimiz.ogg.oggdata.remotedatabase.MyReaction
 import timber.log.Timber
 
 
@@ -28,16 +24,22 @@ class SigninFragment: Fragment() {
     private var _binding : FragmentSigninBinding? = null
     private val binding get() = _binding!!
 
-    private val fireDB = Firebase.firestore
-    private val auth = FirebaseAuth.getInstance()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_signin, container, false)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
 
         //------------로그인 ------------//
         binding.signinBtn.setOnClickListener {
@@ -49,19 +51,19 @@ class SigninFragment: Fragment() {
 
         //------------회원가입 ------------//
         binding.signinToSignupBtn.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_signinFragment_to_signupFragment)
+            navController.navigate(SigninFragmentDirections.actionSigninFragmentToSignupFragment())
         }
         //------------비번찾기------------//
         binding.signinToFindPasswordBtn.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_signupFragment_to_findPasswordFragment)
+            navController.navigate(SigninFragmentDirections.actionSignupFragmentToFindPasswordFragment())
         }
-        return binding.root
     }
-
     // ──────────────────────────────────────────────────────────────────────────────────────
     //                                       로그인 (파이어베이스)
     private fun signin(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
+        val fireDB = Firebase.firestore
+
+        OggApplication.auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 //auth에 저장해둔 정보 가져오기
                 val appUser = MyCondition()     //사용자 기본 정보 저장
@@ -75,7 +77,7 @@ class SigninFragment: Fragment() {
                 // ──────────────────────────────────────────────────────────────────────────────────────
                 //                   이메일 인증되어있으면 firestore & storage 저장 및 로그인
                 if (FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
-                    val saveUser = auth.currentUser?.let {
+                    val saveUser = OggApplication.auth.currentUser?.let {
                         MyCondition(
                             email = email,
                             nickName = appUser.nickName,

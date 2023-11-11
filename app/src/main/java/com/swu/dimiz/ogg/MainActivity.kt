@@ -12,7 +12,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.swu.dimiz.ogg.databinding.ActivityMainBinding
 import com.swu.dimiz.ogg.member.login.SignInActivity
 import timber.log.Timber
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration)
+        return navController.navigateUp(appBarConfiguration)|| super.onSupportNavigateUp()
     }
 
     //                              수명 주기 체크
@@ -81,8 +80,14 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }else{
-            Timber.i("이미 로그인 되어있습니다.")
+            Timber.i("이미 로그인 되어있습니다. ${currentUser.email.toString()}")
         }
+    }
+
+    override fun onDestroy() {
+
+        mainActivity = null
+        super.onDestroy()
     }
 
     fun hideBottomNavView(state: Boolean) {

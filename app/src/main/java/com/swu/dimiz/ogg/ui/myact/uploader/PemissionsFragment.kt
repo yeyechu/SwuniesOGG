@@ -9,9 +9,12 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import com.swu.dimiz.ogg.R
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 private var PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA/*, Manifest.permission.READ_EXTERNAL_STORAGE*/)
@@ -38,10 +41,12 @@ class PemissionsFragment : Fragment() {
 
     private fun navigateToCamera() {
         Timber.i("navigateTocamera()")
-        lifecycleScope.launchWhenStarted {
-            Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
-                PemissionsFragmentDirections.actionDestinationPemissionsToDestinationCamera()
-            )
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(
+                    PemissionsFragmentDirections.actionDestinationPemissionsToDestinationCamera()
+                )
+            }
         }
     }
 

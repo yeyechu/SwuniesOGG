@@ -1,19 +1,14 @@
 package com.swu.dimiz.ogg.member.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -21,46 +16,30 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.swu.dimiz.ogg.MainActivity
+import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSignupBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
-
-
 class SignupFragment : Fragment() {
-    private val auth = FirebaseAuth.getInstance()
+
     private lateinit var navController: NavController
+
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DataBindingUtil.inflate(
-            inflater, com.swu.dimiz.ogg.R.layout.fragment_signup, container, false
+            inflater, R.layout.fragment_signup, container, false
         )
 
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                    InputField
-        val Nextbtn = binding.sendEmailBtn
-        binding.sendEmailBtn.setOnClickListener {
-            val nickname = binding.nicknameEt.editText?.text.toString()
-            val email = binding.emailEt.editText?.text.toString()
-            val password1 = binding.passwordEtFirst.editText?.text.toString()
-            val password2 = binding.passwordEtSecond.editText?.text.toString()
-            signup(email, password1, nickname)
-
-
-            if (password1 != password2) {
-                binding.passwordEtSecond.error = "비밀번호가 일치하지 않습니다."
-                return@setOnClickListener
-            }
-        }
-
         binding.passwordEtFirst.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { } //작성 전
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -100,7 +79,7 @@ class SignupFragment : Fragment() {
             val email = binding.emailEt.editText?.text.toString()
 
             // Firebase에서 해당 이메일이 이미 등록되어 있는지 확인
-            auth.fetchSignInMethodsForEmail(email)
+            OggApplication.auth.fetchSignInMethodsForEmail(email)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val signInMethods = task.result?.signInMethods
@@ -127,17 +106,39 @@ class SignupFragment : Fragment() {
             binding.sendEmailBtn.isEnabled = isChecked
         }
 
-
-
-
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
+
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
+
+        binding.sendEmailBtn.setOnClickListener {
+            val nickname = binding.nicknameEt.editText?.text.toString()
+            val email = binding.emailEt.editText?.text.toString()
+            val password1 = binding.passwordEtFirst.editText?.text.toString()
+            val password2 = binding.passwordEtSecond.editText?.text.toString()
+            signup(email, password1, nickname)
+
+            navController.navigateUp()
+            OggSnackbar.make(requireView(), "이메일로 인증을 완료해주세요.").show()
+
+            if (password1 != password2) {
+                binding.passwordEtSecond.error = "비밀번호가 일치하지 않습니다."
+                return@setOnClickListener
+            }
+        }
+    }
 
     // ──────────────────────────────────────────────────────────────────────────────────────
     //                                      회원가입 (파이어베이스)
     private fun signup(email: String, password: String, nickname: String) {
-        auth.createUserWithEmailAndPassword(email, password)
+        OggApplication.auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Timber.i("회원 가입 완료")
@@ -159,7 +160,6 @@ class SignupFragment : Fragment() {
                     user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
                         if (verificationTask.isSuccessful) {
                             Timber.i("확인메일을 보냈습니다")
-                            Toast.makeText(activity,"이메일로 인증을 완료해주세요.", Toast.LENGTH_SHORT).show()
 
                         } else {
                             Timber.i(verificationTask.exception.toString())
@@ -176,9 +176,6 @@ class SignupFragment : Fragment() {
                             .addOnFailureListener { e -> Timber.i(e) }
                     }
 
-                    view?.findNavController()
-                        ?.navigate(com.swu.dimiz.ogg.R.id.action_signupFragment_to_signinFragment)
-
                 } else if (task.exception?.message.isNullOrEmpty()) {
                     Timber.i(task.exception.toString())
                 } else {
@@ -186,18 +183,6 @@ class SignupFragment : Fragment() {
                     Timber.i("이미 존재하는 이메일입니다.")
                 }
             }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        navController = findNavController()
-        navController.setLifecycleOwner(viewLifecycleOwner)
-
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
-
-
     }
 
     override fun onDestroyView() {

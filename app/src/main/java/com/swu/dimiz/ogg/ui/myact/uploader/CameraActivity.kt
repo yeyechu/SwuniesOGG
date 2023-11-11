@@ -60,6 +60,11 @@ class CameraActivity : AppCompatActivity() {
         var filter: String = ""
         var postCount: String = ""
     }
+
+    override fun onDestroy() {
+        cameraActivity = null
+        super.onDestroy()
+    }
 }
 
 const val KEY_EVENT_ACTION = "key_event_action"
