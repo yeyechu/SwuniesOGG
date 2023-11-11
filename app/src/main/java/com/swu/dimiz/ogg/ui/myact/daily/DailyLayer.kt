@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -36,9 +35,6 @@ class DailyLayer : Fragment() {
     private val myActiViewModel: MyActViewModel by activityViewModels { MyActViewModel.Factory }
     private val listViewModel: ListsetViewModel by activityViewModels { ListsetViewModel.Factory }
 
-    private lateinit var navController: NavController
-    private lateinit var fragmentManager: FragmentManager
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -48,6 +44,7 @@ class DailyLayer : Fragment() {
 
         viewModel.userCondition.observe(viewLifecycleOwner) {
             listViewModel.copyUserCondition(it)
+            myActiViewModel.copyUserCondition(it)
 
             if(it.aim > 0f) {
                 listViewModel.setCo2(it.aim)
@@ -61,14 +58,14 @@ class DailyLayer : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        navController = findNavController()
-        fragmentManager = childFragmentManager
+        val navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         val typeface = Typeface.create(
-            ResourcesCompat.getFont(requireContext(), R.font.gmarketsans_m),
+            ResourcesCompat.getFont(requireContext(), R.font.nanumsquare_b),
             Typeface.BOLD
         )
 
@@ -85,7 +82,7 @@ class DailyLayer : Fragment() {
                         )
                     ), 0, 6, Spannable.SPAN_INCLUSIVE_INCLUSIVE
                 )
-                //setSpan(StyleSpan(Typeface.BOLD), 0, 6, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     setSpan(TypefaceSpan(typeface), 0, 6, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 }

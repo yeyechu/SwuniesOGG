@@ -279,7 +279,7 @@ class MyActFragment : Fragment() {
     private val getPicture = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
     ) {
-        if(it != null) {
+        it?.let {
             viewModel.setUri(it)
         }
     }

@@ -1,12 +1,9 @@
 package com.swu.dimiz.ogg.ui.myact
 
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
@@ -26,17 +23,14 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.MyList
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MySustainable
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.time.Instant
-import java.time.ZoneId
 
 class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
+    private val _userCondition = MutableLiveData<MyCondition>()
+    val userCondition: LiveData<MyCondition>
+        get() = _userCondition
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       오늘의 활동
-    private val _todayList = MutableLiveData<List<ActivitiesDaily>>()
-    val todayList: LiveData<List<ActivitiesDaily>>
-        get() = _todayList
-
     private val _todailyId = MutableLiveData<ActivitiesDaily?>()
     val todailyId: LiveData<ActivitiesDaily?>
         get() = _todailyId
@@ -78,7 +72,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         get() = _sustId
 
     private val _sustDone = MutableLiveData<List<Int>>()
-    val sustDone: LiveData<List<Int>>
+    private val sustDone: LiveData<List<Int>>
         get() = _sustDone
 
     private val _navigateToCamera = MutableLiveData<Boolean>()
@@ -123,6 +117,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         Timber.i("created")
         _sustDone.value = listOf()
         _extraDone.value = listOf()
+    }
+
+    fun copyUserCondition(user: MyCondition) {
+        _userCondition.value = user
     }
 
     fun setUri(data: Uri) {
@@ -288,30 +286,28 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         _extraForFirebase.value = repository.getExtraDate(id)
     }
 
+    fun updateDailyPostCount() = viewModelScope.launch {
+        repository.updatePostCount(todailyId.value!!.dailyId, todailyId.value!!.postCount + 1)
+    }
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     firebase 초기화
     private val fireDB = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
 
     private var dayDoneSust : Int = 0
-    private var sustlimit : Int = 0
     private var dayDoneExtra : Int = 0
-    private var extralimit : Int = 0
 
-
-    //오늘 활동 리스트 가져오기
-    private var appUser = MyCondition()
-    var today = 0
-    @RequiresApi(Build.VERSION_CODES.O)
     fun fireGetDaily() = viewModelScope.launch {
-        fireDB.collection("User").document(fireUser?.email.toString())
+        var appUser = MyCondition()
+        var today = 0
+
+        fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
             .get()
             .addOnSuccessListener { document ->
                 if (document != null) {
                     appUser = document.toObject<MyCondition>()!!
                     today = convertToDuration(appUser.startDate)
-                    val currentDateTime = Instant.ofEpochMilli(appUser.startDate).atZone(ZoneId.systemDefault()).toLocalDateTime()
-                    Timber.i("currentDateTime $currentDateTime")
+
                     Timber.i("today $today")
                 } else {
                     Timber.i("No such document")
@@ -322,7 +318,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
 
         val myDailyList = arrayListOf<ListData>()
-        fireDB.collection("User").document(fireUser?.email.toString())
+        fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
             .collection("Project${appUser.projectCount}")
             .get()
             .addOnSuccessListener { result ->
@@ -357,7 +353,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 myDailyList.forEach {
                     if(it.aId != 0) {
                         //이미 한 daily 개수 따지려면 today에서 dailyID 몇개있는지 판별
-                        fireDB.collection("User").document(fireUser?.email.toString())
+                        fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
                             .collection("Project${appUser.projectCount}")
                             .document("Daily").collection(today.toString())
                             .whereEqualTo("dailyID", it.aId)
@@ -378,17 +374,17 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    //이미 한 sust
-    private var mySustList = ArrayList<Int>()
     fun fireGetSust(){
-        //지속 가능한 활동 받아오기
-        fireDB.collection("User").document(fireUser?.email.toString()).collection("Sustainable")
+        val mySustList = ArrayList<Int>()
+        mySustList.clear()
+
+        fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString()).collection("Sustainable")
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.i("listen:error", e)
                     return@addSnapshotListener
                 }
-                mySustList.clear()
+
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val mysust = dc.document.toObject<MySustainable>()
@@ -404,17 +400,16 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    //이미 한 extra
-    private var myExtraList = ArrayList<Int>()
     fun fireGetExtra(){
+        val myExtraList = ArrayList<Int>()
+        myExtraList.clear()
         //지속 가능한 활동 받아오기
-        fireDB.collection("User").document(fireUser?.email.toString()).collection("Extra")
+        fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString()).collection("Extra")
             .addSnapshotListener { value, e ->
                 if (e != null) {
                     Timber.i("listen:error", e)
                     return@addSnapshotListener
                 }
-                myExtraList.clear()
                 for (doc in value!!) {
                     val myextra = doc.toObject<MyExtra>()
                     dayDoneExtra = convertToDuration(myextra.strDay!!)
@@ -430,7 +425,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
     private fun fireDelSust(){
         if(setSustDone(_sustForFirebase.value!!)){
-            fireDB.collection("User").document(fireUser?.email.toString())
+            fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
                 .collection("Sustainable").document(_sustForFirebase.value!!.sustId.toString())
                 .delete()
                 .addOnSuccessListener { Timber.i("Sust successfully deleted!") }
@@ -440,7 +435,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
     private fun fireDelExtra(){
         if(setExtraDone(_extraForFirebase.value!!)){
-            fireDB.collection("User").document(fireUser?.email.toString())
+            fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
                 .collection("Extra").document(_extraForFirebase.value!!.extraId.toString())
                 .delete()
                 .addOnSuccessListener { Timber.i("Extra successfully deleted!") }
@@ -449,7 +444,6 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     }
 
    companion object {
-
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val repository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as OggApplication).repository

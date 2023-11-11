@@ -10,13 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.WindowPostDailyBinding
@@ -36,24 +34,12 @@ class PostDailyWindow  : Fragment() {
     private lateinit var fragmentManager: FragmentManager
 
     private val fireDB  = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
-    private val fireStorage = Firebase.storage
-    private val userEmail = fireUser?.email.toString()
-
-    private lateinit var uri: Uri
-
-    private var today = 0
-    private var projectCount = 0
-
-    var getDate : Long = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.window_post_daily, container, false)
-
-        userInit()
 
         return binding.root
     }
@@ -66,6 +52,11 @@ class PostDailyWindow  : Fragment() {
 
         fragmentManager = childFragmentManager
 
+        var user = MyCondition()
+        var today = 0
+        var projectCount = 0
+        var uri: Uri? = null
+
         val adapter = TextAdapter()
         binding.textList.adapter = adapter
 
@@ -73,6 +64,12 @@ class PostDailyWindow  : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
             viewModel.onNavigatedDaily()
             viewModel.resetUri()
+        }
+
+        viewModel.userCondition.observe(viewLifecycleOwner) {
+            user = it
+            today = convertToDuration(it.startDate)
+            projectCount = it.projectCount
         }
 
         viewModel.passUri.observe(viewLifecycleOwner) {
@@ -93,52 +90,39 @@ class PostDailyWindow  : Fragment() {
         }
 
         binding.buttonDone.setOnClickListener {
+            val getDate = System.currentTimeMillis()
+
             viewModel.onPostCongrats()
-            requireActivity().onBackPressedDispatcher.onBackPressed()
             viewModel.onNavigatedDaily()
             viewModel.resetUri()
-            uploadPostToFirebase()
-            updateBageCate()
-            updateBadgeCo2()
-            updateBadgeDate()
-            updateBadgeDateCo2()
+            viewModel.updateDailyPostCount()
 
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+
+            uploadPostToFirebase(user.email, projectCount, today, getDate, uri!!)
+            updateBageCate(user.email)
+            updateBadgeCo2(user.email)
+            updateBadgeDate(user.email, getDate)
+            updateBadgeDateCo2(user.email, getDate)
         }
     }
 
-    private fun userInit() {
-        var startDate : Long
+    private fun uploadPostToFirebase(userEmail: String, projectCount: Int, today: Int, feedDay: Long, uri: Uri) {
 
-        fireDB.collection("User").document(OggApplication.auth.currentUser!!.email.toString())
-            .get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val gotUser = document.toObject<MyCondition>()
-                    gotUser?.let {
-                        startDate = gotUser.startDate
-                        today = convertToDuration(startDate)
-                        projectCount = gotUser.projectCount
-                    }
-                } else { Timber.i("사용자 기본정보 받아오기 실패") }
-            }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
-    }
+        val fireStorage = Firebase.storage
 
-    private fun uploadPostToFirebase() {
-
-        val feedDay = System.currentTimeMillis().toString()
-
-        fireStorage.reference.child("Feed").child(feedDay)
+        fireStorage.reference.child("Feed").child(feedDay.toString())
             .putFile(uri)              //uri를 여기서 받기때문에 여기에 위치함
             .addOnSuccessListener { taskSnapshot ->
                 taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
-                        it->
-                    val imageUrl=it.toString()
+
                     val post = Feed(
-                        email = OggApplication.auth.currentUser!!.email.toString(),
+                        email = userEmail,
                         actTitle =  viewModel.todailyId.value!!.title,
-                        postTime = feedDay.toLong(),
+                        postTime = feedDay,
                         actId = viewModel.todailyId.value!!.dailyId,
                         actCode = viewModel.todailyId.value!!.filter,
-                        imageUrl = imageUrl
+                        imageUrl = it.toString()
                     )
                     fireDB.collection("Feed").document()
                         .set(post)
@@ -149,11 +133,11 @@ class PostDailyWindow  : Fragment() {
 
         val daily = MyDaily(
             dailyID = viewModel.todailyId.value!!.dailyId,
-            upDate = feedDay.toLong(),
+            upDate = feedDay,
         )
         fireDB.collection("User").document(userEmail)
             .collection("Project${projectCount}").document("Daily")
-            .collection(today.toString()).document(feedDay)
+            .collection(today.toString()).document(feedDay.toString())
             .set(daily)
             .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
@@ -184,7 +168,7 @@ class PostDailyWindow  : Fragment() {
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                              배지 카운트 업데이트
-    private fun updateBageCate(){
+    private fun updateBageCate(userEmail: String){
         when(viewModel.todailyId.value!!.dailyId){
             //에너지
             10001,10002,10003,10004,10005,10006,10007,10008 ->{
@@ -221,7 +205,7 @@ class PostDailyWindow  : Fragment() {
             }
         }
     }
-    private fun updateBadgeCo2(){
+    private fun updateBadgeCo2(userEmail: String){
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40022")
             .update("count", FieldValue.increment(viewModel.todailyId.value!!.co2.toDouble() * 1000))
@@ -240,8 +224,10 @@ class PostDailyWindow  : Fragment() {
     }
     // ─────────────────────────────────────────────────────────────────────────────────
     //                              배지 획득 이벤트
-    private val counts = ArrayList<MyBadge>()
-    private fun updateBadgeDate(){
+    private fun updateBadgeDate(userEmail: String, getDate: Long){
+        val counts = ArrayList<MyBadge>()
+        counts.clear()
+
         fireDB.collection("User").document(userEmail)
             .collection("Badge")
             .orderBy("badgeID")
@@ -255,7 +241,7 @@ class PostDailyWindow  : Fragment() {
                 for(i in 0 until counts.size){
                     //카테고리
                     if(counts[6].count == 100 && counts[6].getDate == null){
-                        getDate = System.currentTimeMillis()
+
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40007")
                             .update("getDate", getDate)
@@ -263,7 +249,7 @@ class PostDailyWindow  : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[7].count == 100 && counts[7].getDate == null){
-                        getDate = System.currentTimeMillis()
+
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40008")
                             .update("getDate", getDate)
@@ -271,7 +257,7 @@ class PostDailyWindow  : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[8].count == 100 && counts[8].getDate == null){
-                        getDate = System.currentTimeMillis()
+
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
                             .update("getDate", getDate)
@@ -279,7 +265,7 @@ class PostDailyWindow  : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[9].count == 100 && counts[9].getDate == null){
-                        getDate = System.currentTimeMillis()
+
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40010")
                             .update("getDate", getDate)
@@ -293,7 +279,7 @@ class PostDailyWindow  : Fragment() {
             }
     }
 
-    private fun updateBadgeDateCo2(){
+    private fun updateBadgeDateCo2(userEmail: String, getDate: Long){
         fireDB.collection("User").document(userEmail)
             .collection("Badge")
             .whereEqualTo("badgeID", "40022")
@@ -310,7 +296,7 @@ class PostDailyWindow  : Fragment() {
 
                     if(gotBadge.badgeID == 40022 && gotBadge.getDate == null){
                         if(gotBadge.count >= 100000){
-                            getDate = System.currentTimeMillis()
+
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40022")
                                 .update("getDate", getDate)
@@ -320,7 +306,7 @@ class PostDailyWindow  : Fragment() {
                     }
                     else if(gotBadge.badgeID == 40023 && gotBadge.getDate == null){
                         if(gotBadge.count >= 500000){
-                            getDate = System.currentTimeMillis()
+
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40023")
                                 .update("getDate", getDate)
@@ -330,7 +316,7 @@ class PostDailyWindow  : Fragment() {
                     }
                     else if(gotBadge.badgeID == 40024 && gotBadge.getDate == null){
                         if(gotBadge.count >= 1000000){
-                            getDate = System.currentTimeMillis()
+
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40024")
                                 .update("getDate", getDate)
