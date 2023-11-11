@@ -55,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_big"
+            android:enabled="false"
             android:text="@string/setting_text_subtitle_account_chage_nickname"
             app:layout_constraintEnd_toEndOf="@+id/new_nickname_et"
             app:layout_constraintStart_toStartOf="@+id/new_nickname_et"

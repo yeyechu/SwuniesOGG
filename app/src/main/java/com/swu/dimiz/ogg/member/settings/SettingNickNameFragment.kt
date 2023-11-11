@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isNotEmpty
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -45,13 +47,23 @@ class SettingNickNameFragment : Fragment() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
+
+
+
+        binding.newNicknameEt.editText?.addTextChangedListener { text ->
+            binding.changeNicknameBtn.isEnabled = !text.toString().isBlank()
+        }
+
+
 //        binding.viewModel = viewModel
         binding.changeNicknameBtn.setOnClickListener {
             val newNickname = binding.newNicknameEt.editText?.text.toString()
 
+
             //계정 닉네임 업데이트
             val profileUpdates = userProfileChangeRequest {
-                displayName = newNickname
+                    displayName = newNickname
+
             }
             fireUser?.updateProfile(profileUpdates)
                 ?.addOnCompleteListener { updateTask ->

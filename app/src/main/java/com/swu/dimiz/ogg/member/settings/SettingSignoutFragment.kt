@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSettingSignoutBinding
+import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import timber.log.Timber
 
 class SettingSignoutFragment: Fragment() {
@@ -21,6 +23,8 @@ class SettingSignoutFragment: Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
+    private val viewModel: EnvViewModel by activityViewModels()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -33,12 +37,13 @@ class SettingSignoutFragment: Fragment() {
 
         navController = findNavController()
         navController.setLifecycleOwner(viewLifecycleOwner)
+        binding.viewModel = viewModel
+
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
-        binding.textView2.text = "회원님"
 
         binding.signoutBtn.setOnClickListener {
             if(!binding.checkBox3.isChecked){

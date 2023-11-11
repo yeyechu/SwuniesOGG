@@ -59,6 +59,7 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/flow_slash"
                     android:enabled="false"
+                    android:layout_marginTop="@dimen/spacing_extra_small"
                     android:layout_width="@dimen/icon_extra_small"
                     android:layout_height="@dimen/icon_size_regular"
                     android:background="@drawable/mycar_shape_line"
@@ -80,7 +81,8 @@
                 style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_regular"
+                android:layout_marginBottom="@dimen/spacing_regular"
                 android:text="@string/mycar_text_info_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -89,7 +91,7 @@
 
             <TextView
                 android:id="@+id/car_setting_info"
-                style="@style/StyleText.subtitle"
+                style="@style/StyleText.gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
@@ -101,8 +103,9 @@
                 android:id="@+id/car_having_btns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_margin="@dimen/spacing_medium"
+                android:layout_marginLeft="@dimen/spacing_medium"
+                android:layout_marginRight="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_big"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/car_setting_info">
@@ -127,6 +130,33 @@
 
             </LinearLayout>
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/car_back_page_btn"
+                style="@style/StyleButtonOgg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/spacing_big"
+                android:text="@string/mycar_text_car_back_page"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/car_having_btns"
+                app:layout_constraintStart_toStartOf="@+id/car_having_btns"
+                app:layout_constraintTop_toBottomOf="@+id/car_having_btns"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/back_page_btn"
+                style="@style/StyleButtonOgg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_marginTop="@dimen/dimension_40"
+                android:text="@string/mycar_text_car_back_page"
+                app:layout_constraintEnd_toEndOf="@+id/car_having_btns"
+                app:layout_constraintStart_toStartOf="@+id/car_having_btns"
+                app:layout_constraintTop_toBottomOf="@+id/car_having_btns" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/for_car_user"
                 android:layout_width="match_parent"
@@ -144,7 +174,7 @@
                     style="@style/StyleText.title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/mycar_text_info_title"
+                    android:text="@string/mycar_text_car_info_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/for_car_user"
@@ -152,11 +182,11 @@
 
                 <TextView
                     android:id="@+id/car_setting_kind_info"
-                    style="@style/StyleText.subtitle"
+                    style="@style/StyleText.gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
-                    android:text="@string/mycar_text_info_subtitle"
+                    android:text="@string/mycar_text_car_info_subtitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/car_setting_kind_text"
@@ -166,7 +196,9 @@
                     android:id="@+id/car_kind_btns"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginLeft="@dimen/spacing_medium"
+                    android:layout_marginRight="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_big"
                     app:layout_constraintTop_toBottomOf="@+id/car_setting_kind_info">
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -188,6 +220,7 @@
                         />
 
 
+
                 </LinearLayout>
 
                 <TextView
@@ -199,7 +232,7 @@
                     android:text="@string/mycar_input_text_car_num"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/car_kind_btns"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/car_kind_btns" />
 
 
@@ -228,7 +261,7 @@
                     style="@style/StyleButtonOgg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/dimension_40"
                     android:enabled="false"
                     android:text="@string/mycar_text_car_done"
                     app:layout_constraintBottom_toBottomOf="parent"

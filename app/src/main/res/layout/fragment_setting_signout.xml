@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_big"
             tools:text="오지지님"
-            android:text="@{@string/stamplayout_text_nickname(viewModel.userCondition.nickName)}"
+            android:text="@{viewModel.userCondition.nickName+'님'}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

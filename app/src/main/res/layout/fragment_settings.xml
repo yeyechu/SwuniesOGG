@@ -60,7 +60,6 @@
                 android:id="@+id/change_nickname_icon"
                 android:layout_width="@dimen/icon_size_small"
                 android:layout_height="@dimen/icon_size_small"
-
                 android:layout_marginTop="@dimen/spacing_big"
                 android:background="@drawable/settings_button_to_des_nickname"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +71,7 @@
                 style="@style/StyleText.subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
 
                 android:gravity="center"
                 android:text="@string/setting_text_subtitle_account_chage_nickname"
@@ -98,7 +98,7 @@
                 android:layout_width="@dimen/icon_size_small"
                 android:layout_height="@dimen/icon_size_small"
                 android:background="@drawable/settings_button_to_des_password"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_big"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/change_nickname_icon" />
 
@@ -133,7 +133,7 @@
                 android:id="@+id/mycar_check_icon"
                 android:layout_width="@dimen/icon_size_small"
                 android:layout_height="@dimen/icon_size_small"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_big"
                 android:background="@drawable/settings_button_to_des_car"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/change_password_icon" />
@@ -236,7 +236,7 @@
                 android:id="@+id/signout_icon"
                 android:layout_width="@dimen/icon_size_small"
                 android:layout_height="@dimen/icon_size_small"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_big"
                 android:background="@drawable/settings_button_to_des_memberout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/logout_icon" />

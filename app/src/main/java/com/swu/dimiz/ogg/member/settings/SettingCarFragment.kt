@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,6 +21,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.databinding.FragmentSettingCarBinding
@@ -175,6 +177,12 @@ class SettingCarFragment : Fragment() {
                     .addOnSuccessListener { Timber.i("DocumentSnapshot successfully updated!") }
                     .addOnFailureListener { e -> Timber.i(e) }
             }
+
+
+            findNavController().popBackStack()
+            view?.let { it1 -> OggSnackbar.make(it1, getText(R.string.setting_toast_car_complete).toString()).show() }
+
+
         }
         return binding.root
     }
@@ -292,6 +300,7 @@ class SettingCarFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         })
+
         viewModel.carNumberInputText.observe(viewLifecycleOwner) { text ->
             val isEnabled = text.isNotBlank()
             carSettingCompleteBtn.isEnabled = isEnabled
@@ -304,6 +313,8 @@ class SettingCarFragment : Fragment() {
 
         }
 
+
+
         setupButtonClickListeners()
         setupButtonStyleObservers()
 
@@ -315,6 +326,7 @@ class SettingCarFragment : Fragment() {
         binding.carYesBtn.setOnClickListener {
             viewModel.onYesButtonClicked()
             forCarUser.visibility = View.VISIBLE
+            binding.backPageBtn.visibility = View.GONE
 
         }
 
@@ -322,6 +334,7 @@ class SettingCarFragment : Fragment() {
             viewModel.onNoButtonClicked()
             viewModel.setCarUserVisibility(false)
             forCarUser.visibility = View.GONE
+            binding.backPageBtn.visibility = View.VISIBLE
 
         }
 
@@ -336,6 +349,12 @@ class SettingCarFragment : Fragment() {
             elecisChecked = false
             nomalisChecked = true
         }
+
+        binding.backPageBtn.setOnClickListener{
+            findNavController().popBackStack()
+
+        }
+
 
 
     }

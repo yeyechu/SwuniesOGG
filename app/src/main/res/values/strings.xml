@@ -328,6 +328,7 @@
 
     <string name="setting_toast_nickname_changed">닉네임 변경이 완료되었어요!</string>
     <string name="setting_toast_password_changed">비밀번호 변경이 완료되었어요!</string>
+    <string name="setting_toast_car_complete">자차 등록이 완료되었어요!</string>
     <string name="setting_toast_memberout_check">탈퇴에 동의해주세요!</string>
 
     <!-- ──────────────────────────────────────   환경설정 내부 페이지    ────────────────────────────────────── -->
@@ -344,6 +345,9 @@
     <string name="mycar_have_no_button">아니요, 없습니다</string>
     <string name="mycar_input_text_car_num">차량 번호를 입력해주세요</string>
     <string name="mycar_input_text_car_num_hint">12가3456</string>
+    <string name="mycar_text_car_info_title">자동차의 종류를 선택해주세요</string>
+    <string name="mycar_text_car_info_subtitle">해당 답변은 전차차 소유 확인과 \n지속가능한 활동 인증에 활용할 수 있어요! </string>
+    <string name="mycar_text_car_back_page">확인</string>
     <string name="mycar_text_car_done">완료</string>
     <string name="mycar_electric_car">전기차</string>
     <string name="mycar_normal_car">일반 승용차</string>
