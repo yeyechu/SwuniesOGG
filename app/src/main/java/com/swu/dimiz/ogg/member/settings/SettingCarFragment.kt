@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,11 +15,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.convertToDuration
@@ -41,18 +40,15 @@ class SettingCarFragment : Fragment() {
     private val forCarUser: View by lazy { binding.root.findViewById(R.id.for_car_user) }
 
     val fireDB = Firebase.firestore
-    val fireUser = Firebase.auth.currentUser
 
-    var elecisChecked = false
-    var nomalisChecked = false
+    private var elecisChecked = false
+    private var nomalisChecked = false
 
     private var startDate = 0L
     var today = 0
     var projectCount = 0
 
     private var feedDay = 0L
-
-    private val userEmail = fireUser?.email.toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +57,111 @@ class SettingCarFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_setting_car, container, false
         )
+        return binding.root
+    }
+
+    private val counts = ArrayList<MyBadge>()
+    private fun fireUpdateBadgeDate(userEmail: String) {
+        fireDB.collection("User").document(userEmail)
+            .collection("Badge")
+            .orderBy("badgeID")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Timber.i("${document.id} => ${document.data}")
+                    val gotBadge = document.toObject<MyBadge>()
+                    counts.add(gotBadge)
+                }
+                for (i in 0 until counts.size) {
+                    val getDate = System.currentTimeMillis()
+                    //카테고리
+                    if (counts[8].count == 100 && counts[8].getDate == null) {
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40009")
+                            .update("getDate", getDate)
+                            .addOnSuccessListener { Timber.i("40009 획득 완료") }
+                            .addOnFailureListener { exeption -> Timber.i(exeption) }
+                    }
+                    //sust
+                    if (counts[20].count == 1 && counts[20].getDate == null) {
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40021")
+                            .update("getDate", getDate)
+                            .addOnSuccessListener { Timber.i("40021 획득 완료") }
+                            .addOnFailureListener { exeption -> Timber.i(exeption) }
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Timber.i(exception)
+            }
+    }
+
+    private fun fireUpdateBadgeDateCo2(userEmail: String) {
+        fireDB.collection("User").document(userEmail)
+            .collection("Badge")
+            .whereEqualTo("badgeID", "40022")
+            .whereEqualTo("badgeID", "40023")
+            .whereEqualTo("badgeID", "40024")
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+
+                for (doc in value!!) {
+                    val gotBadge = doc.toObject<MyBadge>()
+
+                    if (gotBadge.badgeID == 40022 && gotBadge.getDate == null) {
+                        if (gotBadge.count >= 100000) {
+                            val getDate = System.currentTimeMillis()
+                            fireDB.collection("User").document(userEmail)
+                                .collection("Badge").document("40022")
+                                .update("getDate", getDate)
+                                .addOnSuccessListener { Timber.i("40022 획득 완료") }
+                                .addOnFailureListener { exeption -> Timber.i(exeption) }
+                        }
+                    } else if (gotBadge.badgeID == 40023 && gotBadge.getDate == null) {
+                        if (gotBadge.count >= 500000) {
+                            val getDate = System.currentTimeMillis()
+                            fireDB.collection("User").document(userEmail)
+                                .collection("Badge").document("40023")
+                                .update("getDate", getDate)
+                                .addOnSuccessListener { Timber.i("40023 획득 완료") }
+                                .addOnFailureListener { exeption -> Timber.i(exeption) }
+                        }
+                    } else if (gotBadge.badgeID == 40024 && gotBadge.getDate == null) {
+                        if (gotBadge.count >= 1000000) {
+                            val getDate = System.currentTimeMillis()
+                            fireDB.collection("User").document(userEmail)
+                                .collection("Badge").document("40024")
+                                .update("getDate", getDate)
+                                .addOnSuccessListener { Timber.i("40024 획득 완료") }
+                                .addOnFailureListener { exeption -> Timber.i(exeption) }
+                        }
+                    }
+                }
+            }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        navController = findNavController()
+        navController.setLifecycleOwner(viewLifecycleOwner)
+
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        val userEmail = OggApplication.auth.currentUser?.email.toString()
+
+        val carNumberInput = binding.textInputEditText3
+        val carSettingCompleteBtn = binding.carSettingCompleteBtn
+        val carflow2 = binding.flow2
+        val slash = binding.flowSlash
 
         binding.carSettingCompleteBtn.setOnClickListener {
             val washingtonRef = fireDB.collection("User").document(userEmail)
@@ -156,8 +257,8 @@ class SettingCarFragment : Fragment() {
                                     .addOnFailureListener { e -> Timber.i(e) }
 
 
-                                fireUpdateBadgeDate()
-                                fireUpdateBadgeDateCo2()
+                                fireUpdateBadgeDate(userEmail)
+                                fireUpdateBadgeDateCo2(userEmail)
                             }
                         } else {
                             Timber.i("사용자 기본정보 받아오기 실패")
@@ -178,115 +279,11 @@ class SettingCarFragment : Fragment() {
                     .addOnFailureListener { e -> Timber.i(e) }
             }
 
-
             findNavController().popBackStack()
-            view?.let { it1 -> OggSnackbar.make(it1, getText(R.string.setting_toast_car_complete).toString()).show() }
+            view.let { it1 -> OggSnackbar.make(it1, getText(R.string.setting_toast_car_complete).toString()).show() }
 
 
         }
-        return binding.root
-    }
-
-    private val counts = ArrayList<MyBadge>()
-    private fun fireUpdateBadgeDate() {
-        fireDB.collection("User").document(userEmail)
-            .collection("Badge")
-            .orderBy("badgeID")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    Timber.i("${document.id} => ${document.data}")
-                    val gotBadge = document.toObject<MyBadge>()
-                    counts.add(gotBadge)
-                }
-                for (i in 0 until counts.size) {
-                    val getDate = System.currentTimeMillis()
-                    //카테고리
-                    if (counts[8].count == 100 && counts[8].getDate == null) {
-                        fireDB.collection("User").document(userEmail)
-                            .collection("Badge").document("40009")
-                            .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40009 획득 완료") }
-                            .addOnFailureListener { exeption -> Timber.i(exeption) }
-                    }
-                    //sust
-                    if (counts[20].count == 1 && counts[20].getDate == null) {
-                        fireDB.collection("User").document(userEmail)
-                            .collection("Badge").document("40021")
-                            .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40021 획득 완료") }
-                            .addOnFailureListener { exeption -> Timber.i(exeption) }
-                    }
-                }
-            }
-            .addOnFailureListener { exception ->
-                Timber.i(exception)
-            }
-    }
-
-    private fun fireUpdateBadgeDateCo2() {
-        fireDB.collection("User").document(userEmail)
-            .collection("Badge")
-            .whereEqualTo("badgeID", "40022")
-            .whereEqualTo("badgeID", "40023")
-            .whereEqualTo("badgeID", "40024")
-            .addSnapshotListener { value, e ->
-                if (e != null) {
-                    Timber.i(e)
-                    return@addSnapshotListener
-                }
-
-                for (doc in value!!) {
-                    val gotBadge = doc.toObject<MyBadge>()
-
-                    if (gotBadge.badgeID == 40022 && gotBadge.getDate == null) {
-                        if (gotBadge.count >= 100000) {
-                            val getDate = System.currentTimeMillis()
-                            fireDB.collection("User").document(userEmail)
-                                .collection("Badge").document("40022")
-                                .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40022 획득 완료") }
-                                .addOnFailureListener { exeption -> Timber.i(exeption) }
-                        }
-                    } else if (gotBadge.badgeID == 40023 && gotBadge.getDate == null) {
-                        if (gotBadge.count >= 500000) {
-                            val getDate = System.currentTimeMillis()
-                            fireDB.collection("User").document(userEmail)
-                                .collection("Badge").document("40023")
-                                .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40023 획득 완료") }
-                                .addOnFailureListener { exeption -> Timber.i(exeption) }
-                        }
-                    } else if (gotBadge.badgeID == 40024 && gotBadge.getDate == null) {
-                        if (gotBadge.count >= 1000000) {
-                            val getDate = System.currentTimeMillis()
-                            fireDB.collection("User").document(userEmail)
-                                .collection("Badge").document("40024")
-                                .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40024 획득 완료") }
-                                .addOnFailureListener { exeption -> Timber.i(exeption) }
-                        }
-                    }
-                }
-            }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        navController = findNavController()
-        navController.setLifecycleOwner(viewLifecycleOwner)
-
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-        binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
-
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-
-        val carNumberInput = binding.textInputEditText3
-        val carSettingCompleteBtn = binding.carSettingCompleteBtn
-        val carflow2 = binding.flow2
-        val slash = binding.flowSlash
 
         //완료 버튼 비활성화
         carNumberInput.addTextChangedListener(object : TextWatcher {
@@ -312,13 +309,8 @@ class SettingCarFragment : Fragment() {
             slash.isEnabled = isClicked
 
         }
-
-
-
         setupButtonClickListeners()
         setupButtonStyleObservers()
-
-
     }
 
     private fun setupButtonClickListeners() {
@@ -354,9 +346,6 @@ class SettingCarFragment : Fragment() {
             findNavController().popBackStack()
 
         }
-
-
-
     }
 
     //버튼 디자인 변경
@@ -373,7 +362,6 @@ class SettingCarFragment : Fragment() {
                     R.color.primary_gray,
                     R.drawable.check,
                     ""
-
                 )
             }
         }
@@ -390,8 +378,6 @@ class SettingCarFragment : Fragment() {
                     R.color.primary_gray,
                     R.drawable.common_button_skyblue,
                     "1",
-
-
                     )
             }
         }
@@ -453,7 +439,7 @@ class SettingCarFragment : Fragment() {
                     selectedTextColor
                 )
             )
-            optionalButton1.setText(selectedText)
+            optionalButton1.text = selectedText
         }
 
     }
@@ -461,6 +447,7 @@ class SettingCarFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        counts.clear()
         Timber.i("onDestroyView()")
     }
 }

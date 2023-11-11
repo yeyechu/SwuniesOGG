@@ -257,4 +257,12 @@ class GraphLayer : Fragment() {
         _binding = null
         Timber.i("onDestroyView()")
     }
+
+    companion object {
+        fun create(position: Int) = GraphLayer().apply {
+            arguments = Bundle().apply {
+                putInt(GRAPH_OBJECT, position)
+            }
+        }
+    }
 }

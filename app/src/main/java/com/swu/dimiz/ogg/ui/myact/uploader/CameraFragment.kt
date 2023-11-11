@@ -32,9 +32,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.*
 import com.swu.dimiz.ogg.R
-import com.swu.dimiz.ogg.convertToDuration
+import com.swu.dimiz.ogg.contents.listset.listutils.DATE_WHOLE
+import com.swu.dimiz.ogg.contents.listset.listutils.ID_MODIFIER
 import com.swu.dimiz.ogg.databinding.FragmentCameraBinding
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
@@ -72,32 +73,43 @@ class CameraFragment : Fragment() {
     private val fireDB = Firebase.firestore
     private val fireStorage = Firebase.storage
 
-    private var startDate = 0L
-    var today = 0
-    private var projectCount = 0
-
-    private var feedDay = ""
-    var getDate : Long = 0L
-
     private val userEmail = OggApplication.auth.currentUser!!.email.toString()
 
-    @SuppressLint("SimpleDateFormat")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
-        Timber.i("카메라 onCreateView()")
 
-        fireDB.collection("User").document(userEmail)
-            .get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val gotUser = document.toObject<MyCondition>()
-                    gotUser?.let {
-                        startDate = gotUser.startDate
-                        today = convertToDuration(startDate)
-                        projectCount = gotUser.projectCount
-                    }
-                } else { Timber.i("사용자 기본정보 받아오기 실패") }
-            }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
+        return binding.root
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    @SuppressLint("MissingPermission")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        cameraExecutor = Executors.newSingleThreadExecutor()
+        broadcastManager = LocalBroadcastManager.getInstance(view.context)
+
+        val filter = IntentFilter().apply { addAction(KEY_EVENT_ACTION) }
+        broadcastManager.registerReceiver(volumeDownReceiver, filter)
+
+        val actId = CameraActivity.id.toInt()
+        val actTitle = CameraActivity.string
+        val actCo2 = CameraActivity.co2.toDouble()
+        val actFilter = CameraActivity.filter
+        val actCount = CameraActivity.postCount.toInt()
+
+        val user: MyCondition = getUserInfoFromFirebase()
+        val startDate = user.startDate
+        val today = convertToDuration(startDate)
+        val projectCount = user.projectCount
+
+        binding.viewFinder.post {
+            displayId = binding.viewFinder.display.displayId
+            lifecycleScope.launch {
+                setUpCamera()
+            }
+        }
 
         binding.buttonRetake.setOnClickListener {
             binding.previewLayout.visibility = View.GONE
@@ -105,102 +117,124 @@ class CameraFragment : Fragment() {
 
         binding.buttonDone.setOnClickListener {
 
+            val feedDay = System.currentTimeMillis()
+
+            updateActivities(feedDay, projectCount, today, actId, actCount)
+            feedUpload(feedDay, actId, actTitle, actFilter)
+            updateAllAct(projectCount, actId, actCo2)
+            updateStamp(projectCount, today, actId, actCo2)
+            updateBageCate(actId)
+            updateBadgeAct(actId)
+            updateBadgeCo2(actId, actCo2)
+            updateBadgeDate()
+            updateBadgeDateCo2()
+
+            // todo intent 결과 처리
+            requireActivity().onBackPressedDispatcher.onBackPressed()
             CameraActivity.cameraActivity!!.finish()
+        }
+    }
 
-            feedDay = System.currentTimeMillis().toString()
+    private fun getUserInfoFromFirebase(): MyCondition {
+        var user = MyCondition()
 
-            // ─────────────────────────────────────────────────────────────────────────────────
-            //                           세가지 활동 분리해서 업로드
-            if(CameraActivity.id.toInt() < 20000){
-                //Daily
-                updateDailyPostCount()
+        fireDB.collection("User").document(userEmail)
+            .get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val gotUser = document.toObject<MyCondition>()
+                    gotUser?.let {
+                        user = gotUser
+                    }
+                } else {
+                    Timber.i("사용자 기본정보 받아오기 실패")
+                }
+            }.addOnFailureListener { exception ->
+                Timber.i(exception.toString())
+            }
+        Timber.i("카메라 사용자 정보: $user")
+        return user
+    }
+
+    private fun updateActivities(date: Long, num: Int, today: Int, id: Int, postCount: Int) = lifecycleScope.launch {
+        // ─────────────────────────────────────────────────────────────────────────────────
+        //                           세가지 활동 분리해서 업로드
+        when(id / ID_MODIFIER) {
+            1 -> {
+                updateDailyPostCount(id, postCount)
                 val daily = MyDaily(
-                    dailyID = CameraActivity.id.toInt(),
-                    upDate = feedDay.toLong()
+                    dailyID = id,
+                    upDate = date
                 )
                 fireDB.collection("User").document(userEmail)
-                    .collection("Project${projectCount}").document("Daily")
-                    .collection(today.toString()).document(feedDay)
+                    .collection("Project${num}").document("Daily")
+                    .collection(today.toString()).document(date.toString())
                     .set(daily)
                     .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
-            }else if(CameraActivity.id.toInt() < 30000){
-                //Sustainable
-                updateSustPostDate()
+            }
+            2 -> {
+                updateSustPostDate(id, date)
                 val sust = MySustainable(
-                    sustID = CameraActivity.id.toInt(),
-                    strDay = feedDay.toLong(),
+                    sustID = id,
+                    strDay = date,
                 )
                 fireDB.collection("User").document(userEmail)
-                    .collection("Sustainable").document(CameraActivity.id)
+                    .collection("Sustainable").document(id.toString())
                     .set(sust)
                     .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
-            }else{
-                //Extra
-                updateExtraPostDate()
+            }
+            3 -> {
+                updateExtraPostDate(id, date)
                 val extra = MyExtra(
-                    extraID = CameraActivity.id.toInt(),
-                    strDay = feedDay.toLong(),
+                    extraID = id,
+                    strDay = date,
                 )
                 fireDB.collection("User").document(userEmail)
-                    .collection("Extra").document(CameraActivity.id)
+                    .collection("Extra").document(id.toString())
                     .set(extra)
                     .addOnSuccessListener { Timber.i("Extra firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
-            feedUpload()
-            updateAllAct()
-            updateStamp()
-            updateBageCate()
-            updateBadgeAct()
-            updateBadgeCo2()
-            updateBadgeDate()
-            updateBadgeDateCo2()
-            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-        return binding.root
     }
-
-    private fun updateDailyPostCount() = lifecycleScope.launch {
-        var count = CameraActivity.postCount.toInt()
-        val id = CameraActivity.id.toInt()
+    private fun updateDailyPostCount(id: Int, postCount: Int) = lifecycleScope.launch {
         withContext(Dispatchers.IO) {
             OggDatabase.getInstance(requireContext())
                 .dailyDatabaseDao
                 .updatePostCountFromFirebase(
                     id,
-                    ++count
+                    postCount + 1
                 )
         }
     }
 
-    private fun updateSustPostDate() = lifecycleScope.launch {
+    private fun updateSustPostDate(id: Int, date: Long) = lifecycleScope.launch {
         withContext(Dispatchers.IO) {
             OggDatabase.getInstance(requireContext())
                 .sustDatabaseDao
                 .updateSustDateFromFirebase(
-                    CameraActivity.id.toInt(),
-                    System.currentTimeMillis()
+                    id,
+                    date
                 )
         }
     }
 
-    private fun updateExtraPostDate() = lifecycleScope.launch {
+    private fun updateExtraPostDate(id: Int, date: Long) = lifecycleScope.launch {
         withContext(Dispatchers.IO) {
             OggDatabase.getInstance(requireContext())
                 .extraDatabaseDao
                 .updateExtraDateFromFirebase(
-                    CameraActivity.id.toInt(),
-                    System.currentTimeMillis()
+                    id,
+                    date
                 )
         }
     }
     // ─────────────────────────────────────────────────────────────────────────────────
     //                               인증사진 피드 업로드
-    private fun feedUpload(){
-        if(savedUri!=null) {
-            fireStorage.reference.child("Feed").child(feedDay)
+    private fun feedUpload(date: Long, id: Int, title: String, filter: String){
+        if(savedUri != null) {
+            fireStorage.reference.child("Feed").child(date.toString())
                 .putFile(savedUri!!)          //uri를 여기서 받기때문에 여기에 위치함
                 .addOnSuccessListener { taskSnapshot ->
                     taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener {
@@ -208,10 +242,10 @@ class CameraFragment : Fragment() {
                         val imageUrl=it.toString()
                         val post = Feed(
                             email = userEmail,
-                            actTitle = CameraActivity.string,
-                            postTime = feedDay.toLong(),
-                            actId = CameraActivity.id.toInt(),
-                            actCode = CameraActivity.filter,
+                            actTitle = title,
+                            postTime = date,
+                            actId = id,
+                            actCode = filter,
                             imageUrl = imageUrl
                         )
                         fireDB.collection("Feed").document()
@@ -225,57 +259,56 @@ class CameraFragment : Fragment() {
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                              활동 전체 상황 업로드
-    private fun updateAllAct(){
+    private fun updateAllAct(num: Int, id: Int, co2: Double){
         //AllAct
         val washingtonRef = fireDB.collection("User").document(userEmail)
-            .collection("Project${projectCount}").document("Entire")
-            .collection("AllAct").document(CameraActivity.id)
+            .collection("Project${num}").document("Entire")
+            .collection("AllAct").document(id.toString())
         washingtonRef
             .update("upCount", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
         washingtonRef
-            .update("allCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
+            .update("allCo2", FieldValue.increment(co2))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
     }
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                              스탬프 업데이트
-    private fun updateStamp(){
-        if(CameraActivity.id.toInt() < 20000){
-            //daily
-            fireDB.collection("User").document(userEmail)
-                .collection("Project${projectCount}").document("Entire")
-                .collection("Stamp").document(today.toString())
-                .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
-                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i( e ) }
-
-        }else if(CameraActivity.id.toInt() < 30000){
-            //sust
-            for( i in today..21){
+    private fun updateStamp(num: Int, today: Int, id: Int, co2: Double){
+        when(id / ID_MODIFIER) {
+            1 -> {
                 fireDB.collection("User").document(userEmail)
-                    .collection("Project${projectCount}").document("Entire")
-                    .collection("Stamp").document(i.toString())
-                    .update("dayCo2", FieldValue.increment(CameraActivity.co2.toDouble()))
+                    .collection("Project${num}").document("Entire")
+                    .collection("Stamp").document(today.toString())
+                    .update("dayCo2", FieldValue.increment(co2))
                     .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
             }
-        }
-        else{
-            //extra  특별활동 순위 비교 위함
-            fireDB.collection("User").document(userEmail)
-                .update("extraPost", FieldValue.increment(1))
-                .addOnSuccessListener { Timber.i("extraPost 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i( e ) }
+            2 -> {
+                for( i in today..DATE_WHOLE){
+                    fireDB.collection("User").document(userEmail)
+                        .collection("Project${num}").document("Entire")
+                        .collection("Stamp").document(i.toString())
+                        .update("dayCo2", FieldValue.increment(co2))
+                        .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                        .addOnFailureListener { e -> Timber.i( e ) }
+                }
+            }
+            3 -> {
+                fireDB.collection("User").document(userEmail)
+                    .update("extraPost", FieldValue.increment(1))
+                    .addOnSuccessListener { Timber.i("extraPost 올리기 완료") }
+                    .addOnFailureListener { e -> Timber.i( e ) }
+            }
         }
     }
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                              배지 카운트 업데이트  todo (1000곱하기)
-    private fun updateBageCate(){
-        when(CameraActivity.id.toInt()){
+    private fun updateBageCate(id: Int){
+        when(id){
             //에너지
             10001,10002,10003,10004,10005,10006,10007,10008,
             20001,20002,20003,20004,20005,20006,
@@ -316,8 +349,8 @@ class CameraFragment : Fragment() {
         }
     }
 
-    private fun updateBadgeAct(){
-        when(CameraActivity.id.toInt()){
+    private fun updateBadgeAct(id : Int){
+        when(id){
             //sust
             20001 -> fireDB.collection("User").document(userEmail)
                 .collection("Badge").document("40014")
@@ -398,22 +431,23 @@ class CameraFragment : Fragment() {
                 .addOnFailureListener { e -> Timber.i( e ) }
         }
     }
-    private fun updateBadgeCo2(){
+
+    private fun updateBadgeCo2(id: Int, co2: Double){
         // 오늟의 활동만
-        if(CameraActivity.id.toInt() < 20000) {
+        if(id < 20000) {
             fireDB.collection("User").document(userEmail)
                 .collection("Badge").document("40022")
-                .update("count", FieldValue.increment(CameraActivity.co2.toDouble() * 1000))
+                .update("count", FieldValue.increment(co2 * 1000))
                 .addOnSuccessListener { Timber.i("40022 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
             fireDB.collection("User").document(userEmail)
                 .collection("Badge").document("40023")
-                .update("count", FieldValue.increment(CameraActivity.co2.toDouble() * 1000))
+                .update("count", FieldValue.increment(co2 * 1000))
                 .addOnSuccessListener { Timber.i("40023 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
             fireDB.collection("User").document(userEmail)
                 .collection("Badge").document("40024")
-                .update("count", FieldValue.increment(CameraActivity.co2.toDouble() * 1000))
+                .update("count", FieldValue.increment(co2 * 1000))
                 .addOnSuccessListener { Timber.i("40024 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
         }
@@ -421,8 +455,10 @@ class CameraFragment : Fragment() {
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                              배지 획득 이벤트
-    private val counts = ArrayList<MyBadge>()
     private fun updateBadgeDate(){
+        val counts = ArrayList<MyBadge>()
+        counts.clear()
+
         fireDB.collection("User").document(userEmail)
             .collection("Badge")
             .orderBy("badgeID")
@@ -434,7 +470,7 @@ class CameraFragment : Fragment() {
                     counts.add(gotBadge)
                 }
                 for(i in 0 until counts.size){
-                    getDate = System.currentTimeMillis()
+                    val getDate = System.currentTimeMillis()
                     //카테고리
                     if(counts[6].count == 100 && counts[6].getDate == null){
                         fireDB.collection("User").document(userEmail)
@@ -593,10 +629,11 @@ class CameraFragment : Fragment() {
 
                 for (doc in value!!) {
                     val gotBadge = doc.toObject<MyBadge>()
+                    val getDate = System.currentTimeMillis()
 
                     if(gotBadge.badgeID == 40022 && gotBadge.getDate == null){
                         if(gotBadge.count >= 100000){
-                            getDate = System.currentTimeMillis()
+
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40022")
                                 .update("getDate", getDate)
@@ -606,7 +643,7 @@ class CameraFragment : Fragment() {
                     }
                     else if(gotBadge.badgeID == 40023 && gotBadge.getDate == null){
                         if(gotBadge.count >= 500000){
-                            getDate = System.currentTimeMillis()
+
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40023")
                                 .update("getDate", getDate)
@@ -616,7 +653,7 @@ class CameraFragment : Fragment() {
                     }
                     else if(gotBadge.badgeID == 40024 && gotBadge.getDate == null){
                         if(gotBadge.count >= 1000000){
-                            getDate = System.currentTimeMillis()
+
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40024")
                                 .update("getDate", getDate)
@@ -628,26 +665,8 @@ class CameraFragment : Fragment() {
             }
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
-    @SuppressLint("MissingPermission")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        cameraExecutor = Executors.newSingleThreadExecutor()
-        broadcastManager = LocalBroadcastManager.getInstance(view.context)
-
-        val filter = IntentFilter().apply { addAction(KEY_EVENT_ACTION) }
-        broadcastManager.registerReceiver(volumeDownReceiver, filter)
-
-        binding.viewFinder.post {
-            displayId = binding.viewFinder.display.displayId
-            lifecycleScope.launch {
-                setUpCamera()
-                Timber.i("카메라 실행")
-            }
-        }
-    }
-
+    // ─────────────────────────────────────────────────────────────────────────────────
+    //                              카메라 정의
     @RequiresApi(Build.VERSION_CODES.R)
     private suspend fun setUpCamera() {
         cameraProvider = ProcessCameraProvider.getInstance(requireContext()).await()
@@ -670,8 +689,7 @@ class CameraFragment : Fragment() {
                     put(MediaStore.MediaColumns.MIME_TYPE, PHOTO_TYPE)
 
                     if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                        val appName = requireContext().resources.getString(R.string.app_name_korean)
-                        put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/${appName}")
+                        put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/${requireContext().resources.getString(R.string.app_name_korean)}")
                     }
                 }
 
@@ -772,13 +790,8 @@ class CameraFragment : Fragment() {
         savedUri = null
         cameraProvider = null
         camera = null
-        counts.clear()
         super.onDestroyView()
         Timber.i("카메라 onDestroyView()")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     private val volumeDownReceiver = object : BroadcastReceiver() {
@@ -850,6 +863,5 @@ class CameraFragment : Fragment() {
         private const val TAG = "CameraX"
         private const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val PHOTO_TYPE = "image/jpeg"
-
     }
 }

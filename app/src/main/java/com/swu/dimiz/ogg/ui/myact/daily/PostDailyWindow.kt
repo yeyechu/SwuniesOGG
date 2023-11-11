@@ -71,7 +71,7 @@ class PostDailyWindow  : Fragment() {
 
         binding.buttonExit.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
-            viewModel.completedDaily()
+            viewModel.onNavigatedDaily()
             viewModel.resetUri()
         }
 
@@ -95,7 +95,7 @@ class PostDailyWindow  : Fragment() {
         binding.buttonDone.setOnClickListener {
             viewModel.onPostCongrats()
             requireActivity().onBackPressedDispatcher.onBackPressed()
-            viewModel.completedDaily()
+            viewModel.onNavigatedDaily()
             viewModel.resetUri()
             uploadPostToFirebase()
             updateBageCate()

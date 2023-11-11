@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.ActivityCameraBinding
-import timber.log.Timber
 
 class CameraActivity : AppCompatActivity() {
 
@@ -15,8 +14,6 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Timber.i("onCreate()")
 
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)

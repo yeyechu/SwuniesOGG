@@ -42,6 +42,7 @@ class MemberFragment : Fragment() {
 
         navController = findNavController()
         navController.setLifecycleOwner(viewLifecycleOwner)
+
         fragmentManager = childFragmentManager
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -75,6 +76,7 @@ class MemberFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
         Timber.i("onDestroyView()")
     }
 

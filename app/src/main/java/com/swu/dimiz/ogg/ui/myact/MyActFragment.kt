@@ -1,5 +1,6 @@
 package com.swu.dimiz.ogg.ui.myact
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -44,9 +45,6 @@ class MyActFragment : Fragment() {
     private lateinit var extraAdapter: PagerExtraAdapter
     private lateinit var extraPager: ViewPager2
 
-    private var balloonSus: Balloon? = null // Balloon 변수 추가
-    private var balloonExtra: Balloon? = null
-
     private lateinit var cameraTitle: String
     private lateinit var cameraCo2: String
     private lateinit var cameraId: String
@@ -59,17 +57,10 @@ class MyActFragment : Fragment() {
     ): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_my_act, container, false)
+
         // ──────────────────────────────────────────────────────────────────────────────────────
         //                                   tooltip
-        binding.buttonTooltipSust.setOnClickListener {
-            balloonSus?.showAlignBottom(binding.buttonTooltipSust)
-        }
-
-        binding.buttonTooltipExtra.setOnClickListener {
-            balloonExtra?.showAlignBottom(binding.buttonTooltipExtra)
-        }
-
-        balloonSus = createBalloon(requireContext()) {
+        val balloonSust = createBalloon(requireContext()) {
             setHeight(BalloonSizeSpec.WRAP)
             setWidth(BalloonSizeSpec.WRAP)
             setText(getString(R.string.myact_tooltip_sustainable))
@@ -84,7 +75,7 @@ class MyActFragment : Fragment() {
             setBalloonAnimation(BalloonAnimation.FADE)
             build()
         }
-        balloonExtra = createBalloon(requireContext()) {
+        val balloonExtra = createBalloon(requireContext()) {
             setHeight(BalloonSizeSpec.WRAP)
             setWidth(BalloonSizeSpec.WRAP)
             setText(getString(R.string.myact_tooltip_extra))
@@ -98,6 +89,14 @@ class MyActFragment : Fragment() {
             setBackgroundColorResource(R.color.white)
             setBalloonAnimation(BalloonAnimation.FADE)
             build()
+        }
+
+        binding.buttonTooltipSust.setOnClickListener {
+            balloonSust.showAlignBottom(binding.buttonTooltipSust)
+        }
+
+        binding.buttonTooltipExtra.setOnClickListener {
+            balloonExtra.showAlignBottom(binding.buttonTooltipExtra)
         }
 
         return binding.root
@@ -220,18 +219,18 @@ class MyActFragment : Fragment() {
         //                                       인증 버튼 이동
         viewModel.navigateToToCamera.observe(viewLifecycleOwner) {
             if(it) {
-                val intent = Intent(context, CameraActivity::class.java)
-                intent.putExtra("title", cameraTitle)
-                intent.putExtra("co2", cameraCo2)
-                intent.putExtra("id", cameraId)
-                intent.putExtra("filter", cameraFilter)
-                intent.putExtra("postCount", cameraCount)
-                requireContext().startActivity(intent)
+                val intent = Intent(context, CameraActivity::class.java).apply {
+                    putExtra("title", cameraTitle)
+                    putExtra("co2", cameraCo2)
+                    putExtra("id", cameraId)
+                    putExtra("filter", cameraFilter)
+                    putExtra("postCount", cameraCount)
+                }
+
+                //requireContext().startActivity(intent)
+                activityResultLauncher.launch(intent)
                 viewModel.onCameraCompleted()
             }
-//            else {
-//                requireActivity().onBackPressedDispatcher.onBackPressed()
-//            }
         }
 
         viewModel.navigateToToGallery.observe(viewLifecycleOwner) {
@@ -266,6 +265,12 @@ class MyActFragment : Fragment() {
         }
     }
 
+    private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if(it.resultCode == RESULT_OK) {
+            val data = it.data?.getStringExtra("result")
+            viewModel.onPostCongrats()
+        }
+    }
     private fun startGallery() {
         getPicture.launch(
             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))

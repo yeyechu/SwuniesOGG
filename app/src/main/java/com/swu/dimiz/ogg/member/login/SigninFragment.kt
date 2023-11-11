@@ -19,7 +19,6 @@ import com.swu.dimiz.ogg.databinding.FragmentSigninBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
 import timber.log.Timber
 
-
 class SigninFragment: Fragment() {
     private var _binding : FragmentSigninBinding? = null
     private val binding get() = _binding!!

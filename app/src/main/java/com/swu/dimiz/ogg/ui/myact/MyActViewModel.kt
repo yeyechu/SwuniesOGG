@@ -112,12 +112,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
     //                                     for파이어베이스
     private val _sustForFirebase = MutableLiveData<ActivitiesSustainable?>()
-    val sustForFirebase: LiveData<ActivitiesSustainable?>
-        get() = _sustForFirebase
-
     private val _extraForFirebase = MutableLiveData<ActivitiesExtra?>()
-    val extraForFirebase: LiveData<ActivitiesExtra?>
-        get() = _extraForFirebase
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     데이터베이스 초기화
     val getSustData: LiveData<List<ActivitiesSustainable>> = repository.getAllSusts.asLiveData()
@@ -151,6 +146,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
         for(i in sustDone.value!!) {
             if(i == item.sustId && duration > 0) {
+                fireDelSust()
                 return true
             }
         }
@@ -162,6 +158,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
         for(i in extraDone.value!!) {
             if(i == item.extraId && duration > 0) {
+                fireDelExtra()
                 return true
             }
         }
@@ -194,7 +191,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         )
     }
 
-    fun completedDaily() {
+    fun onNavigatedDaily() {
         _navigateToDaily.value = null
     }
 
@@ -203,7 +200,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         _sustId.value = sust
     }
 
-    fun completedSust() {
+    fun onNavigatedSust() {
         _navigateToSust.value = null
     }
 
@@ -212,8 +209,12 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         _extraId.value = extra
     }
 
-    fun completedExtra() {
+    fun onNavigatedExtra() {
         _navigateToExtra.value = null
+    }
+
+    fun onCompletedExtra() {
+        _extraId.value = null
     }
 
     fun onGalleryButtonClicked() {
@@ -281,12 +282,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
     private fun getSust(id: Int) = viewModelScope.launch {
         _sustForFirebase.value = repository.getSust(id)
-        fireDelSust()
     }
 
     private fun getExtra(id: Int) = viewModelScope.launch {
         _extraForFirebase.value = repository.getExtraDate(id)
-        fireDelExtra()
     }
 
     // ───────────────────────────────────────────────────────────────────────────────────

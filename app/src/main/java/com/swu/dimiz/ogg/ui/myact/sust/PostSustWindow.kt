@@ -27,7 +27,7 @@ class PostSustWindow : Fragment() {
 
         binding.buttonExit.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
-            viewModel.completedSust()
+            viewModel.onNavigatedSust()
         }
 
         return binding.root

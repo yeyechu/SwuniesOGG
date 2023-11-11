@@ -25,11 +25,6 @@ class PostExtraWindow : Fragment() {
     ): View {
         _binding = DataBindingUtil.inflate( inflater, R.layout.window_post_extra, container, false)
 
-        binding.buttonExit.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-            viewModel.completedExtra()
-        }
-
         return binding.root
     }
 
@@ -39,6 +34,11 @@ class PostExtraWindow : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.buttonExit.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+            viewModel.onNavigatedExtra()
+        }
     }
 
     override fun onDestroyView() {
