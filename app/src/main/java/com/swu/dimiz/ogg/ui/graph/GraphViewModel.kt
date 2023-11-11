@@ -333,19 +333,18 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
                     Timber.i("가장 많은 탄소량 활동 리스트: $mostCo2List")
 
-                    // todo 보민님 여기 mostCo2List 사이즈만큼만 올라가게 해야 합니다
-                    fireDB.collection("User").document(fireUser?.email.toString())
-                        .collection("Project$num").document("Graph")
-                        .update(
-                            mapOf(
-                                "nameCo21" to mostCo2List[0].ID,
-                                "nameCo22" to mostCo2List[1].ID,
-                                "nameCo23" to mostCo2List[2].ID,
-                                "co2Sum1" to mostCo2List[0].allCo2,
-                                "co2Sum2" to mostCo2List[1].allCo2,
-                                "co2Sum3" to mostCo2List[2].allCo2
-                            ),
-                        )
+                    // mostCo2List 사이즈만큼만 올라가게
+                    for( i in 0 until mostCo2List.size){
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Project$num").document("Graph")
+                            .update(
+                                mapOf(
+                                    "nameCo2$i" to mostCo2List[i].ID,
+                                    "co2Sum$i" to mostCo2List[i].allCo2
+                                ),
+                            )
+                    }
+
                 }
             }
     }
@@ -411,11 +410,12 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             }
     }
 
+
     fun fireGetMostPost(num: Int) {
         val docRef = fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Project$num").document("Entire").collection("AllAct")
 
-        val mostPostList = arrayListOf<Int>()
+        val mostPostList = arrayListOf<PostCount>()
         mostPostList.clear()
 
         docRef.orderBy("upCount", Query.Direction.DESCENDING).limit(3)
@@ -425,34 +425,30 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     return@addSnapshotListener
                 }
                 for (doc in value!!) {
-                    Timber.i("${doc.id} => ${doc.data}")
                     val act = doc.toObject<MyAllAct>()
                     if(act.upCount != 0) {
-                        mostPostList.add(act.ID)
-                        // todo 보민님
-                        //  count도 담도록 해주세요
-                        // 프로그레스바 길이조정에 필요합니다
+                        mostPostList.add(PostCount(act.ID, act.upCount))
                     } else {
                         // 파이어베이스 업로드때문에 임의 초기화함
                         // 리스트 크기만큼 업로드로 구현되면 없앨 부분
                         // todo 수정 필요
-                        mostPostList.add(0)
+                        mostPostList.add(PostCount(0,0))
                     }
                 }
 
                 Timber.i("가장 많이 인증한 활동 리스트: $mostPostList")
-                // todo 보민님 여기 리스트 사이즈만큼만 올라가게 해야 합니다
 
                 if(mostPostList.size != 0) {
-                    fireDB.collection("User").document(fireUser?.email.toString())
-                        .collection("Project$num").document("Graph")
-                        .update(
-                            mapOf(
-                                "post1" to mostPostList[0],
-                                "post2" to mostPostList[1],
-                                "post3" to mostPostList[2]
-                            ),
-                        )
+                    for( i in 0 .. mostPostList.size){
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Project$num").document("Graph")
+                            .update(
+                                mapOf(
+                                    "post$i" to mostPostList[i].id,
+                                    "postCount$i" to mostPostList[i].count
+                                ),
+                            )
+                    }
                 }
             }
     }
@@ -505,7 +501,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             }
         }
     }
-    //새로운 플젝시작할때 저장하고 지우고 하는것도 괜찮을것 같음
 
     //이전 프로젝트 불러오기
     fun fireGetBeforPorject(projectNum : Int){   //몇회차 이전, 이후 필요한지 넣어주기

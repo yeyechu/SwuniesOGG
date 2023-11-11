@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -40,9 +41,10 @@ class SettingCarFragment : Fragment() {
     private val forCarUser: View by lazy { binding.root.findViewById(R.id.for_car_user) }
 
     val fireDB = Firebase.firestore
+    val fireUser = Firebase.auth.currentUser
 
-    private var elecisChecked = false
-    private var nomalisChecked = false
+    var elecisChecked = false
+    var nomalisChecked = false
 
     private var startDate = 0L
     var today = 0
@@ -94,53 +96,6 @@ class SettingCarFragment : Fragment() {
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)
-            }
-    }
-
-    private fun fireUpdateBadgeDateCo2(userEmail: String) {
-        fireDB.collection("User").document(userEmail)
-            .collection("Badge")
-            .whereEqualTo("badgeID", "40022")
-            .whereEqualTo("badgeID", "40023")
-            .whereEqualTo("badgeID", "40024")
-            .addSnapshotListener { value, e ->
-                if (e != null) {
-                    Timber.i(e)
-                    return@addSnapshotListener
-                }
-
-                for (doc in value!!) {
-                    val gotBadge = doc.toObject<MyBadge>()
-
-                    if (gotBadge.badgeID == 40022 && gotBadge.getDate == null) {
-                        if (gotBadge.count >= 100000) {
-                            val getDate = System.currentTimeMillis()
-                            fireDB.collection("User").document(userEmail)
-                                .collection("Badge").document("40022")
-                                .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40022 획득 완료") }
-                                .addOnFailureListener { exeption -> Timber.i(exeption) }
-                        }
-                    } else if (gotBadge.badgeID == 40023 && gotBadge.getDate == null) {
-                        if (gotBadge.count >= 500000) {
-                            val getDate = System.currentTimeMillis()
-                            fireDB.collection("User").document(userEmail)
-                                .collection("Badge").document("40023")
-                                .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40023 획득 완료") }
-                                .addOnFailureListener { exeption -> Timber.i(exeption) }
-                        }
-                    } else if (gotBadge.badgeID == 40024 && gotBadge.getDate == null) {
-                        if (gotBadge.count >= 1000000) {
-                            val getDate = System.currentTimeMillis()
-                            fireDB.collection("User").document(userEmail)
-                                .collection("Badge").document("40024")
-                                .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40024 획득 완료") }
-                                .addOnFailureListener { exeption -> Timber.i(exeption) }
-                        }
-                    }
-                }
             }
     }
 
@@ -226,39 +181,21 @@ class SettingCarFragment : Fragment() {
                                     .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i(e) }
 
-                                //배지 Co2 업
-                                fireDB.collection("User").document(userEmail)
-                                    .collection("Badge").document("40022")
-                                    .update("count", FieldValue.increment(4027))
-                                    .addOnSuccessListener { Timber.i("40022 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i(e) }
-                                fireDB.collection("User").document(userEmail)
-                                    .collection("Badge").document("40023")
-                                    .update("count", FieldValue.increment(4027))
-                                    .addOnSuccessListener { Timber.i("40023 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i(e) }
-                                fireDB.collection("User").document(userEmail)
-                                    .collection("Badge").document("40024")
-                                    .update("count", FieldValue.increment(4027))
-                                    .addOnSuccessListener { Timber.i("40024 올리기 완료") }
-                                    .addOnFailureListener { e -> Timber.i(e) }
-
+                                // 배지 카테고리 업
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40009")
                                     .update("count", FieldValue.increment(1))
                                     .addOnSuccessListener { Timber.i("40009 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i(e) }
 
-                                //배지 sust 업
+                                // 배지 sust 업
                                 fireDB.collection("User").document(userEmail)
                                     .collection("Badge").document("40021")
                                     .update("count", FieldValue.increment(1))
                                     .addOnSuccessListener { Timber.i("40021 올리기 완료") }
                                     .addOnFailureListener { e -> Timber.i(e) }
 
-
                                 fireUpdateBadgeDate(userEmail)
-                                fireUpdateBadgeDateCo2(userEmail)
                             }
                         } else {
                             Timber.i("사용자 기본정보 받아오기 실패")

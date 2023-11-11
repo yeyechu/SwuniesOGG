@@ -83,6 +83,8 @@ class ChecklistFragment : Fragment() {
                         }
                     } else { Timber.i("사용자 기본정보 받아오기 실패") }
                 }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
+            // todo 화면이동
+            // todo 룸에 저장 안되는것 같음
         }
 
         return view
@@ -134,17 +136,17 @@ class ChecklistFragment : Fragment() {
         //Co2
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40022")
-            .update("count", FieldValue.increment(280))
+            .update("count", FieldValue.increment(0.28))
             .addOnSuccessListener { Timber.i("40022 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40023")
-            .update("count", FieldValue.increment(280))
+            .update("count", FieldValue.increment(0.28))
             .addOnSuccessListener { Timber.i("40023 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40024")
-            .update("count", FieldValue.increment(280))
+            .update("count", FieldValue.increment(0.28))
             .addOnSuccessListener { Timber.i("40024 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
     }

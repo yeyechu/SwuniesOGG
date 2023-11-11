@@ -429,32 +429,22 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     }
 
     private fun fireDelSust(){
-        if( _sustForFirebase.value != null) {
-            Timber.i("sustlimit ${_sustForFirebase.value!!.limit}")
-            sustlimit = _sustForFirebase.value!!.limit
-
-            if(sustlimit - dayDoneSust <= 0){
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Sustainable").document(_sustForFirebase.value!!.sustId.toString())
-                    .delete()
-                    .addOnSuccessListener { Timber.i("Sust successfully deleted!") }
-                    .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
-            }
+        if(setSustDone(_sustForFirebase.value!!)){
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Sustainable").document(_sustForFirebase.value!!.sustId.toString())
+                .delete()
+                .addOnSuccessListener { Timber.i("Sust successfully deleted!") }
+                .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
         }
     }
 
     private fun fireDelExtra(){
-        if( _extraForFirebase.value != null) {
-            Timber.i("sustlimit ${_extraForFirebase.value!!.limit}")
-            extralimit = _extraForFirebase.value!!.limit
-
-            if(extralimit - dayDoneExtra <= 0){
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Extra").document(_extraForFirebase.value!!.extraId.toString())
-                    .delete()
-                    .addOnSuccessListener { Timber.i("Extra successfully deleted!") }
-                    .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
-            }
+        if(setExtraDone(_extraForFirebase.value!!)){
+            fireDB.collection("User").document(fireUser?.email.toString())
+                .collection("Extra").document(_extraForFirebase.value!!.extraId.toString())
+                .delete()
+                .addOnSuccessListener { Timber.i("Extra successfully deleted!") }
+                .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
         }
     }
 

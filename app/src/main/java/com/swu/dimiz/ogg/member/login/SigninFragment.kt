@@ -14,6 +14,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSigninBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
@@ -85,25 +86,28 @@ class SigninFragment: Fragment() {
 
                     fireDB.collection("User")
                         .whereEqualTo("email", email)
-                        .addSnapshotListener { value, e ->
-                            if (e != null) {
-                                Timber.i(e)
-                                return@addSnapshotListener
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                Timber.i("사용자 이미 존재")
                             }
-                            for (doc in value!!) {
-                                Timber.i("사용자 이미 존재 ${doc.data}")
-                            }
-                            if (value.isEmpty) {
+                            if(result.isEmpty){
                                 if (saveUser != null) {
                                     fireDB.collection("User").document(email).set(saveUser)
                                     Timber.i("유저 정보 firestore 저장 완료")
                                 }
                             }
                         }
+                        .addOnFailureListener { exception ->
+                            Timber.i(exception)
+                        }
                     //로그인 완료 화면 이동
                     val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)
                     SignInActivity.signInActivity!!.finish()
+                }
+                else if (!FirebaseAuth.getInstance().currentUser!!.isEmailVerified){
+                    OggSnackbar.make(requireView(), "이메일로 인증을 완료해주세요.").show()
                 }
             }
         }

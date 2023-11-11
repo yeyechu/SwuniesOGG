@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.swu.dimiz.ogg.databinding.ActivityMainBinding
 import com.swu.dimiz.ogg.member.login.SignInActivity
 import timber.log.Timber
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
 
         val currentUser = OggApplication.auth.currentUser
-        if (currentUser == null) {
+        if (currentUser == null || !FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
             startActivity(Intent(this, SignInActivity::class.java))
             finish()
             return

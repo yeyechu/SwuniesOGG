@@ -27,6 +27,11 @@ data class FeedReact(
     var title : String
     )
 
+data class PostCount(
+    var id: Int,
+    var count: Int
+)
+
 const val AIMCO2_ONE = 1.4f
 const val AIMCO2_TWO = 2.78f
 const val AIMCO2_THREE = 5.22f

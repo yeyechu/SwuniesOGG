@@ -743,6 +743,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     //                                  firebase 리스트 저장
     //프로젝트 시작하기로 들어온 경우
     fun fireSave() = viewModelScope.launch {
+        //이전 프로젝트 있으면 그래프 뺴고 내용 삭제
+        if(_userCondition.value?.projectCount != 0){
+            fireDeletBefo()
+        }
+
         //몇번째 프로젝트 초기화
         _userCondition.value?.projectCount = _userCondition.value?.projectCount!! + 1
         today = 1
@@ -840,6 +845,29 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 }
         }
     }
+
+    //이전 프로젝트 내용 지우기
+    private fun fireDeletBefo(){
+        val deleteRdf = fireDB.collection("user").document(userEmail)
+            .collection("Project${_userCondition.value?.projectCount}")
+
+        for( i in 0 .. 4){
+            deleteRdf.document(i.toString())
+                .delete()
+                .addOnSuccessListener {Timber.i("DocumentSnapshot successfully deleted!") }
+                .addOnFailureListener { e -> Timber.i(e) }
+        }
+
+        deleteRdf.document("Daily")
+            .delete()
+            .addOnSuccessListener {Timber.i("DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Timber.i(e) }
+        deleteRdf.document("Entire")
+            .delete()
+            .addOnSuccessListener {Timber.i("DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Timber.i(e) }
+    }
+
 
     override fun onCleared() {
         super.onCleared()

@@ -39,6 +39,9 @@ data class MyGraph (    //통계 페이지 들어올때마다 업데이트
     var post1 : Int = 0,
     var post2 : Int = 0,
     var post3 : Int = 0,
+    var postCount1 : Int = 0,
+    var postCount2 : Int = 0,
+    var postCount3 : Int = 0,
 
     //특별활동 전체 순위
     var extraRank:Float = 0f
