@@ -32,6 +32,11 @@ data class PostCount(
     var count: Int
 )
 
+data class Checklist (
+    var checkBoxTitle: String,
+    var checkBoxSubtitle: String
+)
+
 const val AIMCO2_ONE = 1.4f
 const val AIMCO2_TWO = 2.78f
 const val AIMCO2_THREE = 5.22f

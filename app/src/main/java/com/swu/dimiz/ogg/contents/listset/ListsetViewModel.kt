@@ -1,12 +1,9 @@
 package com.swu.dimiz.ogg.contents.listset
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -34,8 +31,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     //                                   파이어베이스 변수
 
     private val fireDB = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
-    val userEmail = fireUser?.email.toString()
+    private val userEmail = OggApplication.auth.currentUser!!.email.toString()
 
     var today : Int = 0
     private var appUser = MyCondition()

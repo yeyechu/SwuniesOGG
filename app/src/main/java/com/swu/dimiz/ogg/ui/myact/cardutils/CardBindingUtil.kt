@@ -4,6 +4,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.swu.dimiz.ogg.R
+import com.swu.dimiz.ogg.contents.listset.listutils.Checklist
 import com.swu.dimiz.ogg.convertLongToDateString
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
@@ -179,5 +180,19 @@ fun TextView.setChecklistBody(id: Int?) {
             20007 -> resources.getString(R.string.post_text_body_20007)
             else -> resources.getString(R.string.app_name_korean)
         }
+    }
+}
+
+@BindingAdapter("checkItemTitle")
+fun TextView.setCheckItemTitle(item: Checklist?) {
+    item?.let {
+        text = item.checkBoxTitle
+    }
+}
+
+@BindingAdapter("checkItemBody")
+fun TextView.setCheckItemBody(item: Checklist?) {
+    item?.let {
+        text = item.checkBoxSubtitle
     }
 }

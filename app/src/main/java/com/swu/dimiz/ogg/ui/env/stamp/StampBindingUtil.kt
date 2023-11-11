@@ -10,7 +10,6 @@ import com.bumptech.glide.signature.ObjectKey
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyCondition
-import timber.log.Timber
 import kotlin.math.abs
 
 // ──────────────────────────────────────────────────────────────────────────────────────
@@ -67,9 +66,6 @@ fun ImageView.setEnvImage(data: Int) {
 
 @BindingAdapter("oggImage", "oggAim")
 fun ImageView.setOGGImage(data: Int, aim: Float?) {
-    Timber.i("오지지 바인딩어댑터: $data")
-    Timber.i("오지지 바인딩어댑터: $aim")
-
     var id = ""
     var resource: Int?
 
@@ -115,7 +111,7 @@ fun ImageView.setOGGImage(data: Int, aim: Float?) {
                 .into(this)
         } else {
             Glide.with(context)
-                .load(R.drawable.myenv_image_empty)
+                .load(R.color.transparency_transparent)
                 .apply(
                     RequestOptions()
                         .placeholder(R.drawable.feed_animation_loading)

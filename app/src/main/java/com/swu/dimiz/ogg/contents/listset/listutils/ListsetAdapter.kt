@@ -17,7 +17,6 @@ class ListsetAdapter(
     private val checkListener: ListClickListener,
     private val detailListener: ListClickListener
 ) : ListAdapter<ActivitiesDaily, ListsetAdapter.ListsetViewHolder>(ListDiffCallback) {
-    var selected = -1
 
     class ListsetViewHolder(private var binding: FragmentListsetListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -55,18 +54,6 @@ class ListsetAdapter(
         val activity = getItem(position)
         holder.apply {
 
-//            if(selected == position) {
-//                holder.layout.setCardBackgroundColor(Color.BLUE)
-//            } else {
-//                holder.layout.setCardBackgroundColor(Color.WHITE)
-//            }
-//
-//            holder.layout.setOnClickListener {
-//                var before = selected
-//                selected - position
-//                notifyItemChanged(before)
-//                notifyItemChanged(selected)
-//            }
             if(automobile == 0) {
                 when(activity.dailyId) {
                     100010 -> layout.visibility = View.VISIBLE

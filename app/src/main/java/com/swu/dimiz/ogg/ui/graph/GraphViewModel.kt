@@ -439,7 +439,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 Timber.i("가장 많이 인증한 활동 리스트: $mostPostList")
 
                 if(mostPostList.size != 0) {
-                    for( i in 0 .. mostPostList.size){
+                    for( i in 0 until mostPostList.size){
                         fireDB.collection("User").document(fireUser?.email.toString())
                             .collection("Project$num").document("Graph")
                             .update(

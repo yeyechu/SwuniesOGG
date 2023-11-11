@@ -20,8 +20,7 @@ class FeedViewModel : ViewModel() {
 
     private var currentJob: Job? = null
     private val fireDB = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
-    private val userEmail = fireUser?.email.toString()
+    private val userEmail = OggApplication.auth.currentUser!!.email.toString()
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                         필터 적용

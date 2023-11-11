@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            //val toolbar = supportActionBar ?: return@addOnDestinationChangedListener
+
             if(destination.id == R.id.navigation_env
                 || destination.id == R.id.navigation_myact
                 || destination.id == R.id.navigation_graph

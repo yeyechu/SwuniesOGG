@@ -46,7 +46,9 @@ class ChecklistFragment : Fragment() {
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
         val recyclerView = binding.mRecyclerView
-        val adapter = ChecklistAdapter()
+        val adapter = ChecklistAdapter(ChecklistAdapter.ChecklistClickListener {
+            // 체크 리스너 구현
+        })
 
         // 리사이클러뷰에 레이아웃 관리자 연결
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -55,8 +57,8 @@ class ChecklistFragment : Fragment() {
         viewModel.postChecklistId.observe(viewLifecycleOwner) {
             it?.let {
                 when(it) {
-                    10011 -> adapter.id = 10011
-                    20007 -> adapter.id = 20007
+                    10011 -> adapter.submitList(adapter.drivingList)
+                    20007 -> adapter.submitList(adapter.tireList)
                 }
             }
         }
@@ -72,7 +74,7 @@ class ChecklistFragment : Fragment() {
                         viewModel.updateBadgeDateCo2(date)
                     }
                     20007 -> {
-
+                        // 타이어 휠 점검에 대한 업데이트 구현
                     }
                 }
                 viewModel.onChecklistPosted()

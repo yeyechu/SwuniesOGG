@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <data>
+        <variable
+            name="checklist"
+            type="com.swu.dimiz.ogg.contents.listset.listutils.Checklist" />
 
+        <variable
+            name="listener"
+            type="com.swu.dimiz.ogg.ui.myact.cardutils.ChecklistAdapter.ChecklistClickListener" />
 
     </data>
 
@@ -12,10 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_extra_small"
-        app:cardCornerRadius="@dimen/radius_component"
-
-
-        >
+        app:cardCornerRadius="@dimen/radius_component">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,8 +30,7 @@
                 android:id="@+id/checkBox"
                 android:layout_width="@dimen/spacing_big"
                 android:layout_height="@dimen/spacing_big"
-                android:button="@color/transparency_transparent"
-                android:background="@drawable/common_checkbox_seletor"
+                android:onClick="@{() -> listener.onClick(checklist)}"
                 android:layout_gravity="center"
                 />
 
@@ -37,29 +39,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center"
-                android:padding="@dimen/spacing_small"
-                >
+                android:padding="@dimen/spacing_small">
 
             <TextView
                 android:id="@+id/checkBoxTitle"
                 style="@style/StyleText.subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="어쩌구 하기"
-               />
+                app:checkItemTitle="@{checklist}" />
 
             <TextView
                 android:id="@+id/checkBoxSubtitle"
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이렇게 저렇게"
-                />
+                app:checkItemBody="@{checklist}" />
 
             </LinearLayout>
-
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 
 
