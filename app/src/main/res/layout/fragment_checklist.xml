@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.swu.dimiz.ogg.ui.myact.MyActViewModel" />
 
     </data>
     <LinearLayout
@@ -24,8 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/StyleText.header"
-                android:text="친환경 운전 습관 확인하기"
                 android:layout_gravity="center"
+                app:checklistHeader="@{viewModel.postChecklistId}"
                 tools:text="친환경 운전 습관 확인하기"/>
 
         </androidx.appcompat.widget.Toolbar>
@@ -34,8 +36,6 @@
             android:layout_height="match_parent"
             android:background="@color/secondary_baby_gray">
 
-
-
             <TextView
                 android:id="@+id/checklist_title"
                 style="@style/StyleText.header"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/dimension_30"
-                android:text="친환경 운전 습관이란,"
+                app:checklistTitle="@{viewModel.postChecklistId}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -55,17 +55,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="연료 효율을 높이고 대기 오염을 줄이기위한 운전 습관이에요 목록을 실제로 실천하면 40그루의 나무를 살릴 수 있어요"
+                app:checklistBody="@{viewModel.postChecklistId}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/checklist_title" />
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
-
                 android:padding="@dimen/spacing_medium"
                 app:layout_constraintTop_toBottomOf="@+id/checklist_text"
                 tools:listitem="@layout/layer_checklist_item" />
@@ -77,12 +75,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginBottom="@dimen/spacing_larger"
+                android:onClick="@{() -> viewModel.onPostedChecklist()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:text="@string/camera_button_use_photo" />
-
-            <!-- android:onClick="@{() -> }" -->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

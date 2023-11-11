@@ -148,3 +148,36 @@ fun TextView.setButtonText(item: ActivitiesExtra?) {
         }
     }
 }
+
+@BindingAdapter("checklistHeader")
+fun TextView.setChecklistHeader(id: Int?) {
+    id?.let {
+        text = when(id) {
+            10011 -> resources.getString(R.string.destination_title_checklist_driving)
+            20007 -> resources.getString(R.string.destination_title_checklist_tire)
+            else -> resources.getString(R.string.app_name_korean)
+        }
+    }
+}
+
+@BindingAdapter("checklistTitle")
+fun TextView.setChecklistTitle(id: Int?) {
+    id?.let {
+        text = when(id) {
+            10011 -> resources.getString(R.string.post_text_title_10011)
+            20007 -> resources.getString(R.string.post_text_title_20007)
+            else -> resources.getString(R.string.app_name_korean)
+        }
+    }
+}
+
+@BindingAdapter("checklistBody")
+fun TextView.setChecklistBody(id: Int?) {
+    id?.let {
+        text = when(id) {
+            10011 -> resources.getString(R.string.post_text_body_10011)
+            20007 -> resources.getString(R.string.post_text_body_20007)
+            else -> resources.getString(R.string.app_name_korean)
+        }
+    }
+}

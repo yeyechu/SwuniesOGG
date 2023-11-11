@@ -15,7 +15,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.ListsetViewModel
