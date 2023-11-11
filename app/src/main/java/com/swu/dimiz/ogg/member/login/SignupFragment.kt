@@ -117,6 +117,8 @@ class SignupFragment : Fragment() {
                         }
                     } else {
                         Timber.e(task.exception, "이메일 확인 중 오류 발생")
+                        binding.emailEt.error = "올바른 이메일 형식으로 입력해주세요"
+
                     }
                 }
         }

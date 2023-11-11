@@ -76,6 +76,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_body_big"
                     android:ems="10"
                     android:inputType="textPersonName"
                     />
@@ -101,7 +102,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimension_80"
-            android:layout_marginTop="@dimen/spacing_regular"
             android:hint="@string/nickname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,6 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textSize="@dimen/text_size_body_big"
                 android:inputType="textEmailAddress"
 
                 />
@@ -123,9 +124,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimension_80"
-            android:layout_marginTop="@dimen/spacing_regular"
             android:hint="@string/password"
-
             app:layout_constraintEnd_toEndOf="@+id/nickname_et"
             app:layout_constraintStart_toStartOf="@+id/nickname_et"
             app:layout_constraintTop_toBottomOf="@+id/nickname_et"
@@ -135,6 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textSize="@dimen/text_size_body_big"
                 android:inputType="textPassword"
 
                 />
@@ -145,7 +145,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimension_80"
-            android:layout_marginTop="@dimen/spacing_regular"
             android:hint="@string/password_2"
             app:layout_constraintEnd_toEndOf="@+id/password_et_first"
             app:layout_constraintStart_toStartOf="@+id/password_et_first"
@@ -156,31 +155,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textSize="@dimen/text_size_body_big"
                 android:inputType="textPassword"
 
 
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/constraintLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/signup_shape_line_box"
             android:padding="@dimen/spacing_regular"
-
-            android:layout_marginTop="@dimen/spacing_big"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/spacing_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password_et_second">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="@dimen/icon_size_small"
                 android:layout_height="@dimen/icon_size_small"
                 android:src="@drawable/login_image_notice"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginRight="@dimen/spacing_extra_small"
+               />
 
 
             <TextView
@@ -192,58 +199,29 @@
                 android:gravity="center"
                 android:text="@string/signup_text_agree_info"
                 android:textColor="@color/primary_blue"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="@+id/imageView" />
+                />
+        </LinearLayout>
 
             <CheckBox
                 android:id="@+id/checkBox"
                 style="@style/StyleText"
-                android:checked="false"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:checked="false"
                 android:text="@string/signup_text_agree_check_1"
-                app:layout_constraintStart_toStartOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-            <ImageView
-                android:id="@+id/info_detail_btn1"
-                android:layout_width="@dimen/icon_extra_small"
-                android:layout_height="@dimen/icon_extra_small"
-                android:src="@drawable/common_button_arrow_right"
-
-                app:layout_constraintBottom_toBottomOf="@+id/checkBox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/checkBox"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                />
 
             <CheckBox
                 android:id="@+id/checkBox2"
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:text="@string/signup_text_agree_check_2"
-                app:layout_constraintStart_toStartOf="@+id/checkBox"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox" />
-
-            <ImageView
-                android:id="@+id/info_detail_btn2"
-                android:layout_width="@dimen/icon_extra_small"
-                android:layout_height="@dimen/icon_extra_small"
-                android:src="@drawable/common_button_arrow_right"
-
-                app:layout_constraintBottom_toBottomOf="@+id/checkBox2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/checkBox2"
-                app:layout_constraintTop_toTopOf="@+id/checkBox2" />
+                />
 
 
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
 
         <androidx.appcompat.widget.AppCompatButton
