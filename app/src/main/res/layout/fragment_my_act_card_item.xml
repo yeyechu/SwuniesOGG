@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/radius_card"
         app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        >
 
         <!-- ConstraintLayout -->
         <LinearLayout
@@ -87,6 +88,7 @@
                 android:id="@+id/button_myact"
                 style="@style/StyleButtonOgg.smaller"
                 android:layout_width="match_parent"
+                android:gravity="center"
                 android:layout_height="@dimen/bottom_sheet_peek_height"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/spacing_small"
@@ -99,35 +101,14 @@
 
         </LinearLayout>
 
-<!--        <androidx.cardview.widget.CardView-->
-<!--            android:id="@+id/card_view_done_daily"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:visibility="@{viewModel.setDailyDone(activity) ? View.VISIBLE : View.GONE}"-->
-<!--            app:cardBackgroundColor="@color/transparency_done_black"-->
-<!--            app:cardCornerRadius="@dimen/radius_component"-->
-<!--            app:contentPadding="@dimen/spacing_text">-->
-
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center_horizontal|center_vertical"-->
-<!--                android:fontFamily="@font/nanumsquare_r"-->
-<!--                android:text="@string/myact_text_title_done"-->
-<!--                android:textAlignment="center"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="@dimen/text_size_subtitle"-->
-<!--                android:textStyle="bold" />-->
-
-<!--        </androidx.cardview.widget.CardView>-->
         <!-- 인증 완료 시에 표시되는 레이아웃 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/today_act_after"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/dimension_150"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.setDailyDone(activity) ? View.VISIBLE : View.GONE}"
+            android:padding="@dimen/spacing_extra_medium"
             android:background="@color/transparency_done_black"
-            android:padding="@dimen/spacing_extra_medium">
+            android:visibility="@{viewModel.setDailyDone(activity) ? View.VISIBLE : View.GONE}">
 
             <!-- 인증 완료 이미지 뷰 -->
             <ImageView
@@ -148,9 +129,9 @@
                 style="@style/StyleText.cardtitle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="@string/myact_card_text_title_done"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -161,7 +142,8 @@
                 style="@style/StyleText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:gravity="center"
                 android:text="@string/myact_card_text_subtitle_done"
                 android:textColor="@color/white"

@@ -9,6 +9,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggSnackbar
+import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.DialogFeedReportBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyReport
 import timber.log.Timber
@@ -54,6 +56,7 @@ class FeedReportDialog(
         val fireDB = Firebase.firestore
         val fireUser = Firebase.auth.currentUser
 
+        view?.let { OggSnackbar.make(it, getText(R.string.feed_toast_report_completed).toString()).show() }
 
         fireDB.collection("User").document(fireUser?.email.toString())
             .collection("Report")
@@ -62,6 +65,8 @@ class FeedReportDialog(
             .addOnSuccessListener { result ->
                 for (document in result) {
                     Timber.i("이미 신고된 피드")
+                    view?.let { OggSnackbar.make(it, getText(R.string.feed_toast_report_already).toString()).show() }
+
                 }
                 if (result.isEmpty) {
                     val report = MyReport(feedId)

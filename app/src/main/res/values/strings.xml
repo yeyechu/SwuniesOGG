@@ -155,8 +155,8 @@
 
     <!-- ──────────────────────────────────────   활동탭   ────────────────────────────────────── -->
 
-    <string name="myact_text_title_null">21일 프로젝트</string>
-    <string name="myact_text_body_null">매일 \'오늘의 활동\'을 인증하며\n환경 보호 습관을 길러보세요!</string>
+    <string name="myact_text_title_null">21일 프로젝트를 시작해요!</string>
+    <string name="myact_text_body_null">오늘의 활동을 채우고, 환경 보호 습관을 만들어보세요!</string>
 
     <string name="myact_text_main_title">오늘도 함께 지구를 지켜볼까요?</string>
     <string name="myact_text_aim_co2"> %.2fkg</string>
@@ -215,7 +215,7 @@
     <string name="post_text_body_20007">차체가 한 쪽으로 기울어, 바닥과의 마찰이 커지게 됩니다. 타이어가 편마모되어 사고 위험이 커질 수 있고, 많은 연료를 소모하기도 하여 연비가 저하됩니다.</string>
 
     <string name="myact_card_text_title_done">인증 완료</string>
-    <string name="myact_card_text_subtitle_done">오늘 하루 인증 회수를\n다 채웠어요!</string>
+    <string name="myact_card_text_subtitle_done">오늘 하루 인증 횟수를\n다 채웠어요!</string>
     <string name="myact_card_text_post_date">%s 등록 \n%d일 간 지속</string>
     <string name="myact_card_text_post_date_left">%s 등록 \n%d일 뒤 다시 가능</string>
 

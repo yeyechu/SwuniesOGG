@@ -126,10 +126,9 @@
                 style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginStart="@dimen/spacing_regular"
                 android:layout_marginTop="@dimen/spacing_regular"
                 android:layout_marginEnd="@dimen/spacing_scroll"
-                android:paddingStart="@dimen/spacing_extra_medium"
                 android:paddingBottom="@dimen/spacing_text"
                 android:text="@string/myact_text_title_today"
                 app:layout_constraintBottom_toTopOf="@id/today_card_null"
@@ -142,7 +141,6 @@
                 android:id="@+id/button_today_act_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/icon_size_small"
-                android:layout_marginTop="@dimen/spacing_regular"
                 android:layout_marginEnd="@dimen/spacing_regular"
                 android:layout_marginBottom="@dimen/spacing_extra_small"
                 android:background="@drawable/common_button_yellow"
@@ -156,7 +154,7 @@
                 app:layout_constraintBottom_toTopOf="@id/today_card_null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_title_daily"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/text_title_daily" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/today_card_null"
@@ -177,14 +175,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_large">
+                    android:padding="@dimen/spacing_big"
+
+                    >
 
                     <TextView
                         android:id="@+id/text_no_daily_title"
                         style="@style/StyleText.title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_big"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:layout_marginTop="@dimen/spacing_big"
                         android:text="@string/myact_text_title_null"
                         android:textAlignment="center" />
 
@@ -193,6 +194,7 @@
                         style="@style/StyleText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_big"
                         android:text="@string/myact_text_body_null"
                         android:textAlignment="center" />
 
@@ -201,7 +203,6 @@
                         style="@style/StyleButtonOgg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
                         android:onClick="@{() -> viewModel.onStartClickedFromMyAct()}"
                         android:text="@string/env_button_start" />
                 </LinearLayout>
