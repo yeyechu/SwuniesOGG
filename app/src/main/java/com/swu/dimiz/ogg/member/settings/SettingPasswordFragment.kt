@@ -69,20 +69,41 @@ class SettingPasswordFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) { } //작성 후
         })
 
+//        binding.newPasswordAgainEt.editText?.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { } //작성 전
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                // 작성 중
+//                val password1 = binding.newPasswordAgainEt.editText?.text.toString()
+//                val password2 = s.toString()
+//                if (password2 != password1) {
+//                    binding.newPasswordAgainEt.error = "비밀번호가 일치하지 않아요"
+//                    //인증보내기 버튼 비활성화
+//                } else {
+//                    binding.newPasswordAgainEt.error = null
+//                }
+//            }
+//            override fun afterTextChanged(s: Editable?) { } //작성 후
+//        })
         binding.newPasswordAgainEt.editText?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { } //작성 전
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { } // 작성 전
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // 작성 중
-                val password1 = binding.newPasswordAgainEt.editText?.text.toString()
-                val password2 = s.toString()
+                val password1 = binding.newPasswordEt.editText?.text.toString() // 이전에 입력한 비밀번호
+                val password2 = s.toString() // 확인용 비밀번호
+
                 if (password2 != password1) {
                     binding.newPasswordAgainEt.error = "비밀번호가 일치하지 않아요"
-                    //인증보내기 버튼 비활성화
+                    // 인증보내기 버튼 비활성화
+                    binding.passwordBtn.isEnabled = false
                 } else {
                     binding.newPasswordAgainEt.error = null
+                    // 인증보내기 버튼 활성화
+                    binding.passwordBtn.isEnabled = true
                 }
             }
-            override fun afterTextChanged(s: Editable?) { } //작성 후
+
+            override fun afterTextChanged(s: Editable?) { } // 작성 후
         })
 
         return binding.root
