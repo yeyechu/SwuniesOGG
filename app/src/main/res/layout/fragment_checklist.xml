@@ -7,6 +7,8 @@
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.myact.MyActViewModel" />
 
+
+
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,6 +33,8 @@
                 tools:text="친환경 운전 습관 확인하기"/>
 
         </androidx.appcompat.widget.Toolbar>
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -55,18 +59,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 app:checklistBody="@{viewModel.postChecklistId}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/checklist_title" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mRecyclerView"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:padding="@dimen/spacing_medium"
-                app:layout_constraintTop_toBottomOf="@+id/checklist_text"
-                tools:listitem="@layout/layer_checklist_item" />
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checklist_text">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/mRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:padding="@dimen/spacing_medium"
+                    app:layout_constraintTop_toBottomOf="@+id/checklist_text"
+                    tools:listitem="@layout/layer_checklist_item" />
+
+            </ScrollView>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/env_button_start"

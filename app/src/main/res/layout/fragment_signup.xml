@@ -56,12 +56,12 @@
             android:id="@+id/inputid"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimension_80"
-            android:orientation="horizontal"
-            android:gravity=""
             android:layout_marginTop="@dimen/spacing_regular"
-            app:layout_constraintTop_toBottomOf="@+id/sinup_info"
-            tools:layout_editor_absoluteX="16dp">
-
+            android:gravity=""
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sinup_info">
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -76,10 +76,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_body_big"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    />
+                    android:textSize="@dimen/text_size_body_big" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,9 +87,9 @@
                 style="@style/StyleButtonOgg.smaller"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:layout_marginStart="@dimen/spacing_extra_small"
                 android:layout_marginBottom="@dimen/spacing_medium"
-                android:layout_gravity="center"
                 android:text="@string/signup_button_email_check" />
 
         </LinearLayout>

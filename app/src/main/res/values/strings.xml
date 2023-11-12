@@ -210,9 +210,9 @@
     <string name="post_text_body_30002_4">산불을 막을 방법을 알아보아요</string>
 
     <string name="post_text_title_10011">친환경 운전 습관이란,</string>
-    <string name="post_text_body_10011">연료 효율을 높이고 대기 오염을 줄이기위한 운전 습관이에요 \n목록을 실제로 실천하면 40그루의 나무를 살릴 수 있어요</string>
+    <string name="post_text_body_10011">연료 효율을 높이고 대기 오염을 줄이기위한 운전 습관이에요.\n목록을 실천하면 40그루의 나무를 살릴 수 있어요!</string>
     <string name="post_text_title_20007">휠 얼라인먼트가 정렬되지 않으면,</string>
-    <string name="post_text_body_20007">차체가 한 쪽으로 기울어, 바닥과의 마찰이 커지게 됩니다. 타이어가 편마모되어 사고 위험이 커질 수 있고, 많은 연료를 소모하기도 하여 연비가 저하됩니다.</string>
+    <string name="post_text_body_20007">타이어가 편마모되어 사고 위험이 커지고,\n많은 연료를 소모하여 연비가 저하돼요!</string>
 
     <string name="myact_card_text_title_done">인증 완료</string>
     <string name="myact_card_text_subtitle_done">오늘 하루 인증 횟수를\n다 채웠어요!</string>

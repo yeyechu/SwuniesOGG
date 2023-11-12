@@ -39,6 +39,7 @@ class SettingCarFragment : Fragment() {
 
     private lateinit var navController: NavController
     private val forCarUser: View by lazy { binding.root.findViewById(R.id.for_car_user) }
+    private val CarSettingComplete:  View by lazy { binding.root.findViewById(R.id.car_setting_complete_btn) }
 
     val fireDB = Firebase.firestore
     val fireUser = Firebase.auth.currentUser
@@ -255,6 +256,7 @@ class SettingCarFragment : Fragment() {
         binding.carYesBtn.setOnClickListener {
             viewModel.onYesButtonClicked()
             forCarUser.visibility = View.VISIBLE
+            CarSettingComplete.visibility = View.VISIBLE
             binding.backPageBtn.visibility = View.GONE
 
         }
@@ -263,6 +265,7 @@ class SettingCarFragment : Fragment() {
             viewModel.onNoButtonClicked()
             viewModel.setCarUserVisibility(false)
             forCarUser.visibility = View.GONE
+            CarSettingComplete.visibility = View.GONE
             binding.backPageBtn.visibility = View.VISIBLE
 
         }

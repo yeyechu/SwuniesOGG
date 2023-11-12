@@ -35,7 +35,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/secondary_baby_gray">
+            android:background="@color/white">
 
             <LinearLayout
                 android:id="@+id/flow"
@@ -150,12 +150,16 @@
                 style="@style/StyleButtonOgg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/dimension_40"
                 android:text="@string/mycar_text_car_back_page"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/car_having_btns"
                 app:layout_constraintStart_toStartOf="@+id/car_having_btns"
                 app:layout_constraintTop_toBottomOf="@+id/car_having_btns" />
+
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/for_car_user"
@@ -196,8 +200,6 @@
                     android:id="@+id/car_kind_btns"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/spacing_medium"
-                    android:layout_marginRight="@dimen/spacing_medium"
                     android:layout_marginTop="@dimen/spacing_big"
                     app:layout_constraintTop_toBottomOf="@+id/car_setting_kind_info">
 
@@ -265,8 +267,8 @@
                     android:enabled="false"
                     android:text="@string/mycar_text_car_done"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/car_number_input"
+                    app:layout_constraintStart_toStartOf="@+id/car_number_input"
                     app:layout_constraintTop_toBottomOf="@+id/car_number_input"
                     app:layout_constraintVertical_bias="0.0" />
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,12 +44,20 @@ class SettingSignoutFragment: Fragment() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
+        binding.checkBox3.setOnClickListener {
+            // 체크박스가 체크되었는지 여부 확인
+            val isChecked = binding.checkBox3.isChecked
+            // 버튼 활성화 여부 설정
+            binding.signoutBtn.isEnabled = isChecked
+        }
 
         binding.signoutBtn.setOnClickListener {
             if(!binding.checkBox3.isChecked){
                 OggSnackbar.make(view, getText(R.string.setting_toast_memberout_check).toString()).show()
+
             } else {
-                //
+
+                //탈퇴
             }
         }
     }
