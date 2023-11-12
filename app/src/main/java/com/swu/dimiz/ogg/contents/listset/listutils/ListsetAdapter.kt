@@ -45,7 +45,7 @@ class ListsetAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListsetViewHolder {
         return ListsetViewHolder(
             FragmentListsetListItemBinding.inflate(
-                LayoutInflater.from(parent.context)
+                LayoutInflater.from(parent.context), parent, false
             )
         )
     }

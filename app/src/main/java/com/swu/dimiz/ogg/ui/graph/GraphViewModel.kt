@@ -433,11 +433,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     val act = doc.toObject<MyAllAct>()
                     if(act.upCount != 0) {
                         mostPostList.add(PostCount(act.ID, act.upCount))
-                    } else {
-                        // 파이어베이스 업로드때문에 임의 초기화함
-                        // 리스트 크기만큼 업로드로 구현되면 없앨 부분
-                        // todo 수정 필요
-                        mostPostList.add(PostCount(0,0))
                     }
                 }
 
@@ -462,7 +457,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     //특별활동 전체 순위
-    fun fireGetExtra(num: Int){
+    fun fireGetExtra(num: Int) {
         val docRef = fireDB.collection("User")
 
         val usersExtraList = arrayListOf<Int>()
@@ -592,6 +587,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                             _rank.value = 100f
                         } else {
                             _rank.value = gotGraph.extraRank
+                            if(_rank.value == 0f) {
+                                _rank.value = 0.1f
+                            }
                         }
                     }
 
