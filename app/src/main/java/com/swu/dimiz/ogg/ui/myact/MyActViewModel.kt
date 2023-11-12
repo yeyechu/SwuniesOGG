@@ -23,11 +23,12 @@ import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class MyActViewModel (private val repository: OggRepository) : ViewModel() {
+class MyActViewModel(private val repository: OggRepository) : ViewModel() {
 
     private val _userCondition = MutableLiveData<MyCondition>()
     val userCondition: LiveData<MyCondition>
         get() = _userCondition
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       오늘의 활동
     private val _todailyId = MutableLiveData<ActivitiesDaily?>()
@@ -39,8 +40,6 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         get() = _navigateToDaily
 
     private val _dailyDone = MutableLiveData<ActivitiesDaily>()
-    val dailyDone: LiveData<ActivitiesDaily>
-        get() = _dailyDone
 
     private val _navigateToGallery = MutableLiveData<Boolean>()
     val navigateToToGallery: LiveData<Boolean>
@@ -71,9 +70,19 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         get() = _sustId
 
     private val _sustDone = MutableLiveData<List<Int>>()
-    private val sustDone: LiveData<List<Int>>
-        get() = _sustDone
 
+    //                                          특별
+    private val _navigateToExtra = MutableLiveData<ActivitiesExtra?>()
+    val navigateToExtra: LiveData<ActivitiesExtra?>
+        get() = _navigateToExtra
+
+    private val _extraId = MutableLiveData<ActivitiesExtra?>()
+    val extraId: LiveData<ActivitiesExtra?>
+        get() = _extraId
+
+    private val _extraDone = MutableLiveData<List<Int>>()
+
+    //                                       이벤트 핸들러
     private val _navigateToCamera = MutableLiveData<Boolean>()
     val navigateToToCamera: LiveData<Boolean>
         get() = _navigateToCamera
@@ -94,26 +103,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     val navigateToToCar: LiveData<Boolean>
         get() = _navigateToCar
 
-    //                                          특별
-    private val _navigateToExtra = MutableLiveData<ActivitiesExtra?>()
-    val navigateToExtra: LiveData<ActivitiesExtra?>
-        get() = _navigateToExtra
-
-    private val _extraId = MutableLiveData<ActivitiesExtra?>()
-    val extraId: LiveData<ActivitiesExtra?>
-        get() = _extraId
-
-    private val _extraDone = MutableLiveData<List<Int>>()
-    val extraDone: LiveData<List<Int>>
-        get() = _extraDone
-
     private val _navigateToLink = MutableLiveData<Boolean>()
     val navigateToToLink: LiveData<Boolean>
         get() = _navigateToLink
 
-    //                                     for파이어베이스
-    private val _sustForFirebase = MutableLiveData<ActivitiesSustainable?>()
-    private val _extraForFirebase = MutableLiveData<ActivitiesExtra?>()
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     데이터베이스 초기화
     val getSustData: LiveData<List<ActivitiesSustainable>> = repository.getAllSusts.asLiveData()
@@ -140,53 +133,54 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
     fun setDailyDone(item: ActivitiesDaily): Boolean {
         _dailyDone.value = item
-        if(item.limit == item.postCount) {
+        if (item.limit == item.postCount) {
             return true
         }
         return false
     }
 
-    fun setSustDone(item: ActivitiesSustainable) : Boolean {
+    fun setSustDone(item: ActivitiesSustainable): Boolean {
         val duration = item.limit - convertToDuration(item.postDate)
 
-        for(i in sustDone.value!!) {
-            if(i == item.sustId && duration > 0) {
-                fireDelSust()
+        for (i in _sustDone.value!!) {
+            if (i == item.sustId && duration > 0) {
+                Timber.i("setSustDone true일 때: ${item.sustId}에 대한 남은 지속 시간: $duration")
                 return true
             }
         }
+        fireDelSust(item.sustId)
+        Timber.i("setSustDone false일 때: ${item.sustId}에 대한 남은 지속 시간: $duration")
         return false
     }
 
-    fun setExtraDone(item: ActivitiesExtra) : Boolean {
+    fun setExtraDone(item: ActivitiesExtra): Boolean {
         val duration = item.limit - convertToDuration(item.postDate)
 
-        for(i in extraDone.value!!) {
-            if(i == item.extraId && duration > 0) {
-                fireDelExtra()
+        for (i in _extraDone.value!!) {
+            if (i == item.extraId && duration > 0) {
                 return true
             }
         }
+        fireDelExtra(item.extraId)
         return false
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                             날짜 업데이트 : 파이어베이스 -> 룸
     private fun updateSustFromFirebase(item: MySustainable) = viewModelScope.launch {
-        if(item.sustID != 0 && item.strDay != null) {
+        if (item.sustID != 0 && item.strDay != null) {
             repository.updateSustDate(item.sustID, item.strDay!!)
         }
     }
 
     private fun updateExtraFromFirebase(item: MyExtra) = viewModelScope.launch {
-        if(item.extraID != 0 && item.strDay != null) {
+        if (item.extraID != 0 && item.strDay != null) {
             repository.updateExtraDate(item.extraID, item.strDay!!)
         }
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      디테일 팝업
-
     fun showDaily(daily: ActivitiesDaily) {
         _navigateToDaily.value = daily
         _todailyId.value = daily
@@ -218,16 +212,12 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         _navigateToExtra.value = null
     }
 
-    fun onCompletedExtra() {
-        _extraId.value = null
-    }
-
     fun onGalleryButtonClicked() {
         _navigateToGallery.value = true
     }
 
     fun onDailyButtonClicked(daily: ActivitiesDaily) {
-        when(daily.waytoPost) {
+        when (daily.waytoPost) {
             0 -> _navigateToCamera.value = true
             1 -> _navigateToCamera.value = true
             3 -> {
@@ -239,7 +229,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     }
 
     fun onSustButtonClicked(sust: ActivitiesSustainable) {
-        when(sust.waytoPost) {
+        when (sust.waytoPost) {
             0 -> _navigateToCamera.value = true
             4 -> _navigateToCar.value = true
             5 -> {
@@ -251,7 +241,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     }
 
     fun onExtraButtonClicked(extra: ActivitiesExtra) {
-        when(extra.waytoPost) {
+        when (extra.waytoPost) {
             0 -> _navigateToCamera.value = true
             2 -> _navigateToLink.value = true
         }
@@ -302,14 +292,6 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         Timber.i("destroyed")
     }
 
-    private fun getSust(id: Int) = viewModelScope.launch {
-        _sustForFirebase.value = repository.getSust(id)
-    }
-
-    private fun getExtra(id: Int) = viewModelScope.launch {
-        _extraForFirebase.value = repository.getExtraDate(id)
-    }
-
     fun updateDailyPostCount() = viewModelScope.launch {
         repository.updatePostCount(todailyId.value!!.dailyId, todailyId.value!!.postCount + 1)
     }
@@ -317,16 +299,14 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     firebase 초기화
     private val fireDB = Firebase.firestore
-
-    private var dayDoneSust : Int = 0
-    private var sustlimit : Int = 0
-    private var dayDoneExtra : Int = 0
-    private var extralimit : Int = 0
     private val email = OggApplication.auth.currentUser!!.email.toString()
 
     fun fireGetDaily() = viewModelScope.launch {
         var appUser = MyCondition()
         var today = 0
+
+        val myDailyList = arrayListOf<ListData>()
+        myDailyList.clear()
 
         fireDB.collection("User").document(email)
             .get()
@@ -344,7 +324,6 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 Timber.i(exception)
             }
 
-        val myDailyList = arrayListOf<ListData>()
         fireDB.collection("User").document(email)
             .collection("Project${appUser.projectCount}")
             .get()
@@ -378,7 +357,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 Timber.i("파이어베이스 myDailyList: $myDailyList")
 
                 myDailyList.forEach {
-                    if(it.aId != 0) {
+                    if (it.aId != 0) {
                         //이미 한 daily 개수 따지려면 today에서 dailyID 몇개있는지 판별
                         fireDB.collection("User").document(email)
                             .collection("Project${appUser.projectCount}")
@@ -401,7 +380,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    fun fireGetSust(){
+    fun fireGetSust() {
         val mySustList = ArrayList<Int>()
         mySustList.clear()
 
@@ -415,19 +394,16 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (dc in snapshots!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val mysust = dc.document.toObject<MySustainable>()
-                        dayDoneSust = convertToDuration(mysust.strDay!!)
-                        mySustList.add(mysust.sustID)
                         updateSustFromFirebase(mysust)
-                        //날짜 체크해서 지우기
-                        getSust(mysust.sustID)
+                        mySustList.add(mysust.sustID)
                     }
                 }
                 _sustDone.value = mySustList
-                Timber.i( "Sust result: ${_sustDone.value}")
+                Timber.i("Sust result: ${_sustDone.value}")
             }
     }
 
-    fun fireGetExtra(){
+    fun fireGetExtra() {
         val myExtraList = ArrayList<Int>()
         myExtraList.clear()
         //지속 가능한 활동 받아오기
@@ -439,45 +415,33 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 }
                 for (doc in value!!) {
                     val myextra = doc.toObject<MyExtra>()
-                    dayDoneExtra = convertToDuration(myextra.strDay!!)
-                    myExtraList.add(myextra.extraID)
                     updateExtraFromFirebase(myextra)
-                    //날짜 체크해서 지우기
-                    getExtra(myextra.extraID)
+                    myExtraList.add(myextra.extraID)
                 }
                 _extraDone.value = myExtraList
-                Timber.i( "Extra result: $myExtraList")
+                Timber.i("Extra result: $myExtraList")
             }
     }
 
-    private fun fireDelSust(){
-        if( _sustForFirebase.value != null) {
-            Timber.i("sustlimit ${_sustForFirebase.value!!.limit}")
-            sustlimit = _sustForFirebase.value!!.limit
+    private fun fireDelSust(id: Int) = viewModelScope.launch {
 
-            if(sustlimit - dayDoneSust <= 0){
-                fireDB.collection("User").document(email)
-                    .collection("Sustainable").document(_sustForFirebase.value!!.sustId.toString())
-                    .delete()
-                    .addOnSuccessListener { Timber.i("Sust successfully deleted!") }
-                    .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
-            }
-        }
+        fireDB.collection("User").document(email)
+            .collection("Sustainable").document(id.toString())
+            .delete()
+            .addOnSuccessListener { Timber.i("Sust successfully deleted!") }
+            .addOnFailureListener { e -> Timber.i("Error deleting document $e") }
+
     }
 
-    private fun fireDelExtra(){
-        if( _extraForFirebase.value != null) {
-            Timber.i("sustlimit ${_extraForFirebase.value!!.limit}")
-            extralimit = _extraForFirebase.value!!.limit
+    private fun fireDelExtra(id: Int) = viewModelScope.launch {
 
-            if(extralimit - dayDoneExtra <= 0){
-                fireDB.collection("User").document(email)
-                    .collection("Extra").document(_extraForFirebase.value!!.extraId.toString())
-                    .delete()
-                    .addOnSuccessListener { Timber.i("Extra successfully deleted!") }
-                    .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
-            }
-        }
+        fireDB.collection("User").document(email)
+            .collection("Extra").document(id.toString())
+            .delete()
+            .addOnSuccessListener { Timber.i("Extra successfully deleted!") }
+            .addOnFailureListener { e -> Timber.i("Error deleting document $e") }
+
+
     }
 
     fun fireUpdateAll(date: Long) {
@@ -493,7 +457,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             .collection(today.toString()).document(date.toString())
             .set(daily)
             .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
 
         //AllAct
         val washingtonRef = fireDB.collection("User").document(email)
@@ -502,11 +466,11 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         washingtonRef
             .update("upCount", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
         washingtonRef
             .update("allCo2", FieldValue.increment(0.28))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
 
         //스탬프
         fireDB.collection("User").document(email)
@@ -514,7 +478,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             .collection("Stamp").document(today.toString())
             .update("dayCo2", FieldValue.increment(0.28))
             .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
 
         //배지
         //이동수단
@@ -522,24 +486,24 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             .collection("Badge").document("40009")
             .update("count", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("40009 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
 
         //Co2
         fireDB.collection("User").document(email)
             .collection("Badge").document("40022")
             .update("count", FieldValue.increment(0.28))
             .addOnSuccessListener { Timber.i("40022 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
         fireDB.collection("User").document(email)
             .collection("Badge").document("40023")
             .update("count", FieldValue.increment(0.28))
             .addOnSuccessListener { Timber.i("40023 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
         fireDB.collection("User").document(email)
             .collection("Badge").document("40024")
             .update("count", FieldValue.increment(0.28))
             .addOnSuccessListener { Timber.i("40024 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
     }
 
     fun fireUpdateAllSust(date: Long) {
@@ -554,7 +518,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             .collection("Sustainable").document("20007")
             .set(sust)
             .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
 
         //AllAct
         val washingtonRef = fireDB.collection("User").document(email)
@@ -563,20 +527,20 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
         washingtonRef
             .update("upCount", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
         washingtonRef
             .update("allCo2", FieldValue.increment(0.124))
             .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
 
         //스탬프
-        for( i in today..DATE_WHOLE){
+        for (i in today..DATE_WHOLE) {
             fireDB.collection("User").document(email)
                 .collection("Project${num}").document("Entire")
                 .collection("Stamp").document(i.toString())
                 .update("dayCo2", FieldValue.increment(0.124))
                 .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
-                .addOnFailureListener { e -> Timber.i( e ) }
+                .addOnFailureListener { e -> Timber.i(e) }
         }
         //배지
         //이동수단
@@ -584,10 +548,10 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             .collection("Badge").document("40009")
             .update("count", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("40009 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
     }
 
-    fun fireUpdateBadgeDate(date: Long){
+    fun fireUpdateBadgeDate(date: Long) {
         val counts = java.util.ArrayList<MyBadge>()
         counts.clear()
 
@@ -601,9 +565,9 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                     val gotBadge = document.toObject<MyBadge>()
                     counts.add(gotBadge)
                 }
-                for(i in 0 until counts.size){
+                for (i in 0 until counts.size) {
                     //카테고리(이동수단)
-                    if(counts[8].count == 100 && counts[8].getDate == null){
+                    if (counts[8].count == 100 && counts[8].getDate == null) {
                         fireDB.collection("User").document(email)
                             .collection("Badge").document("40009")
                             .update("getDate", date)
@@ -617,12 +581,12 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    fun updateBadgeAct(date: Long){
+    fun updateBadgeAct(date: Long) {
         fireDB.collection("User").document(email)
             .collection("Badge").document("40020")
             .update("count", FieldValue.increment(1))
             .addOnSuccessListener { Timber.i("40020 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i( e ) }
+            .addOnFailureListener { e -> Timber.i(e) }
 
         fireDB.collection("User").document(email)
             .collection("Badge")
@@ -635,7 +599,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
 
                 for (doc in value!!) {
                     val gotBadge = doc.toObject<MyBadge>()
-                    if(gotBadge.count == 1 && gotBadge.getDate == null){
+                    if (gotBadge.count == 1 && gotBadge.getDate == null) {
                         fireDB.collection("User").document(email)
                             .collection("Badge").document("40020")
                             .update("getDate", date)
@@ -646,7 +610,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
     }
 
-    fun updateBadgeDateCo2(date: Long){
+    fun updateBadgeDateCo2(date: Long) {
         fireDB.collection("User").document(email)
             .collection("Badge")
             .whereEqualTo("badgeID", "40022")
@@ -661,8 +625,8 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                 for (doc in value!!) {
                     val gotBadge = doc.toObject<MyBadge>()
 
-                    if(gotBadge.badgeID == 40022 && gotBadge.getDate == null){
-                        if(gotBadge.count >= 100000){
+                    if (gotBadge.badgeID == 40022 && gotBadge.getDate == null) {
+                        if (gotBadge.count >= 100000) {
 
                             fireDB.collection("User").document(email)
                                 .collection("Badge").document("40022")
@@ -670,9 +634,8 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                                 .addOnSuccessListener { Timber.i("40022 획득 완료") }
                                 .addOnFailureListener { exeption -> Timber.i(exeption) }
                         }
-                    }
-                    else if(gotBadge.badgeID == 40023 && gotBadge.getDate == null){
-                        if(gotBadge.count >= 500000){
+                    } else if (gotBadge.badgeID == 40023 && gotBadge.getDate == null) {
+                        if (gotBadge.count >= 500000) {
 
                             fireDB.collection("User").document(email)
                                 .collection("Badge").document("40023")
@@ -680,9 +643,8 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                                 .addOnSuccessListener { Timber.i("40023 획득 완료") }
                                 .addOnFailureListener { exeption -> Timber.i(exeption) }
                         }
-                    }
-                    else if(gotBadge.badgeID == 40024 && gotBadge.getDate == null){
-                        if(gotBadge.count >= 1000000){
+                    } else if (gotBadge.badgeID == 40024 && gotBadge.getDate == null) {
+                        if (gotBadge.count >= 1000000) {
 
                             fireDB.collection("User").document(email)
                                 .collection("Badge").document("40024")
@@ -695,12 +657,11 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
     }
 
-
-
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val repository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as OggApplication).repository
+                val repository =
+                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as OggApplication).repository
                 MyActViewModel(repository = repository)
             }
         }

@@ -12,7 +12,6 @@ class ChecklistAdapter(private val listener: ChecklistClickListener):
     ListAdapter<Checklist, ChecklistAdapter.ChecklistViewHolder>(ChecklistDiffCallback)  {
 
     class ChecklistViewHolder (private var binding: LayerChecklistItemBinding):
-
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Checklist,
@@ -21,13 +20,10 @@ class ChecklistAdapter(private val listener: ChecklistClickListener):
             binding.checklist = item
             binding.listener = checkListener
             binding.executePendingBindings()
-
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return position
-    }
+    override fun getItemViewType(position: Int): Int = position
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChecklistViewHolder {
        return ChecklistViewHolder(
@@ -75,5 +71,4 @@ class ChecklistAdapter(private val listener: ChecklistClickListener):
     class ChecklistClickListener(val clickListener: (item: Checklist) -> Unit) {
         fun onClick(item: Checklist) = clickListener(item)
     }
-
 }

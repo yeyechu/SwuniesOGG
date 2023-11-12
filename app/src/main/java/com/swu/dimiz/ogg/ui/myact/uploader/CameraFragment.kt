@@ -157,7 +157,6 @@ class CameraFragment : Fragment() {
         //                           세가지 활동 분리해서 업로드
         when(id / ID_MODIFIER) {
             1 -> {
-                updateDailyPostCount(id, postCount)
                 val daily = MyDaily(
                     dailyID = id,
                     upDate = date
@@ -168,9 +167,9 @@ class CameraFragment : Fragment() {
                     .set(daily)
                     .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
+                updateDailyPostCount(id, postCount)
             }
             2 -> {
-                updateSustPostDate(id, date)
                 val sust = MySustainable(
                     sustID = id,
                     strDay = date,
@@ -180,9 +179,9 @@ class CameraFragment : Fragment() {
                     .set(sust)
                     .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
+                updateSustPostDate(id, date)
             }
             3 -> {
-                updateExtraPostDate(id, date)
                 val extra = MyExtra(
                     extraID = id,
                     strDay = date,
@@ -192,6 +191,7 @@ class CameraFragment : Fragment() {
                     .set(extra)
                     .addOnSuccessListener { Timber.i("Extra firestore 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
+                updateExtraPostDate(id, date)
             }
         }
     }

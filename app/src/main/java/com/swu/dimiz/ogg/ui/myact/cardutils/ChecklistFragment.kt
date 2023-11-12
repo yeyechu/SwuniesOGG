@@ -50,7 +50,6 @@ class ChecklistFragment : Fragment() {
             // 체크 리스너 구현
         })
 
-        // 리사이클러뷰에 레이아웃 관리자 연결
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
@@ -68,15 +67,16 @@ class ChecklistFragment : Fragment() {
 
                 when (viewModel.postChecklistId.value) {
                     10011 -> {   // 친환경 운전
-                        viewModel.updateDailyPostCount()
                         viewModel.fireUpdateAll(date)
                         viewModel.fireUpdateBadgeDate(date)
                         viewModel.updateBadgeDateCo2(date)
+                        viewModel.updateDailyPostCount()
                     }
                     20007 -> { // 타이어 휠 점검
                         viewModel.fireUpdateAllSust(date)
                         viewModel.fireUpdateBadgeDate(date)
                         viewModel.updateBadgeAct(date)
+                        viewModel.fireGetSust()
                     }
                 }
                 viewModel.onChecklistPosted()
