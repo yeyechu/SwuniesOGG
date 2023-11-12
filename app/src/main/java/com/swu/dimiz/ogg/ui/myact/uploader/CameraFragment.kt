@@ -74,6 +74,7 @@ class CameraFragment : Fragment() {
     private val fireStorage = Firebase.storage
 
     private val userEmail = OggApplication.auth.currentUser!!.email.toString()
+    private var userCondition: MyCondition = MyCondition()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -87,6 +88,7 @@ class CameraFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initUserCondition()
         cameraExecutor = Executors.newSingleThreadExecutor()
         broadcastManager = LocalBroadcastManager.getInstance(view.context)
 
@@ -98,11 +100,6 @@ class CameraFragment : Fragment() {
         val actCo2 = CameraActivity.co2.toDouble()
         val actFilter = CameraActivity.filter
         val actCount = CameraActivity.postCount.toInt()
-
-        val user: MyCondition = getUserInfoFromFirebase()
-        val startDate = user.startDate
-        val today = convertToDuration(startDate)
-        val projectCount = user.projectCount
 
         binding.viewFinder.post {
             displayId = binding.viewFinder.display.displayId
@@ -117,7 +114,10 @@ class CameraFragment : Fragment() {
 
         binding.buttonDone.setOnClickListener {
 
+            Timber.i("인증버튼 내 사용자 정보 확인 : $userCondition")
             val feedDay = System.currentTimeMillis()
+            val today = convertToDuration(userCondition.startDate)
+            val projectCount = userCondition.projectCount
 
             updateActivities(feedDay, projectCount, today, actId, actCount)
             feedUpload(feedDay, actId, actTitle, actFilter)
@@ -135,15 +135,13 @@ class CameraFragment : Fragment() {
         }
     }
 
-    private fun getUserInfoFromFirebase(): MyCondition {
-        var user = MyCondition()
-
+    private fun initUserCondition() = lifecycleScope.launch {
         fireDB.collection("User").document(userEmail)
             .get().addOnSuccessListener { document ->
                 if (document != null) {
                     val gotUser = document.toObject<MyCondition>()
                     gotUser?.let {
-                        user = gotUser
+                        userCondition = gotUser
                     }
                 } else {
                     Timber.i("사용자 기본정보 받아오기 실패")
@@ -151,8 +149,7 @@ class CameraFragment : Fragment() {
             }.addOnFailureListener { exception ->
                 Timber.i(exception.toString())
             }
-        Timber.i("카메라 사용자 정보: $user")
-        return user
+        Timber.i("카메라 사용자 정보: $userCondition")
     }
 
     private fun updateActivities(date: Long, num: Int, today: Int, id: Int, postCount: Int) = lifecycleScope.launch {
