@@ -424,24 +424,19 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     private fun fireDelSust(id: Int) = viewModelScope.launch {
-
         fireDB.collection("User").document(email)
             .collection("Sustainable").document(id.toString())
             .delete()
             .addOnSuccessListener { Timber.i("Sust successfully deleted!") }
             .addOnFailureListener { e -> Timber.i("Error deleting document $e") }
-
     }
 
     private fun fireDelExtra(id: Int) = viewModelScope.launch {
-
         fireDB.collection("User").document(email)
             .collection("Extra").document(id.toString())
             .delete()
             .addOnSuccessListener { Timber.i("Extra successfully deleted!") }
             .addOnFailureListener { e -> Timber.i("Error deleting document $e") }
-
-
     }
 
     fun fireUpdateAll(date: Long) {
@@ -511,7 +506,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
         val today = convertToDuration(_userCondition.value!!.startDate)
 
         val sust = MySustainable(
-            sustID = 20008,
+            sustID = 20007,
             strDay = date,
         )
         fireDB.collection("User").document(email)
