@@ -9,6 +9,6 @@ class GraphFragmentStateAdapter(fragment: Fragment) : FragmentStateAdapter(fragm
 
     override fun getItemCount(): Int = pagerSize
 
-    override fun createFragment(position: Int): Fragment = GraphLayer.create(position)
+    override fun createFragment(position: Int): Fragment = GraphLayer.create(position, pagerSize)
 }
 

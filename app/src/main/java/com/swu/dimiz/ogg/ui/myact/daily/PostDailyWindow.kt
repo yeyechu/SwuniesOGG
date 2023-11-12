@@ -70,6 +70,8 @@ class PostDailyWindow  : Fragment() {
             user = it
             today = convertToDuration(it.startDate)
             projectCount = it.projectCount
+            Timber.i("user 초기화: $user")
+            Timber.i("today 초기화: $today")
         }
 
         viewModel.passUri.observe(viewLifecycleOwner) {

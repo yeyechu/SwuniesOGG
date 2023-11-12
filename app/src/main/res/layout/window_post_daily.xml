@@ -163,6 +163,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:layout_weight="1"
+                        android:textColor="@{!viewModel.setDailyDone(viewModel.todailyId)? @color/primary_blue : @color/secondary_light_gray }"
+                        android:enabled="@{!viewModel.setDailyDone(viewModel.todailyId)}"
                         android:onClick="@{() -> viewModel.onGalleryButtonClicked()}"
                         android:paddingStart="@dimen/spacing_medium"
                         android:paddingEnd="@dimen/spacing_medium"

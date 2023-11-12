@@ -125,8 +125,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     // ─────────────────────────────────────────────────────────────────────────────────────
     //                                     GraphFragment
     fun setCurrentPage(num: Int) {
-        _currentPage.value = num + 1
-        Timber.i("현재 페이지: ${_currentPage.value}")
+        _currentPage.value = num
+        Timber.i("현재 페이지: ${_currentPage.value}회차")
     }
 
     // ─────────────────────────────────────────────────────────────────────────────────────
@@ -537,6 +537,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                             getTitlesCo2(mostCo2List)
                             Timber.i("graph 가장 많은 탄소량 활동 리스트: $mostCo2List")
                             _mostCo2List.value = mostCo2List
+                        } else {
+                            _mostCo2List.value = listOf()
                         }
 
                         // ───────────────────────────────── 가장 많은 리액션 ─────────────────────────────────
@@ -569,6 +571,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                             getTitlesPost(mostPostList)
                             _mostPostList.value = mostPostList
                             Timber.i("graph 가장 많이 인증한 활동 리스트: $mostPostList")
+                        } else {
+                            _mostPostList.value = listOf()
                         }
 
                     // ───────────────────────────────── 특별활동 ─────────────────────────────────

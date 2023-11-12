@@ -85,6 +85,9 @@
     <dimen name="bottom_sheet_scroll_height">300dp</dimen>
 
     <!-- 레이아웃 -->
+    <dimen name="myenv_canvas_height">500dp</dimen>
+    <dimen name="myenv_ogg_height">170dp</dimen>
+
     <dimen name="progressbar_width">300dp</dimen>
     <dimen name="progressbar_height">3dp</dimen>
 

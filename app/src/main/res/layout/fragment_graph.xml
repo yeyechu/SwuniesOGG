@@ -107,6 +107,7 @@
             android:id="@+id/viewpager_graph"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:visibility="@{viewModel.layoutVisible ? View.GONE : View.VISIBLE}"/>
     </LinearLayout>
 </layout>

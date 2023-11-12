@@ -32,7 +32,7 @@ class GraphLayer : Fragment() {
     private lateinit var barChart2: BarChart
     private lateinit var pieChart: PieChart
 
-    private var pageNumber = 0
+    private var pageSize = 0
 
     private val viewModel: GraphViewModel by activityViewModels { GraphViewModel.Factory }
 
@@ -50,10 +50,10 @@ class GraphLayer : Fragment() {
         val labels = listOf(ENERGY, CONSUME, TRANSPORT, RECYCLE)
         val labels2 = listOf("나", "다른사람")
 
-        arguments?.takeIf { it.containsKey(GRAPH_OBJECT) }?.apply {
-            pageNumber = getInt(GRAPH_OBJECT)
-            viewModel.setCurrentPage(pageNumber)
+        arguments?.takeIf { it.containsKey(GRAPH_SIZE) }?.apply {
+            pageSize = getInt(GRAPH_SIZE)
         }
+        viewModel.setCurrentPage(pageSize)
 
         viewModel.currentPage.observe(viewLifecycleOwner) {
             it?.let {
@@ -259,9 +259,10 @@ class GraphLayer : Fragment() {
     }
 
     companion object {
-        fun create(position: Int) = GraphLayer().apply {
+        fun create(position: Int, size: Int) = GraphLayer().apply {
             arguments = Bundle().apply {
                 putInt(GRAPH_OBJECT, position)
+                putInt(GRAPH_SIZE, size)
             }
         }
     }

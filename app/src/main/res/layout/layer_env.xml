@@ -43,14 +43,14 @@
             <FrameLayout
                 android:id="@+id/canvas_layout"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="@dimen/myenv_canvas_height"
                 android:layout_gravity="bottom"
                 android:visibility="@{envViewModel.navigateToMyEnv ? View.VISIBLE : View.GONE}"
                 android:layout_marginBottom="@dimen/spacing_large"/>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="180dp"
-                android:layout_height="200dp"
+                android:layout_width="@dimen/myenv_ogg_height"
+                android:layout_height="@dimen/myenv_ogg_height"
                 android:layout_gravity="center_horizontal|bottom"
                 android:layout_marginBottom="@dimen/dimension_100"
                 android:contentDescription="@string/description_myenv_image_ogg"

@@ -48,10 +48,12 @@ class GraphFragment : Fragment() {
         viewPager2 = binding.viewpagerGraph
         viewpager2Adapter = GraphFragmentStateAdapter(this)
         viewPager2.adapter = viewpager2Adapter
+        viewPager2.isUserInputEnabled = false
 
         viewModel.userCondition.observe(viewLifecycleOwner) {
             if(it.email != "") {
                 viewpager2Adapter.pagerSize = it.projectCount
+                viewPager2.currentItem = it.projectCount
                 viewModel.fireGetCategory(it.projectCount)
                 viewModel.fireGetCo2(it.projectCount)
                 viewModel.fireGetMostPost(it.projectCount)
@@ -62,21 +64,21 @@ class GraphFragment : Fragment() {
 
         viewModel.leftPager.observe(viewLifecycleOwner) {
             if(it) {
-                val currentPage = viewPager2.currentItem
+                var currentPage = viewPager2.currentItem
+                viewPager2.setCurrentItem(--currentPage, true)
 
-                viewPager2.setCurrentItem(currentPage - 1, true)
                 viewModel.onLeftCompleted()
-                viewModel.setCurrentPage(currentPage)
+                viewModel.setCurrentPage(currentPage + 1)
             }
         }
 
         viewModel.rightPager.observe(viewLifecycleOwner) {
             if(it) {
-                val currentPage = viewPager2.currentItem
+                var currentPage = viewPager2.currentItem
+                viewPager2.setCurrentItem(++currentPage, true)
 
-                viewPager2.setCurrentItem(currentPage + 1, true)
                 viewModel.onRightCompleted()
-               viewModel.setCurrentPage(currentPage)
+               viewModel.setCurrentPage(currentPage + 1)
             }
         }
     }
