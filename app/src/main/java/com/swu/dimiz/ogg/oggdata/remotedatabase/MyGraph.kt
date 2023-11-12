@@ -1,8 +1,5 @@
 package com.swu.dimiz.ogg.oggdata.remotedatabase
 
-import java.net.URI
-import java.sql.Date
-
 /*
 fireStore 위치
 User/사용자 이메일/Profject1~../Graph

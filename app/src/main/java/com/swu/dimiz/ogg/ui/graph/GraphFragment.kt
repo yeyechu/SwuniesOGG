@@ -49,14 +49,14 @@ class GraphFragment : Fragment() {
         viewpager2Adapter = GraphFragmentStateAdapter(this)
         viewPager2.adapter = viewpager2Adapter
 
-        viewModel.projectSize.observe(viewLifecycleOwner) {
-            it?.let {
-                viewpager2Adapter.pagerSize = it
-                viewModel.fireGetCategory(it)
-                viewModel.fireGetCo2(it)
-                viewModel.fireGetMostPost(it)
-                viewModel.fireGetExtra(it)
-                viewModel.fireGetReaction(it)
+        viewModel.userCondition.observe(viewLifecycleOwner) {
+            if(it.email != "") {
+                viewpager2Adapter.pagerSize = it.projectCount
+                viewModel.fireGetCategory(it.projectCount)
+                viewModel.fireGetCo2(it.projectCount)
+                viewModel.fireGetMostPost(it.projectCount)
+                viewModel.fireGetExtra(it.projectCount)
+                viewModel.fireGetReaction(it.projectCount)
             }
         }
 

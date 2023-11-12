@@ -74,15 +74,15 @@ class GraphLayer : Fragment() {
 
         viewModel.titlesPost.observe(viewLifecycleOwner){
             it?.let{
-                initPieChart(pieChart, viewModel.getCo2List(),it)
+                it.forEach {title ->
+                    binding.mostCertifyAct1Name.text = title
+                }
             }
         }
 
         viewModel.titlesCo2.observe(viewLifecycleOwner){
             it?.let{
-                it.forEach {title ->
-                    binding.mostCertifyAct1Name.text = title
-                }
+                initPieChart(pieChart, viewModel.getCo2List(), it)
             }
         }
 
