@@ -12,6 +12,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.DATE_WHOLE
+import com.swu.dimiz.ogg.contents.listset.listutils.INTEGER_ZERO
 import com.swu.dimiz.ogg.contents.listset.listutils.ListData
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.oggdata.OggRepository
@@ -99,6 +100,10 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
     val postToChecklist: LiveData<Boolean>
         get() = _postToChecklist
 
+    private val _checkCounter = MutableLiveData<Int>()
+    private val checkCounter: LiveData<Int>
+        get() = _checkCounter
+
     private val _navigateToCar = MutableLiveData<Boolean>()
     val navigateToToCar: LiveData<Boolean>
         get() = _navigateToCar
@@ -117,6 +122,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
         Timber.i("created")
         _sustDone.value = listOf()
         _extraDone.value = listOf()
+        _checkCounter.value = INTEGER_ZERO
     }
 
     fun copyUserCondition(user: MyCondition) {
@@ -164,6 +170,30 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
         fireDelExtra(item.extraId)
         return false
     }
+
+    fun initPostCounter() {
+        _checkCounter.value = INTEGER_ZERO
+    }
+
+    private fun plusCounter() {
+        _checkCounter.value = _checkCounter.value!!.plus(1)
+    }
+
+    private fun minusCounter() {
+        _checkCounter.value = _checkCounter.value!!.minus(1)
+    }
+
+    fun onCheckClicked(isChecked: Boolean) {
+        if(isChecked) {
+            plusCounter()
+        } else {
+            minusCounter()
+        }
+    }
+
+     val postButtonEnable = checkCounter.map {
+         it > 2
+     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                             날짜 업데이트 : 파이어베이스 -> 룸

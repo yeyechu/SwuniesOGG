@@ -6,9 +6,6 @@
         <variable
             name="viewModel"
             type="com.swu.dimiz.ogg.ui.myact.MyActViewModel" />
-
-
-
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -90,6 +87,7 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginBottom="@dimen/spacing_larger"
                 android:onClick="@{() -> viewModel.onPostedChecklist()}"
+                android:enabled="@{viewModel.postButtonEnable}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

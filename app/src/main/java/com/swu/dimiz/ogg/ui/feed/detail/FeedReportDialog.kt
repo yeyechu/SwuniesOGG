@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.DialogFeedReportBinding
@@ -54,11 +54,11 @@ class FeedReportDialog(
     private fun updateReport() {
         // 파이어베이스 함수 정의
         val fireDB = Firebase.firestore
-        val fireUser = Firebase.auth.currentUser
+        val userEmail = OggApplication.auth.currentUser!!.email.toString()
 
         view?.let { OggSnackbar.make(it, getText(R.string.feed_toast_report_completed).toString()).show() }
 
-        fireDB.collection("User").document(fireUser?.email.toString())
+        fireDB.collection("User").document(userEmail)
             .collection("Report")
             .whereEqualTo("feedId", feedId)
             .get()
@@ -72,7 +72,7 @@ class FeedReportDialog(
                     val report = MyReport(feedId)
 
                     Timber.i("피드 신고 완료")
-                    fireDB.collection("User").document(fireUser?.email.toString())
+                    fireDB.collection("User").document(userEmail)
                         .collection("Report").document(feedId)
                         .set(report)
                         .addOnSuccessListener { Timber.i("MyReport 업데이트 완료") }
@@ -83,7 +83,7 @@ class FeedReportDialog(
                         .addOnSuccessListener { Timber.i("신고 반응 올리기 완료") }
                         .addOnFailureListener { e -> Timber.i(e) }
 
-                    fireDB.collection("User").document(fireUser?.email.toString())
+                    fireDB.collection("User").document(userEmail)
                         .update("report", FieldValue.increment(1))
                         .addOnSuccessListener { Timber.i("유저 신고 올리기 완료") }
                         .addOnFailureListener { e -> Timber.i(e) }
@@ -98,9 +98,5 @@ class FeedReportDialog(
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val TAG = "FeedReportDialog"
     }
 }

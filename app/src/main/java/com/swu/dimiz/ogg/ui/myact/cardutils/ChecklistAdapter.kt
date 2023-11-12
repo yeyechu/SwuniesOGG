@@ -69,8 +69,8 @@ class ChecklistAdapter(private val listener: ChecklistClickListener):
         Checklist("최소 1개월마다 점검하기", "거리와 날씨에 따라 타이어를 점검하고 운행해야해요")
     )
 
-    class ChecklistClickListener(val clickListener: (item: Checklist) -> Unit) {
-        fun onClick(item: Checklist) = clickListener(item)
+    class ChecklistClickListener(val clickListener: (checked: Boolean) -> Unit) {
+        fun onClick(checked: Boolean) = clickListener(checked)
     }
 
 }

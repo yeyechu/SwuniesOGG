@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <data>
+        <import type="android.widget.CompoundButton" />
+
         <variable
             name="checklist"
             type="com.swu.dimiz.ogg.contents.listset.listutils.Checklist" />
@@ -30,7 +32,7 @@
                 android:id="@+id/checkBox"
                 android:layout_width="@dimen/spacing_big"
                 android:layout_height="@dimen/spacing_big"
-                android:onCheckedChanged="@{(buttonView, isChecked) -> listener.onClick(checklist)}"
+                android:onClick="@{(view) -> listener.onClick(((CompoundButton)view).isChecked())}"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/spacing_medium"
 

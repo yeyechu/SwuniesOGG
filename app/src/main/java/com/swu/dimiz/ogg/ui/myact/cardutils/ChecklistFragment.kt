@@ -47,11 +47,12 @@ class ChecklistFragment : Fragment() {
 
         val recyclerView = binding.mRecyclerView
         val adapter = ChecklistAdapter(ChecklistAdapter.ChecklistClickListener {
-            // 체크 리스너 구현
+            viewModel.onCheckClicked(it)
         })
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        viewModel.initPostCounter()
 
         viewModel.postChecklistId.observe(viewLifecycleOwner) {
             it?.let {
