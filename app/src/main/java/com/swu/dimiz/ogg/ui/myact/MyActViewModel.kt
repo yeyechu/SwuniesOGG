@@ -11,6 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.OggApplication
+import com.swu.dimiz.ogg.contents.listset.listutils.DATE_WHOLE
 import com.swu.dimiz.ogg.contents.listset.listutils.ListData
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.oggdata.OggRepository
@@ -318,7 +319,9 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     private val fireDB = Firebase.firestore
 
     private var dayDoneSust : Int = 0
+    private var sustlimit : Int = 0
     private var dayDoneExtra : Int = 0
+    private var extralimit : Int = 0
     private val email = OggApplication.auth.currentUser!!.email.toString()
 
     fun fireGetDaily() = viewModelScope.launch {
@@ -448,23 +451,33 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
     }
 
     private fun fireDelSust(){
-//        if(setSustDone(_sustForFirebase.value!!)){
-//            fireDB.collection("User").document(email)
-//                .collection("Sustainable").document(_sustForFirebase.value!!.sustId.toString())
-//                .delete()
-//                .addOnSuccessListener { Timber.i("Sust successfully deleted!") }
-//                .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
-//        }
+        if( _sustForFirebase.value != null) {
+            Timber.i("sustlimit ${_sustForFirebase.value!!.limit}")
+            sustlimit = _sustForFirebase.value!!.limit
+
+            if(sustlimit - dayDoneSust <= 0){
+                fireDB.collection("User").document(email)
+                    .collection("Sustainable").document(_sustForFirebase.value!!.sustId.toString())
+                    .delete()
+                    .addOnSuccessListener { Timber.i("Sust successfully deleted!") }
+                    .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
+            }
+        }
     }
 
     private fun fireDelExtra(){
-//        if(setExtraDone(_extraForFirebase.value!!)){
-//            fireDB.collection("User").document(email)
-//                .collection("Extra").document(_extraForFirebase.value!!.extraId.toString())
-//                .delete()
-//                .addOnSuccessListener { Timber.i("Extra successfully deleted!") }
-//                .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
-//        }
+        if( _extraForFirebase.value != null) {
+            Timber.i("sustlimit ${_extraForFirebase.value!!.limit}")
+            extralimit = _extraForFirebase.value!!.limit
+
+            if(extralimit - dayDoneExtra <= 0){
+                fireDB.collection("User").document(email)
+                    .collection("Extra").document(_extraForFirebase.value!!.extraId.toString())
+                    .delete()
+                    .addOnSuccessListener { Timber.i("Extra successfully deleted!") }
+                    .addOnFailureListener { e -> Timber.i( "Error deleting document $e") }
+            }
+        }
     }
 
     fun fireUpdateAll(date: Long) {
@@ -529,6 +542,51 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             .addOnFailureListener { e -> Timber.i( e ) }
     }
 
+    fun fireUpdateAllSust(date: Long) {
+        val num = _userCondition.value!!.projectCount
+        val today = convertToDuration(_userCondition.value!!.startDate)
+
+        val sust = MySustainable(
+            sustID = 20008,
+            strDay = date,
+        )
+        fireDB.collection("User").document(email)
+            .collection("Sustainable").document("20007")
+            .set(sust)
+            .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+
+        //AllAct
+        val washingtonRef = fireDB.collection("User").document(email)
+            .collection("Project${num}").document("Entire")
+            .collection("AllAct").document("20007")
+        washingtonRef
+            .update("upCount", FieldValue.increment(1))
+            .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+        washingtonRef
+            .update("allCo2", FieldValue.increment(0.124))
+            .addOnSuccessListener { Timber.i("AllAct firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+
+        //스탬프
+        for( i in today..DATE_WHOLE){
+            fireDB.collection("User").document(email)
+                .collection("Project${num}").document("Entire")
+                .collection("Stamp").document(i.toString())
+                .update("dayCo2", FieldValue.increment(0.124))
+                .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
+                .addOnFailureListener { e -> Timber.i( e ) }
+        }
+        //배지
+        //이동수단
+        fireDB.collection("User").document(email)
+            .collection("Badge").document("40009")
+            .update("count", FieldValue.increment(1))
+            .addOnSuccessListener { Timber.i("40009 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+    }
+
     fun fireUpdateBadgeDate(date: Long){
         val counts = java.util.ArrayList<MyBadge>()
         counts.clear()
@@ -544,7 +602,7 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
                     counts.add(gotBadge)
                 }
                 for(i in 0 until counts.size){
-                    //카테고리
+                    //카테고리(이동수단)
                     if(counts[8].count == 100 && counts[8].getDate == null){
                         fireDB.collection("User").document(email)
                             .collection("Badge").document("40009")
@@ -556,6 +614,35 @@ class MyActViewModel (private val repository: OggRepository) : ViewModel() {
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)
+            }
+    }
+
+    fun updateBadgeAct(date: Long){
+        fireDB.collection("User").document(email)
+            .collection("Badge").document("40020")
+            .update("count", FieldValue.increment(1))
+            .addOnSuccessListener { Timber.i("40020 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+
+        fireDB.collection("User").document(email)
+            .collection("Badge")
+            .whereEqualTo("badgeID", "40020")
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+
+                for (doc in value!!) {
+                    val gotBadge = doc.toObject<MyBadge>()
+                    if(gotBadge.count == 1 && gotBadge.getDate == null){
+                        fireDB.collection("User").document(email)
+                            .collection("Badge").document("40020")
+                            .update("getDate", date)
+                            .addOnSuccessListener { Timber.i("40020 획득 완료") }
+                            .addOnFailureListener { exeption -> Timber.i(exeption) }
+                    }
+                }
             }
     }
 

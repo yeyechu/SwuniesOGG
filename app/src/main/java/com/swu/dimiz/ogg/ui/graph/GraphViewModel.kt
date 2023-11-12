@@ -301,6 +301,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                         "resource" to resourceCo2
                     ),
                 )
+                .addOnSuccessListener { }
+                .addOnFailureListener { exception ->Timber.i(exception) }
         }
     }
 
@@ -309,7 +311,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             .collection("Project$num").document("Entire").collection("AllAct")
 
         val mostCo2List = arrayListOf<MyAllAct>()
-        mostCo2List.clear()
 
         docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { value, e ->
@@ -317,6 +318,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
+                mostCo2List.clear()
                 for (doc in value!!) {
                     val act = doc.toObject<MyAllAct>()
 
@@ -337,12 +339,16 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     for( i in 0 until mostCo2List.size){
                         fireDB.collection("User").document(fireUser?.email.toString())
                             .collection("Project$num").document("Graph")
-                            .update(
-                                mapOf(
-                                    "nameCo2$i" to mostCo2List[i].ID,
-                                    "co2Sum$i" to mostCo2List[i].allCo2
-                                ),
-                            )
+                            .update("nameCo2$i" , mostCo2List[i].ID)
+                            .addOnSuccessListener { }
+                            .addOnFailureListener { exception ->Timber.i(exception) }
+
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Project$num").document("Graph")
+                            .update("co2Sum$i", mostCo2List[i].allCo2)
+                            .addOnSuccessListener { }
+                            .addOnFailureListener { exception ->Timber.i(exception) }
+
                     }
 
                 }
@@ -354,15 +360,13 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
     private var reactionList = arrayListOf<FeedReact>()
 
     fun fireGetReaction(num: Int) {
-        reactionList.clear()
-
         fireDB.collection("Feed")
             .whereEqualTo("email", fireUser?.email.toString())
             .whereGreaterThan("postTime", startDate)
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
-
+                reactionList.clear()
                 for (document in documents) {
                     val feed = document.toObject<Feed>()
                     feed.id = document.id
@@ -394,7 +398,8 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                                                 "great" to gotFeed.reactionGreat,
                                                 "like" to gotFeed.reactionLike
                                             ),
-                                        )
+                                        ).addOnSuccessListener { }
+                                        .addOnFailureListener { e ->Timber.i(e) }
                                 }
                             } else {
                                 Timber.i("No such document")
@@ -416,7 +421,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
             .collection("Project$num").document("Entire").collection("AllAct")
 
         val mostPostList = arrayListOf<PostCount>()
-        mostPostList.clear()
 
         docRef.orderBy("upCount", Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { value, e ->
@@ -424,6 +428,7 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
+                mostPostList.clear()
                 for (doc in value!!) {
                     val act = doc.toObject<MyAllAct>()
                     if(act.upCount != 0) {
@@ -438,16 +443,19 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
                 Timber.i("가장 많이 인증한 활동 리스트: $mostPostList")
 
+                //sever Graph 업데이트
                 if(mostPostList.size != 0) {
                     for( i in 0 until mostPostList.size){
                         fireDB.collection("User").document(fireUser?.email.toString())
                             .collection("Project$num").document("Graph")
-                            .update(
-                                mapOf(
-                                    "post$i" to mostPostList[i].id,
-                                    "postCount$i" to mostPostList[i].count
-                                ),
-                            )
+                            .update("post$i", mostPostList[i].id)
+                            .addOnSuccessListener { }
+                            .addOnFailureListener { exception ->Timber.i(exception) }
+                        fireDB.collection("User").document(fireUser?.email.toString())
+                            .collection("Project$num").document("Graph")
+                            .update("postCount$i", mostPostList[i].count)
+                            .addOnSuccessListener { }
+                            .addOnFailureListener { exception ->Timber.i(exception) }
                     }
                 }
             }
@@ -493,11 +501,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 //sever Graph 업데이트
                 fireDB.collection("User").document(fireUser?.email.toString())
                     .collection("Project$num").document("Graph")
-                    .update(
-                        mapOf(
-                            "extraRank" to rank
-                        ),
-                    )
+                    .update("extraRank", rank)
+                    .addOnSuccessListener { }
+                    .addOnFailureListener { exception ->Timber.i(exception) }
             }
         }
     }

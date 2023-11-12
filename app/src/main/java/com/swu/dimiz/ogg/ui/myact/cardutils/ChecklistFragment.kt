@@ -67,14 +67,16 @@ class ChecklistFragment : Fragment() {
                 val date = System.currentTimeMillis()
 
                 when (viewModel.postChecklistId.value) {
-                    10011 -> {
+                    10011 -> {   // 친환경 운전
                         viewModel.updateDailyPostCount()
                         viewModel.fireUpdateAll(date)
                         viewModel.fireUpdateBadgeDate(date)
                         viewModel.updateBadgeDateCo2(date)
                     }
-                    20007 -> {
-                        // 타이어 휠 점검에 대한 업데이트 구현
+                    20007 -> { // 타이어 휠 점검
+                        viewModel.fireUpdateAllSust(date)
+                        viewModel.fireUpdateBadgeDate(date)
+                        viewModel.updateBadgeAct(date)
                     }
                 }
                 viewModel.onChecklistPosted()
