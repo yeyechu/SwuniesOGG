@@ -14,9 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.EmailAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSettingPasswordBinding
@@ -29,9 +27,7 @@ class SettingPasswordFragment : Fragment() {
 
     private lateinit var navController: NavController
 
-    val fireUser = Firebase.auth.currentUser
-    val fireDB = Firebase.firestore
-
+    val email = OggApplication.auth.currentUser?.email.toString()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -43,9 +39,9 @@ class SettingPasswordFragment : Fragment() {
 
             //계정 삭제, 기본 이메일 주소 설정, 비밀번호 변경과 같이 보안에 민감한 작업을 하려면 사용자가 최근에 로그인한 적이 있어야 함
             val credential = EmailAuthProvider
-                .getCredential( fireUser?.email.toString(), presentPwd)
+                .getCredential( email, presentPwd)
 
-            fireUser?.reauthenticate(credential)?.addOnCompleteListener {
+            OggApplication.auth.currentUser?.reauthenticate(credential)?.addOnCompleteListener {
                 Timber.i("User re-authenticated.")
                 binding.presentPassword.helperText = "현재 비밀번호가 확인되었어요"
             }
@@ -120,7 +116,7 @@ class SettingPasswordFragment : Fragment() {
             val newPassword = binding.newPasswordEt.editText?.text.toString()
 
             //비밀번호 업데이트
-            fireUser!!.updatePassword(newPassword)
+            OggApplication.auth.currentUser!!.updatePassword(newPassword)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Timber.i("User password updated.")

@@ -112,38 +112,53 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout4"
+            android:id="@+id/inputpass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity=""
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/present_password"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimension_80"
+                android:layout_weight="1"
+                android:hint="@string/setting_password_text_present_password">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPassword"
+                    android:textSize="@dimen/text_size_body_big"
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.appcompat.widget.AppCompatButton
-                style="@style/StyleCircle"
-                android:layout_width="@dimen/icon_size_regular"
-                android:layout_height="@dimen/icon_size_regular"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:text="3"
-
-                />
-
-            <TextView
-                style="@style/StyleText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/spacing_medium"
-                android:text="@string/signout_text3" />
+                android:id="@+id/present_password_btn"
+                style="@style/StyleButtonOgg.smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimension_50"
+                android:layout_marginStart="@dimen/spacing_extra_small"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:text="@string/setting_password_text_password_checking" />
         </LinearLayout>
 
         <CheckBox
             android:id="@+id/checkBox3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_big"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"/>
+            app:layout_constraintTop_toBottomOf="@+id/inputpass" />
 
         <CheckedTextView
             android:id="@+id/checkedTextView"
@@ -169,9 +184,6 @@
             app:layout_constraintStart_toStartOf="@+id/checkBox3"
             app:layout_constraintTop_toBottomOf="@+id/checkedTextView"
             app:layout_constraintVertical_bias="0.0" />
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
