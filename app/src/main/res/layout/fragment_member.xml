@@ -59,12 +59,11 @@
                 android:id="@+id/image_user_face"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_extra_small"
                 android:adjustViewBounds="true"
                 android:maxHeight="@dimen/image_size_aim_face"
                 android:padding="@dimen/spacing_small"
                 android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/view"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:memberFace="@{viewModel.userCondition.aim}"
@@ -96,14 +95,15 @@
                 tools:text="이메일이메일이메일" />
 
             <View
+                android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/member_stroke_height"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:background="@color/secondary_baby_gray"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_user_email"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_user_email" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
