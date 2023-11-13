@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -29,6 +30,8 @@ class SignupFragment : Fragment() {
 
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
+
+    val user = Firebase.auth.currentUser
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -79,7 +82,7 @@ class SignupFragment : Fragment() {
             val email = binding.emailEt.editText?.text.toString()
 
             // Firebase에서 해당 이메일이 이미 등록되어 있는지 확인
-            OggApplication.auth.fetchSignInMethodsForEmail(email)
+            Firebase.auth.fetchSignInMethodsForEmail(email)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val signInMethods = task.result?.signInMethods
