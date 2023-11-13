@@ -82,14 +82,6 @@ class SettingSignoutFragment: Fragment() {
                 OggSnackbar.make(view, getText(R.string.setting_toast_memberout_check).toString()).show()
 
             } else {
-                //탈퇴
-                user?.delete()
-                    ?.addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Timber.i("User account deleted.")
-                        }
-                    }
-
                 fireDB.collection("User").document(email)
                     .delete()
                     .addOnSuccessListener { Timber.i("DocumentSnapshot successfully deleted!") }
@@ -111,6 +103,16 @@ class SettingSignoutFragment: Fragment() {
                     .addOnFailureListener { exception ->
                         Timber.i(exception)
                     }
+
+                //탈퇴
+                user?.delete()
+                    ?.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Timber.i("User account deleted.")
+                        }
+                    }
+
+
             }
         }
     }
