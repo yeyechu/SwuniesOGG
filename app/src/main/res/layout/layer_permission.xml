@@ -13,7 +13,7 @@
         android:id="@+id/image_garbage_one"
         android:layout_width="@dimen/dimension_200"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_regular"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:src="@drawable/login_image_logo_folded"
@@ -157,4 +157,6 @@
         android:layout_marginBottom="@dimen/spacing_scroll"
         android:layout_marginTop="@dimen/spacing_large"
         android:text="확인" />
+
+
 </LinearLayout>

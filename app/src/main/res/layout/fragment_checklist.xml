@@ -65,6 +65,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/bottom_sheet_scroll_height"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/checklist_text">
@@ -73,6 +74,7 @@
                     android:id="@+id/mRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
+                    android:layout_marginBottom="@dimen/bottom_sheet_scroll_height"
                     android:padding="@dimen/spacing_medium"
                     app:layout_constraintTop_toBottomOf="@+id/checklist_text"
                     tools:listitem="@layout/layer_checklist_item" />
