@@ -13,11 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSignupBinding
@@ -27,11 +25,11 @@ import timber.log.Timber
 class SignupFragment : Fragment() {
 
     private lateinit var navController: NavController
+    private val auth = FirebaseAuth.getInstance()
 
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
 
-    val user = Firebase.auth.currentUser
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -82,7 +80,7 @@ class SignupFragment : Fragment() {
             val email = binding.emailEt.editText?.text.toString()
 
             // Firebase에서 해당 이메일이 이미 등록되어 있는지 확인
-            Firebase.auth.fetchSignInMethodsForEmail(email)
+            auth.fetchSignInMethodsForEmail(email)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val signInMethods = task.result?.signInMethods
@@ -141,7 +139,7 @@ class SignupFragment : Fragment() {
     // ──────────────────────────────────────────────────────────────────────────────────────
     //                                      회원가입 (파이어베이스)
     private fun signup(email: String, password: String, nickname: String) {
-        OggApplication.auth.createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Timber.i("회원 가입 완료")
