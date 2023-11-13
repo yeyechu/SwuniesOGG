@@ -88,38 +88,41 @@
                 app:srcCompat="@drawable/common_image_placeholder" />
 
         </LinearLayout>
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/card_view_done_extra"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="@dimen/spacing_big"
             android:visibility="@{viewModel.setExtraDone(activity)? View.VISIBLE : View.GONE }"
             app:cardCornerRadius="@dimen/radius_component"
-            app:contentPadding="@dimen/spacing_text"
-            app:cardBackgroundColor="@color/transparency_done_black">
+            android:background="@color/transparency_done_black">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:layout_marginStart="@dimen/spacing_regular"
-                android:layout_marginBottom="@dimen/spacing_text"
+                android:fontFamily="@font/nanumsquare_eb"
                 android:text="@string/myact_text_title_done"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="@dimen/text_size_title"
-                android:fontFamily="@font/nanumsquare_eb" />
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/spacing_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimension_70"
-                android:layout_marginStart="@dimen/spacing_regular"
-                android:layout_marginBottom="@dimen/spacing_text"
-                android:textColor="@color/secondary_baby_gray"
-                android:lineSpacingExtra="@dimen/spacing_text"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_size_body_big"
                 android:fontFamily="@font/nanumsquare_r"
+                android:lineSpacingExtra="@dimen/spacing_text"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:textColor="@color/secondary_baby_gray"
+                android:textSize="@dimen/text_size_body_big"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                tools:layout_editor_absoluteX="16dp"
                 app:postDate="@{activity}"
                 tools:text="2023년 10월 19일 등록"/>
 
@@ -127,11 +130,15 @@
                 android:id="@+id/big_card_image2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_big"
                 android:layout_gravity="end|center_vertical"
                 android:contentDescription="@string/description_myact_card_image"
                 app:activityImage="@{activity}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/textView7"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/common_image_placeholder" />
-        </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>
