@@ -79,7 +79,6 @@
     <style name="StyleText.percent" >
         <item name="android:textSize">@dimen/text_size_percent</item>
         <item name="android:fontFamily">@font/nanumsquare_b</item>
-        <item name="fontFamily">@font/gmarketsans_m</item>
     </style>
 
 
