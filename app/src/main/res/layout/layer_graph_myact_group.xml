@@ -23,7 +23,7 @@
 
             <TextView
                 android:id="@+id/textView6"
-                style="@style/StyleText.header"
+                style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_medium"
@@ -49,7 +49,7 @@
 
                     <TextView
                         android:id="@+id/cartegory_reduce_title"
-                        style="@style/StyleText.header"
+                        style="@style/StyleText.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/spacing_small"
@@ -92,7 +92,7 @@
 
                     <TextView
                         android:id="@+id/most_reduce_co2_act_title"
-                        style="@style/StyleText.header"
+                        style="@style/StyleText.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/spacing_small"
@@ -292,7 +292,7 @@
 
             <TextView
                 android:id="@+id/textView"
-                style="@style/StyleText.header"
+                style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_medium"
@@ -318,7 +318,7 @@
 
                     <TextView
                         android:id="@+id/most_reaction_title"
-                        style="@style/StyleText.header"
+                        style="@style/StyleText.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/spacing_small"
@@ -355,89 +355,90 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimension_150"
                         android:orientation="vertical"
-                        android:visibility="@{viewModel.noFeed ? View.GONE : View.VISIBLE}"
                         android:padding="@dimen/spacing_small"
-                        app:layout_constraintTop_toBottomOf="@id/most_reaction_title"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent">
-
-                    <ImageView
-                        android:id="@+id/most_reaction_image"
-                        android:layout_width="@dimen/dimension_100"
-                        android:layout_height="@dimen/dimension_100"
-                        android:layout_margin="@dimen/spacing_medium"
-                        android:contentDescription="@string/description_myact_card_image"
-                        android:scaleType="centerCrop"
-                        app:imageUrl="@{viewModel.feed.imageUrl}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:srcCompat="@tools:sample/avatars" />
-
-                    <TextView
-                        android:id="@+id/most_reaction_act"
-                        style="@style/StyleText.subtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.feed.actTitle}"
-                        android:paddingBottom="@dimen/spacing_regular"
+                        android:visibility="@{viewModel.noFeed ? View.GONE : View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/most_reaction_image"
-                        app:layout_constraintTop_toTopOf="@+id/most_reaction_image"
-                        tools:text="@string/graph_title_certify_most_reaction_subtitle" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/most_reaction_title">
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/image_feed_reaction_like"
-                        style="@style/StyleImageButton"
-                        android:layout_width="@dimen/image_size_reaction_graph"
-                        android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/feed_button_reaction_like_enabled_graph"
-                        android:fontFamily="@font/nanumsquare_b"
-                        android:text="@{@string/myfeed_text_reaction_number(viewModel.feed.reactionLike)}"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_body_small"
-                        app:layout_constraintEnd_toStartOf="@+id/image_feed_reaction_fun"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toEndOf="@id/most_reaction_image"
-                        app:layout_constraintTop_toBottomOf="@id/most_reaction_act"
-                        tools:text="10개" />
+                        <ImageView
+                            android:id="@+id/most_reaction_image"
+                            android:layout_width="@dimen/dimension_100"
+                            android:layout_height="@dimen/dimension_100"
+                            android:layout_margin="@dimen/spacing_medium"
+                            android:contentDescription="@string/description_myact_card_image"
+                            android:scaleType="centerCrop"
+                            app:imageUrl="@{viewModel.feed.imageUrl}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0"
+                            tools:srcCompat="@tools:sample/avatars" />
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/image_feed_reaction_fun"
-                        style="@style/StyleImageButton"
-                        android:layout_width="@dimen/image_size_reaction_graph"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_medium"
-                        android:layout_marginEnd="@dimen/spacing_medium"
-                        android:button="@color/transparency_transparent"
-                        android:drawableTop="@drawable/feed_button_reaction_fun_enabled_graph"
-                        android:fontFamily="@font/nanumsquare_b"
-                        android:text="@{@string/myfeed_text_reaction_number(viewModel.feed.reactionFun)}"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_body_small"
-                        app:layout_constraintEnd_toStartOf="@+id/image_feed_reaction_great"
-                        app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_like"
-                        app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_like"
-                        tools:text="10개" />
+                        <TextView
+                            android:id="@+id/most_reaction_act"
+                            style="@style/StyleText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/spacing_regular"
+                            android:text="@{viewModel.feed.actTitle}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/most_reaction_image"
+                            app:layout_constraintTop_toTopOf="@+id/most_reaction_image"
+                            tools:text="@string/graph_title_certify_most_reaction_subtitle" />
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/image_feed_reaction_great"
-                        style="@style/StyleImageButton"
-                        android:layout_width="@dimen/image_size_reaction_graph"
-                        android:layout_height="wrap_content"
-                        android:button="@color/transparency_transparent"
-                        android:drawableTop="@drawable/feed_button_reaction_great_enabled_graph"
-                        android:fontFamily="@font/nanumsquare_b"
-                        android:text="@{@string/myfeed_text_reaction_number(viewModel.feed.reactionGreat)}"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_body_small"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_fun"
-                        app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_fun"
-                        tools:text="10개" />
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/image_feed_reaction_like"
+                            style="@style/StyleImageButton"
+                            android:layout_width="@dimen/image_size_reaction_graph"
+                            android:layout_height="wrap_content"
+                            android:drawableTop="@drawable/feed_button_reaction_like_enabled_graph"
+                            android:fontFamily="@font/nanumsquare_b"
+                            android:text="@{@string/myfeed_text_reaction_number(viewModel.feed.reactionLike)}"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_body_small"
+                            app:layout_constraintBottom_toBottomOf="@+id/most_reaction_image"
+                            app:layout_constraintEnd_toStartOf="@+id/image_feed_reaction_fun"
+                            app:layout_constraintStart_toEndOf="@+id/most_reaction_image"
+                            app:layout_constraintTop_toBottomOf="@+id/most_reaction_act"
+                            tools:text="10개" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/image_feed_reaction_fun"
+                            style="@style/StyleImageButton"
+                            android:layout_width="@dimen/image_size_reaction_graph"
+                            android:layout_height="wrap_content"
+                            android:button="@color/transparency_transparent"
+                            android:drawableTop="@drawable/feed_button_reaction_fun_enabled_graph"
+                            android:fontFamily="@font/nanumsquare_b"
+                            android:text="@{@string/myfeed_text_reaction_number(viewModel.feed.reactionFun)}"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_body_small"
+                            app:layout_constraintBottom_toBottomOf="@+id/image_feed_reaction_like"
+                            app:layout_constraintEnd_toStartOf="@+id/image_feed_reaction_great"
+                            app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_like"
+                            app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_like"
+                            tools:text="10개" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/image_feed_reaction_great"
+                            style="@style/StyleImageButton"
+                            android:layout_width="@dimen/image_size_reaction_graph"
+                            android:layout_height="wrap_content"
+                            android:button="@color/transparency_transparent"
+                            android:drawableTop="@drawable/feed_button_reaction_great_enabled_graph"
+                            android:fontFamily="@font/nanumsquare_b"
+                            android:text="@{@string/myfeed_text_reaction_number(viewModel.feed.reactionGreat)}"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_body_small"
+                            app:layout_constraintBottom_toBottomOf="@+id/image_feed_reaction_fun"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/image_feed_reaction_fun"
+                            app:layout_constraintTop_toTopOf="@+id/image_feed_reaction_fun"
+                            tools:text="10개" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -464,7 +465,7 @@
 
                     <TextView
                         android:id="@+id/most_certify_title"
-                        style="@style/StyleText.header"
+                        style="@style/StyleText.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/spacing_small"
@@ -560,7 +561,7 @@
 
             <TextView
                 android:id="@+id/textView3"
-                style="@style/StyleText.header"
+                style="@style/StyleText.title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_medium"
@@ -591,7 +592,7 @@
 
                         <TextView
                             android:id="@+id/special_act_char_title"
-                            style="@style/StyleText.header"
+                            style="@style/StyleText.subtitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/graph_title_special_act_chart"
