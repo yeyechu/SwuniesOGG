@@ -46,7 +46,7 @@ class SettingPasswordFragment : Fragment() {
                 binding.presentPassword.helperText = "현재 비밀번호가 확인되었어요"
             }
                 ?.addOnFailureListener {
-                    binding.presentPassword.error = "올바른 비밀 번호를 입력해주세요"
+정                    binding.presentPassword.error = "올바른 비밀번호를 입력해주세요"
                 }
         }
 

@@ -206,7 +206,8 @@
                 style="@style/StyleText"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/dimension_30"
+                android:layout_marginLeft="@dimen/spacing_small"
                 android:checked="false"
                 android:text="@string/signup_text_agree_check_1"
                 />
@@ -215,7 +216,8 @@
                 android:id="@+id/checkBox2"
                 style="@style/StyleText"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_height="@dimen/dimension_30"
                 android:text="@string/signup_text_agree_check_2"
                 />
 

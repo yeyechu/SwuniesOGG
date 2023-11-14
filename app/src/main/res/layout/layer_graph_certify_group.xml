@@ -232,10 +232,19 @@
 
 
 
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-
+<!--        <fragment-->
+<!--            android:id="@+id/list_layout"-->
+<!--            android:name="com.swu.dimiz.ogg.contents.listset.ListFragment"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/instruction_layout"-->
+<!--            tools:listData="@layout/fragment_listset_list_item"/>-->
 
 
     </LinearLayout>

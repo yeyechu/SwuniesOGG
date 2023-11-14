@@ -52,8 +52,8 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/flow_1"
                     style="@style/StyleCircle"
-                    android:layout_width="@dimen/icon_size_regular"
-                    android:layout_height="@dimen/icon_size_regular"
+                    android:layout_width="@dimen/icon_size_small"
+                    android:layout_height="@dimen/icon_size_small"
                     android:text="1" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -68,8 +68,8 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/flow_2"
                     style="@style/StyleCircle"
-                    android:layout_width="@dimen/icon_size_regular"
-                    android:layout_height="@dimen/icon_size_regular"
+                    android:layout_width="@dimen/icon_size_small"
+                    android:layout_height="@dimen/icon_size_small"
                     android:enabled="false"
                     android:text="2" />
 
@@ -164,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_medium"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

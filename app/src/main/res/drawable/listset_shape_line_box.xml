@@ -8,7 +8,7 @@
             android:endColor="@color/white"
             android:angle="270" />
 
-        <stroke android:width="@dimen/stroke_shape_regular" android:color="@color/secondary_light_blue" />
+        <stroke android:width="@dimen/stroke_shape_light" android:color="@color/secondary_baby_blue" />
         <corners android:radius="@dimen/radius_component" />
     </shape>
 </item>
