@@ -1,6 +1,5 @@
 package com.swu.dimiz.ogg.oggdata.remotedatabase
 
-import androidx.room.PrimaryKey
 import com.swu.dimiz.ogg.contents.listset.listutils.ListData
 
 /*

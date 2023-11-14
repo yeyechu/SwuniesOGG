@@ -125,9 +125,9 @@ class PostLinkFragment : Fragment() {
     private val counts = ArrayList<MyBadge>()
     private fun fireUpdateBadgeDate() {
         fireDB.collection("User").document(userEmail)
-            .collection("Badge").document("40027")
+            .collection("Badge").document("40026")
             .update("count", FieldValue.increment(1))
-            .addOnSuccessListener { Timber.i("40027 올리기 완료") }
+            .addOnSuccessListener { Timber.i("40026 올리기 완료") }
             .addOnFailureListener { e -> Timber.i( e ) }
 
         //카테고리
