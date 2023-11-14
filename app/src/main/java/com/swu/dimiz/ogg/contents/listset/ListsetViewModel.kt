@@ -788,24 +788,26 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     //남은활동 모두 변경하기 클릭시
     fun fireReSave() = viewModelScope.launch{
-        var mylist : MyList
-
-        for(i in 0..LIST_SIZE){
+        for(i in 0 until LIST_SIZE){
             fireDB.collection("User").document(userEmail)
                 .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                 .get()
                 .addOnSuccessListener { document ->
                     Timber.i( "전체 리스트 ${document.id} => ${document.data}")
                     val list = document.toObject<MyList>()
+
                     if (list != null) {
-                        mylist=list
+                        var mylist : MyList =list
 
                         mylist.setLeftdayList(today, listArray[i].aId, listArray[i].aNumber)
+                        Timber.i("today $today")
+                        Timber.i("listArray[$i].aId ${listArray[i].aId}")
+                        Timber.i("listArray[$i].aNumber ${listArray[i].aNumber}")
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)
-                            .addOnCompleteListener { Timber.i("남은활동 모두 변경하기 클릭시 successfully")
-                            }.addOnFailureListener { e -> Timber.i(e) }
+                            .addOnCompleteListener { Timber.i("남은활동 모두 변경하기 클릭시 successfully") }
+                            .addOnFailureListener { e -> Timber.i(e) }
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -816,9 +818,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     //하루만 변경하기 클릭시
     fun fireOnlySave(){
-        var mylist : MyList
-
-        for(i in 0..LIST_SIZE){
+        for(i in 0 until LIST_SIZE){
             fireDB.collection("User").document(userEmail)
                 .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                 .get()
@@ -826,9 +826,12 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i( "전체 리스트 ${document.id} => ${document.data}")
                     val list = document.toObject<MyList>()
                     if (list != null) {
-                        mylist=list
+                        var mylist : MyList =list
 
                         mylist.setOnlyList(today, listArray[i].aId, listArray[i].aNumber)
+                        Timber.i("today $today")
+                        Timber.i("listArray[$i].aId ${listArray[i].aId}")
+                        Timber.i("listArray[$i].aNumber ${listArray[i].aNumber}")
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)

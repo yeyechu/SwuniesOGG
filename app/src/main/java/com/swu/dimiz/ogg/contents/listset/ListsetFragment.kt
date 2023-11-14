@@ -105,12 +105,12 @@ class ListsetFragment : Fragment() {
         }
         binding.includedLayoutDialogList.buttonTodayOnly.setOnClickListener {
             viewModel.onNavigatedToRevise()
-            viewModel.fireReSave()
+            viewModel.fireOnlySave()
             navController.navigateUp()
         }
         binding.includedLayoutDialogList.buttonAllday.setOnClickListener {
             viewModel.onNavigatedToRevise()
-            viewModel.fireOnlySave()
+            viewModel.fireReSave()
             navController.navigateUp()
         }
         binding.includedLayoutDialogList.dialogLayout.setOnClickListener {
