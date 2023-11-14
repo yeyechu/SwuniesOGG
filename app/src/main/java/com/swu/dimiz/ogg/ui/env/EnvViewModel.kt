@@ -6,6 +6,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.contents.listset.listutils.*
 import com.swu.dimiz.ogg.convertLongToDateString
 import com.swu.dimiz.ogg.convertToDuration
@@ -86,7 +87,7 @@ class EnvViewModel : ViewModel() {
         get() = _userCondition
 
     private val fireDB = Firebase.firestore
-    private val fireUser = Firebase.auth.currentUser
+    private val email = OggApplication.auth.currentUser!!.email.toString()
 
     private var today: Int = 0
     private var appUser = MyCondition()
@@ -213,7 +214,7 @@ class EnvViewModel : ViewModel() {
     fun initLocationFromFirebase() {
         badgeList.clear()
 
-        fireDB.collection("User").document(fireUser?.email.toString())
+        fireDB.collection("User").document(email)
             .collection("Badge")
             .whereNotEqualTo("getDate", null)
             .get()
@@ -300,18 +301,18 @@ class EnvViewModel : ViewModel() {
     var startDate = 0L
 
     private fun resetCondition() = viewModelScope.launch {
-        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
+        val docRef = fireDB.collection("User").document(email)
 
-        // todo 플젝 초기화할때 이전 그래프 저장
+        // 플젝 초기화할때 이전 그래프 저장
         if(_userCondition.value!!.projectCount != 0 && _userCondition.value!!.startDate != 0L){
             projectCount = _userCondition.value!!.projectCount
             startDate = _userCondition.value!!.startDate
 
-            fireGetCategory()
-            fireGetCo2()
-            fireGetReaction()
-            fireGetMostUp()
-            fireGetExtra()
+            fireGetCategory(projectCount)
+            fireGetCo2(projectCount)
+            fireGetReaction(projectCount)
+            fireGetMostPost(projectCount)
+            fireGetExtra(projectCount)
         }
 
         docRef
@@ -326,9 +327,9 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       Daily 가져오기
-    private fun fireGetCategory(){
-        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project$projectCount").document("Entire").collection("AllAct")
+    private fun fireGetCategory(num: Int) {
+        val docRef = fireDB.collection("User").document(email)
+            .collection("Project$num").document("Entire").collection("AllAct")
         //에너지
         var energyCo2 = 0.0
         var consumptionCo2 = 0.0
@@ -340,6 +341,7 @@ class EnvViewModel : ViewModel() {
                 Timber.i(e)
                 return@addSnapshotListener
             }
+
             for (doc in value!!) {
                 val act = doc.toObject<MyAllAct>()
                 when (act.actCode) {
@@ -349,9 +351,10 @@ class EnvViewModel : ViewModel() {
                     RECYCLE -> resourceCo2 += act.allCo2
                 }
             }
+
             //sever Graph 업데이트
-            fireDB.collection("User").document(fireUser?.email.toString())
-                .collection("Project$projectCount").document("Graph")
+            fireDB.collection("User").document(email)
+                .collection("Project$num").document("Graph")
                 .update(
                     mapOf(
                         "energy" to energyCo2,
@@ -360,49 +363,60 @@ class EnvViewModel : ViewModel() {
                         "resource" to resourceCo2
                     ),
                 )
+                .addOnSuccessListener { }
+                .addOnFailureListener { exception ->Timber.i(exception) }
         }
     }
 
-    private fun fireGetCo2(){
-        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project$projectCount").document("Entire").collection("AllAct")
+    private fun fireGetCo2(num: Int){
+        val docRef = fireDB.collection("User").document(email)
+            .collection("Project$num").document("Entire").collection("AllAct")
 
-        val co2ActList = arrayListOf<MyAllAct>()
+        val mostCo2List = arrayListOf<MyAllAct>()
+        mostCo2List.clear()
+
         docRef.orderBy("allCo2",  Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { value, e ->
                 if (e != null) {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
+
                 for (doc in value!!) {
                     val act = doc.toObject<MyAllAct>()
-                    co2ActList.add(act)  //여기에 123위 순서대로 담겨있음
+
+                    if(act.allCo2 != 0.0) {
+                        mostCo2List.add(act)  //여기에 123위 순서대로 담겨있음
+                    }
                 }
-                //sever Graph 업데이트
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Project$projectCount").document("Graph")
-                    .update(
-                        mapOf(
-                            "nameCo21" to co2ActList[0].ID,
-                            "nameCo22" to co2ActList[1].ID,
-                            "nameCo23" to co2ActList[2].ID,
-                            "co2Sum1" to co2ActList[0].allCo2,
-                            "co2Sum2" to co2ActList[1].allCo2,
-                            "co2Sum3" to co2ActList[2].allCo2
-                        ),
-                    )
+                if(mostCo2List.size != 0) {
+                    // mostCo2List 사이즈만큼만 올라가게
+                    for( i in 0 until mostCo2List.size){
+                        fireDB.collection("User").document(email)
+                            .collection("Project$num").document("Graph")
+                            .update("nameCo2${i + 1}" , mostCo2List[i].ID)
+                            .addOnSuccessListener { }
+                            .addOnFailureListener { exception ->Timber.i(exception) }
+
+                        fireDB.collection("User").document(email)
+                            .collection("Project$num").document("Graph")
+                            .update("co2Sum${i + 1}", mostCo2List[i].allCo2)
+                            .addOnSuccessListener { }
+                            .addOnFailureListener { exception ->Timber.i(exception) }
+                    }
+                }
             }
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
-    //                                       전체활동 가져오기
-    private var reactionList = arrayListOf<FeedReact>()
-    private fun fireGetReaction() {
+    //                                       최고 반응 피드
+    private fun fireGetReaction(num: Int) {
+        val reactionList = arrayListOf<FeedReact>()
         reactionList.clear()
 
         fireDB.collection("Feed")
-            .whereEqualTo("email", fireUser?.email.toString())
-            .whereGreaterThan("postTime", startDate)
+            .whereEqualTo("email", email)
+            .whereGreaterThan("postTime", userCondition.value!!.startDate)
             .orderBy("postTime", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
@@ -416,49 +430,50 @@ class EnvViewModel : ViewModel() {
                         feed.reactionFun + feed.reactionGreat + feed.reactionLike,
                         feed.actTitle))
                 }
-
-                //순서대로 정렬
                 reactionList.sortByDescending { it.reactionSum }
 
                 //sever Graph 업데이트
-                fireDB.collection("Feed").document(reactionList[0].id)
-                    .get()
-                    .addOnSuccessListener { document ->
-                        if (document != null) {
-                            val gotFeed = document.toObject<Feed>()
+                if(reactionList.size != 0){
+                    fireDB.collection("Feed").document(reactionList[0].id)
+                        .get()
+                        .addOnSuccessListener { document ->
+                            if (document != null) {
+                                val gotFeed = document.toObject<Feed>()
 
-                            gotFeed?.let {
-
-                                fireDB.collection("User").document(fireUser?.email.toString())
-                                    .collection("Project$projectCount").document("Graph")
-                                    .update(
-                                        mapOf(
-                                            "reactionURI" to gotFeed.imageUrl,
-                                            "reactionTitle" to gotFeed.actTitle,
-                                            "funny" to gotFeed.reactionFun,
-                                            "great" to gotFeed.reactionGreat,
-                                            "like" to gotFeed.reactionLike
-                                        ),
-                                    )
+                                gotFeed?.let {
+                                    fireDB.collection("User").document(email)
+                                        .collection("Project$num").document("Graph")
+                                        .update(
+                                            mapOf(
+                                                "reactionURI" to gotFeed.imageUrl,
+                                                "reactionTitle" to gotFeed.actTitle,
+                                                "funny" to gotFeed.reactionFun,
+                                                "great" to gotFeed.reactionGreat,
+                                                "like" to gotFeed.reactionLike
+                                            ),
+                                        ).addOnSuccessListener { }
+                                        .addOnFailureListener { e ->Timber.i(e) }
+                                }
+                            } else {
+                                Timber.i("No such document")
                             }
-                        } else {
-                            Timber.i("No such document")
                         }
-                    }
-                    .addOnFailureListener { exception ->
-                        Timber.i(exception)
-                    }
+                        .addOnFailureListener { exception ->
+                            Timber.i(exception)
+                        }
+                }
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)
             }
     }
 
-    private fun fireGetMostUp() {
-        val docRef = fireDB.collection("User").document(fireUser?.email.toString())
-            .collection("Project$projectCount").document("Entire").collection("AllAct")
+    private fun fireGetMostPost(num: Int) {
+        val docRef = fireDB.collection("User").document(email)
+            .collection("Project$num").document("Entire").collection("AllAct")
 
-        val mostUpList = arrayListOf<Int>()
+        val mostPostList = arrayListOf<PostCount>()
+        mostPostList.clear()
 
         docRef.orderBy("upCount", Query.Direction.DESCENDING).limit(3)
             .addSnapshotListener { value, e ->
@@ -467,32 +482,31 @@ class EnvViewModel : ViewModel() {
                     return@addSnapshotListener
                 }
                 for (doc in value!!) {
-                    Timber.i("${doc.id} => ${doc.data}")
                     val act = doc.toObject<MyAllAct>()
-                    mostUpList.add(act.ID)  //여기에 123위 순서대로 담겨있음
+                    if(act.upCount != 0) {
+                        mostPostList.add(PostCount(act.ID, act.upCount))
+                    }
                 }
-
-                //분리한다면 아래 같음
-                val upFirstId = mostUpList[0]
-                val upSecondId = mostUpList[1]
-                val upThirdId = mostUpList[2]
-
                 //sever Graph 업데이트
-
-                fireDB.collection("User").document(fireUser?.email.toString())
-                    .collection("Project$projectCount").document("Graph")
-                    .update(
-                        mapOf(
-                            "post1" to upFirstId,
-                            "post2" to upSecondId,
-                            "post3" to upThirdId
-                        ),
-                    )
+                if(mostPostList.size != 0) {
+                    for( i in 0 until mostPostList.size){
+                        fireDB.collection("User").document(email)
+                            .collection("Project$num").document("Graph")
+                            .update("post${i + 1}", mostPostList[i].id)
+                            .addOnSuccessListener { }
+                            .addOnFailureListener { exception ->Timber.i(exception) }
+                        fireDB.collection("User").document(email)
+                            .collection("Project$num").document("Graph")
+                            .update("postCount${i + 1}", mostPostList[i].count)
+                            .addOnSuccessListener { }
+                            .addOnFailureListener { exception ->Timber.i(exception) }
+                    }
+                }
             }
     }
 
     //특별활동 전체 순위
-    private fun fireGetExtra(){
+    private fun fireGetExtra(num: Int) {
         val docRef = fireDB.collection("User")
 
         val usersExtraList = arrayListOf<Int>()
@@ -505,31 +519,33 @@ class EnvViewModel : ViewModel() {
             }
             for (doc in value!!) {
                 val user = doc.toObject<MyCondition>()
-                if(user.email == fireUser?.email.toString()){
+                if(user.email == email){
                     uExtra = user.extraPost
                 }
-                usersExtraList.add(user.extraPost)  //전체회원 특별 올린 횟수
-            }
-
-            usersExtraList.sortDescending()
-
-            var level = 0
-            val size = usersExtraList.size
-            for( i in 0 until size){
-                if(uExtra == usersExtraList[i]){
-                    level = i
+                if(uExtra != 0) {
+                    usersExtraList.add(user.extraPost)  //전체회원 특별 올린 횟수
                 }
             }
-            val rank = ((size.toDouble() - level.toDouble()) / size.toDouble()) * 100
 
-            //sever Graph 업데이트
-            fireDB.collection("User").document(fireUser?.email.toString())
-                .collection("Project$projectCount").document("Graph")
-                .update(
-                    mapOf(
-                        "extraRank" to rank
-                    ),
-                )
+            if(uExtra != 0) {
+                usersExtraList.sortDescending()
+
+                var level = 0
+                val size = usersExtraList.size
+                for (i in 0 until size) {
+                    if (uExtra == usersExtraList[i]) {
+                        level = i
+                    }
+                }
+                val rank = (level.toFloat() / size.toFloat()) * 100
+
+                //sever Graph 업데이트
+                fireDB.collection("User").document(email)
+                    .collection("Project$num").document("Graph")
+                    .update("extraRank", rank)
+                    .addOnSuccessListener { }
+                    .addOnFailureListener { exception ->Timber.i(exception) }
+            }
         }
     }
 
@@ -537,7 +553,7 @@ class EnvViewModel : ViewModel() {
     //                                   파이어베이스 함수
     private fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
-        fireDB.collection("User").document(fireUser?.email.toString())
+        fireDB.collection("User").document(email)
             .addSnapshotListener { snapshot, e ->
                 if (e != null) {
                     Timber.i(e)
@@ -563,7 +579,7 @@ class EnvViewModel : ViewModel() {
                 val tempList = arrayListOf<MyStamp>()
                 tempList.clear()
 
-                fireDB.collection("User").document(fireUser?.email.toString())
+                fireDB.collection("User").document(email)
                     .collection("Project${_userCondition.value?.projectCount}").document("Entire")
                     .collection("Stamp")
                     .orderBy("day")
