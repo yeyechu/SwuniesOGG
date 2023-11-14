@@ -90,13 +90,52 @@ class GraphLayer : Fragment() {
 
         viewModel.rank.observe(viewLifecycleOwner) {
             it?.let {
-                setBarData(barChart2, listOf(abs(it - 100), 50f), labels2)
+                setBar2Data(barChart2, listOf(abs(it - 100), 50f), labels2)
             }
         }
     }
 
-    private fun setBarData(barChart: BarChart, list: List<Float>, labelList: List<String>) {
-        initBarChart(barChart, labelList)
+
+private fun setBarData(barChart: BarChart, list: List<Float>, labelList: List<String>) {
+    initBarChart(barChart, labelList)
+    barChart.setScaleEnabled(false)
+
+    val valueList = list.map { it.toInt() }
+    val entries: ArrayList<BarEntry> = ArrayList()
+
+    val sortedIndices = valueList.indices.sortedByDescending { valueList[it] }
+    val yColorMap = sortedIndices.mapIndexed { index, sortedIndex ->
+        sortedIndex to when (index) {
+            0 -> requireContext().getColor(R.color.point_yellow)
+            1 -> requireContext().getColor(R.color.point_yellow_light)
+            2 -> requireContext().getColor(R.color.point_yellow_baby)
+            3 -> requireContext().getColor(R.color.secondary_baby_gray)
+            else -> Color.BLACK
+        }
+    }.toMap()
+
+    val barColors = ArrayList<Int>()
+    for (i in 0 until valueList.size) {
+        val color = yColorMap[i] ?: Color.BLACK
+        barColors.add(color)
+        val barEntry = BarEntry(i.toFloat(), valueList[i].toFloat())
+        entries.add(barEntry)
+    }
+
+    val barDataSet = BarDataSet(entries, "")
+    barDataSet.setDrawIcons(false)
+    barDataSet.setDrawValues(false)
+    barDataSet.colors = barColors
+
+    val data = BarData(barDataSet)
+    data.barWidth = 0.7f
+
+    barChart.data = data
+    barChart.invalidate()
+}
+
+    private fun setBar2Data(barChart: BarChart, list: List<Float>, labelList: List<String>) {
+                initBarChart(barChart, labelList)
         barChart.setScaleEnabled(false)
 
         val valueList = ArrayList<Int>()
@@ -107,9 +146,8 @@ class GraphLayer : Fragment() {
 
         val yColorMap = mapOf(
             0 to requireContext().getColor(R.color.point_yellow),
-            1 to requireContext().getColor(R.color.secondary_baby_gray),
-            2 to requireContext().getColor(R.color.point_yellow_baby),
-            3 to requireContext().getColor(R.color.point_yellow_light)
+            1 to requireContext().getColor(R.color.secondary_baby_gray)
+
         )
 
         list.forEach {
@@ -135,6 +173,7 @@ class GraphLayer : Fragment() {
         barChart.data = data
         barChart.invalidate()
     }
+
 
     private fun initBarChart(barChart: BarChart, labelList: List<String>) {
 
