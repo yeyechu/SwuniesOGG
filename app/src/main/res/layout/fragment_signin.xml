@@ -3,38 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-    <ImageView
-        android:id="@+id/signin_bg"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/login_image_wave" />
+        android:orientation="vertical">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/spacing_larger"
+        android:layout_marginBottom="@dimen/spacing_larger"
         android:padding="@dimen/spacing_regular">
 
-        <!-- 물결 이미지 -->
-
-
-        <!-- 로고 이미지 -->
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="@dimen/image_size_aim_face"
+            android:layout_width="@dimen/dimension_200"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_scroll"
+            android:layout_marginTop="@dimen/spacing_regular"
+            android:layout_marginBottom="@dimen/spacing_scroll"
             android:adjustViewBounds="true"
             android:src="@drawable/login_image_logo_folded"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/email_et"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +36,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_big"
+            android:layout_marginTop="@dimen/spacing_larger"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logo">
@@ -85,6 +75,7 @@
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_larger"
             android:gravity="center"
 
             android:padding="@dimen/spacing_small"

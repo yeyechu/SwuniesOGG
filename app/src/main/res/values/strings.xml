@@ -128,7 +128,7 @@
     <string name="listset_text_sust">이전에 등록한 \'지속가능한 활동\'이 포함되었어요!</string>
 
     <string name="listset_text_dialog_title">적용 기간을 선택해주세요</string>
-    <string name="listset_text_dialog_body">수정한 리스트를 적용할 범위를 지정해주세요 \n 오늘 혹은 남은 기간 전체에 적용할 수 있어요</string>
+    <string name="listset_text_dialog_body">오늘 혹은 남은 기간 전체에 적용할 수 있어요</string>
     <string name="listset_button_dialog_left">오늘만 수정</string>
     <string name="listset_button_dialog_right">전체 수정</string>
 

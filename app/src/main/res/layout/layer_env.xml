@@ -52,7 +52,7 @@
                 android:layout_width="@dimen/myenv_ogg_height"
                 android:layout_height="@dimen/myenv_ogg_height"
                 android:layout_gravity="center_horizontal|bottom"
-                android:layout_marginBottom="@dimen/dimension_100"
+                android:layout_marginBottom="116dp"
                 android:contentDescription="@string/description_myenv_image_ogg"
                 android:adjustViewBounds="true"
                 app:oggImage="@{envViewModel.progressEnv}"

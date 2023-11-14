@@ -106,7 +106,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         get() = _aimCotent
 
     //                                        활동 선택
-    private var listArray = ArrayList<ListData>()
+    var listArray = ArrayList<ListData>()
+    var listArray2 = ArrayList<ListData>()
     private var todayArray = ArrayList<ActivitiesDaily>()
 
     private val _listHolder = MutableLiveData<List<ListData>?>()
@@ -267,6 +268,10 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         setListHolder(listArray)
         Timber.i("initListHolder() listArray: $listArray")
         Timber.i("initListHolder() listHolder: ${listHolder.value}")
+    }
+
+    fun listA() {
+        listArray2 = listArray
     }
 
     private fun initTodayHolder() {
@@ -702,6 +707,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                         20 -> myDailyList.add(mylist.day20act)
                         21 -> myDailyList.add(mylist.day21act)
                     }
+                    Timber.i("$myDailyList")
                 }
 
                 myDailyList.forEach {
@@ -788,21 +794,28 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     //남은활동 모두 변경하기 클릭시
     fun fireReSave() = viewModelScope.launch{
+        Timber.i("파이어베이스 수정하기 전1-1: $listArray2")
         for(i in 0 until LIST_SIZE){
+
+            val li = listArray2
+            Timber.i("파이어베이스 수정하기 전1-2: $li")
+            Timber.i("$userEmail")
+
             fireDB.collection("User").document(userEmail)
                 .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                 .get()
                 .addOnSuccessListener { document ->
                     Timber.i( "전체 리스트 ${document.id} => ${document.data}")
+                    Timber.i("파이어베이스 수정하기 전2: $li")
                     val list = document.toObject<MyList>()
 
                     if (list != null) {
                         var mylist : MyList =list
-
-                        mylist.setLeftdayList(today, listArray[i].aId, listArray[i].aNumber)
+                        Timber.i("파이어베이스 수정하기 전3: $li")
+                        mylist.setLeftdayList(today, li[i].aId, li[i].aNumber)
+                        Timber.i("파이어 리세이브: $mylist")
                         Timber.i("today $today")
-                        Timber.i("listArray[$i].aId ${listArray[i].aId}")
-                        Timber.i("listArray[$i].aNumber ${listArray[i].aNumber}")
+                        Timber.i("파이어 $i 번째 리스트 $listArray2")
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)
@@ -830,8 +843,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
                         mylist.setOnlyList(today, listArray[i].aId, listArray[i].aNumber)
                         Timber.i("today $today")
-                        Timber.i("listArray[$i].aId ${listArray[i].aId}")
-                        Timber.i("listArray[$i].aNumber ${listArray[i].aNumber}")
+                        Timber.i("$i 번째 리스트 $listArray")
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)

@@ -57,7 +57,7 @@
         style="@style/StyleText.subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_big"
+        android:layout_marginBottom="@dimen/spacing_scroll"
         android:lineSpacingExtra="@dimen/spacing_extra_small"
         android:text="@string/permission_text_body"
         android:textAlignment="center"

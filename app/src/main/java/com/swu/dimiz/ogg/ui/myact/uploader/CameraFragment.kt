@@ -132,6 +132,7 @@ class CameraFragment : Fragment() {
             // todo intent 결과 처리
             requireActivity().onBackPressedDispatcher.onBackPressed()
             CameraActivity.cameraActivity!!.finish()
+            view?.let { OggSnackbar.make(it, getText(R.string.env_toast_badge).toString()).show() }
         }
     }
 

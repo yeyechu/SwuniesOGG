@@ -11,6 +11,6 @@
     <item
         android:id="@+id/action_my_page"
         android:title="@string/destination_title_members"
-        android:icon="@drawable/settings_button_to_des_nickname"
+        android:icon="@drawable/env_button_to_des_my_page"
         app:showAsAction="always"/>
 </menu>
