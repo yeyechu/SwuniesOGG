@@ -70,7 +70,7 @@ class ListsetFragment : Fragment() {
 
             if(it.startDate != 0L) {
                 viewModel.fireGetDaily()
-                viewModel.getTodayList()
+                //viewModel.getTodayList()
                 viewModel.today = convertToDuration(it.startDate)
             } else {
                 viewModel.getCo2Sum()
@@ -113,7 +113,6 @@ class ListsetFragment : Fragment() {
         }
         binding.includedLayoutDialogList.buttonAllday.setOnClickListener {
             viewModel.onNavigatedToRevise()
-            viewModel.listA()
             viewModel.fireReSave()
             navController.navigateUp()
         }

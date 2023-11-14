@@ -270,10 +270,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         Timber.i("initListHolder() listHolder: ${listHolder.value}")
     }
 
-    fun listA() {
-        listArray2 = listArray
-    }
-
     private fun initTodayHolder() {
         todayArray.clear()
     }
@@ -716,6 +712,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                         updateListFire(it)
                     }
                 }
+                getTodayList()
             }
             .addOnFailureListener { exception ->
                 Timber.i(exception)
@@ -794,28 +791,21 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
 
     //남은활동 모두 변경하기 클릭시
     fun fireReSave() = viewModelScope.launch{
-        Timber.i("파이어베이스 수정하기 전1-1: $listArray2")
         for(i in 0 until LIST_SIZE){
-
-            val li = listArray2
-            Timber.i("파이어베이스 수정하기 전1-2: $li")
-            Timber.i("$userEmail")
 
             fireDB.collection("User").document(userEmail)
                 .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                 .get()
                 .addOnSuccessListener { document ->
                     Timber.i( "전체 리스트 ${document.id} => ${document.data}")
-                    Timber.i("파이어베이스 수정하기 전2: $li")
                     val list = document.toObject<MyList>()
 
                     if (list != null) {
                         var mylist : MyList =list
-                        Timber.i("파이어베이스 수정하기 전3: $li")
-                        mylist.setLeftdayList(today, li[i].aId, li[i].aNumber)
+                        mylist.setLeftdayList(today, listArray[i].aId, listArray[i].aNumber)
                         Timber.i("파이어 리세이브: $mylist")
                         Timber.i("today $today")
-                        Timber.i("파이어 $i 번째 리스트 $listArray2")
+                        Timber.i("파이어 $i 번째 리스트 $listArray")
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)

@@ -543,19 +543,21 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
                         // ───────────────────────────────── 가장 많은 리액션 ─────────────────────────────────
                         _noFeed.value = (gotGraph.like + gotGraph.funny + gotGraph.great) == 0
-                        _feed.value = Feed(
-                            "",
-                            gotGraph.reactionTitle,
-                            "",
-                            0L,
-                            0,
-                            "",
-                            gotGraph.reactionURI.toString(),
-                            gotGraph.like,
-                            gotGraph.funny,
-                            gotGraph.great,
-                            0
-                        )
+                        if(_noFeed.value == false) {
+                            _feed.value = Feed(
+                                "",
+                                gotGraph.reactionTitle,
+                                "",
+                                0L,
+                                0,
+                                "",
+                                gotGraph.reactionURI.toString(),
+                                gotGraph.like,
+                                gotGraph.funny,
+                                gotGraph.great,
+                                0
+                            )
+                        }
                         // ───────────────────────────────── 가장 많은 인증 활동 ─────────────────────────────────
                         if(gotGraph.post1 != 0) {
                             mostPostList.add(PostCount(gotGraph.post1, gotGraph.postCount1))
