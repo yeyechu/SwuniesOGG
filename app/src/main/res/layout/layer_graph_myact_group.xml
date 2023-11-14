@@ -305,7 +305,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
-                android:layout_marginBottom="@dimen/spacing_medium"
                 app:cardCornerRadius="@dimen/radius_card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -353,9 +352,9 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimension_150"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="@dimen/spacing_small"
+                        android:padding="@dimen/spacing_medium"
                         android:visibility="@{viewModel.noFeed ? View.GONE : View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -365,7 +364,7 @@
                             android:id="@+id/most_reaction_image"
                             android:layout_width="@dimen/dimension_100"
                             android:layout_height="@dimen/dimension_100"
-                            android:layout_margin="@dimen/spacing_medium"
+                            android:layout_margin="@dimen/spacing_small"
                             android:contentDescription="@string/description_myact_card_image"
                             android:scaleType="centerCrop"
                             app:imageUrl="@{viewModel.feed.imageUrl}"
@@ -615,7 +614,7 @@
 
                         <TextView
                             android:id="@+id/my_special_act_percent"
-                            style="@style/StyleText.name"
+                            style="@style/StyleText.percent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{String.format(@string/rank_format, viewModel.rank)}"

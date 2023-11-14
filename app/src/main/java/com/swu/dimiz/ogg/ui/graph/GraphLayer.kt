@@ -168,7 +168,7 @@ private fun setBarData(barChart: BarChart, list: List<Float>, labelList: List<St
         barDataSet.colors = barColors
 
         val data = BarData(barDataSet)
-        data.barWidth = 0.7f
+        data.barWidth = 0.9f
 
         barChart.data = data
         barChart.invalidate()
