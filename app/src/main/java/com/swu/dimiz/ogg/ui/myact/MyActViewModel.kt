@@ -327,6 +327,10 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
         repository.updatePostCount(todailyId.value!!.dailyId, todailyId.value!!.postCount + 1)
     }
 
+    private fun updateDailyPostCountFromFirebase(id: Int, count: Int) = viewModelScope.launch {
+        repository.updatePostCount(id, count)
+    }
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     firebase 초기화
     private val fireDB = Firebase.firestore
@@ -399,6 +403,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
                                     // Count fetched successfully
                                     val snapshot = task.result
                                     Timber.i(" ${it.aId} Count: ${snapshot.count}")
+                                    updateDailyPostCountFromFirebase(it.aId, snapshot.count.toInt())
                                 } else {
                                     Timber.i("Count failed: ${task.exception}")
                                 }
