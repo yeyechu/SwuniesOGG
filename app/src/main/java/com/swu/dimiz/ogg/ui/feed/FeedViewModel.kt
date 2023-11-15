@@ -168,43 +168,54 @@ class FeedViewModel : ViewModel() {
                             .update("count", FieldValue.increment(1))
                         // ───────────────────────────────────────────────────────────────────────────────────
                         //다른 사용자 피드에 내가 몇개 반응
+                        val getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
-                            .collection("Badge")
-                            .whereEqualTo("badgeID", "40001")
-                            .whereEqualTo("badgeID", "40002")
-                            .whereEqualTo("badgeID", "40003")
-                            .addSnapshotListener { value, e ->
-                                if (e != null) {
-                                    Timber.i(e)
-                                    return@addSnapshotListener
-                                }
-
-                                for (doc in value!!) {
-                                    val gotBadge = doc.toObject<MyBadge>()
-
-                                    if(gotBadge.badgeID == 40001 && gotBadge.count == 10 && gotBadge.getDate == null){
-                                        val getDate = System.currentTimeMillis()
+                            .collection("Badge").document("40001")
+                            .addSnapshotListener { snapshot, e ->
+                                if (e != null) { Timber.i(e)
+                                    return@addSnapshotListener }
+                                if (snapshot != null && snapshot.exists()) {
+                                    val gotBadge = snapshot.toObject<MyBadge>()
+                                    if (gotBadge!!.count == 10 && gotBadge.getDate == null) {
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40001")
                                             .update("getDate", getDate)
                                             .addOnSuccessListener { Timber.i("40001 획득 완료") }
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
-                                    } else if(gotBadge.badgeID == 40002 && gotBadge.count == 100 && gotBadge.getDate == null){
-                                        val getDate = System.currentTimeMillis()
+                                    }
+                                } else { Timber.i("Current data: null") }
+                            }
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40002")
+                            .addSnapshotListener { snapshot, e ->
+                                if (e != null) { Timber.i(e)
+                                    return@addSnapshotListener }
+                                if (snapshot != null && snapshot.exists()) {
+                                    val gotBadge = snapshot.toObject<MyBadge>()
+                                    if (gotBadge!!.count == 100 && gotBadge.getDate == null) {
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40002")
                                             .update("getDate", getDate)
                                             .addOnSuccessListener { Timber.i("40002 획득 완료") }
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
-                                    } else if(gotBadge.badgeID == 40003 && gotBadge.count == 500 && gotBadge.getDate == null){
-                                        val getDate = System.currentTimeMillis()
+                                    }
+                                } else { Timber.i("Current data: null") }
+                            }
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40003")
+                            .addSnapshotListener { snapshot, e ->
+                                if (e != null) { Timber.i(e)
+                                    return@addSnapshotListener }
+                                if (snapshot != null && snapshot.exists()) {
+                                    val gotBadge = snapshot.toObject<MyBadge>()
+                                    if (gotBadge!!.count == 500 && gotBadge.getDate == null) {
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40003")
                                             .update("getDate", getDate)
                                             .addOnSuccessListener { Timber.i("40003 획득 완료") }
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                                     }
-                                }
+                                } else { Timber.i("Current data: null") }
                             }
                         fireBadgeOtherUser() //다른 사용자가 반응 몇개 받았는지
                         fireGetFeed()
@@ -248,44 +259,54 @@ class FeedViewModel : ViewModel() {
                         }
 
                         //배지 받았는지 체크
-                        fireDB.collection("User").document(gotFeed.email)
-                            .collection("Badge")
-                            .whereEqualTo("badgeID", "40011")
-                            .whereEqualTo("badgeID", "40012")
-                            .whereEqualTo("badgeID", "40013")
-                            .addSnapshotListener { value, e ->
-                                if (e != null) {
-                                    Timber.i(e)
-                                    return@addSnapshotListener
-                                }
-                                for (doc in value!!) {  //카운트가 5가 된게 있으면 개시물 주인의(이메일) 배지 획득
-                                    val gotBadge = doc.toObject<MyBadge>()
-
-                                    if(gotBadge.badgeID == 40011 && gotBadge.count == 5 && gotBadge.getDate == null){
-                                        val getDate = System.currentTimeMillis()
+                        val getDate = System.currentTimeMillis()
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40011")
+                            .addSnapshotListener { snapshot, e ->
+                                if (e != null) { Timber.i(e)
+                                    return@addSnapshotListener }
+                                if (snapshot != null && snapshot.exists()) {
+                                    val gotBadge = snapshot.toObject<MyBadge>()
+                                    if (gotBadge!!.count == 5 && gotBadge.getDate == null) {
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40011")
                                             .update("getDate", getDate)
                                             .addOnSuccessListener { Timber.i("40011 획득 완료") }
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                                     }
-                                    else if(gotBadge.badgeID == 40012 && gotBadge.count == 5 && gotBadge.getDate == null){
-                                        val getDate = System.currentTimeMillis()
+                                } else { Timber.i("Current data: null") }
+                            }
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40012")
+                            .addSnapshotListener { snapshot, e ->
+                                if (e != null) { Timber.i(e)
+                                    return@addSnapshotListener }
+                                if (snapshot != null && snapshot.exists()) {
+                                    val gotBadge = snapshot.toObject<MyBadge>()
+                                    if (gotBadge!!.count == 5 && gotBadge.getDate == null) {
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40012")
                                             .update("getDate", getDate)
                                             .addOnSuccessListener { Timber.i("40012 획득 완료") }
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                                     }
-                                    else if(gotBadge.badgeID == 40013 && gotBadge.count == 5 && gotBadge.getDate == null){
-                                        val getDate = System.currentTimeMillis()
+                                } else { Timber.i("Current data: null") }
+                            }
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40013")
+                            .addSnapshotListener { snapshot, e ->
+                                if (e != null) { Timber.i(e)
+                                    return@addSnapshotListener }
+                                if (snapshot != null && snapshot.exists()) {
+                                    val gotBadge = snapshot.toObject<MyBadge>()
+                                    if (gotBadge!!.count == 5 && gotBadge.getDate == null) {
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40013")
                                             .update("getDate", getDate)
                                             .addOnSuccessListener { Timber.i("40013 획득 완료") }
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                                     }
-                                }
+                                } else { Timber.i("Current data: null") }
                             }
                     }
                 } else {

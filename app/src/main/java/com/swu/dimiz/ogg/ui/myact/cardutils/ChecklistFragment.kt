@@ -69,17 +69,16 @@ class ChecklistFragment : Fragment() {
                 when (viewModel.postChecklistId.value) {
                     10011 -> {   // 친환경 운전
                         viewModel.fireUpdateAll(date)
-                        viewModel.fireUpdateBadgeDate(date)
                         viewModel.updateBadgeDateCo2(date)
                         viewModel.updateDailyPostCount()
                     }
                     20007 -> { // 타이어 휠 점검
                         viewModel.fireUpdateAllSust(date)
-                        viewModel.fireUpdateBadgeDate(date)
                         viewModel.updateBadgeAct(date)
                         viewModel.fireGetSust()
                     }
                 }
+                viewModel.fireUpdateBadgeDate(date)
                 viewModel.onChecklistPosted()
                 navController.navigateUp()
             }

@@ -533,6 +533,20 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     fun fireUpdateAllSust(date: Long) {
+        //배지
+        //이동수단
+        fireDB.collection("User").document(email)
+            .collection("Badge").document("40009")
+            .update("count", FieldValue.increment(1))
+            .addOnSuccessListener { Timber.i("40009 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i(e) }
+
+        fireDB.collection("User").document(email)
+            .collection("Badge").document("40020")
+            .update("count", FieldValue.increment(1))
+            .addOnSuccessListener { Timber.i("40020 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i(e) }
+
         val num = _userCondition.value!!.projectCount
         val today = convertToDuration(_userCondition.value!!.startDate)
 
@@ -568,70 +582,53 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
                 .addOnSuccessListener { Timber.i("Stamp firestore 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i(e) }
         }
-        //배지
-        //이동수단
-        fireDB.collection("User").document(email)
-            .collection("Badge").document("40009")
-            .update("count", FieldValue.increment(1))
-            .addOnSuccessListener { Timber.i("40009 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i(e) }
+
     }
 
     fun fireUpdateBadgeDate(date: Long) {
-        val counts = ArrayList<MyBadge>()
-        counts.clear()
-
         fireDB.collection("User").document(email)
-            .collection("Badge")
-            .orderBy("badgeID")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    Timber.i("${document.id} => ${document.data}")
-                    val gotBadge = document.toObject<MyBadge>()
-                    counts.add(gotBadge)
+            .collection("Badge").document("40009")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
                 }
-                for (i in 0 until counts.size) {
-                    //카테고리(이동수단)
-                    if (counts[8].count == 100 && counts[8].getDate == null) {
+                if (snapshot != null && snapshot.exists()) {
+                    val gotBadge = snapshot.toObject<MyBadge>()
+                    if (gotBadge!!.count == 100 && gotBadge.getDate == null) {
                         fireDB.collection("User").document(email)
                             .collection("Badge").document("40009")
                             .update("getDate", date)
                             .addOnSuccessListener { Timber.i("40009 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
+                } else {
+                    Timber.i("Current data: null")
                 }
-            }
-            .addOnFailureListener { exception ->
-                Timber.i(exception)
             }
     }
 
     fun updateBadgeAct(date: Long) {
-        fireDB.collection("User").document(email)
-            .collection("Badge").document("40020")
-            .update("count", FieldValue.increment(1))
-            .addOnSuccessListener { Timber.i("40020 올리기 완료") }
-            .addOnFailureListener { e -> Timber.i(e) }
+        Timber.i("date $date")
 
         fireDB.collection("User").document(email)
-            .collection("Badge")
-            .whereEqualTo("badgeID", "40020")
-            .addSnapshotListener { value, e ->
+            .collection("Badge").document("40020")
+            .addSnapshotListener { snapshot, e ->
                 if (e != null) {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
-
-                for (doc in value!!) {
-                    val gotBadge = doc.toObject<MyBadge>()
-                    if (gotBadge.count == 1 && gotBadge.getDate == null) {
+                if (snapshot != null && snapshot.exists()) {
+                    val gotBadge = snapshot.toObject<MyBadge>()
+                    if (gotBadge!!.count == 1 && gotBadge.getDate == null) {
                         fireDB.collection("User").document(email)
                             .collection("Badge").document("40020")
                             .update("getDate", date)
                             .addOnSuccessListener { Timber.i("40020 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
+                } else {
+                    Timber.i("Current data: null")
                 }
             }
     }
