@@ -54,9 +54,6 @@ class ListsetFragment : Fragment() {
 
         val listView: GridView = binding.listHolder
 
-        Timber.i("파이어 list 확인: ${viewModel.listArray2}")
-        viewModel.listArray2.clear()
-
         viewModel.listHolder.observe(viewLifecycleOwner) {
             it?.let {
                 listHolderAdapter = ListHolderAdapter(requireContext(), it)

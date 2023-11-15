@@ -368,7 +368,6 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
                 }
                 reactionList.sortByDescending { it.reactionSum }
 
-                //sever Graph 업데이트
                 if(reactionList.size != 0){
                     fireDB.collection("Feed").document(reactionList[0].id)
                         .get()

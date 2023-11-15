@@ -327,6 +327,10 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
         repository.updatePostCount(todailyId.value!!.dailyId, todailyId.value!!.postCount + 1)
     }
 
+    private fun updateDailyPostCountFromFirebase(id: Int, count: Int) = viewModelScope.launch {
+        repository.updatePostCount(id, count)
+    }
+
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     firebase 초기화
     private val fireDB = Firebase.firestore
@@ -399,6 +403,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
                                     // Count fetched successfully
                                     val snapshot = task.result
                                     Timber.i(" ${it.aId} Count: ${snapshot.count}")
+                                    updateDailyPostCountFromFirebase(it.aId, snapshot.count.toInt())
                                 } else {
                                     Timber.i("Count failed: ${task.exception}")
                                 }
@@ -580,6 +585,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
     fun fireUpdateBadgeDate(date: Long) {
         val counts = ArrayList<MyBadge>()
         counts.clear()
+        var badge = MyBadge()
 
         fireDB.collection("User").document(email)
             .collection("Badge")
@@ -590,16 +596,17 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i("${document.id} => ${document.data}")
                     val gotBadge = document.toObject<MyBadge>()
                     counts.add(gotBadge)
-                }
-                for (i in 0 until counts.size) {
-                    //카테고리(이동수단)
-                    if (counts[8].count == 100 && counts[8].getDate == null) {
-                        fireDB.collection("User").document(email)
-                            .collection("Badge").document("40009")
-                            .update("getDate", date)
-                            .addOnSuccessListener { Timber.i("40009 획득 완료") }
-                            .addOnFailureListener { exeption -> Timber.i(exeption) }
+
+                    if(gotBadge.badgeID == 40009) {
+                        badge = gotBadge
                     }
+                }
+                if (badge.count == 100 && badge.getDate == null) {
+                    fireDB.collection("User").document(email)
+                        .collection("Badge").document("40009")
+                        .update("getDate", date)
+                        .addOnSuccessListener { Timber.i("40009 획득 완료") }
+                        .addOnFailureListener { exeption -> Timber.i(exeption) }
                 }
             }
             .addOnFailureListener { exception ->
