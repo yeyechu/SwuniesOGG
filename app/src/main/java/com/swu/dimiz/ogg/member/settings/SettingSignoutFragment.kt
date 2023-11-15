@@ -1,7 +1,7 @@
 package com.swu.dimiz.ogg.member.settings
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +16,12 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.MainActivity
 import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentSettingSignoutBinding
+import com.swu.dimiz.ogg.member.login.SignInActivity
 import com.swu.dimiz.ogg.oggdata.remotedatabase.Feed
 import com.swu.dimiz.ogg.ui.env.EnvViewModel
 import timber.log.Timber
@@ -33,7 +35,6 @@ class SettingSignoutFragment: Fragment() {
     private val viewModel: EnvViewModel by activityViewModels()
 
     val fireDB = Firebase.firestore
-    val user = OggApplication.auth.currentUser
     val email = OggApplication.auth.currentUser?.email.toString()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +48,9 @@ class SettingSignoutFragment: Fragment() {
 
         navController = findNavController()
         navController.setLifecycleOwner(viewLifecycleOwner)
+
         binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -78,10 +81,12 @@ class SettingSignoutFragment: Fragment() {
         }
 
         binding.signoutBtn.setOnClickListener {
+
             if(!binding.checkBox3.isChecked){
                 OggSnackbar.make(view, getText(R.string.setting_toast_memberout_check).toString()).show()
 
             } else {
+
                 fireDB.collection("User").document(email)
                     .delete()
                     .addOnSuccessListener { Timber.i("DocumentSnapshot successfully deleted!") }
@@ -94,7 +99,7 @@ class SettingSignoutFragment: Fragment() {
                         for (document in documents) {
                             val feed = document.toObject<Feed>()
                             feed.id = document.id
-                            fireDB.collection("Feed").document(feed.id.toString())
+                            fireDB.collection("Feed").document(feed.id)
                                 .delete()
                                 .addOnSuccessListener { Timber.i("DocumentSnapshot successfully deleted!") }
                                 .addOnFailureListener { e -> Timber.i(e) }
@@ -105,14 +110,15 @@ class SettingSignoutFragment: Fragment() {
                     }
 
                 //탈퇴
-                user?.delete()
+                OggApplication.auth.currentUser?.delete()
                     ?.addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Timber.i("User account deleted.")
                         }
                     }
-
-
+                val intent = Intent(context, SignInActivity::class.java)
+                requireContext().startActivity(intent)
+                MainActivity.mainActivity!!.finish()
             }
         }
     }

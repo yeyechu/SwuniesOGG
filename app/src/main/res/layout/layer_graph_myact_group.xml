@@ -614,7 +614,7 @@
 
                         <TextView
                             android:id="@+id/my_special_act_percent"
-                            style="@style/StyleText.percent"
+                            style="@style/StyleText.header"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{String.format(@string/rank_format, viewModel.rank)}"

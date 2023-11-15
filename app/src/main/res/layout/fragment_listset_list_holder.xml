@@ -57,7 +57,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_body_small"
             android:textStyle="bold"
-            android:fontFamily="@font/gmarketsans_m"
+            android:fontFamily="@font/nanumsquare_eb"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

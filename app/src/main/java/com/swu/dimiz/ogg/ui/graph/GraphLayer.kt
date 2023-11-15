@@ -95,13 +95,14 @@ class GraphLayer : Fragment() {
         }
     }
 
-
 private fun setBarData(barChart: BarChart, list: List<Float>, labelList: List<String>) {
     initBarChart(barChart, labelList)
     barChart.setScaleEnabled(false)
 
     val valueList = list.map { it.toInt() }
     val entries: ArrayList<BarEntry> = ArrayList()
+
+    entries.clear()
 
     val sortedIndices = valueList.indices.sortedByDescending { valueList[it] }
     val yColorMap = sortedIndices.mapIndexed { index, sortedIndex ->
@@ -115,7 +116,7 @@ private fun setBarData(barChart: BarChart, list: List<Float>, labelList: List<St
     }.toMap()
 
     val barColors = ArrayList<Int>()
-    for (i in 0 until valueList.size) {
+    for (i in valueList.indices) {
         val color = yColorMap[i] ?: Color.BLACK
         barColors.add(color)
         val barEntry = BarEntry(i.toFloat(), valueList[i].toFloat())
@@ -147,7 +148,6 @@ private fun setBarData(barChart: BarChart, list: List<Float>, labelList: List<St
         val yColorMap = mapOf(
             0 to requireContext().getColor(R.color.point_yellow),
             1 to requireContext().getColor(R.color.secondary_baby_gray)
-
         )
 
         list.forEach {

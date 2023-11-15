@@ -20,6 +20,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.skydoves.balloon.*
 import com.swu.dimiz.ogg.MainActivity
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
 import com.swu.dimiz.ogg.ui.myact.sust.PagerSustAdapter
@@ -28,6 +29,7 @@ import com.swu.dimiz.ogg.ui.myact.extra.PagerExtraAdapter
 import com.swu.dimiz.ogg.ui.myact.extra.PostExtraWindow
 import com.swu.dimiz.ogg.ui.myact.sust.PostSustWindow
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
+import timber.log.Timber
 
 class MyActFragment : Fragment() {
 
@@ -268,7 +270,9 @@ class MyActFragment : Fragment() {
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if(it.resultCode == RESULT_OK) {
             val data = it.data?.getStringExtra("result")
+            Timber.i("카메라 결과: $data")
             viewModel.onPostCongrats()
+            view?.let { OggSnackbar.make(it, getText(R.string.env_toast_badge).toString()).show() }
         }
     }
     private fun startGallery() {

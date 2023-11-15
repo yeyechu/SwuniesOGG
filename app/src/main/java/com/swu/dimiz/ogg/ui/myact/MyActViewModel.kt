@@ -150,12 +150,10 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
 
         for (i in _sustDone.value!!) {
             if (i == item.sustId && duration > 0) {
-                Timber.i("setSustDone true일 때: ${item.sustId}에 대한 남은 지속 시간: $duration")
                 return true
             }
         }
         fireDelSust(item.sustId)
-        Timber.i("setSustDone false일 때: ${item.sustId}에 대한 남은 지속 시간: $duration")
         return false
     }
 
@@ -465,7 +463,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
         fireDB.collection("User").document(email)
             .collection("Extra").document(id.toString())
             .delete()
-            .addOnSuccessListener { Timber.i("Extra successfully deleted!") }
+            .addOnSuccessListener { Timber.i("Extra $id successfully deleted!") }
             .addOnFailureListener { e -> Timber.i("Error deleting document $e") }
     }
 
@@ -577,7 +575,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     fun fireUpdateBadgeDate(date: Long) {
-        val counts = java.util.ArrayList<MyBadge>()
+        val counts = ArrayList<MyBadge>()
         counts.clear()
 
         fireDB.collection("User").document(email)

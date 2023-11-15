@@ -1,6 +1,7 @@
 package com.swu.dimiz.ogg.ui.myact.uploader
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.ContentValues
 import android.content.Context
@@ -75,6 +76,7 @@ class CameraFragment : Fragment() {
 
     private val userEmail = OggApplication.auth.currentUser!!.email.toString()
     private var userCondition: MyCondition = MyCondition()
+    private var badgeId = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -115,24 +117,48 @@ class CameraFragment : Fragment() {
         binding.buttonDone.setOnClickListener {
 
             Timber.i("인증버튼 내 사용자 정보 확인 : $userCondition")
-            val feedDay = System.currentTimeMillis()
+            val currentTime = System.currentTimeMillis()
             val today = convertToDuration(userCondition.startDate)
             val projectCount = userCondition.projectCount
 
-            updateActivities(feedDay, projectCount, today, actId, actCount)
-            feedUpload(feedDay, actId, actTitle, actFilter)
+            feedUpload(currentTime, actId, actTitle, actFilter)
             updateAllAct(projectCount, actId, actCo2)
             updateStamp(projectCount, today, actId, actCo2)
             updateBageCate(actId)
-            updateBadgeAct(actId)
-            updateBadgeCo2(actId, actCo2)
-            updateBadgeDate()
-            updateBadgeDateCo2()
+
+            when(actId / ID_MODIFIER) {
+                1 -> {
+                    updateDailyToFirebase(currentTime, projectCount, today, actId, actCount)
+                    updateDailyPostCount(actId, actCount)
+                    updateBadgeCo2(actId, actCo2)
+                }
+                2 -> {
+                    updateSustToFirebase(currentTime, actId)
+                    updateSustPostDate(actId, currentTime)
+                    updateBadgeSust(actId)
+                }
+                3 -> {
+                    updateExtraToFirebase(currentTime, actId)
+                    updateExtraPostDate(actId, currentTime)
+                    updateBadgeExtra(actId)
+                }
+            }
+
+            updateBadgeDate(currentTime)
+            updateBadgeDateCo2(currentTime)
 
             // todo intent 결과 처리
+            val result = Intent().apply {
+                putExtra("badgeId", badgeId)
+            }
+            CameraActivity.cameraActivity!!.apply {
+                setResult(Activity.RESULT_OK, result)
+
+                if(!isFinishing) {
+                    finish()
+                }
+            }
             requireActivity().onBackPressedDispatcher.onBackPressed()
-            CameraActivity.cameraActivity!!.finish()
-            view?.let { OggSnackbar.make(it, getText(R.string.env_toast_badge).toString()).show() }
         }
     }
 
@@ -153,49 +179,44 @@ class CameraFragment : Fragment() {
         Timber.i("카메라 사용자 정보: $userCondition")
     }
 
-    private fun updateActivities(date: Long, num: Int, today: Int, id: Int, postCount: Int) = lifecycleScope.launch {
-        // ─────────────────────────────────────────────────────────────────────────────────
-        //                           세가지 활동 분리해서 업로드
-        when(id / ID_MODIFIER) {
-            1 -> {
-                val daily = MyDaily(
-                    dailyID = id,
-                    upDate = date
-                )
-                fireDB.collection("User").document(userEmail)
-                    .collection("Project${num}").document("Daily")
-                    .collection(today.toString()).document(date.toString())
-                    .set(daily)
-                    .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
-                    .addOnFailureListener { e -> Timber.i( e ) }
-                updateDailyPostCount(id, postCount)
-            }
-            2 -> {
-                val sust = MySustainable(
-                    sustID = id,
-                    strDay = date,
-                )
-                fireDB.collection("User").document(userEmail)
-                    .collection("Sustainable").document(id.toString())
-                    .set(sust)
-                    .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
-                    .addOnFailureListener { e -> Timber.i( e ) }
-                updateSustPostDate(id, date)
-            }
-            3 -> {
-                val extra = MyExtra(
-                    extraID = id,
-                    strDay = date,
-                )
-                fireDB.collection("User").document(userEmail)
-                    .collection("Extra").document(id.toString())
-                    .set(extra)
-                    .addOnSuccessListener { Timber.i("Extra firestore 올리기 완료") }
-                    .addOnFailureListener { e -> Timber.i( e ) }
-                updateExtraPostDate(id, date)
-            }
-        }
+    private fun updateDailyToFirebase(date: Long, num: Int, today: Int, id: Int, postCount: Int) = lifecycleScope.launch {
+        val daily = MyDaily(
+            dailyID = id,
+            upDate = date,
+            postCount = postCount
+        )
+        fireDB.collection("User").document(userEmail)
+            .collection("Project${num}").document("Daily")
+            .collection(today.toString()).document(date.toString())
+            .set(daily)
+            .addOnSuccessListener { Timber.i("Daily firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
     }
+
+    private fun updateSustToFirebase(date: Long, id: Int) = lifecycleScope.launch {
+        val sust = MySustainable(
+            sustID = id,
+            strDay = date,
+        )
+        fireDB.collection("User").document(userEmail)
+            .collection("Sustainable").document(id.toString())
+            .set(sust)
+            .addOnSuccessListener { Timber.i("Sustainable firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+    }
+
+    private fun updateExtraToFirebase(date: Long, id: Int) = lifecycleScope.launch {
+        val extra = MyExtra(
+            extraID = id,
+            strDay = date,
+        )
+        fireDB.collection("User").document(userEmail)
+            .collection("Extra").document(id.toString())
+            .set(extra)
+            .addOnSuccessListener { Timber.i("Extra firestore 올리기 완료") }
+            .addOnFailureListener { e -> Timber.i( e ) }
+    }
+
     private fun updateDailyPostCount(id: Int, postCount: Int) = lifecycleScope.launch {
         withContext(Dispatchers.IO) {
             OggDatabase.getInstance(requireContext())
@@ -347,9 +368,8 @@ class CameraFragment : Fragment() {
         }
     }
 
-    private fun updateBadgeAct(id : Int){
+    private fun updateBadgeSust(id : Int){
         when(id){
-            //sust
             20001 -> fireDB.collection("User").document(userEmail)
                 .collection("Badge").document("40014")
                 .update("count", FieldValue.increment(1))
@@ -390,8 +410,11 @@ class CameraFragment : Fragment() {
                 .update("count", FieldValue.increment(1))
                 .addOnSuccessListener { Timber.i("40021 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
+        }
+    }
 
-            //extra
+    private fun updateBadgeExtra(id : Int){
+        when(id){
             30001 -> fireDB.collection("User").document(userEmail)
                 .collection("Badge").document("40025")
                 .update("count", FieldValue.increment(1))
@@ -453,7 +476,7 @@ class CameraFragment : Fragment() {
 
     // ─────────────────────────────────────────────────────────────────────────────────
     //                              배지 획득 이벤트
-    private fun updateBadgeDate(){
+    private fun updateBadgeDate(getDate: Long){
         val counts = ArrayList<MyBadge>()
         counts.clear()
 
@@ -468,91 +491,123 @@ class CameraFragment : Fragment() {
                     counts.add(gotBadge)
                 }
                 for(i in 0 until counts.size){
-                    val getDate = System.currentTimeMillis()
+
                     //카테고리
                     if(counts[6].count == 100 && counts[6].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40007")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40007 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40007 획득 완료")
+                                badgeId = 40007
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
-                    }
-                    else if(counts[7].count == 100 && counts[7].getDate == null){
+                    } else if(counts[7].count == 100 && counts[7].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40008")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40008 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40008 획득 완료")
+                                badgeId = 40008
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
-                    }
-                    else if(counts[8].count == 100 && counts[8].getDate == null){
+                    } else if(counts[8].count == 100 && counts[8].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40009 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40009 획득 완료")
+                                badgeId = 40009
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
-                    }
-                    else if(counts[9].count == 100 && counts[9].getDate == null){
+                    } else if(counts[9].count == 100 && counts[9].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40010")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40010 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40010 획득 완료")
+                                badgeId = 40010
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
+
                     //sust
                     if(counts[13].count == 1 && counts[13].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40014")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40014 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40014 획득 완료")
+                                badgeId = 40014
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
-                    }
-                    else if(counts[14].count == 1 && counts[14].getDate == null){
+                    } else if(counts[14].count == 1 && counts[14].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40015")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40015 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40015 획득 완료")
+                                badgeId = 40015
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
-                    }
-                    else if(counts[15].count == 1 && counts[15].getDate == null){
+                    } else if(counts[15].count == 1 && counts[15].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40016")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40016 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40016 획득 완료")
+                                badgeId = 40016
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[16].count == 1 && counts[16].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40017")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40017 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40017 획득 완료")
+                                badgeId = 40017
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[17].count == 1 && counts[17].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40018")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40018 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40018 획득 완료")
+                                badgeId = 40018
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[18].count == 1 && counts[18].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40019")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40019 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40019 획득 완료")
+                                badgeId = 40019
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[19].count == 1 && counts[19].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40020")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40020 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40020 획득 완료")
+                                badgeId = 40020
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[20].count == 1 && counts[20].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40021")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40021 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40021 획득 완료")
+                                badgeId = 40021
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
 
@@ -561,49 +616,70 @@ class CameraFragment : Fragment() {
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40025")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40025 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40025 획득 완료")
+                                badgeId = 40025
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[25].count == 1 && counts[25].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40026")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40026 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40026 획득 완료")
+                                badgeId = 40026
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[26].count == 1 && counts[26].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40027")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40027 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40027 획득 완료")
+                                badgeId = 40027
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[27].count == 100 && counts[27].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40028")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40028 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40028 획득 완료")
+                                badgeId = 40028
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[28].count == 30 && counts[28].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40029")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40029 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40029 획득 완료")
+                                badgeId = 40029
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[29].count == 30 && counts[29].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40030")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40030 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40030 획득 완료")
+                                badgeId = 40030
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[30].count == 30 && counts[30].getDate == null){
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40031")
                             .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40031 획득 완료") }
+                            .addOnSuccessListener {
+                                Timber.i("40031 획득 완료")
+                                badgeId = 40031
+                            }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                 }
@@ -613,7 +689,7 @@ class CameraFragment : Fragment() {
             }
     }
 
-    private fun updateBadgeDateCo2(){
+    private fun updateBadgeDateCo2(getDate: Long){
         fireDB.collection("User").document(userEmail)
             .collection("Badge")
             .whereEqualTo("badgeID", "40022")
@@ -627,7 +703,6 @@ class CameraFragment : Fragment() {
 
                 for (doc in value!!) {
                     val gotBadge = doc.toObject<MyBadge>()
-                    val getDate = System.currentTimeMillis()
 
                     if(gotBadge.badgeID == 40022 && gotBadge.getDate == null){
                         if(gotBadge.count >= 100000){
@@ -635,7 +710,10 @@ class CameraFragment : Fragment() {
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40022")
                                 .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40022 획득 완료") }
+                                .addOnSuccessListener {
+                                    Timber.i("40022 획득 완료")
+                                    badgeId = 40022
+                                }
                                 .addOnFailureListener { exeption -> Timber.i(exeption) }
                         }
                     }
@@ -645,7 +723,10 @@ class CameraFragment : Fragment() {
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40023")
                                 .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40023 획득 완료") }
+                                .addOnSuccessListener {
+                                    Timber.i("40023 획득 완료")
+                                    badgeId = 40023
+                                }
                                 .addOnFailureListener { exeption -> Timber.i(exeption) }
                         }
                     }
@@ -655,7 +736,10 @@ class CameraFragment : Fragment() {
                             fireDB.collection("User").document(userEmail)
                                 .collection("Badge").document("40024")
                                 .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40024 획득 완료") }
+                                .addOnSuccessListener {
+                                    Timber.i("40024 획득 완료")
+                                    badgeId = 40024
+                                }
                                 .addOnFailureListener { exeption -> Timber.i(exeption) }
                         }
                     }

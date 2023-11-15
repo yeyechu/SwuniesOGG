@@ -47,15 +47,6 @@
         <item name="android:maxLines">1</item>
     </style>
 
-    <!-- 숫자 텍스트 -->
-    <!-- 오늘 날짜만 Attribute에서 textStyle="bold" 지정하기/ 나머지 숫자는 모두 regular -->
-    <style name="StyleText.number" parent="StyleText">
-        <item name="android:textSize">@dimen/text_size_body_small</item>
-        <item name="android:textColor">@color/primary_gray</item>
-        <item name="android:fontFamily">@font/gmarketsans_m</item>
-        <item name="fontFamily">@font/gmarketsans_m</item>
-        <item name="android:lineSpacingExtra">@dimen/text_line_spacing</item>
-    </style>
 
     <!-- 카드에 쓰이는 탄소감축 텍스트 -->
     <style name="StyleText_carbon" >
