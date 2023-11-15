@@ -752,8 +752,8 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             fireDB.collection("User").document(userEmail)
                 .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                 .set(actList)
-                .addOnCompleteListener { Timber.i("actList successfully written!")
-                }.addOnFailureListener { e -> Timber.i("Error writing document", e) }
+                .addOnCompleteListener { Timber.i("actList successfully written!") }
+                .addOnFailureListener { e -> Timber.i("Error writing document", e) }
         }
         //프로젝트 상태 변경
         val toStartDay = System.currentTimeMillis().toString()
@@ -788,13 +788,9 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                 .addOnSuccessListener { document ->
                     Timber.i( "전체 리스트 ${document.id} => ${document.data}")
                     val list = document.toObject<MyList>()
-
                     if (list != null) {
                         val mylist : MyList =list
                         mylist.setLeftdayList(today, listArray[i].aId, listArray[i].aNumber)
-                        Timber.i("파이어 리세이브: $mylist")
-                        Timber.i("today $today")
-                        Timber.i("파이어 $i 번째 리스트 $listArray")
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)
@@ -819,10 +815,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     val list = document.toObject<MyList>()
                     if (list != null) {
                         val mylist : MyList =list
-
                         mylist.setOnlyList(today, listArray[i].aId, listArray[i].aNumber)
-                        Timber.i("today $today")
-                        Timber.i("$i 번째 리스트 $listArray")
                         fireDB.collection("User").document(userEmail)
                             .collection("Project${_userCondition.value?.projectCount}").document(i.toString())
                             .set(mylist)

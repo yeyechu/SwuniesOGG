@@ -65,38 +65,39 @@ class SettingCarFragment : Fragment() {
 
     private val counts = ArrayList<MyBadge>()
     private fun fireUpdateBadgeDate(userEmail: String) {
+        val getDate = System.currentTimeMillis()
+
         fireDB.collection("User").document(userEmail)
-            .collection("Badge")
-            .orderBy("badgeID")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    Timber.i("${document.id} => ${document.data}")
-                    val gotBadge = document.toObject<MyBadge>()
-                    counts.add(gotBadge)
-                }
-                for (i in 0 until counts.size) {
-                    val getDate = System.currentTimeMillis()
-                    //카테고리
-                    if (counts[8].count == 100 && counts[8].getDate == null) {
+            .collection("Badge").document("40009")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) { Timber.i(e)
+                    return@addSnapshotListener }
+                if (snapshot != null && snapshot.exists()) {
+                    val gotBadge = snapshot.toObject<MyBadge>()
+                    if (gotBadge!!.count == 100 && gotBadge.getDate == null) {
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
                             .update("getDate", getDate)
                             .addOnSuccessListener { Timber.i("40009 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    //sust
-                    if (counts[20].count == 1 && counts[20].getDate == null) {
+                } else { Timber.i("Current data: null") }
+            }
+        fireDB.collection("User").document(userEmail)
+            .collection("Badge").document("40021")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) { Timber.i(e)
+                    return@addSnapshotListener }
+                if (snapshot != null && snapshot.exists()) {
+                    val gotBadge = snapshot.toObject<MyBadge>()
+                    if (gotBadge!!.count == 1 && gotBadge.getDate == null) {
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40021")
                             .update("getDate", getDate)
                             .addOnSuccessListener { Timber.i("40021 획득 완료") }
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                }
-            }
-            .addOnFailureListener { exception ->
-                Timber.i(exception)
+                } else { Timber.i("Current data: null") }
             }
     }
 

@@ -409,7 +409,7 @@ class EnvViewModel : ViewModel() {
 
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       최고 반응 피드
-    private fun fireGetReaction(num: Int) {
+    fun fireGetReaction(num: Int) {
         val reactionList = arrayListOf<FeedReact>()
         reactionList.clear()
 
@@ -417,29 +417,39 @@ class EnvViewModel : ViewModel() {
             .whereEqualTo("email", fierUser.currentUser?.email.toString())
             .whereGreaterThan("postTime", userCondition.value!!.startDate)
             .orderBy("postTime", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { documents ->
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
 
-                for (document in documents) {
-                    val feed = document.toObject<Feed>()
-                    feed.id = document.id
+                for (doc in value!!) {
+                    val feed = doc.toObject<Feed>()
+                    feed.id = doc.id
 
-                    reactionList.add(FeedReact(
-                        feed.id,
-                        feed.reactionFun + feed.reactionGreat + feed.reactionLike,
-                        feed.actTitle))
+                    reactionList.add(
+                        FeedReact(
+                            feed.id,
+                            feed.reactionFun + feed.reactionGreat + feed.reactionLike,
+                            feed.actTitle
+                        )
+                    )
                 }
                 reactionList.sortByDescending { it.reactionSum }
 
-                //sever Graph 업데이트
-                if(reactionList.size != 0){
+                if (reactionList.size != 0) {
                     fireDB.collection("Feed").document(reactionList[0].id)
-                        .get()
-                        .addOnSuccessListener { document ->
-                            if (document != null) {
-                                val gotFeed = document.toObject<Feed>()
+                        .addSnapshotListener { snapshot, e ->
+                            if (e != null) {
+                                Timber.i(e)
+                                return@addSnapshotListener
+                            }
+
+                            if (snapshot != null && snapshot.exists()) {
+                                val gotFeed = snapshot.toObject<Feed>()
 
                                 gotFeed?.let {
+
                                     fireDB.collection("User").document(fierUser.currentUser?.email.toString())
                                         .collection("Project$num").document("Graph")
                                         .update(
@@ -451,19 +461,13 @@ class EnvViewModel : ViewModel() {
                                                 "like" to gotFeed.reactionLike
                                             ),
                                         ).addOnSuccessListener { }
-                                        .addOnFailureListener { e ->Timber.i(e) }
+                                        .addOnFailureListener { e -> Timber.i(e) }
                                 }
                             } else {
-                                Timber.i("No such document")
+                                Timber.i("Current data: null")
                             }
                         }
-                        .addOnFailureListener { exception ->
-                            Timber.i(exception)
-                        }
                 }
-            }
-            .addOnFailureListener { exception ->
-                Timber.i(exception)
             }
     }
 

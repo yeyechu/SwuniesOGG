@@ -244,7 +244,6 @@ class PostDailyWindow  : Fragment() {
                 for(i in 0 until counts.size){
                     //카테고리
                     if(counts[6].count == 100 && counts[6].getDate == null){
-
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40007")
                             .update("getDate", getDate)
@@ -252,7 +251,6 @@ class PostDailyWindow  : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[7].count == 100 && counts[7].getDate == null){
-
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40008")
                             .update("getDate", getDate)
@@ -260,7 +258,6 @@ class PostDailyWindow  : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[8].count == 100 && counts[8].getDate == null){
-
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40009")
                             .update("getDate", getDate)
@@ -268,7 +265,6 @@ class PostDailyWindow  : Fragment() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                     else if(counts[9].count == 100 && counts[9].getDate == null){
-
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40010")
                             .update("getDate", getDate)
@@ -284,50 +280,52 @@ class PostDailyWindow  : Fragment() {
 
     private fun updateBadgeDateCo2(userEmail: String, getDate: Long){
         fireDB.collection("User").document(userEmail)
-            .collection("Badge")
-            .whereEqualTo("badgeID", "40022")
-            .whereEqualTo("badgeID", "40023")
-            .whereEqualTo("badgeID", "40024")
-            .addSnapshotListener { value, e ->
-                if (e != null) {
-                    Timber.i(e)
-                    return@addSnapshotListener
-                }
-
-                for (doc in value!!) {
-                    val gotBadge = doc.toObject<MyBadge>()
-
-                    if(gotBadge.badgeID == 40022 && gotBadge.getDate == null){
-                        if(gotBadge.count >= 100000){
-
-                            fireDB.collection("User").document(userEmail)
-                                .collection("Badge").document("40022")
-                                .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40022 획득 완료") }
-                                .addOnFailureListener { exeption -> Timber.i(exeption) }
-                        }
+            .collection("Badge").document("40022")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) { Timber.i(e)
+                    return@addSnapshotListener }
+                if (snapshot != null && snapshot.exists()) {
+                    val gotBadge = snapshot.toObject<MyBadge>()
+                    if (gotBadge!!.count >= 100000 && gotBadge.getDate == null) {
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40022")
+                            .update("getDate", getDate)
+                            .addOnSuccessListener { Timber.i("40022 획득 완료") }
+                            .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    else if(gotBadge.badgeID == 40023 && gotBadge.getDate == null){
-                        if(gotBadge.count >= 500000){
-
-                            fireDB.collection("User").document(userEmail)
-                                .collection("Badge").document("40023")
-                                .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40023 획득 완료") }
-                                .addOnFailureListener { exeption -> Timber.i(exeption) }
-                        }
+                } else { Timber.i("Current data: null") }
+            }
+        fireDB.collection("User").document(userEmail)
+            .collection("Badge").document("40023")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) { Timber.i(e)
+                    return@addSnapshotListener }
+                if (snapshot != null && snapshot.exists()) {
+                    val gotBadge = snapshot.toObject<MyBadge>()
+                    if (gotBadge!!.count >= 500000 && gotBadge.getDate == null) {
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40023")
+                            .update("getDate", getDate)
+                            .addOnSuccessListener { Timber.i("40023 획득 완료") }
+                            .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                    else if(gotBadge.badgeID == 40024 && gotBadge.getDate == null){
-                        if(gotBadge.count >= 1000000){
-
-                            fireDB.collection("User").document(userEmail)
-                                .collection("Badge").document("40024")
-                                .update("getDate", getDate)
-                                .addOnSuccessListener { Timber.i("40024 획득 완료") }
-                                .addOnFailureListener { exeption -> Timber.i(exeption) }
-                        }
+                } else { Timber.i("Current data: null") }
+            }
+        fireDB.collection("User").document(userEmail)
+            .collection("Badge").document("40024")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) { Timber.i(e)
+                    return@addSnapshotListener }
+                if (snapshot != null && snapshot.exists()) {
+                    val gotBadge = snapshot.toObject<MyBadge>()
+                    if (gotBadge!!.count >= 1000000 && gotBadge.getDate == null) {
+                        fireDB.collection("User").document(userEmail)
+                            .collection("Badge").document("40024")
+                            .update("getDate", getDate)
+                            .addOnSuccessListener { Timber.i("40024 획득 완료") }
+                            .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
-                }
+                } else { Timber.i("Current data: null") }
             }
     }
 
