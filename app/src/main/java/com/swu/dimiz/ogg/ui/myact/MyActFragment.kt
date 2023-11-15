@@ -246,7 +246,7 @@ class MyActFragment : Fragment() {
             if(it) {
                 navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationChecklist())
                 viewModel.onChecklistCompleted()
-                fragmentManager.popBackStack()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
 
@@ -254,7 +254,7 @@ class MyActFragment : Fragment() {
             if(it) {
                 navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationSettingCar())
                 viewModel.onCarCompleted()
-                fragmentManager.popBackStack()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
 
@@ -262,7 +262,7 @@ class MyActFragment : Fragment() {
             if(it) {
                 navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationPostLink())
                 viewModel.onLinkCompleted()
-                fragmentManager.popBackStack()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
 

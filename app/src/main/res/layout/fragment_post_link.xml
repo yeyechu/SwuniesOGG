@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
 
     </data>
@@ -53,7 +52,7 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="3">
 
                 <LinearLayout
@@ -61,169 +60,31 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_view_1"
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/pager_image"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_small"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/radius_component"
-                        app:cardPreventCornerOverlap="true"
-                        app:cardUseCompatPadding="true">
+                        android:layout_marginTop="@dimen/spacing_text"
+                        android:layout_marginStart="@dimen/spacing_extra_medium"
+                        android:layout_marginEnd="@dimen/spacing_extra_medium"
+                        android:layout_marginBottom="@dimen/spacing_extra_small"
+                        android:orientation="horizontal" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="@dimen/spacing_small">
-
-                            <TextView
-                                style="@style/StyleText.subtitle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/spacing_extra_small"
-                                android:text="@string/post_text_subtitle_30002_1" />
-
-                            <TextView
-                                style="@style/StyleText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_extra_small"
-                                android:padding="@dimen/spacing_small"
-                                android:text="@string/post_text_body_30002_1"
-                                android:textColor="@color/primary_gray" />
-
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/button_post_1"
-                                style="@style/StyleButtonOgg"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="확인하러 가기" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_view_2"
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/pager_indicator_image"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_small"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/radius_component"
-                        app:cardPreventCornerOverlap="true"
-                        app:cardUseCompatPadding="true">
+                        android:layout_height="@dimen/myact_indicator_height"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:background="@color/secondary_baby_gray"
+                        android:contentDescription="@string/description_pager_indicator"
+                        app:tabBackground="@drawable/common_indicator_selector"
+                        app:tabMinWidth="0dp"
+                        app:tabMaxWidth="@dimen/dimension_80"
+                        app:tabMode="fixed"
+                        app:tabGravity="center"
+                        app:tabIndicatorGravity="center"
+                        app:tabIndicatorHeight="0dp" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="@dimen/spacing_small">
-
-                            <TextView
-                                style="@style/StyleText.subtitle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/spacing_extra_small"
-                                android:text="@string/post_text_subtitle_30002_2" />
-
-                            <TextView
-                                style="@style/StyleText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_extra_small"
-                                android:padding="@dimen/spacing_small"
-                                android:text="@string/post_text_body_30002_2"
-                                android:textColor="@color/primary_gray" />
-
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/button_post_2"
-                                style="@style/StyleButtonOgg"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="확인하러 가기" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_view_3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_small"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/radius_component"
-                        app:cardPreventCornerOverlap="true"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="@dimen/spacing_small">
-
-                            <TextView
-                                style="@style/StyleText.subtitle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/spacing_extra_small"
-                                android:text="@string/post_text_subtitle_30002_3" />
-
-                            <TextView
-                                style="@style/StyleText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_extra_small"
-                                android:padding="@dimen/spacing_small"
-                                android:text="@string/post_text_body_30002_3"
-                                android:textColor="@color/primary_gray" />
-
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/button_post_3"
-                                style="@style/StyleButtonOgg"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="확인하러 가기" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_view_4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_small"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="@dimen/radius_component"
-                        app:cardPreventCornerOverlap="true"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="@dimen/spacing_small">
-
-                            <TextView
-                                style="@style/StyleText.subtitle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/spacing_extra_small"
-                                android:text="@string/post_text_subtitle_30002_4" />
-
-                            <TextView
-                                style="@style/StyleText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/spacing_extra_small"
-                                android:padding="@dimen/spacing_small"
-                                android:text="@string/post_text_body_30002_4"
-                                android:textColor="@color/primary_gray" />
-
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/button_post_4"
-                                style="@style/StyleButtonOgg"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="확인하러 가기" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </ScrollView>
         <androidx.appcompat.widget.AppCompatButton

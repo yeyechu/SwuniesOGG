@@ -207,6 +207,8 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
     private fun updateExtraFromFirebase(item: MyExtra) = viewModelScope.launch {
         if (item.extraID != 0 && item.strDay != null) {
             repository.updateExtraDate(item.extraID, item.strDay!!)
+        } else if(item.extraID != 0) {
+            repository.updateExtraDate(item.extraID, 0L)
         }
     }
 

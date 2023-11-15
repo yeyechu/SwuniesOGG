@@ -1,7 +1,5 @@
 package com.swu.dimiz.ogg.ui.myact.post
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +11,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -57,10 +57,22 @@ class PostLinkFragment : Fragment() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
-        binding.buttonPost1.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.forest.go.kr/"))
-            startActivity(intent)
+        val imageAdapter = PagerImageAdapter()
+        val imagePager = binding.pagerImage
+
+        imagePager.apply {
+            adapter = imageAdapter
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    binding.buttonPostLink.isEnabled = position == 3
+                }
+            })
         }
+
+        TabLayoutMediator(binding.pagerIndicatorImage, imagePager) {tab, _ ->
+            tab.text = ""
+        }.attach()
+
         binding.buttonPostLink.setOnClickListener {
             val postDate = System.currentTimeMillis()
             // 산림 링크 파이어베이스 올리기
