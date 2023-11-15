@@ -150,25 +150,35 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
 
     fun setSustDone(item: ActivitiesSustainable): Boolean {
         val duration = item.limit - convertToDuration(item.postDate)
-
+        Timber.i("setSustDone: $item duration: $duration")
+        Timber.i("sustDone: ${_sustDone.value}")
         for (i in _sustDone.value!!) {
             if (i == item.sustId && duration > 0) {
+                Timber.i("sustId: ${item.sustId}, 삭제하지 않음")
                 return true
+            } else if(i == item.sustId) {
+                fireDelSust(item.sustId)
+                Timber.i("sustId: ${item.sustId}, 삭제")
             }
         }
-        fireDelSust(item.sustId)
+
         return false
     }
 
     fun setExtraDone(item: ActivitiesExtra): Boolean {
         val duration = item.limit - convertToDuration(item.postDate)
-
+        Timber.i("setExtraDone: $item duration: $duration")
+        Timber.i("extraDone: ${_extraDone.value}")
         for (i in _extraDone.value!!) {
             if (i == item.extraId && duration > 0) {
+                Timber.i("extraId: ${item.extraId}, 삭제하지 않음")
                 return true
+            } else if(i == item.extraId) {
+                fireDelExtra(item.extraId)
+                Timber.i("extraId: ${item.extraId}, 삭제")
             }
         }
-        fireDelExtra(item.extraId)
+
         return false
     }
 

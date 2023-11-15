@@ -91,7 +91,8 @@ class PostLinkFragment : Fragment() {
                     } else { Timber.i("사용자 기본정보 받아오기 실패") }
                 }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
 
-            it.findNavController().navigateUp()
+            //it.findNavController().navigateUp()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 

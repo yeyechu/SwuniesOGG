@@ -245,8 +245,8 @@ class MyActFragment : Fragment() {
         viewModel.navigateToToChecklist.observe(viewLifecycleOwner) {
             if(it) {
                 navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationChecklist())
+                fragmentManager.popBackStack()
                 viewModel.onChecklistCompleted()
-                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
 
@@ -261,8 +261,8 @@ class MyActFragment : Fragment() {
         viewModel.navigateToToLink.observe(viewLifecycleOwner) {
             if(it) {
                 navController.navigate(MyActFragmentDirections.actionNavigationMyactToDestinationPostLink())
+                fragmentManager.popBackStack()
                 viewModel.onLinkCompleted()
-                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
 
