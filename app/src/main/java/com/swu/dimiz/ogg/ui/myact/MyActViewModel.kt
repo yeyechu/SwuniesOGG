@@ -447,7 +447,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
                     myExtraList.add(myextra.extraID)
                 }
                 _extraDone.value = myExtraList
-                Timber.i("Extra result: $myExtraList")
+                Timber.i("Extra result: ${_extraDone.value}t")
             }
     }
 

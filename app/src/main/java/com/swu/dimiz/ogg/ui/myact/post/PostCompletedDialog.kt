@@ -4,36 +4,37 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.databinding.WindowPostCompletedBinding
+import com.swu.dimiz.ogg.ui.myact.MyActViewModel
 
-class PostCompletedDialog : DialogFragment() {
+class PostCompletedDialog : Fragment() {
 
     private var _binding : WindowPostCompletedBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: MyActViewModel by activityViewModels { MyActViewModel.Factory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = WindowPostCompletedBinding.inflate(inflater, container, false)
 
-        binding.buttonExit.setOnClickListener {
-            dismiss()
-        }
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.buttonCompleted.setOnClickListener {
-            dismiss()
+            viewModel.onPostOver()
         }
-
-        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val TAG = "CompletedDialog"
     }
 }

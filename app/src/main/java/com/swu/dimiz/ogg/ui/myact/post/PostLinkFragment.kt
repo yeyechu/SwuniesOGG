@@ -13,11 +13,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.swu.dimiz.ogg.OggApplication
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentPostLinkBinding
 import com.swu.dimiz.ogg.oggdata.remotedatabase.MyBadge
@@ -34,9 +34,7 @@ class PostLinkFragment : Fragment() {
     private lateinit var navController: NavController
 
     val fireDB = Firebase.firestore
-    val fireUser = Firebase.auth.currentUser
-
-    private val userEmail = fireUser?.email.toString()
+    private val userEmail = OggApplication.auth.currentUser!!.email.toString()
 
     private var startDate = 0L
     private var projectCount = 0
@@ -64,6 +62,7 @@ class PostLinkFragment : Fragment() {
             startActivity(intent)
         }
         binding.buttonPostLink.setOnClickListener {
+            val postDate = System.currentTimeMillis()
             // 산림 링크 파이어베이스 올리기
             // 기본정보 받기
             fireDB.collection("User").document(userEmail)
@@ -74,8 +73,8 @@ class PostLinkFragment : Fragment() {
                             startDate = gotUser.startDate
                             projectCount = gotUser.projectCount
 
-                            fireUpdateAll()
-                            fireUpdateBadgeDate()
+                            fireUpdateAll(postDate)
+                            fireUpdateBadgeDate(postDate)
                         }
                     } else { Timber.i("사용자 기본정보 받아오기 실패") }
                 }.addOnFailureListener { exception -> Timber.i(exception.toString()) }
@@ -84,13 +83,10 @@ class PostLinkFragment : Fragment() {
         }
     }
 
-    private fun fireUpdateAll(){
-        getDate = System.currentTimeMillis()
-        //Extra
-
+    private fun fireUpdateAll(date: Long){
         val extra = MyExtra(
             extraID = 30002,
-            strDay = getDate,
+            strDay = date,
         )
         fireDB.collection("User").document(userEmail)
             .collection("Extra").document("30002")
@@ -122,8 +118,10 @@ class PostLinkFragment : Fragment() {
             .addOnFailureListener { e -> Timber.i( e ) }
     }
 
-    private val counts = ArrayList<MyBadge>()
-    private fun fireUpdateBadgeDate() {
+    private fun fireUpdateBadgeDate(date: Long) {
+        val counts = ArrayList<MyBadge>()
+        counts.clear()
+
         fireDB.collection("User").document(userEmail)
             .collection("Badge").document("40026")
             .update("count", FieldValue.increment(1))
@@ -139,24 +137,33 @@ class PostLinkFragment : Fragment() {
                 for (document in documents) {
                     Timber.i("${document.id} => ${document.data}")
                     val gotBadge = document.toObject<MyBadge>()
-                    counts.add(gotBadge)
-                }
-                for(i in 0 until counts.size){
-                    getDate = System.currentTimeMillis()
-                    //카테고리
-                    if(counts[9].count == 100 && counts[9].getDate == null){
-                        fireDB.collection("User").document(userEmail)
-                            .collection("Badge").document("40010")
-                            .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40010 획득 완료") }
-                            .addOnFailureListener { exeption -> Timber.i(exeption) }
+                    if(gotBadge.badgeID == 40010) {
+                        counts.add(gotBadge)
                     }
-                    if(counts[25].count == 1 && counts[25].getDate == null){
-                        fireDB.collection("User").document(userEmail)
-                            .collection("Badge").document("40026")
-                            .update("getDate", getDate)
-                            .addOnSuccessListener { Timber.i("40026 획득 완료") }
-                            .addOnFailureListener { exeption -> Timber.i(exeption) }
+                    if(gotBadge.badgeID == 40026) {
+                        counts.add(gotBadge)
+                    }
+                }
+                counts.forEach {
+                    when(it.badgeID) {
+                        40010 -> {
+                            if(it.count == 100 && it.getDate == null){
+                                fireDB.collection("User").document(userEmail)
+                                    .collection("Badge").document("40010")
+                                    .update("getDate", date)
+                                    .addOnSuccessListener { Timber.i("40010 획득 완료") }
+                                    .addOnFailureListener { exeption -> Timber.i(exeption) }
+                            }
+                        }
+                        40026 -> {
+                            if(it.count == 1 && it.getDate == null){
+                                fireDB.collection("User").document(userEmail)
+                                    .collection("Badge").document("40026")
+                                    .update("getDate", date)
+                                    .addOnSuccessListener { Timber.i("40026 획득 완료") }
+                                    .addOnFailureListener { exeption -> Timber.i(exeption) }
+                            }
+                        }
                     }
                 }
             }

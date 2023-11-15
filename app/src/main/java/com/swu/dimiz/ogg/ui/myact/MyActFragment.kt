@@ -20,13 +20,13 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.skydoves.balloon.*
 import com.swu.dimiz.ogg.MainActivity
-import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.FragmentMyActBinding
 import com.swu.dimiz.ogg.ui.myact.sust.PagerSustAdapter
 import com.swu.dimiz.ogg.ui.myact.daily.PostDailyWindow
 import com.swu.dimiz.ogg.ui.myact.extra.PagerExtraAdapter
 import com.swu.dimiz.ogg.ui.myact.extra.PostExtraWindow
+import com.swu.dimiz.ogg.ui.myact.post.PostCompletedDialog
 import com.swu.dimiz.ogg.ui.myact.sust.PostSustWindow
 import com.swu.dimiz.ogg.ui.myact.uploader.CameraActivity
 import timber.log.Timber
@@ -265,14 +265,25 @@ class MyActFragment : Fragment() {
                 fragmentManager.popBackStack()
             }
         }
+
+        viewModel.postEventHandler.observe(viewLifecycleOwner) {
+            if(it) {
+                mainActivity.hideBottomNavView(true)
+
+            } else {
+                mainActivity.hideBottomNavView(false)
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+        }
     }
 
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if(it.resultCode == RESULT_OK) {
+            viewModel.onPostCongrats()
+            fragmentManager.popBackStack()
+            addCongratsWindow()
             val data = it.data?.getStringExtra("result")
             Timber.i("카메라 결과: $data")
-            viewModel.onPostCongrats()
-            view?.let { OggSnackbar.make(it, getText(R.string.env_toast_badge).toString()).show() }
         }
     }
     private fun startGallery() {
@@ -307,6 +318,14 @@ class MyActFragment : Fragment() {
     private fun addExtraWindow() {
         fragmentManager.beginTransaction()
             .add(R.id.frame_layout_myact, PostExtraWindow())
+            .setReorderingAllowed(true)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun addCongratsWindow() {
+        fragmentManager.beginTransaction()
+            .replace(R.id.frame_layout_myact, PostCompletedDialog())
             .setReorderingAllowed(true)
             .addToBackStack(null)
             .commit()
