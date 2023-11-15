@@ -67,6 +67,10 @@ class FeedDetailFragment : Fragment() {
                     OggSnackbar.make(view, getText(R.string.feed_toast_report_already).toString()).show()
                     viewModel.onToastCompleted()
                 }
+                5 -> {
+                    OggSnackbar.make(view, getText(R.string.env_toast_badge).toString()).show()
+                    viewModel.onToastCompleted()
+                }
             }
         }
     }

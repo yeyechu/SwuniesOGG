@@ -94,10 +94,10 @@ class PostDailyWindow  : Fragment() {
         binding.buttonDone.setOnClickListener {
             val getDate = System.currentTimeMillis()
 
-            viewModel.onPostCongrats()
             viewModel.onNavigatedDaily()
             viewModel.resetUri()
             viewModel.updateDailyPostCount()
+            viewModel.onPostCongrats()
 
             //requireActivity().onBackPressedDispatcher.onBackPressed()
 

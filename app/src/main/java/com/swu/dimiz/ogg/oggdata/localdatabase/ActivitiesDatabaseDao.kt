@@ -21,8 +21,8 @@ interface ActivitiesDailyDatabaseDao {
     @Query("UPDATE daily SET exclusive = :data WHERE dailyId IN (10010, 10011)")
     suspend fun updateMobility(data: Int)
 
-    @Query("UPDATE daily SET freq = 0")
-    suspend fun resetFreq()
+    @Query("UPDATE daily SET freq = 0, postCount = 0")
+    suspend fun resetDaily()
 
     @Query("UPDATE daily SET freq = 1 WHERE dailyId = :id")
     suspend fun updateFreqFromFirebase(id: Int)
@@ -73,6 +73,9 @@ interface ActivitiesSustDatabaseDao {
     @Query("UPDATE sust SET postDate = :date WHERE sustId = :id")
     suspend fun updateSustDateFromFirebase(id: Int, date: Long)
 
+    @Query("UPDATE sust SET postDate = 0")
+    suspend fun resetSustDate()
+
     // ───────────────────────────────────────────────────────────────────────
     //                                라이브 데이터
     @Query("SELECT * FROM sust")
@@ -103,6 +106,9 @@ interface ActivitiesExtraDatabaseDao {
 
     @Query("UPDATE extra SET postDate = :date WHERE extraId = :id")
     suspend fun updateExtraDateFromFirebase(id: Int, date: Long)
+
+    @Query("UPDATE extra SET postDate = 0")
+    suspend fun resetExtraDate()
 
     // ───────────────────────────────────────────────────────────────────────
     //                                라이브 데이터

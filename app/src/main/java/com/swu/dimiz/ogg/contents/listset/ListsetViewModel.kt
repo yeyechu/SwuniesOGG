@@ -157,7 +157,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     //                                      뷰모델 초기화
     init {
         // 활동 목표 설정 페이지
-        resetFrequency()
         setCo2(AIMCO2_ONE)
         _aimTitle.value = ""
         _aimCotent.value = ""

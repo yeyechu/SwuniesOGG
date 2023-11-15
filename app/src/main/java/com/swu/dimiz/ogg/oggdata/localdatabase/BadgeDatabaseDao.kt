@@ -23,6 +23,9 @@ interface BadgeDatabaseDao {
 
     @Query("UPDATE badges SET count = :count WHERE badgeId = :id")
     suspend fun updateBadgeCountFromFirebase(id: Int, count: Int)
+
+    @Query("UPDATE badges SET getDate = NULL, count = 0")
+    suspend fun resetBadges()
     // ───────────────────────────────────────────────────────────────────────
     //                                라이브 데이터
     @Query("SELECT * FROM badges")

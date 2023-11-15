@@ -29,12 +29,6 @@ class OggRepository(private val database: OggDatabase) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun updateCar(data: Int) {
-        database.dailyDatabaseDao.updateMobility(data)
-    }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
     suspend fun updatePostCount(id: Int, data: Int) {
         database.dailyDatabaseDao.updatePostCountFromFirebase(id, data)
     }
@@ -42,7 +36,7 @@ class OggRepository(private val database: OggDatabase) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun resetFreq() {
-        database.dailyDatabaseDao.resetFreq()
+        database.dailyDatabaseDao.resetDaily()
     }
 
     @Suppress("RedundantSuspendModifier")
@@ -66,10 +60,6 @@ class OggRepository(private val database: OggDatabase) {
     @WorkerThread
     suspend fun getTodayListInteger(): List<Int>? {
         return database.dailyDatabaseDao.getTodayIdCoroutines()
-    }
-
-    fun getActivity(id: Int): LiveData<ActivitiesDaily> {
-        return database.dailyDatabaseDao.getItem(id)
     }
 
     @Suppress("RedundantSuspendModifier")

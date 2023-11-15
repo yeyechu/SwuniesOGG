@@ -180,7 +180,10 @@ class FeedViewModel : ViewModel() {
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40001")
                                             .update("getDate", getDate)
-                                            .addOnSuccessListener { Timber.i("40001 획득 완료") }
+                                            .addOnSuccessListener {
+                                                Timber.i("40001 획득 완료")
+                                                onMakeToast(5)
+                                            }
                                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                                     }
                                 } else { Timber.i("Current data: null") }

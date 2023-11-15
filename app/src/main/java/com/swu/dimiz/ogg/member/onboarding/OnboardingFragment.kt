@@ -39,11 +39,10 @@ class OnboardingFragment : Fragment() {
                 Timber.i("온보딩 여부 확인: $isCheck")
                 binding.imageLoading.visibility = View.GONE
                 if(isCheck) {
-                    findNavController().popBackStack()
+                    navigateToSignin()
                     Timber.i("온보딩 여부 건너뜀")
                 }
             }
-
         }
     }
 
@@ -73,8 +72,7 @@ class OnboardingFragment : Fragment() {
         binding.btnGetStarted.setOnClickListener {
             navigateToSignin()
             viewLifecycleOwner.lifecycleScope.launch {
-                //OggDatabase.getInstance(requireContext()).uiDatabaseDao.upBoarding()
-                Toast.makeText(context, "테스트중이라서 온보딩 상태 안 저장", Toast.LENGTH_SHORT).show()
+                OggDatabase.getInstance(requireContext()).uiDatabaseDao.upBoarding()
             }
         }
     }

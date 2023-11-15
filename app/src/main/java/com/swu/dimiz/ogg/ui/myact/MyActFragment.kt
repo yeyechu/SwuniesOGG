@@ -228,8 +228,6 @@ class MyActFragment : Fragment() {
                     putExtra("filter", cameraFilter)
                     putExtra("postCount", cameraCount)
                 }
-
-                //requireContext().startActivity(intent)
                 activityResultLauncher.launch(intent)
                 viewModel.onCameraCompleted()
             }

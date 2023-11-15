@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.LayerMyFeedBinding
 import com.swu.dimiz.ogg.ui.feed.FeedViewModel
@@ -39,6 +40,8 @@ class MyFeedLayer : Fragment() {
         })
 
         binding.buttonNavigateTomyAct.setOnClickListener {
+            findNavController().navigateUp()
+            findNavController().popBackStack()
             it.findNavController().navigate(R.id.navigation_myact)
         }
 
