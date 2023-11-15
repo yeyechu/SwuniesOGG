@@ -88,7 +88,7 @@
 
     <!-- ──────────────────────────────────────   환경탭   ────────────────────────────────────── -->
 
-    <string name="env_text_before_message">21일 프로젝트를 시작해볼까요?</string>
+    <string name="env_text_before_message">21일 챌린지를 시작해볼까요?</string>
     <string name="env_button_start">시작하기</string>
     <string name="env_toast_badge">획득한 배지가 있어요</string>
 
@@ -110,7 +110,7 @@
     <string name="listaim_text_instruction_two">멸종위기종 %s를 구해봐요!</string>
 
     <string name="listaim_button">다음으로</string>
-    <string name="listaim_text_dialog_title">프로젝트를 중단하시겠어요?</string>
+    <string name="listaim_text_dialog_title">챌린지를 중단하시겠어요?</string>
     <string name="listaim_text_dialog_body">지금까지 선택했던 내용이 전부 삭제돼요.</string>
     <string name="listaim_button_dialog_left">취소하기</string>
     <string name="listaim_button_dialog_right">중단하기</string>
@@ -155,7 +155,7 @@
 
     <!-- ──────────────────────────────────────   활동탭   ────────────────────────────────────── -->
 
-    <string name="myact_text_title_null">21일 프로젝트를 시작해요!</string>
+    <string name="myact_text_title_null">21일 챌린지를 시작해요!</string>
     <string name="myact_text_body_null">오늘의 활동을 채우고, 환경 보호 습관을 만들어보세요!</string>
 
     <string name="myact_text_main_title">오늘도 함께 지구를 지켜볼까요?</string>
@@ -221,8 +221,8 @@
 
     <!-- ──────────────────────────────────────   통계탭   ────────────────────────────────────── -->
     <string name="graph_text_title_page">%d 회</string>
-    <string name="graph_text_title_page_null">프로젝트 통계</string>
-    <string name="graph_text_title_page_current">진행 중인 프로젝트</string>
+    <string name="graph_text_title_page_null">챌린지 통계</string>
+    <string name="graph_text_title_page_current">진행 중인 챌린지</string>
 
     <string name="graph_text_title_null">아직 통계가 없어요</string>
     <string name="graph_text_body_null">탄소 중립을 위한 기후활동을 시작해보아요</string>
