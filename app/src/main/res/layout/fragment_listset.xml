@@ -165,16 +165,17 @@
 
                 <TextView
                     android:id="@+id/text_sust"
-                    style="@style/StyleText.subtitle"
+                    style="@style/StyleText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_regular"
-                    android:layout_marginEnd="@dimen/spacing_regular"
-                    android:background="@color/secondary_baby_gray"
-                    android:drawableStart="@drawable/listset_image_sust_notification"
+                    android:layout_marginStart="@dimen/spacing_small"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:background="@drawable/common_gray_box"
+                    android:gravity="center"
+                    android:drawableLeft="@drawable/listset_image_sust_notification"
                     android:drawableTint="@color/primary_gray"
-                    android:drawablePadding="@dimen/spacing_extra_small"
-                    android:padding="@dimen/stroke_shape_regular"
+                    android:padding="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_extra_small"
                     android:text="@string/listset_text_sust"
                     android:textColor="@color/primary_gray"
                     android:textStyle="bold"
@@ -183,6 +184,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_aim" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
