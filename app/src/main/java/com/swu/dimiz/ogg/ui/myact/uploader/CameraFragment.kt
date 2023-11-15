@@ -117,6 +117,7 @@ class CameraFragment : Fragment() {
         binding.buttonDone.setOnClickListener {
 
             Timber.i("인증버튼 내 사용자 정보 확인 : $userCondition")
+            Timber.i("활동 아이디: $actId, 활동 횟수: $actCount")
             val currentTime = System.currentTimeMillis()
             val today = convertToDuration(userCondition.startDate)
             val projectCount = userCondition.projectCount
@@ -128,8 +129,8 @@ class CameraFragment : Fragment() {
 
             when(actId / ID_MODIFIER) {
                 1 -> {
-                    updateDailyToFirebase(currentTime, projectCount, today, actId, actCount)
-                    updateDailyPostCount(actId, actCount)
+                    updateDailyToFirebase(currentTime, projectCount, today, actId)
+                    updateDailyPostCount(actId, actCount + 1)
                     updateBadgeCo2(actId, actCo2)
                 }
                 2 -> {
@@ -147,7 +148,6 @@ class CameraFragment : Fragment() {
             updateBadgeDate(currentTime)
             updateBadgeDateCo2(currentTime)
 
-            // todo intent 결과 처리
             val result = Intent().apply {
                 putExtra("badgeId", badgeId)
             }
@@ -179,11 +179,10 @@ class CameraFragment : Fragment() {
         Timber.i("카메라 사용자 정보: $userCondition")
     }
 
-    private fun updateDailyToFirebase(date: Long, num: Int, today: Int, id: Int, postCount: Int) = lifecycleScope.launch {
+    private fun updateDailyToFirebase(date: Long, num: Int, today: Int, id: Int) = lifecycleScope.launch {
         val daily = MyDaily(
             dailyID = id,
-            upDate = date,
-            postCount = postCount
+            upDate = date
         )
         fireDB.collection("User").document(userEmail)
             .collection("Project${num}").document("Daily")

@@ -40,7 +40,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
     val navigateToDaily: LiveData<ActivitiesDaily?>
         get() = _navigateToDaily
 
-    private val _dailyDone = MutableLiveData<ActivitiesDaily>()
+    private val _dailyDone = MutableLiveData<List<ActivitiesDaily>>()
 
     private val _navigateToGallery = MutableLiveData<Boolean>()
     val navigateToToGallery: LiveData<Boolean>
@@ -120,6 +120,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
     // ───────────────────────────────────────────────────────────────────────────────────
     init {
         Timber.i("created")
+        _dailyDone.value = listOf()
         _sustDone.value = listOf()
         _extraDone.value = listOf()
         _checkCounter.value = INTEGER_ZERO
@@ -138,10 +139,12 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     fun setDailyDone(item: ActivitiesDaily): Boolean {
-        _dailyDone.value = item
-        if (item.limit == item.postCount) {
+
+        if (item.limit <= item.postCount) {
+            Timber.i("setDailyDone true: $item")
             return true
         }
+        Timber.i("setDailyDone false : $item")
         return false
     }
 

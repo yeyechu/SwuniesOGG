@@ -21,7 +21,6 @@ class CameraActivity : AppCompatActivity() {
         cameraActivity = this
 
         binding.buttonExit.setOnClickListener {
-
             setResult(RESULT_CANCELED)
             finish()
         }

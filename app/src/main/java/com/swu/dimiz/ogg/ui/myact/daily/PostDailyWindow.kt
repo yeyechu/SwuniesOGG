@@ -99,9 +99,9 @@ class PostDailyWindow  : Fragment() {
             viewModel.resetUri()
             viewModel.updateDailyPostCount()
 
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            //requireActivity().onBackPressedDispatcher.onBackPressed()
 
-            uploadPostToFirebase(user.email, projectCount, today, getDate, uri!!)
+            uploadPostToFirebase(user.email, viewModel.todailyId.value!!.postCount ,projectCount, today, getDate, uri!!)
             updateBageCate(user.email)
             updateBadgeCo2(user.email)
             updateBadgeDate(user.email, getDate)
@@ -109,7 +109,7 @@ class PostDailyWindow  : Fragment() {
         }
     }
 
-    private fun uploadPostToFirebase(userEmail: String, projectCount: Int, today: Int, feedDay: Long, uri: Uri) {
+    private fun uploadPostToFirebase(userEmail: String, postCount: Int, projectCount: Int, today: Int, feedDay: Long, uri: Uri) {
 
         val fireStorage = Firebase.storage
 
@@ -136,6 +136,7 @@ class PostDailyWindow  : Fragment() {
         val daily = MyDaily(
             dailyID = viewModel.todailyId.value!!.dailyId,
             upDate = feedDay,
+            postCount = postCount
         )
         fireDB.collection("User").document(userEmail)
             .collection("Project${projectCount}").document("Daily")

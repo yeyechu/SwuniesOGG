@@ -106,8 +106,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         get() = _aimCotent
 
     //                                        활동 선택
-    var listArray = ArrayList<ListData>()
-    var listArray2 = ArrayList<ListData>()
+    private var listArray = ArrayList<ListData>()
     private var todayArray = ArrayList<ActivitiesDaily>()
 
     private val _listHolder = MutableLiveData<List<ListData>?>()
@@ -148,8 +147,6 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     private val _dailyDone = MutableLiveData<ActivitiesDaily?>()
-    val dailyDone: LiveData<ActivitiesDaily?>
-        get() = _dailyDone
 
     //                                     for파이어베이스
     private val _sust = MutableLiveData<ActivitiesSustainable?>()
@@ -160,6 +157,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     //                                      뷰모델 초기화
     init {
         // 활동 목표 설정 페이지
+        resetFrequency()
         setCo2(AIMCO2_ONE)
         _aimTitle.value = ""
         _aimCotent.value = ""
@@ -403,7 +401,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         _isAvailable.value = true
     }
 
-    fun checkBoxDisabled() {
+    private fun checkBoxDisabled() {
         _isAvailable.value = false
     }
 
@@ -415,7 +413,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         repository.resetFreq()
     }
 
-    fun getTodayList() = viewModelScope.launch {
+    private fun getTodayList() = viewModelScope.launch {
         var item : ActivitiesDaily
         initListHolder()
         Timber.i("getTodayList() initListHolder() 호출")
@@ -438,20 +436,11 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
     }
 
     fun setDailyDone(item: ActivitiesDaily): Boolean {
-        if(item.limit == item.postCount) {
-            dailyDoneSet(item)
+        Timber.i("setDailyDone: $item")
+        if(item.limit <= item.postCount) {
             return true
         }
-        dailyDoneCompleted()
         return false
-    }
-
-    private fun dailyDoneSet(item: ActivitiesDaily) {
-        _dailyDone.value = item
-    }
-
-    fun dailyDoneCompleted() {
-        _dailyDone.value = null
     }
 
     // ─────────────────────────────────────────────────────────────────────────────────
@@ -635,7 +624,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
             }
         }
     }
-    private fun fireGreaphReset(){
+    private fun fireGraphReset(){
         val graph = MyGraph()
         fireDB.collection("User").document(userEmail)
             .collection("Project${_userCondition.value?.projectCount}").document("Graph")
@@ -754,7 +743,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
         //프로젝트 내에 있는 테이블
         fireAllReset()
         fireStampReset()
-        fireGreaphReset()
+        fireGraphReset()
 
         //전체 리스트 편집
         for (i in 0 until LIST_SIZE) {
@@ -801,7 +790,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     val list = document.toObject<MyList>()
 
                     if (list != null) {
-                        var mylist : MyList =list
+                        val mylist : MyList =list
                         mylist.setLeftdayList(today, listArray[i].aId, listArray[i].aNumber)
                         Timber.i("파이어 리세이브: $mylist")
                         Timber.i("today $today")
@@ -829,7 +818,7 @@ class ListsetViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i( "전체 리스트 ${document.id} => ${document.data}")
                     val list = document.toObject<MyList>()
                     if (list != null) {
-                        var mylist : MyList =list
+                        val mylist : MyList =list
 
                         mylist.setOnlyList(today, listArray[i].aId, listArray[i].aNumber)
                         Timber.i("today $today")
