@@ -79,8 +79,8 @@ class ChecklistFragment : Fragment() {
                     }
                 }
                 viewModel.fireUpdateBadgeDate(date)
-                viewModel.onChecklistPosted()
                 navController.navigateUp()
+                viewModel.onChecklistPosted()
             }
         }
     }

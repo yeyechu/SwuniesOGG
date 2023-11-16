@@ -273,6 +273,16 @@ class MyActFragment : Fragment() {
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
+
+        viewModel.postToChecklist.observe(viewLifecycleOwner) {
+            if(!it) {
+                viewModel.onPostCongrats()
+                fragmentManager.popBackStack()
+                addCongratsWindow()
+            } else {
+                fragmentManager.popBackStack()
+            }
+        }
     }
 
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
