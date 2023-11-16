@@ -63,7 +63,7 @@ class ChecklistAdapter(private val listener: ChecklistClickListener):
 
     val tireList: List<Checklist> = listOf(
         Checklist("타이어 공기압 기준 확인하기", "자동차 운전석 문 라인에 적혀있어요"),
-        Checklist("타어 공기압 점검하기", "타이어 공기압은 기준에 적정 수준을 유지해야해요"),
+        Checklist("타이어 공기압 점검하기", "타이어 공기압은 기준에 적정 수준을 유지해야해요"),
         Checklist("타이어 손상 체크하고 교체하기", "크랙이 있거나, 3년이 지난 타이어는 교체해주세요"),
         Checklist("휠 밸런스 및 손상도 체크하기", "휠이 손상되면 공기압 유지도 어려워요"),
         Checklist("최소 1개월마다 점검하기", "거리와 날씨에 따라 타이어를 점검하고 운행해야해요")

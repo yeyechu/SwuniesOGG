@@ -114,7 +114,7 @@
             <ImageView
                 android:id="@+id/today_card_image_done"
                 android:layout_width="@dimen/dimension_60"
-                android:layout_height="wrap_content"d
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
                 android:contentDescription="@string/description_myact_card_image"
