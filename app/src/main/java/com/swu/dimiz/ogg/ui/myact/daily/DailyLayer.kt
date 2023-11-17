@@ -16,6 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.ListsetViewModel
 import com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter
@@ -55,9 +56,6 @@ class DailyLayer : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        val navController = findNavController()
-        navController.setLifecycleOwner(viewLifecycleOwner)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -100,13 +98,13 @@ class DailyLayer : Fragment() {
 
         viewModel.navigateToStartFromMyAct.observe(viewLifecycleOwner) {
             if (it) {
-                navController.navigate(R.id.destination_listaim)
+                findNavController().navigate(R.id.destination_listaim)
                 viewModel.onNavigatedToStartFromMyAct()
             }
         }
         viewModel.navigateToListset.observe(viewLifecycleOwner) {
             if (it) {
-                navController.navigate(
+                findNavController().navigate(
                     MyActFragmentDirections.actionNavigationMyactToDestinationListset()
                 )
                 viewModel.onNavigatedToListset()
@@ -115,6 +113,24 @@ class DailyLayer : Fragment() {
 
         viewModel.progressDaily.observe(viewLifecycleOwner) {
             binding.progressDaily.progress = it
+        }
+
+        myActiViewModel.badgeList.observe(viewLifecycleOwner) {
+
+            Timber.i("envViewModel badgeSize size: ${viewModel.badgeSize.value!!}")
+            Timber.i("myActViewModel badgeList size: ${myActiViewModel.badgeList.value!!.size}")
+            it?.let {
+                if(it.size != viewModel.badgeSize.value!!) {
+                    myActiViewModel.onBadgeDeteced()
+                }
+            }
+        }
+
+        myActiViewModel.badgeNotification.observe(viewLifecycleOwner) {
+            if(it) {
+                OggSnackbar.make(view, getString(R.string.env_toast_badge)).show()
+                myActiViewModel.onBadgeNotificated()
+            }
         }
     }
 

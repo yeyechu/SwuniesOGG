@@ -72,7 +72,6 @@ class CameraFragment : Fragment() {
     // ─────────────────────────────────────────────────────────────────────────────────
     //                                  firebase 변수
     private val fireDB = Firebase.firestore
-    private val fireStorage = Firebase.storage
 
     private val userEmail = OggApplication.auth.currentUser!!.email.toString()
     private var userCondition: MyCondition = MyCondition()
@@ -123,8 +122,10 @@ class CameraFragment : Fragment() {
             val projectCount = userCondition.projectCount
 
             feedUpload(currentTime, actId, actTitle, actFilter)
-            updateAllAct(projectCount, actId, actCo2)
-            updateStamp(projectCount, today, actId, actCo2)
+            if(projectCount != 0) {
+                updateAllAct(projectCount, actId, actCo2)
+                updateStamp(projectCount, today, actId, actCo2)
+            }
             updateBageCate(actId)
 
             when(actId / ID_MODIFIER) {
@@ -251,6 +252,7 @@ class CameraFragment : Fragment() {
     // ─────────────────────────────────────────────────────────────────────────────────
     //                               인증사진 피드 업로드
     private fun feedUpload(date: Long, id: Int, title: String, filter: String){
+        val fireStorage = Firebase.storage
         if(savedUri != null) {
             fireStorage.reference.child("Feed").child(date.toString())
                 .putFile(savedUri!!)          //uri를 여기서 받기때문에 여기에 위치함

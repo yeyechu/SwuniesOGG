@@ -22,7 +22,9 @@ class CameraActivity : AppCompatActivity() {
 
         binding.buttonExit.setOnClickListener {
             setResult(RESULT_CANCELED)
-            finish()
+            if(!isFinishing) {
+                finish()
+            }
         }
 
         id = intent.getStringExtra("id")!!

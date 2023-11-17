@@ -41,7 +41,7 @@ class MyEnvLayer : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate( inflater, R.layout.layer_env, container, false)
-
+        Timber.i("MyEnvLayer: onCreateView()")
         // ────────────────────────────────────────────────────────────────────────────────────────
         //                                    BottomSheet
         val bottomBehavior = BottomSheetBehavior.from(binding.bottomLayout)

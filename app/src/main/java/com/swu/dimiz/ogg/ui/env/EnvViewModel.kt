@@ -75,6 +75,10 @@ class EnvViewModel : ViewModel() {
     val badgeHolder: LiveData<List<BadgeLocation>?>
         get() = _badgeHolder
 
+    private val _badgeSize = MutableLiveData<Int>()
+    val badgeSize: LiveData<Int>
+        get() = _badgeSize
+
     private val _setToast = MutableLiveData<Int>()
     val setToast: LiveData<Int>
         get() = _setToast
@@ -158,6 +162,10 @@ class EnvViewModel : ViewModel() {
         _setToast.value = 0
     }
 
+    private fun setBadgeSize() {
+        _badgeSize.value = _badgeSize.value!!.plus(1)
+    }
+
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                      스탬프 초기화
     private fun setStampHolder(item: List<StampData>) {
@@ -212,6 +220,7 @@ class EnvViewModel : ViewModel() {
     //                                   배지 위치 가져오기
     fun initLocationFromFirebase() {
         badgeList.clear()
+        _badgeSize.value = 0
 
         fireDB.collection("User").document(email)
             .collection("Badge")
@@ -221,9 +230,11 @@ class EnvViewModel : ViewModel() {
                 for (document in documents) {
                     Timber.i("${document.id} => ${document.data}")
                     val gotBadge = document.toObject<MyBadge>()
-                    if(gotBadge.getDate != null && gotBadge.valueX != 0.0){
-                        badgeList.add(BadgeLocation(gotBadge.badgeID!!, gotBadge.valueX.toFloat(), gotBadge.valueY.toFloat()))
-                        Timber.i("initBadgeLocation")
+                    if(gotBadge.getDate != null) {
+                        setBadgeSize()
+                        if(gotBadge.valueX != 0.0) {
+                            badgeList.add(BadgeLocation(gotBadge.badgeID!!, gotBadge.valueX.toFloat(), gotBadge.valueY.toFloat()))
+                        }
                     }
                 }
                 _badgeHolder.value = badgeList
@@ -546,8 +557,6 @@ class EnvViewModel : ViewModel() {
         }
     }
 
-    //──────────────────────────────────────────────────────────────────────────────────────
-    //                                   파이어베이스 함수
     private fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
         fireDB.collection("User").document(email)

@@ -290,6 +290,7 @@ class MyActFragment : Fragment() {
             viewModel.onPostCongrats()
             fragmentManager.popBackStack()
             addCongratsWindow()
+            viewModel.getHaveBadge()
             val data = it.data?.getStringExtra("result")
             Timber.i("카메라 결과: $data")
         }

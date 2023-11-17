@@ -65,9 +65,9 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     init {
         Timber.i("created")
-        Timber.i("배지리스트: ${inventory.value}")
         getFilters()
         _detector.value = false
+        getAllBadge()
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────
@@ -282,23 +282,6 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         }
     }
 
-    //획득한 배지 가져오기
-    fun getHaveBadge(){
-        fireDB.collection("User").document(email)
-            .collection("Badge")
-            .whereNotEqualTo("getDate", null)
-            .addSnapshotListener { value, e ->
-                if (e != null) {
-                    Timber.i(e)
-                    return@addSnapshotListener
-                }
-                for (doc in value!!) {
-                    val gotBadge = doc.toObject<MyBadge>()
-                    updateBadgeFire(gotBadge)
-                }
-            }
-    }
-
     //배지 전체 리스트
     fun getAllBadge() = viewModelScope.launch {
         fireDB.collection("User").document(email)
@@ -317,8 +300,6 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
                     } else {
                         updateBadgeFire(gotBadge)
                     }
-
-                    Timber.i("gotBadge $gotBadge")
                 }
             }
     }

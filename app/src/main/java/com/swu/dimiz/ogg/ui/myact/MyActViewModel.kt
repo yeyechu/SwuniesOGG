@@ -16,10 +16,7 @@ import com.swu.dimiz.ogg.contents.listset.listutils.INTEGER_ZERO
 import com.swu.dimiz.ogg.contents.listset.listutils.ListData
 import com.swu.dimiz.ogg.convertToDuration
 import com.swu.dimiz.ogg.oggdata.OggRepository
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesDaily
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesExtra
-import com.swu.dimiz.ogg.oggdata.localdatabase.ActivitiesSustainable
-import com.swu.dimiz.ogg.oggdata.localdatabase.Instruction
+import com.swu.dimiz.ogg.oggdata.localdatabase.*
 import com.swu.dimiz.ogg.oggdata.remotedatabase.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -111,6 +108,15 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
     private val _navigateToLink = MutableLiveData<Boolean>()
     val navigateToToLink: LiveData<Boolean>
         get() = _navigateToLink
+
+    private val _badgeList = MutableLiveData<List<MyBadge>>()
+    val badgeList: LiveData<List<MyBadge>>
+        get() = _badgeList
+
+    private val _badgeNotification = MutableLiveData<Boolean>()
+    val badgeNotification: LiveData<Boolean>
+        get() = _badgeNotification
+
 
     // ───────────────────────────────────────────────────────────────────────────────────
     //                                     데이터베이스 초기화
@@ -329,6 +335,18 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
         _postEventHandler.value = false
     }
 
+    private fun setBadgeList(list: List<MyBadge>) {
+        _badgeList.value = list
+    }
+
+    fun onBadgeDeteced() {
+        _badgeNotification.value = true
+    }
+
+    fun onBadgeNotificated() {
+        _badgeNotification.value = false
+    }
+
     override fun onCleared() {
         super.onCleared()
         //viewModelJob.cancel()
@@ -461,10 +479,13 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i("listen:error", e)
                     return@addSnapshotListener
                 }
-                for (doc in value!!) {
-                    val myextra = doc.toObject<MyExtra>()
-                    updateExtraFromFirebase(myextra)
-                    myExtraList.add(myextra.extraID)
+
+                for (doc in value!!.documentChanges) {
+                    if(doc.type == DocumentChange.Type.ADDED) {
+                        val myExtra = doc.document.toObject<MyExtra>()
+                        updateExtraFromFirebase(myExtra)
+                        myExtraList.add(myExtra.extraID)
+                    }
                 }
                 _extraDone.value = myExtraList
                 Timber.i("Extra result: ${_extraDone.value}t")
@@ -698,6 +719,30 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
                             .addOnFailureListener { exeption -> Timber.i(exeption) }
                     }
                 } else { Timber.i("Current data: null") }
+            }
+    }
+
+    fun getHaveBadge() = viewModelScope.launch {
+        val badges = ArrayList<MyBadge>()
+        badges.clear()
+
+        fireDB.collection("User").document(email)
+            .collection("Badge")
+            .whereNotEqualTo("getDate", null)
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Timber.i(e)
+                    return@addSnapshotListener
+                }
+                for (doc in value!!) {
+                    val gotBadge = doc.toObject<MyBadge>()
+                    badges.add(gotBadge)
+                    Timber.i("배지 추가됨: ${gotBadge.badgeID}")
+                }
+
+                if(badges.size != 0) {
+                    setBadgeList(badges)
+                }
             }
     }
 
