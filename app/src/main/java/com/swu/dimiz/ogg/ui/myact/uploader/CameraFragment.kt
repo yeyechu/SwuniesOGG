@@ -324,7 +324,7 @@ class CameraFragment : Fragment() {
     }
 
     // ─────────────────────────────────────────────────────────────────────────────────
-    //                              배지 카운트 업데이트  todo (1000곱하기)
+    //                              배지 카운트 업데이트
     private fun updateBageCate(id: Int){
         when(id){
             //에너지

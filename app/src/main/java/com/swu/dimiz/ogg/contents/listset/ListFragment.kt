@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
+import com.swu.dimiz.ogg.OggSnackbar
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.contents.listset.listutils.ENERGY
 import com.swu.dimiz.ogg.contents.listset.listutils.ListsetAdapter
@@ -30,9 +30,36 @@ class ListFragment : Fragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_list, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        // ──────────────────────────────────────────────────────────────────────────────────────
+        //                                       어댑터
+        val adapter = ListsetAdapter(
+            automobile = viewModel.userCondition.value!!.car,
+            viewModel = viewModel,
+            ListsetAdapter.ListClickListener {
+            },
+            ListsetAdapter.ListClickListener {
+                viewModel.showPopup(it)
+            })
+
+        binding.activityList.adapter = adapter
+        binding.activityList.addItemDecoration(ListsetAdapter.ListsetAdapterDecoration())
+
+        viewModel.filteredList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+
         viewModel.toastVisibility.observe(viewLifecycleOwner) {
             if (it) {
-                Toast.makeText(activity, getString(R.string.listset_text_toast), Toast.LENGTH_SHORT).show()
+                OggSnackbar.make(view, getString(R.string.listset_text_toast)).show()
                 viewModel.toastInvisible()
             }
         }
@@ -76,38 +103,6 @@ class ListFragment : Fragment() {
             for (chip in children) {
                 chipGroup.addView(chip)
             }
-        }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-
-        // ──────────────────────────────────────────────────────────────────────────────────────
-        //                                       어댑터
-        val adapter = ListsetAdapter(
-            automobile = viewModel.userCondition.value!!.car,
-            viewModel = viewModel,
-            ListsetAdapter.ListClickListener {
-            },
-            ListsetAdapter.ListClickListener {
-                viewModel.showPopup(it)
-            })
-
-        binding.activityList.adapter = adapter
-        binding.activityList.addItemDecoration(ListsetAdapter.ListsetAdapterDecoration())
-
-//        val animator: ItemAnimator = binding.activityList.itemAnimator!!
-//        if (animator is SimpleItemAnimator) {
-//            (animator as SimpleItemAnimator).supportsChangeAnimations = false
-//        }
-        // 리사이클러뷰 갱신 시 깜빡이는 현상 없애기
-        viewModel.filteredList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
         }
     }
 

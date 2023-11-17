@@ -7,9 +7,6 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.swu.dimiz.ogg.oggdata.localdatabase.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Database(
@@ -52,7 +49,6 @@ abstract class OggDatabase : RoomDatabase() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 Timber.i("여기3")
                                 super.onCreate(db)
-                                internalDatabase(context.applicationContext)
                             }
                         })
                         .fallbackToDestructiveMigration()
@@ -62,14 +58,6 @@ abstract class OggDatabase : RoomDatabase() {
                     INSTANCE = instance
                 }
                 return instance
-            }
-        }
-
-        fun internalDatabase(context: Context) {
-            CoroutineScope(Dispatchers.IO).launch {
-                //getInstance(context)!!.sustDatabaseDao.addData(S_DATA)
-                //getInstance(context)!!.extraDatabaseDao.addData(E_DATA)
-                Timber.i("여기5")
             }
         }
     }

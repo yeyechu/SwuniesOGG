@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.swu.dimiz.ogg.R
 import com.swu.dimiz.ogg.databinding.WindowBadgeDetailBinding
@@ -17,19 +16,12 @@ class BadgeDetailWindow : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: BadgeListViewModel by activityViewModels { BadgeListViewModel.Factory }
-    private lateinit var fragmentManager: FragmentManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.window_badge_detail, container, false)
-
-        fragmentManager = childFragmentManager
-
-        binding.buttonCompleted.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
 
         return binding.root
     }
@@ -39,6 +31,10 @@ class BadgeDetailWindow : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.buttonCompleted.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
     override fun onDestroyView() {
         super.onDestroyView()

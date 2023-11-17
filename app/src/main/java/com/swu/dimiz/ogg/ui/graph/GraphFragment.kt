@@ -51,7 +51,7 @@ class GraphFragment : Fragment() {
         viewPager2.isUserInputEnabled = false
 
         viewModel.userCondition.observe(viewLifecycleOwner) {
-            if(it.email != "") {
+            if(it.email != "" && it.projectCount != 0) {
                 viewpager2Adapter.pagerSize = it.projectCount
                 viewPager2.currentItem = it.projectCount
                 viewModel.fireGetCategory(it.projectCount)

@@ -10,7 +10,6 @@ import com.github.mikephil.charting.renderer.BarChartRenderer
 import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.ViewPortHandler
 
-
 class RoundedBarChart(
     chart: BarDataProvider?,
     animator: ChartAnimator?,
@@ -18,9 +17,6 @@ class RoundedBarChart(
 ) :
     BarChartRenderer(chart, animator, viewPortHandler) {
     private var mRadius = 30f
-    fun setmRadius(mRadius: Float) {
-        this.mRadius = mRadius
-    }
 
     override fun drawDataSet(c: Canvas, dataSet: IBarDataSet, index: Int) {
         val trans: Transformer = mChart.getTransformer(dataSet.axisDependency)
@@ -63,11 +59,11 @@ class RoundedBarChart(
                     // out of bounds, reuse colors.
                     mRenderPaint.color = dataSet.getColor(j / 4)
                     if (mRadius > 0) {
-                        val path: Path = RoundedRect(
+                        val path: Path = roundedRect(
                             buffer.buffer[j],
                             buffer.buffer[j + 1],
                             buffer.buffer[j + 2],
-                            buffer.buffer[j + 3], 15f, 15f, true, true, false, false
+                            buffer.buffer[j + 3], 15f, 15f, tl = true, tr = true, br = false, bl = false
                         )
                         c.drawPath(path, mRenderPaint)
                     } else c.drawRect(
@@ -99,11 +95,11 @@ class RoundedBarChart(
                         )
                     }
                     if (mRadius > 0) {
-                        val path: Path = RoundedRect(
+                        val path: Path = roundedRect(
                             buffer.buffer[j],
                             buffer.buffer[j + 1],
                             buffer.buffer[j + 2],
-                            buffer.buffer[j + 3], 15f, 15f, true, true, false, false
+                            buffer.buffer[j + 3], 15f, 15f, tl = true, tr = true, br = false, bl = false
                         )
                         c.drawPath(path, mRenderPaint)
                     } else c.drawRect(
@@ -117,44 +113,44 @@ class RoundedBarChart(
     }
 
     companion object {
-        fun RoundedRect(
+        fun roundedRect(
             left: Float, top: Float, right: Float, bottom: Float, rx: Float, ry: Float,
             tl: Boolean, tr: Boolean, br: Boolean, bl: Boolean
         ): Path {
-            var rx = rx
-            var ry = ry
+            var dx = rx
+            var dy = ry
             val path = Path()
-            if (rx < 0) rx = 0f
-            if (ry < 0) ry = 0f
+            if (dx < 0) dx = 0f
+            if (dy < 0) dy = 0f
             val width = right - left
             val height = bottom - top
-            if (rx > width / 2) rx = width / 2
-            if (ry > height / 2) ry = height / 2
-            val widthMinusCorners = width - 2 * rx
-            val heightMinusCorners = height - 2 * ry
-            path.moveTo(right, top + ry)
-            if (tr) path.rQuadTo(0F, -ry, -rx, -ry) //top-right corner
+            if (dx > width / 2) dx = width / 2
+            if (dy > height / 2) dy = height / 2
+            val widthMinusCorners = width - 2 * dx
+            val heightMinusCorners = height - 2 * dy
+            path.moveTo(right, top + dy)
+            if (tr) path.rQuadTo(0F, -dy, -dx, -dy) //top-right corner
             else {
-                path.rLineTo(0F, -ry)
-                path.rLineTo(-rx, 0F)
+                path.rLineTo(0F, -dy)
+                path.rLineTo(-dx, 0F)
             }
             path.rLineTo(-widthMinusCorners, 0F)
-            if (tl) path.rQuadTo(-rx, 0F, -rx, ry) //top-left corner
+            if (tl) path.rQuadTo(-dx, 0F, -dx, dy) //top-left corner
             else {
-                path.rLineTo(-rx, 0F)
-                path.rLineTo(0F, ry)
+                path.rLineTo(-dx, 0F)
+                path.rLineTo(0F, dy)
             }
             path.rLineTo(0F, heightMinusCorners)
-            if (bl) path.rQuadTo(0F, ry, rx, ry) //bottom-left corner
+            if (bl) path.rQuadTo(0F, dy, dx, dy) //bottom-left corner
             else {
-                path.rLineTo(0F, ry)
-                path.rLineTo(rx, 0F)
+                path.rLineTo(0F, dy)
+                path.rLineTo(dx, 0F)
             }
             path.rLineTo(widthMinusCorners, 0F)
-            if (br) path.rQuadTo(rx, 0F, rx, -ry) //bottom-right corner
+            if (br) path.rQuadTo(dx, 0F, dx, -dy) //bottom-right corner
             else {
-                path.rLineTo(rx, 0F)
-                path.rLineTo(0F, -ry)
+                path.rLineTo(dx, 0F)
+                path.rLineTo(0F, -dy)
             }
             path.rLineTo(0F, -heightMinusCorners)
             path.close() //Given close, last lineto can be removed.

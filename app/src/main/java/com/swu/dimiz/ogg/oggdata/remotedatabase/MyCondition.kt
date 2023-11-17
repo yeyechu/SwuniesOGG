@@ -1,9 +1,4 @@
 package com.swu.dimiz.ogg.oggdata.remotedatabase
-
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import java.sql.Date
-
 /*
 fireStore 위치
 User/사용자 이메일/

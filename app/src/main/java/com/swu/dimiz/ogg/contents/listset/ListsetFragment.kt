@@ -34,7 +34,6 @@ class ListsetFragment : Fragment() {
     ): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_listset, container, false)
-        Timber.i("ListsetFragment onCreateView() 생성")
 
         return binding.root
     }

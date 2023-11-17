@@ -122,8 +122,8 @@ class MyEnvLayer : Fragment() {
         }
 
         envViewModel.badgeHolder.observe(viewLifecycleOwner) { list ->
-            list?.let { list ->
-                list.forEach {
+            list?.let { locationList ->
+                locationList.forEach {
                     if(it.bx > 0f && it.by > 0f) {
                         Timber.i("배지 위치: $it")
                         addBadge(viewModel.badgeItem(it.bId), it.bx, it.by)

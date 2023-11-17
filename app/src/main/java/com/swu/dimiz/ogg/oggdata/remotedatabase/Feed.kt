@@ -1,8 +1,4 @@
 package com.swu.dimiz.ogg.oggdata.remotedatabase
-
-import java.util.*
-
-
 /*
 fireStore 위치
 Feed/사용자 이메일

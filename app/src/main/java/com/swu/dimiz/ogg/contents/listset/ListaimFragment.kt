@@ -87,7 +87,6 @@ class ListaimFragment : Fragment() {
         binding.includedLayoutDialogExit.dialogLayout.setOnClickListener {
             viewModel.noClick()
         }
-
     }
 
     override fun onDestroyView() {

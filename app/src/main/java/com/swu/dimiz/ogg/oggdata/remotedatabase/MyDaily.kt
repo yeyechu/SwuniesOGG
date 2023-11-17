@@ -1,7 +1,4 @@
 package com.swu.dimiz.ogg.oggdata.remotedatabase
-
-import com.swu.dimiz.ogg.contents.listset.listutils.PostCount
-
 /*
 fireStore 위치
 User/사용자 이메일/Project1/Daily/며칠자

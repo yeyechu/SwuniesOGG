@@ -2,7 +2,6 @@ package com.swu.dimiz.ogg.oggdata.localdatabase
 
 import androidx.room.*
 
-
 @Entity(tableName = "user")
 data class UserInterface (
 

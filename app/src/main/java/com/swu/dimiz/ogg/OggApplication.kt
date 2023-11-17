@@ -3,8 +3,6 @@ package com.swu.dimiz.ogg
 import androidx.multidex.MultiDexApplication
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.swu.dimiz.ogg.oggdata.OggDatabase
 import com.swu.dimiz.ogg.oggdata.OggRepository
@@ -12,7 +10,6 @@ import timber.log.Timber
 
 class OggApplication: MultiDexApplication() {
 
-    //private val applicationScope = CoroutineScope(SupervisorJob())
     private val database by lazy { OggDatabase.getInstance(this) }
     val repository by lazy { OggRepository(database)}
 

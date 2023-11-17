@@ -22,7 +22,6 @@ class BadgeInventoryAdapter(
             ) {
                 binding.badge = badges
                 binding.clickListener = clickListener
-                //binding.viewModel = viewModel
             }
     }
 

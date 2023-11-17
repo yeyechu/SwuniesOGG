@@ -265,11 +265,11 @@ class FeedViewModel : ViewModel() {
                         val getDate = System.currentTimeMillis()
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40011")
-                            .addSnapshotListener { snapshot, e ->
-                                if (e != null) { Timber.i(e)
+                            .addSnapshotListener { documentSnapshot, exception ->
+                                if (exception != null) { Timber.i(exception)
                                     return@addSnapshotListener }
-                                if (snapshot != null && snapshot.exists()) {
-                                    val gotBadge = snapshot.toObject<MyBadge>()
+                                if (documentSnapshot != null && documentSnapshot.exists()) {
+                                    val gotBadge = documentSnapshot.toObject<MyBadge>()
                                     if (gotBadge!!.count == 5 && gotBadge.getDate == null) {
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40011")
@@ -281,11 +281,11 @@ class FeedViewModel : ViewModel() {
                             }
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40012")
-                            .addSnapshotListener { snapshot, e ->
-                                if (e != null) { Timber.i(e)
+                            .addSnapshotListener { documentSnapshot, exception ->
+                                if (exception != null) { Timber.i(exception)
                                     return@addSnapshotListener }
-                                if (snapshot != null && snapshot.exists()) {
-                                    val gotBadge = snapshot.toObject<MyBadge>()
+                                if (documentSnapshot != null && documentSnapshot.exists()) {
+                                    val gotBadge = documentSnapshot.toObject<MyBadge>()
                                     if (gotBadge!!.count == 5 && gotBadge.getDate == null) {
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40012")
@@ -297,11 +297,11 @@ class FeedViewModel : ViewModel() {
                             }
                         fireDB.collection("User").document(userEmail)
                             .collection("Badge").document("40013")
-                            .addSnapshotListener { snapshot, e ->
-                                if (e != null) { Timber.i(e)
+                            .addSnapshotListener { documentSnapshot, exception ->
+                                if (exception != null) { Timber.i(exception)
                                     return@addSnapshotListener }
-                                if (snapshot != null && snapshot.exists()) {
-                                    val gotBadge = snapshot.toObject<MyBadge>()
+                                if (documentSnapshot != null && documentSnapshot.exists()) {
+                                    val gotBadge = documentSnapshot.toObject<MyBadge>()
                                     if (gotBadge!!.count == 5 && gotBadge.getDate == null) {
                                         fireDB.collection("User").document(userEmail)
                                             .collection("Badge").document("40013")

@@ -376,9 +376,9 @@ class GraphViewModel(private val repository: OggRepository) : ViewModel() {
 
                 if (reactionList.size != 0) {
                     fireDB.collection("Feed").document(reactionList[0].id)
-                        .addSnapshotListener { snapshot, e ->
-                            if (e != null) {
-                                Timber.i(e)
+                        .addSnapshotListener { snapshot, exception ->
+                            if (exception != null) {
+                                Timber.i(exception)
                                 return@addSnapshotListener
                             }
 

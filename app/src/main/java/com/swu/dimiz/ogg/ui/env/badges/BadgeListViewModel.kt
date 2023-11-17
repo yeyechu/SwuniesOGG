@@ -20,7 +20,7 @@ import kotlin.collections.ArrayList
 
 class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
     val fireDB = Firebase.firestore
-    val fireUser = Firebase.auth.currentUser
+    val email = Firebase.auth.currentUser!!.email.toString()
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -65,6 +65,7 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     init {
         Timber.i("created")
+        Timber.i("배지리스트: ${inventory.value}")
         getFilters()
         _detector.value = false
     }
@@ -238,21 +239,21 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
         if( id == 40004 || id ==  40005 || id ==  40006){
             if(bool){ // bool == true일 때, 날짜 생성
-                fireDB.collection("User").document(fireUser?.email.toString())
+                fireDB.collection("User").document(email)
                     .collection("Badge").document(id.toString())
                     .update("count", duration)
                     .addOnSuccessListener { Timber.i("$id 올리기 완료") }
                     .addOnFailureListener { e -> Timber.i( e ) }
 
                 val getDate = System.currentTimeMillis()
-                fireDB.collection("User").document(fireUser?.email.toString())
+                fireDB.collection("User").document(email)
                     .collection("Badge").document(id.toString())
                     .update("getDate", getDate)
                     .addOnSuccessListener { Timber.i("$id 획득 완료") }
                     .addOnFailureListener { exeption -> Timber.i(exeption) }
             }
             else{   // bool == false일 때, count만 업데이트
-                fireDB.collection("User").document(fireUser?.email.toString())
+                fireDB.collection("User").document(email)
                     .collection("Badge").document(id.toString())
                     .update("count", duration)
                     .addOnSuccessListener { Timber.i("$id 올리기 완료") }
@@ -268,12 +269,12 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
             val valueX: Double = it.bx.toDouble()
             val valueY: Double = it.by.toDouble()
 
-            fireDB.collection("User").document(fireUser?.email.toString())
+            fireDB.collection("User").document(email)
                 .collection("Badge").document(badgeID.toString())
                 .update("valueX", valueX)
                 .addOnSuccessListener { Timber.i("$badgeID valueX 올리기 완료") }
                 .addOnFailureListener { e -> Timber.i( e ) }
-            fireDB.collection("User").document(fireUser?.email.toString())
+            fireDB.collection("User").document(email)
                 .collection("Badge").document(badgeID.toString())
                 .update("valueY", valueY)
                 .addOnSuccessListener { Timber.i("$badgeID valueY 올리기 완료") }
@@ -283,7 +284,7 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     //획득한 배지 가져오기
     fun getHaveBadge(){
-        fireDB.collection("User").document(fireUser?.email.toString())
+        fireDB.collection("User").document(email)
             .collection("Badge")
             .whereNotEqualTo("getDate", null)
             .addSnapshotListener { value, e ->
@@ -300,7 +301,7 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
 
     //배지 전체 리스트
     fun getAllBadge() = viewModelScope.launch {
-        fireDB.collection("User").document(fireUser?.email.toString())
+        fireDB.collection("User").document(email)
             .collection("Badge")
             .addSnapshotListener { value, e ->
                 if (e != null) {

@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.view.isNotEmpty
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -28,11 +26,11 @@ class SettingNickNameFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var navController: NavController
 
-    val fireUser = Firebase.auth.currentUser
+    private val fireUser = Firebase.auth.currentUser
     val fireDB = Firebase.firestore
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_setting_nickname, container, false)
 
@@ -43,27 +41,21 @@ class SettingNickNameFragment : Fragment() {
 
         navController = findNavController()
         navController.setLifecycleOwner(viewLifecycleOwner)
+
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbar.setNavigationIcon(R.drawable.common_button_arrow_left_svg)
 
-
-
-
         binding.newNicknameEt.editText?.addTextChangedListener { text ->
-            binding.changeNicknameBtn.isEnabled = !text.toString().isBlank()
+            binding.changeNicknameBtn.isEnabled = text.toString().isNotBlank()
         }
 
-
-//        binding.viewModel = viewModel
         binding.changeNicknameBtn.setOnClickListener {
             val newNickname = binding.newNicknameEt.editText?.text.toString()
-
 
             //계정 닉네임 업데이트
             val profileUpdates = userProfileChangeRequest {
                     displayName = newNickname
-
             }
             fireUser?.updateProfile(profileUpdates)
                 ?.addOnCompleteListener { updateTask ->

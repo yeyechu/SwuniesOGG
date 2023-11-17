@@ -126,7 +126,12 @@ class SigninFragment: Fragment() {
                     //로그인 완료 화면 이동
                     val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)
-                    SignInActivity.signInActivity!!.finish()
+
+                    SignInActivity.signInActivity!!.apply {
+                        if(!isFinishing) {
+                            finish()
+                        }
+                    }
                 }
                 else if (!FirebaseAuth.getInstance().currentUser!!.isEmailVerified){
                     OggSnackbar.make(requireView(), "이메일로 인증을 완료해주세요.").show()

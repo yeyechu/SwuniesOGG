@@ -91,9 +91,6 @@ class ListsetAdapter(
             state: RecyclerView.State
         ) {
             super.getItemOffsets(outRect, view, parent, state)
-
-            val position = parent.getChildAdapterPosition(view)
-            val count = state.itemCount
             val offset = 20
 
             outRect.left = offset

@@ -49,8 +49,8 @@ class EnvFragment : Fragment() {
         //                                      배지 위치 저장
         viewModel.initLocationFromFirebase()
         viewModel.badgeHolder.observe(viewLifecycleOwner) { list ->
-            list?.let { list ->
-                list.forEach {
+            list?.let { locationList ->
+                locationList.forEach {
                     if(it.bx > 0f && it.by > 0f) {
                         setMyEnv(it.bId, it.bx, it.by)
                     }

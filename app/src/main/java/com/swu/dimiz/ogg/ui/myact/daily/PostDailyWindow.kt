@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FieldValue
@@ -31,8 +30,6 @@ class PostDailyWindow  : Fragment() {
 
     private val viewModel: MyActViewModel by activityViewModels { MyActViewModel.Factory }
 
-    private lateinit var fragmentManager: FragmentManager
-
     private val fireDB  = Firebase.firestore
 
     override fun onCreateView(
@@ -49,8 +46,6 @@ class PostDailyWindow  : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
-        fragmentManager = childFragmentManager
 
         var user = MyCondition()
         var today = 0

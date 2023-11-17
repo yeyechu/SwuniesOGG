@@ -15,7 +15,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -39,13 +38,12 @@ class SettingCarFragment : Fragment() {
 
     private lateinit var navController: NavController
     private val forCarUser: View by lazy { binding.root.findViewById(R.id.for_car_user) }
-    private val CarSettingComplete:  View by lazy { binding.root.findViewById(R.id.car_setting_complete_btn) }
+    private val carSettingComplete:  View by lazy { binding.root.findViewById(R.id.car_setting_complete_btn) }
 
     val fireDB = Firebase.firestore
-    val fireUser = Firebase.auth.currentUser
 
-    var elecisChecked = false
-    var nomalisChecked = false
+    private var elecisChecked = false
+    private var nomalisChecked = false
 
     private var startDate = 0L
     var today = 0
@@ -257,7 +255,7 @@ class SettingCarFragment : Fragment() {
         binding.carYesBtn.setOnClickListener {
             viewModel.onYesButtonClicked()
             forCarUser.visibility = View.VISIBLE
-            CarSettingComplete.visibility = View.VISIBLE
+            carSettingComplete.visibility = View.VISIBLE
             binding.backPageBtn.visibility = View.GONE
 
         }
@@ -266,7 +264,7 @@ class SettingCarFragment : Fragment() {
             viewModel.onNoButtonClicked()
             viewModel.setCarUserVisibility(false)
             forCarUser.visibility = View.GONE
-            CarSettingComplete.visibility = View.GONE
+            carSettingComplete.visibility = View.GONE
             binding.backPageBtn.visibility = View.VISIBLE
 
         }

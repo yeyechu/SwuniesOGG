@@ -73,13 +73,15 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val currentUser = OggApplication.auth.currentUser
-        if (currentUser == null || !FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
+        if (OggApplication.auth.currentUser == null || !FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
+
             startActivity(Intent(this, SignInActivity::class.java))
-            finish()
+            if(!isFinishing) {
+                finish()
+            }
             return
         }else{
-            Timber.i("이미 로그인 되어있습니다. ${currentUser.email.toString()}")
+            Timber.i("로그인 유저 정보: ${OggApplication.auth.currentUser!!.email.toString()}")
         }
     }
 
