@@ -71,15 +71,17 @@ class ChecklistFragment : Fragment() {
                         viewModel.fireUpdateAll(date)
                         viewModel.updateBadgeDateCo2(date)
                         viewModel.updateDailyPostCount()
+                        viewModel.onNavigatedDaily()
                     }
                     20007 -> { // 타이어 휠 점검
                         viewModel.fireUpdateAllSust(date)
                         viewModel.updateBadgeAct(date)
                         viewModel.fireGetSust()
+                        viewModel.onNavigatedSust()
                     }
                 }
                 viewModel.fireUpdateBadgeDate(date)
-                navController.navigateUp()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
                 viewModel.onChecklistPosted()
             }
         }

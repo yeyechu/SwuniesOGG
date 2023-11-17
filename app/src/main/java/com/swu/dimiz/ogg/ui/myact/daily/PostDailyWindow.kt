@@ -92,9 +92,8 @@ class PostDailyWindow  : Fragment() {
             viewModel.onNavigatedDaily()
             viewModel.resetUri()
             viewModel.updateDailyPostCount()
-            viewModel.onPostCongrats()
 
-            //requireActivity().onBackPressedDispatcher.onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
 
             uploadPostToFirebase(user.email, viewModel.todailyId.value!!.postCount ,projectCount, today, getDate, uri!!)
             updateBageCate(user.email)

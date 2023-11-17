@@ -724,7 +724,6 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
 
     fun getHaveBadge() = viewModelScope.launch {
         val badges = ArrayList<MyBadge>()
-        badges.clear()
 
         fireDB.collection("User").document(email)
             .collection("Badge")
@@ -734,6 +733,7 @@ class MyActViewModel(private val repository: OggRepository) : ViewModel() {
                     Timber.i(e)
                     return@addSnapshotListener
                 }
+                badges.clear()
                 for (doc in value!!) {
                     val gotBadge = doc.toObject<MyBadge>()
                     badges.add(gotBadge)
