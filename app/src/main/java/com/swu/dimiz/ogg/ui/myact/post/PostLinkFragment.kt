@@ -96,6 +96,10 @@ class PostLinkFragment : Fragment() {
         }
     }
 
+    private fun fireInfo() {
+
+    }
+
     private fun fireUpdateAll(date: Long){
         val extra = MyExtra(
             extraID = 30002,

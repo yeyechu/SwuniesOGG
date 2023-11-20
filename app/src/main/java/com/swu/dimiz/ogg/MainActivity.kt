@@ -76,9 +76,7 @@ class MainActivity : AppCompatActivity() {
         if (OggApplication.auth.currentUser == null || !FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
 
             startActivity(Intent(this, SignInActivity::class.java))
-            if(!isFinishing) {
-                finish()
-            }
+            finish()
             return
         }else{
             Timber.i("로그인 유저 정보: ${OggApplication.auth.currentUser!!.email.toString()}")

@@ -12,26 +12,31 @@ class OggRepository(private val database: OggDatabase) {
 
     // ──────────────────────────────────────────────────────────────────────────
     //                                   데일리
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun updateFreq(data: ActivitiesDaily) {
         database.dailyDatabaseDao.update(data)
     }
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun updateFreq(id: Int) {
         database.dailyDatabaseDao.updateFreqFromFirebase(id)
     }
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun updatePostCount(id: Int, data: Int) {
         database.dailyDatabaseDao.updatePostCountFromFirebase(id, data)
     }
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun resetFreq() {
         database.dailyDatabaseDao.resetDaily()
     }
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getFiltered(filter: String): List<ActivitiesDaily>? {
         return database.dailyDatabaseDao.getFilteredList(filter)

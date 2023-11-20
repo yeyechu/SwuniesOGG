@@ -90,7 +90,7 @@ class EnvViewModel : ViewModel() {
         get() = _userCondition
 
     private val fireDB = Firebase.firestore
-    private val email = Firebase.auth.currentUser!!.email.toString()
+    private val fireUser = Firebase.auth
 
     private var today: Int = 0
     private var appUser = MyCondition()
@@ -222,7 +222,7 @@ class EnvViewModel : ViewModel() {
         badgeList.clear()
         _badgeSize.value = 0
 
-        fireDB.collection("User").document(email)
+        fireDB.collection("User").document(fireUser.currentUser?.email.toString())
             .collection("Badge")
             .whereNotEqualTo("getDate", null)
             .get()
@@ -306,7 +306,7 @@ class EnvViewModel : ViewModel() {
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                   파이어베이스 함수
     private fun resetCondition() = viewModelScope.launch {
-        val docRef = fireDB.collection("User").document(email)
+        val docRef = fireDB.collection("User").document(fireUser.currentUser!!.email.toString())
 
         // 플젝 초기화할때 이전 그래프 저장
         if(_userCondition.value!!.projectCount != 0 && _userCondition.value!!.startDate != 0L){
@@ -332,7 +332,7 @@ class EnvViewModel : ViewModel() {
     //──────────────────────────────────────────────────────────────────────────────────────
     //                                       Daily 가져오기
     private fun fireGetCategory(num: Int) = viewModelScope.launch {
-        val docRef = fireDB.collection("User").document(email)
+        val docRef = fireDB.collection("User").document(fireUser.currentUser?.email.toString())
             .collection("Project$num").document("Entire").collection("AllAct")
         //에너지
         var energyCo2 = 0.0
@@ -357,7 +357,7 @@ class EnvViewModel : ViewModel() {
             }
 
             //sever Graph 업데이트
-            fireDB.collection("User").document(email)
+            fireDB.collection("User").document(fireUser.currentUser?.email.toString())
                 .collection("Project$num").document("Graph")
                 .update(
                     mapOf(
@@ -373,7 +373,7 @@ class EnvViewModel : ViewModel() {
     }
 
     private fun fireGetCo2(num: Int) = viewModelScope.launch {
-        val docRef = fireDB.collection("User").document(email)
+        val docRef = fireDB.collection("User").document(fireUser.currentUser?.email.toString())
             .collection("Project$num").document("Entire").collection("AllAct")
 
         val mostCo2List = arrayListOf<MyAllAct>()
@@ -396,13 +396,13 @@ class EnvViewModel : ViewModel() {
                 if(mostCo2List.size != 0) {
                     // mostCo2List 사이즈만큼만 올라가게
                     for( i in 0 until mostCo2List.size){
-                        fireDB.collection("User").document(email)
+                        fireDB.collection("User").document(fireUser.currentUser?.email.toString())
                             .collection("Project$num").document("Graph")
                             .update("nameCo2${i + 1}" , mostCo2List[i].ID)
                             .addOnSuccessListener { }
                             .addOnFailureListener { exception ->Timber.i(exception) }
 
-                        fireDB.collection("User").document(email)
+                        fireDB.collection("User").document(fireUser.currentUser?.email.toString())
                             .collection("Project$num").document("Graph")
                             .update("co2Sum${i + 1}", mostCo2List[i].allCo2)
                             .addOnSuccessListener { }
@@ -419,7 +419,7 @@ class EnvViewModel : ViewModel() {
         reactionList.clear()
 
         fireDB.collection("Feed")
-            .whereEqualTo("email", email)
+            .whereEqualTo("email", fireUser.currentUser?.email.toString())
             .whereGreaterThan("postTime", userCondition.value!!.startDate)
             .orderBy("postTime", Query.Direction.DESCENDING)
             .addSnapshotListener { value, e ->
@@ -455,7 +455,7 @@ class EnvViewModel : ViewModel() {
 
                                 gotFeed?.let {
 
-                                    fireDB.collection("User").document(email)
+                                    fireDB.collection("User").document(fireUser.currentUser?.email.toString())
                                         .collection("Project$num").document("Graph")
                                         .update(
                                             mapOf(
@@ -477,7 +477,7 @@ class EnvViewModel : ViewModel() {
     }
 
     private fun fireGetMostPost(num: Int) = viewModelScope.launch  {
-        val docRef = fireDB.collection("User").document(email)
+        val docRef = fireDB.collection("User").document(fireUser.currentUser?.email.toString())
             .collection("Project$num").document("Entire").collection("AllAct")
 
         val mostPostList = arrayListOf<PostCount>()
@@ -498,12 +498,12 @@ class EnvViewModel : ViewModel() {
                 //sever Graph 업데이트
                 if(mostPostList.size != 0) {
                     for( i in 0 until mostPostList.size){
-                        fireDB.collection("User").document(email)
+                        fireDB.collection("User").document(fireUser.currentUser?.email.toString())
                             .collection("Project$num").document("Graph")
                             .update("post${i + 1}", mostPostList[i].id)
                             .addOnSuccessListener { }
                             .addOnFailureListener { exception ->Timber.i(exception) }
-                        fireDB.collection("User").document(email)
+                        fireDB.collection("User").document(fireUser.currentUser?.email.toString())
                             .collection("Project$num").document("Graph")
                             .update("postCount${i + 1}", mostPostList[i].count)
                             .addOnSuccessListener { }
@@ -527,7 +527,7 @@ class EnvViewModel : ViewModel() {
             }
             for (doc in value!!) {
                 val user = doc.toObject<MyCondition>()
-                if(user.email == email){
+                if(user.email == fireUser.currentUser?.email.toString()){
                     uExtra = user.extraPost
                 }
                 if(uExtra != 0) {
@@ -548,7 +548,7 @@ class EnvViewModel : ViewModel() {
                 val rank = (level.toFloat() / size.toFloat()) * 100
 
                 //sever Graph 업데이트
-                fireDB.collection("User").document(email)
+                fireDB.collection("User").document(fireUser.currentUser?.email.toString())
                     .collection("Project$num").document("Graph")
                     .update("extraRank", rank)
                     .addOnSuccessListener { }
@@ -559,7 +559,7 @@ class EnvViewModel : ViewModel() {
 
     private fun fireInfo() = viewModelScope.launch {
         //사용자 기본 정보
-        fireDB.collection("User").document(email)
+        fireDB.collection("User").document(fireUser.currentUser?.email.toString())
             .addSnapshotListener { snapshot, e ->
                 if (e != null) {
                     Timber.i(e)
@@ -585,7 +585,7 @@ class EnvViewModel : ViewModel() {
                 val tempList = arrayListOf<MyStamp>()
                 tempList.clear()
 
-                fireDB.collection("User").document(email)
+                fireDB.collection("User").document(fireUser.currentUser?.email.toString())
                     .collection("Project${_userCondition.value?.projectCount}").document("Entire")
                     .collection("Stamp")
                     .orderBy("day")

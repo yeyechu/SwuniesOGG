@@ -19,8 +19,9 @@ import java.io.IOException
 import kotlin.collections.ArrayList
 
 class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
+
     val fireDB = Firebase.firestore
-    val email = Firebase.auth.currentUser!!.email.toString()
+    private val email = OggApplication.auth.currentUser?.email.toString()
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -67,7 +68,10 @@ class BadgeListViewModel(private val repository: OggRepository) : ViewModel() {
         Timber.i("created")
         getFilters()
         _detector.value = false
-        getAllBadge()
+
+        if(email != "") {
+            getAllBadge()
+        }
     }
 
     //──────────────────────────────────────────────────────────────────────────────────────

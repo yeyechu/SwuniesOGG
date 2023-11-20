@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    // ─────────────────────────────────────── custom options here
+
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs.kotlin'
@@ -19,7 +19,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        // by Yejin : firebase auth 에러 방지, Cannot fit requested classes in a single dex file
         multiDexEnabled true
     }
 
@@ -38,8 +37,6 @@ android {
         jvmTarget = '1.8'
     }
 
-    // ───────────────────────────────────────  custom options here
-    // by Yejin : viewBinding, dataBinding 허용
     buildFeatures {
         viewBinding true
         dataBinding true
@@ -53,7 +50,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.jakewharton.timber:timber:5.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0"
-    //    implementation "androidx.legacy:legacy-support-v4:1.0.0"
 
     // UI
     implementation 'com.google.android.material:material:1.9.0'
@@ -98,9 +94,6 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-
-
-
     // ───────────────────────────── Room ─────────────────────────────
     //
     def room_version = "2.5.2"
@@ -121,8 +114,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
-//    implementation "androidx.camera:camera-video:$camerax_version"
-
     // ─────────────────────────── Firebase ───────────────────────────
     //
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -131,7 +122,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     //                        Firestore & storage
-    // implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
 
